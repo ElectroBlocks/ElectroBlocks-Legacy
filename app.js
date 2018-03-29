@@ -9,8 +9,8 @@ let mainWindow;
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
         title: APP_TITLE,
-        width: 1200,
-        height: 800
+        width: 1400,
+        height: 900
     });
 
     mainWindow.webContents.toggleDevTools();
