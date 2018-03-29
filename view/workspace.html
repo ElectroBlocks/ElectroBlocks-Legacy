@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        div#control-bar > div {
+            display: inline-block;
+            border: solid blue 1px;
+        }
+    </style>
+</head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    body {margin:0;}
+
+    .icon-bar {
+        width: 100%;
+        background-color: #555;
+        overflow: auto;
+    }
+
+    .icon-bar a, .icon-bar span {
+        float: left;
+        width: 20%;
+        text-align: center;
+        padding: 12px 0;
+        transition: all 0.3s ease;
+        color: white;
+        font-size: 36px;
+    }
+
+    .icon-bar a:hover {
+        background-color: #000;
+    }
+
+    .active {
+        background-color: #4CAF50 !important;
+    }
+</style>
+<body>
+
+<div class="icon-bar">
+    <span id="arduino-upload" title="Arduino Connected" class="active"><i class="fa fa-plug" ></i></span>
+    <a href="#"><i class="fa fa-upload"></i></a>
+    <a href="#"><i class="fa fa-search"></i></a>
+    <a href="#"><i class="fa fa-bug"></i></a>
+    <a href="#"><i class="fa fa-trash"></i></a>
+</div>
+
+
+<script src="workspace.js"></script>
+</body>
+</html>

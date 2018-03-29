@@ -1,5 +1,6 @@
 const { APP_TITLE } = require('./constants');
 
+
 let menuTemplate = [
     {
         label: APP_TITLE,
@@ -36,25 +37,6 @@ let menuTemplate = [
         ]
     },
     {
-        label: 'USB',
-        submenu: [
-            {
-                label: 'No Arduino Available'
-            }
-        ]
-    },
-    {
-        label: 'Communication',
-        submenu: [
-            {
-                label: 'USB <-> Arduino'
-            },
-            {
-                label: 'Bluetooth <-> Arduino'
-            }
-        ]
-    },
-    {
         label: 'Help',
         submenu: [
             {
@@ -67,4 +49,6 @@ let menuTemplate = [
     }
 ];
 
-module.exports = menuTemplate;
+module.exports = {
+     menuTemplate
+};

@@ -1,9 +1,9 @@
-const { openSerialPort, closeSerialPort, arduinoUSB$ } = require('./serial_port');
+const {openSerialPort, closeSerialPort, arduinoUSB$} = require('./serial_port');
 const RX = require('rxjs/Rx');
 const axios = require('axios');
 const fs = require('fs');
 
-const { Observable } = RX;
+const {Observable} = RX;
 const Avrgirl = require('avrgirl-arduino');
 
 
@@ -33,19 +33,21 @@ function createHexFile(code) {
  * Flashes the arduino
  */
 function flashArduino() {
-    return arduinoUSB$.map(usbPort => new Avrgirl({
-        board: 'uno',
-        port: usbPort
-    })).flatMap(avrgirl => Observable.create(observer => {
-        avrgirl.flash(ARDUINO_FILE, (err) => {
-            if (err) {
-                observer.error({'avr_girl': err});
-            } else {
-                observer.next(undefined)
-            }
-            observer.complete();
-        });
-    }));
+    return arduinoUSB$
+        .filter(usbPort => usbPort)
+        .map(usbPort => new Avrgirl({
+            board: 'uno',
+            port: usbPort
+        })).flatMap(avrgirl => Observable.create(observer => {
+            avrgirl.flash(ARDUINO_FILE, (err) => {
+                if (err) {
+                    observer.error({'avr_girl': err});
+                } else {
+                    observer.next(undefined)
+                }
+                observer.complete();
+            });
+        }));
 }
 
 /**

@@ -11,8 +11,7 @@ const observableUSBPorts$ = Observable
     .flatMap(() => RX.Observable.fromPromise(SerialPort.list()))
     .distinctUntilChanged(null, (ports) => ports.length)
     .map(ports => ports.filter(port => isArduino(port)))
-    .filter(ports => ports.length > 0)
-    .map(ports => ports[0].comName);
+    .map(ports => ports.length > 0 ? ports[0].comName : undefined);
 
 
 const subjectSerialOutput = new BehaviorSubject("");
