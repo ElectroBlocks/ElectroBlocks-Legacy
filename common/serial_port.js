@@ -1,7 +1,8 @@
 const RX = require('rxjs/Rx');
 const SerialPort = require('SerialPort');
+const Delimiter = require('parser-delimiter');
+
 const {Observable, BehaviorSubject} = RX;
-const Readline = SerialPort.parsers.Readline;
 
 /**
  * Observable of all usb ports
@@ -16,7 +17,7 @@ const observableUSBPorts$ = Observable
 
 const subjectSerialOutput = new BehaviorSubject("");
 
-const serialOutput$ = subjectSerialOutput.asObservable();
+const serialOutput$ = subjectSerialOutput.asObservable().share();
 
 let serialPort = undefined;
 
@@ -26,11 +27,18 @@ function openSerialOpen() {
         .flatMap(() => observableUSBPorts$)
         .take(1)
         .flatMap(usbPort => {
-            return Observable.create(observer => {
 
-                serialPort = new SerialPort(usbPort, {autoOpen: true});
-                serialPort.pipe(new Readline());
-                serialPort.on('data', line => subjectSerialOutput.next(line));
+            return Observable.create(observer => {
+                console.log('serial monitor');
+
+                serialPort = new SerialPort(usbPort, {
+                    autoOpen: true,
+                });
+                const parser = serialPort.pipe(new Delimiter({ delimiter: '\n' }))
+
+                parser.on('data', line => {
+                    subjectSerialOutput.next(line)
+                });
                 serialPort.on('close', () => {
                     console.log('Serial Port was closed')
                 });
@@ -40,6 +48,7 @@ function openSerialOpen() {
                         observer.error(err);
                         return;
                     }
+                    console.log('serial port open');
                     observer.next(undefined);
                     observer.complete();
                 });
@@ -82,7 +91,8 @@ function isArduino(port) {
 
 module.exports = {
     'arduinoUSB$': observableUSBPorts$,
-    'serialOutput$': serialOutput$,
+    'serialOutput$': serialOutput$.filter(data => data.toString().indexOf('**(|)') === -1),
+    'serialDebugOutput$': serialOutput$.filter(data => data.toString().indexOf('**(|)') > -1),
     'openSerialPort': openSerialOpen,
     'closeSerialPort': closeSerialPort
 };

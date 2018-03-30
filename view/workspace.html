@@ -4,7 +4,9 @@
     <title>Arduino Blockly IDE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
-        body {margin:0;}
+        body {
+            margin: 0;
+        }
 
         .icon-bar {
             width: 100%;
@@ -20,6 +22,11 @@
             transition: all 0.3s ease;
             color: white;
             font-size: 36px;
+
+        }
+
+        .icon-bar-bottom a, .icon-bar-bottom span {
+            float: right;
         }
 
         .icon-bar a:hover {
@@ -29,20 +36,81 @@
         .active {
             background-color: #4CAF50 !important;
         }
+
+        #debug-menu {
+            max-height: 250px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            border: solid gray 1px;
+            overflow-y: scroll;
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        }
+
+        #debug-menu h2 {
+            display: inline-block;
+            margin-left: 30px;
+            color: white;
+        }
+
+
+        #debug-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #debug-table td, #debug-table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #debug-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #debug-table tr:hover {
+            background-color: #ddd;
+        }
+
+        #debug-table th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+
     </style>
 </head>
 
 <body>
 
 <div class="icon-bar">
-    <span id="arduino-upload" title="Arduino Connected" class="active"><i class="fa fa-plug" ></i></span>
+    <span id="arduino-upload" title="Arduino Connected" class="active"><i class="fa fa-plug"></i></span>
     <a href="#"><i class="fa fa-upload"></i></a>
-    <a href="#"><i class="fa fa-search"></i></a>
-    <a href="#"><i class="fa fa-bug"></i></a>
+    <a id="serial-monitor"><i class="fa fa-search"></i></a>
+    <a id="debug-btn" href="#"><i class="fa fa-bug"></i></a>
     <a href="#"><i class="fa fa-trash"></i></a>
 </div>
 
+<div id="debug-menu" style="display: none;">
+    <div class="icon-bar icon-bar-bottom">
+        <h2>Debug Menu</h2>
+        <a href="#"><i class="fa fa-play"></i></a>
+    </div>
+    <table id="debug-table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody id="debug-tbody">
 
+        </tbody>
+    </table>
+</div>
 <script src="workspace.js"></script>
 </body>
 </html>
