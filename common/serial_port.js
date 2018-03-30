@@ -1,6 +1,7 @@
 const RX = require('rxjs/Rx');
 const SerialPort = require('SerialPort');
 const Delimiter = require('parser-delimiter');
+const { DEBUG_TABLE_FILTER } = require('./constants');
 
 const {Observable, BehaviorSubject} = RX;
 
@@ -31,10 +32,10 @@ function openSerialOpen() {
             return Observable.create(observer => {
                 console.log('serial monitor');
 
-                serialPort = new SerialPort(usbPort, {
+                serialPort = new SerialPort(usbPort.toString(), {
                     autoOpen: true,
                 });
-                const parser = serialPort.pipe(new Delimiter({ delimiter: '\n' }))
+                const parser = serialPort.pipe(new Delimiter({ delimiter: '\n' }));
 
                 parser.on('data', line => {
                     subjectSerialOutput.next(line)
@@ -91,8 +92,8 @@ function isArduino(port) {
 
 module.exports = {
     'arduinoUSB$': observableUSBPorts$,
-    'serialOutput$': serialOutput$.filter(data => data.toString().indexOf('**(|)') === -1),
-    'serialDebugOutput$': serialOutput$.filter(data => data.toString().indexOf('**(|)') > -1),
+    'serialOutput$': serialOutput$.filter(data => data.toString().indexOf(DEBUG_TABLE_FILTER) === -1),
+    'serialDebugOutput$': serialOutput$.filter(data => data.toString().indexOf(DEBUG_TABLE_FILTER) > -1),
     'openSerialPort': openSerialOpen,
     'closeSerialPort': closeSerialPort
 };

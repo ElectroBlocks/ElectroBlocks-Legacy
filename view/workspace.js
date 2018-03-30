@@ -1,6 +1,8 @@
 const electron = require('electron');
 const { remote, ipcRenderer } = electron;
 const { arduinoUSB$, serialDebugOutput$, openSerialPort } = remote.require('./common/serial_port');
+const { DEBUG_TABLE_FILTER } = remote.require('./common/constants');
+
 const uploadSpan = document.getElementById('arduino-upload');
 const debugMenu = document.getElementById('debug-menu');
 const debugBtn = document.getElementById('debug-btn');
@@ -54,7 +56,7 @@ const debugTableData = {};
 
 serialDebugOutput$
     .do(data =>  {
-        const parts = data.toString().replace('**(|)','').split('_|_');
+        const parts = data.toString().replace(DEBUG_TABLE_FILTER,'').split('_|_');
         debugTableData[parts[0]] = {type: parts[1], value: parts[2] };
     })
     .subscribe(() =>  renderDebugSubject.next());
