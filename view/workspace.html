@@ -3,6 +3,7 @@
 <head>
     <title>Arduino Blockly IDE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
         body {
             margin: 0;
@@ -22,7 +23,6 @@
             transition: all 0.3s ease;
             color: white;
             font-size: 36px;
-
         }
 
         .icon-bar-bottom a, .icon-bar-bottom span {
@@ -45,6 +45,7 @@
             border: solid gray 1px;
             overflow-y: scroll;
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            z-index: 100;
         }
 
         #debug-menu h2 {
@@ -80,23 +81,297 @@
             color: white;
         }
 
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
     </style>
 </head>
 
 <body>
 
-<div class="icon-bar">
-    <span id="arduino-upload" title="Arduino Connected" class="active"><i class="fa fa-plug"></i></span>
-    <a href="#"><i class="fa fa-upload"></i></a>
-    <a id="serial-monitor"><i class="fa fa-search"></i></a>
+<div class="icon-bar" id="top-menu">
+    <span id="arduino-connected" title="Arduino Connected" class="active"><i class="fa fa-plug"></i></span>
+    <a id="upload-code-btn"><i class="fa fa-play"></i></a>
+    <a id="serial-monitor"><i class="fa fa-commenting"></i></a>
     <a id="debug-btn" href="#"><i class="fa fa-bug"></i></a>
-    <a href="#"><i class="fa fa-trash"></i></a>
+    <a href="#"><i class="fa fa-forward"></i></a>
 </div>
+
+<div id="content-blocks">
+
+</div>
+
+<div id="arduino-sketch">
+
+</div>
+
+<xml id="toolbox" style="display: none">
+    <category name="Logic">
+        <block type="controls_if"></block>
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_boolean"></block>
+        <block type="logic_negate"></block>
+        <block type="logic_null"></block>
+    </category>
+    <category name="Control">
+        <block type="base_delay">
+            <value name="DELAY_TIME">
+                <block type="math_number">
+                    <field name="NUM">1000</field>
+                </block>
+            </value>
+        </block>
+        <block type="controls_for">
+            <value name="FROM">
+                <block type="math_number">
+                    <field name="NUM">1</field>
+                </block>
+            </value>
+            <value name="TO">
+                <block type="math_number">
+                    <field name="NUM">10</field>
+                </block>
+            </value>
+            <value name="BY">
+                <block type="math_number">
+                    <field name="NUM">1</field>
+                </block>
+            </value>
+        </block>
+        <block type="controls_whileUntil"></block>
+    </category>
+    <category name="Math">
+        <block type="math_number"></block>
+        <block type="math_byte"></block>
+        <block type="math_random_int"></block>
+        <block type="math_parse_int"></block>
+        <block type="math_parse_double"></block>
+        <block type="math_arithmetic"></block>
+        <block type="base_map">
+            <value name="DMAX">
+                <block type="math_number">
+                    <field name="NUM">180</field>
+                </block>
+            </value>
+        </block>
+    </category>
+    <category name="Lists">
+
+        <block type="variables_create_array"></block>
+        <block type="lists_getIndex"></block>
+        <block type="lists_setIndex"></block>
+        <block type="lists_length"></block>
+
+
+    </category>
+    <category name="Text">
+        <block type="text"></block>
+        <block type="text_join"></block>
+        <block type="text_remove_char"></block>
+        <block type="text_length"></block>
+        <block type="text_value_to_string"></block>
+        <block type="text_get_part_of_string"></block>
+    </category>
+    <category name="Variables" >
+        <block type="variables_create"></block>
+        <block type="variables_create_global"></block>
+        <block type="variables_get"></block>
+        <block type="variables_set"></block>
+    </category>
+    <category name="Debug" >
+        <block type="debug"></block>
+    </category>
+    <category name="Functions" custom="PROCEDURE"></category>
+    <sep></sep>
+    <category name="Input/Output">
+        <block type="inout_highlow"></block>
+        <block type="inout_digital_write"></block>
+        <block type="inout_digital_read"></block>
+        <block type="inout_digital_read_pullup_resistor"></block>
+        <block type="inout_analog_write">
+            <value name="NUM">
+                <block type="math_number">
+                    <field name="NUM">0</field>
+                </block>
+            </value>
+        </block>
+        <block type="inout_analog_read"></block>
+        <block type="serial_print">
+            <value name="CONTENT">
+                <block type="text">
+                    <field name="TEXT"></field>
+                </block>
+            </value>
+        </block>
+        <block type="serial_read_until">
+            <value name="CONTENT">
+                <block type="text">
+                    <field name="TEXT">|</field>
+                </block>
+            </value>
+        </block>
+        <block type="inout_tone">
+            <value name="NUM">
+                <block type="math_number">
+                    <field name="NUM">440</field>
+                </block>
+            </value>
+        </block>
+        <block type="inout_notone"></block>
+        <block type="inout_pulse_in"></block>
+        <block type="inout_buildin_led"></block>
+    </category>
+    <category name="NEO Pixel">
+        <block type="neo_pixel_setup">
+            <value name="NUMBER OF LEDS">
+                <block type="math_number">
+                    <field name="NUM">60</field>
+                </block>
+            </value>
+        </block>
+        <block type="neo_pixel_set_pixel_color">
+            <value name="BLUE">
+                <block type="math_number">
+                    <field name="NUM">150</field>
+                </block>
+            </value>
+            <value name="RED">
+                <block type="math_number">
+                    <field name="NUM">0</field>
+                </block>
+            </value>
+            <value name="GREEN">
+                <block type="math_number">
+                    <field name="NUM">0</field>
+                </block>
+            </value>
+            <value name="PIXEL">
+                <block type="math_number">
+                    <field name="NUM">0</field>
+                </block>
+            </value>
+        </block>
+    </category>
+    <category name="Servo">
+        <block type="servo_move">
+            <value name="DEGREE">
+                <block type="math_number">
+                    <field name="NUM">0</field>
+                </block>
+            </value>
+        </block>
+        <block type="servo_read_degrees"></block>
+    </category>
+    <category name="LCD Screens">
+        <category name="LCD Print">
+            <block type="liquid_crystal_ic2_lcd_clear"></block>
+            <block type="liquid_crystal_ic2_lcd_set_cursor"></block>
+            <block type="liquid_crystal_ic2_lcd_print"></block>
+            <block type="liquid_crystal_ic2_lcd_blink"></block>
+            <block type="liquid_crystal_ic2_lcd_scroll_left"></block>
+            <block type="liquid_crystal_ic2_lcd_scroll_right"></block>
+        </category>
+        <block type="liquid_crystal_ic2_lcd_setup">
+            <value name="Number of Rows">
+                <block type="math_number">
+                    <field name="NUM">4</field>
+                </block>
+            </value>
+            <value name="Number of Columns">
+                <block type="math_number">
+                    <field name="NUM">20</field>
+                </block>
+            </value>
+        </block>
+        <block type="liquid_crystal_ic2_lcd">
+            <value name="Row 1">
+                <block type="text">
+                    <field name="TEXT"></field>
+                </block>
+            </value>
+            <value name="Row 2">
+                <block type="text">
+                    <field name="TEXT"></field>
+                </block>
+            </value>
+            <value name="Row 3">
+                <block type="text">
+                    <field name="TEXT"></field>
+                </block>
+            </value>
+            <value name="Row 4">
+                <block type="text">
+                    <field name="TEXT"></field>
+                </block>
+            </value>
+            <value name="Delay Time">
+                <block type="math_number">
+                    <field name="NUM">3000</field>
+                </block>
+            </value>
+        </block>
+        <block type="liquid_crystal_ic2_lcd_backlight"></block>
+
+    </category>
+    <category name="Led Matrix">
+        <block type="led_matrix_set_row"></block>
+        <block type="led_matrix_set_column"></block>
+        <block type="led_matrix_set_led">
+            <value name="Column Number">
+                <block type="math_number">
+                    <field name="NUM">0</field>
+                </block>
+            </value>
+            <value name="Row Number">
+                <block type="math_number">
+                    <field name="NUM">0</field>
+                </block>
+            </value>
+        </block>
+        <block type="led_matrix_clear"></block>
+    </category>
+    <category name="Water Sensor">
+        <block type="water_sensor_setup"></block>
+        <block type="water_sensor_read_humidity_value"></block>
+        <block type="water_sensor_read_percentage_humidity"></block>
+        <block type="water_sensor_is_humid"></block>
+    </category>
+    <category name="RFID">
+        <block type="rfid_scanned_card"></block>
+        <block type="rfid_tag_number"></block>
+        <block type="rfid_card_number"></block>
+    </category>
+    <category name="IR Remote">
+        <block type="ir_remote_setup"></block>
+        <block type="ir_remote_has_reading"></block>
+        <block type="ir_remote_get_hex"></block>
+        <block type="ir_remote_can_read_again"></block>
+    </category>
+    <category name="Humidity/Temp">
+        <block type="temp_humidity_setup"></block>
+        <block type="temp_humidity_get_reading"></block>
+        <block type="temp_humidity_humidity_percentage"></block>
+        <block type="temp_humidity_temp_celsius"></block>
+    </category>
+    <category name="Web / WIFI">
+        <block type="wifi_setup"></block>
+        <block type="wifi_request"></block>
+        <block type="json_get_data"></block>
+    </category>
+    <category name="bluetooth">
+        <block type="bluetooth_setup"></block>
+        <block type="bluetooth_is_available"></block>
+        <block type="bluetooth_read_until_string"></block>
+        <block type="bluetooth_write"></block>
+    </category>
+</xml>
 
 <div id="debug-menu" style="display: none;">
     <div class="icon-bar icon-bar-bottom">
         <h2>Debug Menu</h2>
-        <a href="#"><i class="fa fa-play"></i></a>
     </div>
     <table id="debug-table">
         <thead>
@@ -111,6 +386,14 @@
         </tbody>
     </table>
 </div>
+
+<script type="text/javascript" src="blockly/blockly_compressed.js"></script>
+<script type="text/javascript" src="blockly/blocks_compressed.js"></script>
+<script type="text/javascript" src="blockly/arduino_compressed.js"></script>
+<script type="text/javascript" src="blockly/msg/js/en.js"></script>
+
+
 <script src="workspace.js"></script>
+
 </body>
 </html>

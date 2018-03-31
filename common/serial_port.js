@@ -3,7 +3,7 @@ const SerialPort = require('SerialPort');
 const Delimiter = require('parser-delimiter');
 const { DEBUG_TABLE_FILTER } = require('./constants');
 
-const {Observable, BehaviorSubject} = RX;
+const { Observable, BehaviorSubject } = RX;
 
 /**
  * Observable of all usb ports
@@ -15,14 +15,25 @@ const observableUSBPorts$ = Observable
     .map(ports => ports.filter(port => isArduino(port)))
     .map(ports => ports.length > 0 ? ports[0].comName : undefined);
 
+observableUSBPorts$
+    .filter(usb => usb)
+    .flatMap(usb => openSerialPort())
+    .take(1)
+    .subscribe(err => console.log('Opening Serial Port After Arduino Connected, err: ', err));
 
 const subjectSerialOutput = new BehaviorSubject("");
 
 const serialOutput$ = subjectSerialOutput.asObservable().share();
 
+const serialDebugOutput$ = serialOutput$
+                            .filter(data => data.toString().indexOf(DEBUG_TABLE_FILTER) > -1)
+                            .map(data => data.toString().replace(DEBUG_TABLE_FILTER,'').split('_|_'));
+
+const serialPrintOutput$ = serialOutput$.filter(data => data.toString().indexOf(DEBUG_TABLE_FILTER) === -1);
+
 let serialPort = undefined;
 
-function openSerialOpen() {
+function openSerialPort() {
 
     return closeSerialPort()
         .flatMap(() => observableUSBPorts$)
@@ -59,7 +70,7 @@ function openSerialOpen() {
 
 
 function closeSerialPort() {
-    if (serialPort == null) {
+    if (serialPort == null || !serialPort.isOpen) {
         return Observable.of(undefined);
     }
 
@@ -92,8 +103,8 @@ function isArduino(port) {
 
 module.exports = {
     'arduinoUSB$': observableUSBPorts$,
-    'serialOutput$': serialOutput$.filter(data => data.toString().indexOf(DEBUG_TABLE_FILTER) === -1),
-    'serialDebugOutput$': serialOutput$.filter(data => data.toString().indexOf(DEBUG_TABLE_FILTER) > -1),
-    'openSerialPort': openSerialOpen,
+    'serialPrintOutput$': serialPrintOutput$,
+    'serialDebugOutput$': serialDebugOutput$,
+    'openSerialPort': openSerialPort,
     'closeSerialPort': closeSerialPort
 };
