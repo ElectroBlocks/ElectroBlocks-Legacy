@@ -3,7 +3,7 @@
  */
 const electron = require('electron');
 const {remote, ipcRenderer} = electron;
-const {arduinoUSB$, serialDebugOutput$} = remote.require('./common/serial_port');
+const {arduinoUSB$, serialDebugOutput$, serialDebugBlockOutput$} = remote.require('./common/serial_port');
 const {uploadCode}  = remote.require('./common/upload_code');
 const prompt = remote.require('electron-prompt');
 
@@ -18,11 +18,13 @@ const serialMonitorBtn = document.getElementById('serial-monitor');
 const toolbox = document.getElementById('toolbox');
 const blocklyDiv = document.getElementById('content-blocks');
 const uploadCodeBtn = document.getElementById('upload-code-btn');
+const continueBtn = document.getElementById('continue-btn');
+const uploadCodeIcon = document.getElementById('upload-code-icon');
 
 /**
  * variable for storing data to render the debug table.
  */
-const debugTableData = {};
+let debugTableData = {};
 
 
 Blockly.changeVariableName = (selectedMessage, oldVarName) => {
@@ -86,15 +88,32 @@ uploadCodeBtn.addEventListener('click', () => {
     console.log(Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace));
 
     uploadCodeBtn.disabled = true;
-     uploadCode(Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace)).subscribe(err => {
-         uploadCodeBtn.disabled = false;
-         if (err) {
-             console.log(err);
-             alert('Error uploading your code :(');
-         } else {
-             alert('it worked!!');
-         }
-     });
+    uploadCodeIcon.classList.remove('fa-play');
+    uploadCodeIcon.classList.add('fa-spinner');
+    uploadCodeIcon.classList.add('fa-spin');
+    uploadCode(Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace))
+        .do(() => debugTableData = {})
+        .subscribe(err => {
+            uploadCodeBtn.disabled = false;
+            uploadCodeIcon.classList.add('fa-play');
+            uploadCodeIcon.classList.remove('fa-spinner');
+            uploadCodeIcon.classList.remove('fa-spin');
+
+            if (err) {
+                alert('Error uploading your code :(');
+                return;
+            }
+            new Notification('Code Uploaded', {
+                'title': 'Code Uploaded',
+                'body': 'Your code has been uploaded.'
+            });
+
+        });
+});
+
+continueBtn.addEventListener('click', () => {
+    ipcRenderer.send('debug:continue');
+    clearDebugBlocks();
 });
 
 ipcRenderer.on('close:serial-monitor', () => {
@@ -127,6 +146,23 @@ arduinoUSB$
         }
     });
 
+serialDebugBlockOutput$.subscribe(blockNumber => {
+    const blocks = Blockly.mainWorkspace.getAllBlocks();
+
+    for (let i = 0; i < blocks.length; i += 1) {
+        if (blocks[i].id == blockNumber) {
+            blocks[i].setColour(450);
+            blocks[i].select();
+            continue;
+        }
+
+        if (blocks[i].type === 'debug') {
+            blocks[i].setColour(210);
+        }
+    }
+});
+
+
 /**
  * This redraws the debug table
  */
@@ -143,6 +179,7 @@ function redrawDebugTable() {
     debugTbody.innerHTML = tbody;
 }
 
+
 /**
  * Controls the resizing
  */
@@ -152,4 +189,19 @@ function resizeListener() {
     Blockly.svgResize(Blockly.mainWorkspace);
 };
 
+
+/**
+ * This goes through all the debug blocks and clears them out
+ */
+function clearDebugBlocks() {
+    var blocks = Blockly.mainWorkspace.getAllBlocks();
+    if (Blockly.selected) {
+        Blockly.selected.unselect();
+    }
+    for (var i = 0; i < blocks.length; i += 1) {
+        if (blocks[i].type === 'debug') {
+            blocks[i].setColour(210);
+        }
+    }
+}
 

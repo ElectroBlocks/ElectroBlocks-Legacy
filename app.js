@@ -2,6 +2,7 @@ const electron = require('electron');
 const { app, BrowserWindow, Menu, ipcMain } = electron;
 const { menuTemplate } = require('./common/menu_template');
 const { APP_TITLE } = require('./common/constants');
+const { sendContinueFunction, sendSerialMonitorMessage } = require('./common/serial_port');
 const path = require('path');
 
 let mainWindow;
@@ -37,7 +38,15 @@ ipcMain.on('open:serial-monitor', () => {
         serialMonitor = null;
         mainWindow.webContents.send('close:serial-monitor');
     });
+});
 
+ipcMain.on('debug:continue', () => {
+    console.log('should be sending something');
+    sendContinueFunction();
+});
+
+ipcMain.on('send:message', (e, word) => {
+    sendSerialMonitorMessage(word);
 });
 
 

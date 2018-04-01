@@ -86,6 +86,11 @@
             height: 100%;
         }
 
+        .fa-spinner {
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
     </style>
 </head>
 
@@ -93,10 +98,10 @@
 
 <div class="icon-bar" id="top-menu">
     <span id="arduino-connected" title="Arduino Connected" class="active"><i class="fa fa-plug"></i></span>
-    <a id="upload-code-btn"><i class="fa fa-play"></i></a>
+    <a id="upload-code-btn"><i id="upload-code-icon" class="fa fa-play"></i></a>
     <a id="serial-monitor"><i class="fa fa-commenting"></i></a>
     <a id="debug-btn" href="#"><i class="fa fa-bug"></i></a>
-    <a href="#"><i class="fa fa-forward"></i></a>
+    <a id="continue-btn"><i class="fa fa-forward"></i></a>
 </div>
 
 <div id="content-blocks">

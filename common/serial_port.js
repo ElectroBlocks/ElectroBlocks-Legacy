@@ -1,7 +1,7 @@
 const RX = require('rxjs/Rx');
 const SerialPort = require('SerialPort');
 const Delimiter = require('parser-delimiter');
-const { DEBUG_TABLE_FILTER } = require('./constants');
+const { DEBUG_TABLE_FILTER, DEBUG_BLOCK } = require('./constants');
 
 const { Observable, BehaviorSubject } = RX;
 
@@ -29,7 +29,12 @@ const serialDebugOutput$ = serialOutput$
                             .filter(data => data.toString().indexOf(DEBUG_TABLE_FILTER) > -1)
                             .map(data => data.toString().replace(DEBUG_TABLE_FILTER,'').split('_|_'));
 
-const serialPrintOutput$ = serialOutput$.filter(data => data.toString().indexOf(DEBUG_TABLE_FILTER) === -1);
+const serialPrintOutput$ = serialOutput$
+    .filter(data => data.toString().indexOf(DEBUG_TABLE_FILTER) === -1 && data.toString().indexOf(DEBUG_BLOCK) === -1);
+
+const serialDebugBlockOutput$ = serialOutput$
+    .filter(data => data.toString().indexOf(DEBUG_BLOCK) > -1)
+    .map(data => data.toString().replace(DEBUG_BLOCK, '').trim());
 
 let serialPort = undefined;
 
@@ -45,6 +50,7 @@ function openSerialPort() {
 
                 serialPort = new SerialPort(usbPort.toString(), {
                     autoOpen: true,
+                    debug: true
                 });
                 const parser = serialPort.pipe(new Delimiter({ delimiter: '\n' }));
 
@@ -88,6 +94,21 @@ function closeSerialPort() {
 
 }
 
+function sendContinueFunction() {
+    if (serialPort !== null) {
+        serialPort.write("s|");
+    } else {
+        console.log('SERIAL PORT NOT OPEN');
+    }
+}
+
+function sendSerialMonitorMessage(word) {
+    if (serialPort !== null && word && word.length > 0) {
+        serialPort.write(word);
+    } else {
+        console.log('SERIAL PORT NOT OPEN OR WORD NOT DEFINED');
+    }
+}
 
 
 
@@ -105,6 +126,9 @@ module.exports = {
     'arduinoUSB$': observableUSBPorts$,
     'serialPrintOutput$': serialPrintOutput$,
     'serialDebugOutput$': serialDebugOutput$,
+    'serialDebugBlockOutput$': serialDebugBlockOutput$,
     'openSerialPort': openSerialPort,
-    'closeSerialPort': closeSerialPort
+    'closeSerialPort': closeSerialPort,
+    'sendContinueFunction': sendContinueFunction,
+    sendSerialMonitorMessage
 };
