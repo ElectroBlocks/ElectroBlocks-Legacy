@@ -12,6 +12,7 @@
     "avrgirl-arduino": "^2.2.9",
     "axios": "^0.18.0",
     "electron": "^1.8.4",
+    "electron-builder": "^20.8.1",
     "electron-prompt": "^0.5.0",
     "parser-delimiter": "^1.0.2",
     "rxjs": "^5.5.8",

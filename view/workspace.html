@@ -86,20 +86,20 @@
             height: 100%;
         }
 
-        .fa-spinner {
-            cursor: not-allowed;
-            pointer-events: none;
+        .disable, .disable:hover {
+            cursor: no-drop!important;
+            background: #78807d;
+            pointer-events: none!important;
         }
 
     </style>
 </head>
-
 <body>
 
 <div class="icon-bar" id="top-menu">
     <span id="arduino-connected" title="Arduino Connected" class="active"><i class="fa fa-plug"></i></span>
-    <a id="upload-code-btn"><i id="upload-code-icon" class="fa fa-play"></i></a>
-    <a id="serial-monitor"><i class="fa fa-commenting"></i></a>
+    <a id="upload-code-btn" class="disable" ><i id="upload-code-icon" class="fa fa-play"></i></a>
+    <a id="serial-monitor" class="disable"><i class="fa fa-commenting"></i></a>
     <a id="debug-btn" href="#"><i class="fa fa-bug"></i></a>
     <a id="continue-btn"><i class="fa fa-forward"></i></a>
 </div>
@@ -366,7 +366,7 @@
         <block type="wifi_request"></block>
         <block type="json_get_data"></block>
     </category>
-    <category name="bluetooth">
+    <category name="Bluetooth">
         <block type="bluetooth_setup"></block>
         <block type="bluetooth_is_available"></block>
         <block type="bluetooth_read_until_string"></block>

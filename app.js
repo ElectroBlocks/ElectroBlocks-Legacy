@@ -1,13 +1,111 @@
 const electron = require('electron');
-const { app, BrowserWindow, Menu, ipcMain } = electron;
-const { menuTemplate } = require('./common/menu_template');
-const { APP_TITLE } = require('./common/constants');
+const { app, BrowserWindow, Menu, ipcMain, dialog, shell, App } = electron;
+const { APP_TITLE, NODE_ERROR } = require('./common/constants');
 const { sendContinueFunction, sendSerialMonitorMessage } = require('./common/serial_port');
 const path = require('path');
+const fs = require('fs');
+
 
 let mainWindow;
 
 let serialMonitor;
+
+let aboutSoftware;
+
+/**
+ * This is where the directory where the current file is being saved.
+ */
+let currentFilePath = undefined;
+
+let menuTemplate = [
+    {
+        label: APP_TITLE,
+        submenu: [
+            {
+                label: 'About Software',
+                click() {
+                    if (!aboutSoftware) {
+                        aboutSoftware = new BrowserWindow({
+                            title: 'About Arduino Blockly IDE',
+                            width: 500,
+                            height: 520
+                        });
+                        aboutSoftware.loadURL('file://' +path.join(__dirname, 'view', 'about.html'));
+                        aboutSoftware.show();
+                    }
+
+                    aboutSoftware.on('close', () => aboutSoftware = null);
+                }
+            },
+            {
+                role: 'toggledevtools'
+            },
+
+        ]
+    },
+    {
+        label: 'File',
+        submenu: [
+            {
+                label: 'Open',
+                click() {
+                    dialog.showOpenDialog(mainWindow, {
+                        properties: ['openFile', 'openDirectory'],
+                        filters: [
+                            { name: 'Arduino Blockly', extensions: ['xml'] }
+                        ]
+                    }, (filePaths, err) => {
+                            if (err) {
+                                console.log(err);
+                                mainWindow.webContents.send(NODE_ERROR, 'There was an error trying to open the file.');
+                                return;
+                            }
+                           if (filePaths.length > 0) {
+                               const filePath = filePaths[0];
+                               currentFilePath = filePath;
+                               mainWindow.webContents.send('open:file', fs.readFileSync(filePath).toString());
+                           }
+                    });
+                }
+            },
+            {
+                label: 'Save',
+                click() {
+                    mainWindow.webContents.send('menu:save', typeof currentFilePath === 'undefined');
+                }
+            },
+            {
+                label: 'Save As',
+                click() {
+                    mainWindow.webContents.send('menu:save', true);
+                }
+            },
+            {
+                label: 'Close',
+                click() {
+                    app.quit();
+                }
+            }
+        ]
+    },
+    {
+        label: 'Help',
+        submenu: [
+            {
+                label: 'Online Help',
+                click () {
+                    shell.openExternal('http://oaklandcodeschool.org/arduino-ide-help')
+                }
+            },
+            {
+                label: 'Report a bug',
+                click() {
+                    shell.openExternal('https://github.com/phptuts/ArduinoBlocklyIDE/issues')
+                }
+            },
+        ]
+    }
+];
 
 app.on('ready', () => {
     mainWindow = new BrowserWindow({
@@ -16,7 +114,8 @@ app.on('ready', () => {
         height: 900
     });
 
-    mainWindow.webContents.toggleDevTools();
+    App.setTitle('Arduino Blockly IDE');
+
     mainWindow.loadURL('file://' +path.join(__dirname, 'view', 'workspace.html'));
     app.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
 });
@@ -30,7 +129,6 @@ ipcMain.on('open:serial-monitor', () => {
             height: 520
         });
         serialMonitor.loadURL('file://' +path.join(__dirname, 'view', 'serial-monitor.html'));
-        serialMonitor.webContents.toggleDevTools();
         serialMonitor.show();
     }
 
@@ -47,6 +145,17 @@ ipcMain.on('debug:continue', () => {
 
 ipcMain.on('send:message', (e, word) => {
     sendSerialMonitorMessage(word);
+});
+
+ipcMain.on('save:file', (e, code, filePath) => {
+    currentFilePath = filePath ? filePath : currentFilePath;
+    fs.writeFile(currentFilePath, code, err => {
+        if (err) {
+            console.log(err);
+            mainWindow.webContents.send(NODE_ERROR, 'There was an trying to save the file.');
+            return;
+        }
+    });
 });
 
 

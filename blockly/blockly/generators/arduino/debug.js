@@ -64,7 +64,7 @@ function createDebugVariable() {
             var size = Blockly.Arduino.valueToCode(blocks[i], 'SIZE',  Blockly.Arduino.ORDER_ASSIGNMENT) || '0';
             debugString += '\t\tSerial.println("**(|)' + variableName + '_|_'
                 +  'An Array of ' + blocks[i].getFieldValue('DATA TYPE').toLowerCase() + 's size => '
-                + size + '_|_" +' + 'printArray'  + blocks[i].getFieldValue('DATA TYPE') + '(' + variableName + ')); \n';
+                + size + '_|_" +' + 'printArray'  + blocks[i].getFieldValue('DATA TYPE') + '(' + variableName + ', ' + size + ')); \n';
             variableNames.push(variableName);
         }
     }
@@ -83,9 +83,9 @@ function createDebugVariable() {
 
 function createPrintArrayFuncInC(type)
 {
-    var func ='String printArrayREPLATEWITHTYPE(REPLATEWITHTYPE arr[]) {' +
-    '\t\tString returnValue = "";' +
-    '\t\tfor (unsigned int i = 0; i < sizeof(arr); i += 1) {\n';
+    var func ='String printArrayREPLATEWITHTYPE(REPLATEWITHTYPE arr[], int sizeOfArray) {' +
+    '\t\tString returnValue = "[";' +
+    '\t\tfor (unsigned int i = 0; i < sizeOfArray; i += 1) {\n';
             if (type.toLowerCase() == 'double') {
                 func += '\t\treturnValue +=  double2string(arr[i], 5);\n';
             }
@@ -96,10 +96,11 @@ function createPrintArrayFuncInC(type)
               func += '\t\treturnValue +=  String(arr[i]);\n';
             }
 
-      func +=  '\t\tif (i < sizeof(arr) -1) {\n' +
+      func +=  '\t\tif (i < sizeOfArray -1) {\n' +
            '\t\treturnValue += ", ";\n' +
         '\t\t}\n' +
     '\t\t}\n' +
+    '\t\t returnValue += "]";\n' +
     '\t\treturn returnValue;\n' +
     '\t}\n';
 

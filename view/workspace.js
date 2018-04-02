@@ -2,11 +2,12 @@
  * Dependencies
  */
 const electron = require('electron');
-const {remote, ipcRenderer} = electron;
+const { remote, ipcRenderer } = electron;
 const {arduinoUSB$, serialDebugOutput$, serialDebugBlockOutput$} = remote.require('./common/serial_port');
 const {uploadCode}  = remote.require('./common/upload_code');
+const { NODE_ERROR } = remote.require('./common/constants');
 const prompt = remote.require('electron-prompt');
-
+const { dialog } = remote;
 /**
  * Elements
  */
@@ -120,6 +121,34 @@ ipcRenderer.on('close:serial-monitor', () => {
     serialMonitorBtn.classList.remove('active');
 });
 
+ipcRenderer.on('menu:save', (event, createNewFile = false) => {
+    var xml = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+    var code = Blockly.Xml.domToText(xml);
+    if (createNewFile) {
+        dialog.showSaveDialog(remote.getCurrentWindow(), {
+            filters: [
+                { name: 'Arduino Blockly', extensions: ['xml'] }
+            ]
+        }, filePath => {
+            if (filePath) {
+                ipcRenderer.send('save:file', code, filePath)
+            }
+        });
+
+        return;
+    }
+
+    ipcRenderer.send('save:file', code);
+});
+
+ipcRenderer.on(NODE_ERROR, (message) => {
+    alert(message);
+});
+
+ipcRenderer.on('open:file', (event, content) => {
+    Blockly.mainWorkspace.clear();
+    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, Blockly.Xml.textToDom(content));
+});
 
 /**
  * Observables
@@ -140,9 +169,13 @@ arduinoUSB$
         if (usb) {
             arduinoConnected.classList.add('active');
             arduinoConnected.setAttribute('title', 'Arduino Connected');
+            serialMonitorBtn.classList.remove('disable');
+            uploadCodeBtn.classList.remove('disable');
         } else {
             arduinoConnected.classList.remove('active');
             arduinoConnected.setAttribute('title', 'Arduino Not Connected');
+            serialMonitorBtn.classList.add('disable');
+            uploadCodeBtn.classList.add('disable');
         }
     });
 
@@ -194,11 +227,11 @@ function resizeListener() {
  * This goes through all the debug blocks and clears them out
  */
 function clearDebugBlocks() {
-    var blocks = Blockly.mainWorkspace.getAllBlocks();
+    const blocks = Blockly.mainWorkspace.getAllBlocks();
     if (Blockly.selected) {
         Blockly.selected.unselect();
     }
-    for (var i = 0; i < blocks.length; i += 1) {
+    for (let i = 0; i < blocks.length; i += 1) {
         if (blocks[i].type === 'debug') {
             blocks[i].setColour(210);
         }
