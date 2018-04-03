@@ -114,8 +114,6 @@ app.on('ready', () => {
         height: 900
     });
 
-    App.setTitle('Arduino Blockly IDE');
-
     mainWindow.loadURL('file://' +path.join(__dirname, 'view', 'workspace.html'));
     app.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
 });
