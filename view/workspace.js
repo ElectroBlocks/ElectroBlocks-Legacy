@@ -104,10 +104,8 @@ uploadCodeBtn.addEventListener('click', () => {
                 alert('Error uploading your code :(');
                 return;
             }
-            new Notification('Code Uploaded', {
-                'title': 'Code Uploaded',
-                'body': 'Your code has been uploaded.'
-            });
+         
+            alert('Your code has been uploaded.');
 
         });
 });

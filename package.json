@@ -1,24 +1,32 @@
 {
-  "name": "arduinoblocklyide",
+  "name": "ArduinoBlocklyIDE",
+  "productName": "Arduino Blockly IDE App",
   "version": "1.0.0",
-  "description": "",
+  "description": "An ide for developing arduino code with blockly.",
   "main": "app.js",
+  "repository": "git@github.com:phptuts/ArduinoBlocklyIDE.git",
+  "license": "MIT",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . arduino-blockly-ide --overwrite --no-prune --asar --platform=win32 --debug  --arch=all --icon=icons/win-icon.ico --out=builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Arduino Blockly IDE\" --verbose",
+    "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=icons/png/1024x1024.png --prune=true --out=release-builds"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "avrgirl-arduino": "^2.2.9",
-    "axios": "^0.18.0",
-    "electron": "^1.8.4",
-    "electron-builder": "^20.8.1",
-    "electron-prompt": "^0.5.0",
-    "parser-delimiter": "^1.0.2",
+    "avrgirl-arduino": "2.2.9",
+    "axios": "0.18.0",
+    "browser-serialport": "^2.1.0",
+    "electron": "1.8.4",
+    "electron-builder": "20.8.1",
+    "electron-prompt": "0.5.0",
+    "electron-rebuild": "^1.7.3",
+    "parser-delimiter": "1.0.2",
     "rxjs": "^5.5.8",
-    "serialport": "^6.1.1"
+    "serialport": "6.1.1",
+    "stk500": "^2.0.0"
   },
   "devDependencies": {
-    "electron-installer-dmg": "^0.2.1"
+    "electron-packager": "^12.0.0",
+    "electron-winstaller": "^2.6.4"
   }
 }

@@ -1,5 +1,5 @@
 const {openSerialPort, closeSerialPort, arduinoUSB$} = require('./serial_port');
-const RX = require('rxjs/Rx');
+const RX = require('rxjs');
 const axios = require('axios');
 const fs = require('fs');
 
@@ -37,10 +37,13 @@ function flashArduino() {
         .filter(usbPort => usbPort)
         .map(usbPort => new Avrgirl({
             board: 'uno',
-            port: usbPort
+            port: usbPort,
+            manualReset: true
         })).flatMap(avrgirl => Observable.create(observer => {
+            console.log('BEFORE FLASH');
             avrgirl.flash(ARDUINO_FILE, (err) => {
                 if (err) {
+                    console.log("ERROR ", err);
                     observer.error({'avr_girl': err});
                 } else {
                     observer.next(undefined)
