@@ -1,5 +1,5 @@
-const RX = require('rxjs/Rx');
-const SerialPort = require('SerialPort');
+const RX = require('rxjs');
+const SerialPort = require('serialport');
 const Delimiter = require('parser-delimiter');
 const { DEBUG_TABLE_FILTER, DEBUG_BLOCK } = require('./constants');
 

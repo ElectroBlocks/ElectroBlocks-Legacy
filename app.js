@@ -4,6 +4,13 @@ const { APP_TITLE, NODE_ERROR } = require('./common/constants');
 const { sendContinueFunction, sendSerialMonitorMessage } = require('./common/serial_port');
 const path = require('path');
 const fs = require('fs');
+const RX = require('rxjs');
+const setupEvents = require('./installers/setupEvents')
+
+if (setupEvents.handleSquirrelEvent()) {
+   // squirrel event handled and app will exit in 1000ms, so don't do anything else
+   return;
+}
 
 
 let mainWindow;
