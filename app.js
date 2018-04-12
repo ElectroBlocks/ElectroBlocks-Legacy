@@ -35,7 +35,8 @@ let menuTemplate = [
                         aboutSoftware = new BrowserWindow({
                             title: 'About Arduino Blockly IDE',
                             width: 500,
-                            height: 520
+                            height: 520,
+                            autoHideMenuBar: false
                         });
                         aboutSoftware.loadURL('file://' +path.join(__dirname, 'view', 'about.html'));
                         aboutSoftware.show();
@@ -131,7 +132,8 @@ ipcMain.on('open:serial-monitor', () => {
         serialMonitor = new BrowserWindow({
             title: 'Serial Monitor',
             width: 500,
-            height: 520
+            height: 520,
+            autoHideMenuBar: false
         });
         serialMonitor.loadURL('file://' +path.join(__dirname, 'view', 'serial-monitor.html'));
         serialMonitor.show();
