@@ -27,6 +27,11 @@ const uploadCodeIcon = document.getElementById('upload-code-icon');
  */
 let debugTableData = {};
 
+/**
+ * Returns true if uploading code
+ * @type {boolean}
+ */
+let uploadingCode = false;
 
 Blockly.changeVariableName = (selectedMessage, oldVarName) => {
 
@@ -86,19 +91,24 @@ debugBtn.addEventListener('click', () => {
 
 
 uploadCodeBtn.addEventListener('click', () => {
-    console.log(Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace));
 
-    uploadCodeBtn.disabled = true;
+    if (uploadingCode) {
+        return;
+    }
+
+    uploadingCode = true;
     uploadCodeIcon.classList.remove('fa-play');
     uploadCodeIcon.classList.add('fa-spinner');
     uploadCodeIcon.classList.add('fa-spin');
+    uploadCodeBtn.classList.add('disable');
     uploadCode(Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace))
         .do(() => debugTableData = {})
+        .take(1)
         .subscribe(err => {
-            uploadCodeBtn.disabled = false;
             uploadCodeIcon.classList.add('fa-play');
             uploadCodeIcon.classList.remove('fa-spinner');
             uploadCodeIcon.classList.remove('fa-spin');
+            uploadCodeBtn.classList.remove('disable');
 
             if (err) {
                 alert('Error uploading your code :(');
@@ -106,7 +116,7 @@ uploadCodeBtn.addEventListener('click', () => {
             }
          
             alert('Your code has been uploaded.');
-
+            uploadingCode = false;
         });
 });
 
