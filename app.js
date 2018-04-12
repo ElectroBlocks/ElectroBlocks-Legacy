@@ -5,7 +5,7 @@ const { sendContinueFunction, sendSerialMonitorMessage } = require('./common/ser
 const path = require('path');
 const fs = require('fs');
 const RX = require('rxjs');
-const setupEvents = require('./installers/setupEvents')
+const setupEvents = require('./installer/setup_events')
 
 if (setupEvents.handleSquirrelEvent()) {
    // squirrel event handled and app will exit in 1000ms, so don't do anything else
