@@ -75,6 +75,14 @@ function openSerialPort() {
 }
 
 
+function openSerialPortIfClosed() {
+    if (serialPort) {
+        return Observable.of(undefined);
+    }
+
+    return openSerialPort();
+}
+
 function closeSerialPort() {
     if (serialPort == null || !serialPort.isOpen) {
         return Observable.of(undefined);
@@ -135,5 +143,6 @@ module.exports = {
     'openSerialPort': openSerialPort,
     'closeSerialPort': closeSerialPort,
     'sendContinueFunction': sendContinueFunction,
+    openSerialPortIfClosed,
     sendSerialMonitorMessage
 };
