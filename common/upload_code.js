@@ -40,10 +40,8 @@ function flashArduino() {
             port: usbPort,
             manualReset: true
         })).flatMap(avrgirl => Observable.create(observer => {
-            console.log('BEFORE FLASH');
             avrgirl.flash(ARDUINO_FILE, (err) => {
                 if (err) {
-                    console.log("ERROR ", err);
                     observer.error({'avr_girl': err});
                 } else {
                     observer.next(undefined)

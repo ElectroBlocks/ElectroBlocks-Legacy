@@ -119,7 +119,12 @@ function sendSerialMonitorMessage(word) {
  * @returns {boolean}
  */
 function isArduino(port) {
-    return typeof port.manufacturer !== 'undefined' && port.manufacturer.indexOf('Arduino') > -1;
+    let isArduino = false;
+    if (port.vendorId || port.productId) {
+        isArduino = port.vendorId== '2341' || port.productId == '0043';
+    }
+
+    return isArduino;
 }
 
 module.exports = {
