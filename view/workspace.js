@@ -92,7 +92,7 @@ debugBtn.addEventListener('click', () => {
 
 uploadCodeBtn.addEventListener('click', () => {
 
-    if (uploadingCode) {
+    if (uploadingCode || uploadCodeBtn.classList.contains('disable')) {
         return;
     }
 
@@ -162,6 +162,9 @@ ipcRenderer.on('open:file', (event, content) => {
  * Observables
  */
 serialMonitorBtn.addEventListener('click', () => {
+    if (serialMonitorBtn.classList.contains('disable')) {
+        return;
+    }
     ipcRenderer.send('open:serial-monitor');
     serialMonitorBtn.classList.add('active');
 });
