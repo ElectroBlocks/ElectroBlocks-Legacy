@@ -9,11 +9,12 @@
   "scripts": {
     "start": "electron .",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
-    "package-win": "electron-packager . arduino-blockly-ide --overwrite --no-prune --asar --platform=win32 --debug  --arch=all --icon=icons/win-icon.ico --out=builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Arduino Blockly IDE\" --verbose",
-    "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=icons/png/1024x1024.png --prune=true --out=release-builds"
+    "package-win": "electron-packager . arduino-blockly-ide --overwrite --no-prune --asar --platform=win32 --debug  --arch=x64 --icon=icons/win-icon.ico --out=builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Arduino Blockly IDE\" --verbose",
+    "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
+    "rebuild": "node node_modules/electron-rebuild/lib/src/cli.js"
   },
   "dependencies": {
-    "avrgirl-arduino": "git+https://github.com/phptuts/avrgirl-arduino.git",
+    "avrgirl-arduino": "^2.2.9",
     "axios": "0.18.0",
     "browser-serialport": "^2.1.0",
     "electron": "1.8.4",

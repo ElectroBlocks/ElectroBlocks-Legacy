@@ -68,7 +68,7 @@ let menuTemplate = [
                                 mainWindow.webContents.send(NODE_ERROR, 'There was an error trying to open the file.');
                                 return;
                             }
-                           if (filePaths.length > 0) {
+                           if (filePaths && filePaths.length > 0) {
                                const filePath = filePaths[0];
                                currentFilePath = filePath;
                                mainWindow.webContents.send('open:file', fs.readFileSync(filePath).toString());
