@@ -122,6 +122,7 @@ app.on('ready', () => {
         height: 900
     });
 
+
     mainWindow.loadURL('file://' +path.join(__dirname, 'view', 'workspace.html'));
     app.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
 });
