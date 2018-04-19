@@ -119,7 +119,8 @@ app.on('ready', () => {
     mainWindow = new BrowserWindow({
         title: APP_TITLE,
         width: 1400,
-        height: 900
+        height: 900,
+        icon: path.join('icons', 'icon.png')
     });
 
 

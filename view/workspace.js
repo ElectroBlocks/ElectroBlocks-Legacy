@@ -109,6 +109,7 @@ uploadCodeBtn.addEventListener('click', () => {
             uploadCodeIcon.classList.remove('fa-spinner');
             uploadCodeIcon.classList.remove('fa-spin');
             uploadCodeBtn.classList.remove('disable');
+            uploadingCode = false;
 
             if (err) {
                 alert('Error uploading your code :(');
@@ -116,7 +117,6 @@ uploadCodeBtn.addEventListener('click', () => {
             }
          
             alert('Your code has been uploaded.');
-            uploadingCode = false;
         });
 });
 

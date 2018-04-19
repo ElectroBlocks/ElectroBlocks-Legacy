@@ -18,11 +18,32 @@
     "copyright": "Copyright © 2018",
     "win": {
       "target": "nsis",
-      "icon": "icons/win-icon.ico"
+      "icon": "build/win-icon.ico"
+    },
+    "dmg": {
+      "backgroundColor": "#faf9ef",
+      "window": {
+          "width": 300,
+          "height": 250,
+          "x": 50,
+          "y": 0
+      },
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
     }
   },
   "dependencies": {
-    "avrgirl-arduino": "https://git@github.com/phptuts/avrgirl-arduino.git",
+    "avrgirl-arduino": "^2.2.9",
     "axios": "0.18.0",
     "browser-serialport": "^2.1.0",
     "electron-prompt": "0.5.0",

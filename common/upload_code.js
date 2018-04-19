@@ -1,13 +1,14 @@
-const {openSerialPort, closeSerialPort, arduinoUSB$} = require('./serial_port');
+const { openSerialPort, closeSerialPort, arduinoUSB$ } = require('./serial_port');
 const RX = require('rxjs');
 const axios = require('axios');
 const fs = require('fs');
+const Avrgirl = require('avrgirl-arduino');
+const path = require('path');
 
 const {Observable} = RX;
-const Avrgirl = require('avrgirl-arduino');
 
 
-const ARDUINO_FILE = 'arduino.hex';
+const ARDUINO_FILE = path.join('tmp', 'Arduino.cpp.hex');
 
 /**
  * Writes the arduino code
