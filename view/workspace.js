@@ -158,6 +158,10 @@ ipcRenderer.on('open:file', (event, content) => {
     Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, Blockly.Xml.textToDom(content));
 });
 
+ipcRenderer.on('get:code', () => {
+    ipcRenderer.send('display:code', Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace));
+});
+
 /**
  * Observables
  */

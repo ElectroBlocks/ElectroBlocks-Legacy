@@ -1,23 +1,27 @@
 const electron = require('electron');
-const { app, BrowserWindow, Menu, ipcMain, dialog, shell, App } = electron;
-const { APP_TITLE, NODE_ERROR } = require('./common/constants');
-const { sendContinueFunction, sendSerialMonitorMessage } = require('./common/serial_port');
+const {app, BrowserWindow, Menu, ipcMain, dialog, shell} = electron;
+const {APP_TITLE, NODE_ERROR} = require('./common/constants');
+const {sendContinueFunction, sendSerialMonitorMessage} = require('./common/serial_port');
 const path = require('path');
 const fs = require('fs');
-const RX = require('rxjs');
 const setupEvents = require('./installer/setup_events')
 
 if (setupEvents.handleSquirrelEvent()) {
-   // squirrel event handled and app will exit in 1000ms, so don't do anything else
-   return;
+    // squirrel event handled and app will exit in 1000ms, so don't do anything else
+    return;
 }
 
 
+/**
+ * Windows
+ */
 let mainWindow;
 
 let serialMonitor;
 
 let aboutSoftware;
+
+let codeWindow;
 
 /**
  * This is where the directory where the current file is being saved.
@@ -38,7 +42,7 @@ let menuTemplate = [
                             height: 520,
                             autoHideMenuBar: true
                         });
-                        aboutSoftware.loadURL('file://' +path.join(__dirname, 'view', 'about.html'));
+                        aboutSoftware.loadURL('file://' + path.join(__dirname, 'view', 'about.html'));
                         aboutSoftware.show();
                     }
 
@@ -48,6 +52,22 @@ let menuTemplate = [
             {
                 role: 'toggledevtools'
             },
+            {
+                label: 'Code View',
+                click() {
+                    if (!codeWindow) {
+                        codeWindow = new BrowserWindow({
+                            title: 'Code View',
+                            width: 500,
+                            height: 520,
+                            autoHideMenuBar: true
+                        });
+                        codeWindow.loadURL('file://' + path.join(__dirname, 'view', 'code-view.html'));
+                    }
+                    codeWindow.show();
+                    codeWindow.on('close', () => codeWindow = null);
+                }
+            }
 
         ]
     },
@@ -60,19 +80,19 @@ let menuTemplate = [
                     dialog.showOpenDialog(mainWindow, {
                         properties: ['openFile', 'openDirectory'],
                         filters: [
-                            { name: 'Arduino Blockly', extensions: ['xml'] }
+                            {name: 'Arduino Blockly', extensions: ['xml']}
                         ]
                     }, (filePaths, err) => {
-                            if (err) {
-                                console.log(err);
-                                mainWindow.webContents.send(NODE_ERROR, 'There was an error trying to open the file.');
-                                return;
-                            }
-                           if (filePaths && filePaths.length > 0) {
-                               const filePath = filePaths[0];
-                               currentFilePath = filePath;
-                               mainWindow.webContents.send('open:file', fs.readFileSync(filePath).toString());
-                           }
+                        if (err) {
+                            console.log(err);
+                            mainWindow.webContents.send(NODE_ERROR, 'There was an error trying to open the file.');
+                            return;
+                        }
+                        if (filePaths && filePaths.length > 0) {
+                            const filePath = filePaths[0];
+                            currentFilePath = filePath;
+                            mainWindow.webContents.send('open:file', fs.readFileSync(filePath).toString());
+                        }
                     });
                 }
             },
@@ -124,7 +144,7 @@ app.on('ready', () => {
     });
 
 
-    mainWindow.loadURL('file://' +path.join(__dirname, 'view', 'workspace.html'));
+    mainWindow.loadURL('file://' + path.join(__dirname, 'view', 'workspace.html'));
     app.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
 });
 
@@ -137,7 +157,7 @@ ipcMain.on('open:serial-monitor', () => {
             height: 520,
             autoHideMenuBar: true
         });
-        serialMonitor.loadURL('file://' +path.join(__dirname, 'view', 'serial-monitor.html'));
+        serialMonitor.loadURL('file://' + path.join(__dirname, 'view', 'serial-monitor.html'));
         serialMonitor.show();
     }
 
@@ -147,10 +167,13 @@ ipcMain.on('open:serial-monitor', () => {
     });
 });
 
-ipcMain.on('debug:continue', () => {
-    console.log('should be sending something');
-    sendContinueFunction();
+ipcMain.on('get:code', () => mainWindow.webContents.send('get:code'));
+
+ipcMain.on('display:code', (event, code) => {
+    codeWindow.webContents.send('show:code', code);
 });
+
+ipcMain.on('debug:continue', () => sendContinueFunction());
 
 ipcMain.on('send:message', (e, word) => {
     sendSerialMonitorMessage(word);
