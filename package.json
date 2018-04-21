@@ -21,6 +21,9 @@
       "target": "nsis",
       "icon": "build/win-icon.ico"
     },
+    "mac": {
+        "target": ["dmg", "zip"]
+    },
     "dmg": {
       "backgroundColor": "#faf9ef",
       "publish": {

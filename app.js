@@ -141,6 +141,7 @@ app.on('ready', () => {
 
     mainWindow.loadURL('file://' + path.join(__dirname, 'view', 'workspace.html'));
     app.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
+    mainWindow.on('close', () => app.quit());
 });
 
 app.on('ready', () => {
