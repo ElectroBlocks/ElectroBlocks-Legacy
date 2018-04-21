@@ -4,7 +4,6 @@ const { ipcRenderer } = electron;
 ipcRenderer.send('get:code');
 
 ipcRenderer.on('show:code', (event, code) => {
-    console.log('code ', code);
     document.querySelector('#arduino-sketch').innerHTML = escapeHTML(code);
 });
 

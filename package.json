@@ -10,7 +10,8 @@
   "scripts": {
     "start": "electron .",
     "pack": "build --dir",
-    "dist": "build"
+    "dist": "build",
+    "publish": "build -p always"
   },
   "build": {
     "appId": "arduinoblocklyide.oaklandcodeschool.org",
@@ -22,11 +23,16 @@
     },
     "dmg": {
       "backgroundColor": "#faf9ef",
+      "publish": {
+        "provider": "s3",
+        "bucket": "oaklandcodeschool",
+        "path": "osx"
+      },
       "window": {
-          "width": 300,
-          "height": 250,
-          "x": 50,
-          "y": 0
+        "width": 300,
+        "height": 250,
+        "x": 50,
+        "y": 0
       },
       "contents": [
         {
@@ -47,6 +53,8 @@
     "axios": "0.18.0",
     "browser-serialport": "^2.1.0",
     "electron-prompt": "0.5.0",
+    "electron-publisher-s3": "^20.9.0",
+    "electron-updater": "^2.21.8",
     "parser-delimiter": "1.0.2",
     "rxjs": "^5.5.8",
     "serialport": "^6.1.1",

@@ -4,12 +4,7 @@ const {APP_TITLE, NODE_ERROR} = require('./common/constants');
 const {sendContinueFunction, sendSerialMonitorMessage} = require('./common/serial_port');
 const path = require('path');
 const fs = require('fs');
-const setupEvents = require('./installer/setup_events')
-
-if (setupEvents.handleSquirrelEvent()) {
-    // squirrel event handled and app will exit in 1000ms, so don't do anything else
-    return;
-}
+const autoUpdater = require("electron-updater").autoUpdater;
 
 
 /**
@@ -146,6 +141,10 @@ app.on('ready', () => {
 
     mainWindow.loadURL('file://' + path.join(__dirname, 'view', 'workspace.html'));
     app.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
+});
+
+app.on('ready', () => {
+    autoUpdater.checkForUpdatesAndNotify();
 });
 
 
