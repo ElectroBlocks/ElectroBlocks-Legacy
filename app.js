@@ -186,26 +186,10 @@ ipcMain.on('save:file', (e, code, filePath) => {
     currentFilePath = filePath ? filePath : currentFilePath;
     fs.writeFile(currentFilePath, code, err => {
         if (err) {
-            console.log(err);
             mainWindow.webContents.send(NODE_ERROR, 'There was an trying to save the file.');
             return;
         }
     });
-});
-
-
-/**
- * Auto Update
- */
-
-app.on('ready', function()  {
-    if (process.env.NODE_ENV === 'production' ) {
-        autoUpdater.checkForUpdates();
-    }
-});
-
-autoUpdater.on('update-downloaded', (info) => {
-  autoUpdater.quitAndInstall();
 });
 
 
