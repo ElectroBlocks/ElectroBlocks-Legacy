@@ -62,6 +62,18 @@ let menuTemplate = [
                     codeWindow.show();
                     codeWindow.on('close', () => codeWindow = null);
                 }
+            },
+            {
+                label: 'Update',
+                click() {
+                    autoUpdater.checkForUpdatesAndNotify();
+                }
+            },
+            {
+                label: 'Close',
+                click() {
+                    app.quit();
+                }
             }
 
         ]
@@ -131,6 +143,8 @@ let menuTemplate = [
 ];
 
 app.on('ready', () => {
+    autoUpdater.checkForUpdatesAndNotify();
+
     mainWindow = new BrowserWindow({
         title: APP_TITLE,
         width: 1400,
@@ -142,10 +156,6 @@ app.on('ready', () => {
     mainWindow.loadURL('file://' + path.join(__dirname, 'view', 'workspace.html'));
     app.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
     mainWindow.on('close', () => app.quit());
-});
-
-app.on('ready', () => {
-    autoUpdater.checkForUpdatesAndNotify();
 });
 
 ipcMain.on('open:serial-monitor', () => {
@@ -190,6 +200,10 @@ ipcMain.on('save:file', (e, code, filePath) => {
 });
 
 
+
+autoUpdater.on('checking-for-update', () => {
+    console.log('Checking for update...');
+});
 
 
 
