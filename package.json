@@ -30,6 +30,9 @@
         "zip"
       ]
     },
+    "linux": {
+        "target": ["deb", "rpm"]
+    },
     "dmg": {
       "backgroundColor": "#faf9ef",
       "publish": {
