@@ -64,12 +64,6 @@ let menuTemplate = [
                 }
             },
             {
-                label: 'Update',
-                click() {
-                    autoUpdater.checkForUpdatesAndNotify();
-                }
-            },
-            {
                 label: 'Close',
                 click() {
                     app.quit();
@@ -200,10 +194,18 @@ ipcMain.on('save:file', (e, code, filePath) => {
 });
 
 
+/**
+ * Auto Update
+ */
 
-autoUpdater.on('checking-for-update', () => {
-    console.log('Checking for update...');
+app.on('ready', function()  {
+    if (process.env.NODE_ENV !== 'production') {
+        autoUpdater.checkForUpdates();
+    }
 });
 
+autoUpdater.on('update-downloaded', (info) => {
+  autoUpdater.quitAndInstall();
+});
 
 
