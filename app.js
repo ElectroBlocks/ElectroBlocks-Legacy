@@ -199,7 +199,7 @@ ipcMain.on('save:file', (e, code, filePath) => {
  */
 
 app.on('ready', function()  {
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV === 'production' ) {
         autoUpdater.checkForUpdates();
     }
 });
