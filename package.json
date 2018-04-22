@@ -1,6 +1,7 @@
 {
   "name": "ArduinoBlocklyIDE",
   "productName": "Arduino Blockly IDE App",
+  "email": "Noah Glaser",
   "version": "1.0.8",
   "description": "An ide for developing arduino code with blockly.",
   "main": "app.js",
@@ -31,7 +32,8 @@
       ]
     },
     "linux": {
-        "target": ["deb", "rpm"]
+        "target": ["deb"],
+        "maintainer": "Noah Glaser"
     },
     "dmg": {
       "backgroundColor": "#faf9ef",
