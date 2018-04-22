@@ -1,7 +1,7 @@
 {
   "name": "ArduinoBlocklyIDE",
   "productName": "Arduino Blockly IDE App",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An ide for developing arduino code with blockly.",
   "main": "app.js",
   "author": "Noah Glaser",
@@ -22,6 +22,7 @@
       "icon": "build/win-icon.ico"
     },
     "mac": {
+        "category": "public.arduino.tools",
         "target": ["dmg", "zip"]
     },
     "dmg": {

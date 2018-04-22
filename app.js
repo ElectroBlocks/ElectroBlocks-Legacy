@@ -148,7 +148,6 @@ app.on('ready', () => {
     autoUpdater.checkForUpdatesAndNotify();
 });
 
-
 ipcMain.on('open:serial-monitor', () => {
     if (!serialMonitor) {
         serialMonitor = new BrowserWindow({
@@ -189,7 +188,6 @@ ipcMain.on('save:file', (e, code, filePath) => {
         }
     });
 });
-
 
 
 
