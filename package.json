@@ -2,7 +2,7 @@
   "name": "ArduinoBlocklyIDE",
   "productName": "Arduino Blockly IDE App",
   "email": "Noah Glaser",
-  "version": "1.0.11",
+  "version": "1.0.10",
   "description": "An ide for developing arduino code with blockly.",
   "main": "app.js",
   "author": "Noah Glaser",
@@ -12,6 +12,7 @@
     "start": "electron .",
     "pack": "build --dir",
     "dist": "build",
+    "dist-win": "build --win",
     "publish": "build -p always",
     "dist-linux-mac": "build --linux --mac",
     "publish-linux-mac": "build --linux --mac -p always"
