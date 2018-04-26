@@ -8,7 +8,9 @@ const path = require('path');
 const {Observable} = RX;
 
 
-const ARDUINO_FILE = path.join('tmp', 'Arduino.cpp.hex');
+const ARDUINO_FILE = path.join('/','tmp', 'Arduino.cpp.hex');
+
+console.log(ARDUINO_FILE, 'FILE');
 
 /**
  * Writes the arduino code

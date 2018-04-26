@@ -8,6 +8,9 @@ const {uploadCode}  = remote.require('./common/upload_code');
 const { NODE_ERROR } = remote.require('./common/constants');
 const prompt = remote.require('electron-prompt');
 const { dialog } = remote;
+const ConnectionClass = remote.require('electron-online');
+const connection = new ConnectionClass();
+
 /**
  * Elements
  */
@@ -93,6 +96,11 @@ debugBtn.addEventListener('click', () => {
 uploadCodeBtn.addEventListener('click', () => {
 
     if (uploadingCode || uploadCodeBtn.classList.contains('disable')) {
+        return;
+    }
+
+    if (connection.status !== 'ONLINE') {
+        alert('Please connect to the internet and try again.');
         return;
     }
 
