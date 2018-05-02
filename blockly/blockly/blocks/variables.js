@@ -38,6 +38,11 @@ var VARIABLE_TYPES = [
     ['True / False (boolean)', 'bool']
 ];
 
+Blockly.getDefaultVariableName = function () {
+    return Blockly.Msg.VARIABLES_DEFAULT_NAME + (Blockly.mainWorkspace.getAllBlocks().length + 100).toString();
+
+}
+
 /**
  * Common HSV hue for all blocks in this category.
  */
@@ -52,8 +57,7 @@ Blockly.Blocks['variables_get'] = {
     this.setHelpUrl(Blockly.Msg.VARIABLES_GET_HELPURL);
     this.setColour(Blockly.Blocks.variables.HUE);
     this.appendDummyInput()
-        .appendField(new Blockly.FieldVariable(
-        Blockly.Msg.VARIABLES_DEFAULT_NAME), 'VAR');
+        .appendField(new Blockly.FieldVariable(Blockly.getDefaultVariableName()), 'VAR');
     this.setOutput(true);
     this.setTooltip(Blockly.Msg.VARIABLES_GET_TOOLTIP);
     this.contextMenuMsg_ = Blockly.Msg.VARIABLES_GET_CREATE_SET;
@@ -109,7 +113,7 @@ Blockly.Blocks['variables_set'] = {
         {
           "type": "field_variable",
           "name": "VAR",
-          "variable": Blockly.Msg.VARIABLES_DEFAULT_NAME
+          "variable": Blockly.getDefaultVariableName()
         },
         {
           "type": "input_value",
@@ -157,7 +161,7 @@ Blockly.Blocks['variables_create'] = {
                 {
                     "type": "field_variable",
                     "name": "VAR",
-                    "variable": Blockly.Msg.VARIABLES_DEFAULT_NAME
+                    "variable": Blockly.getDefaultVariableName()
                 },
                 {
                     "type": "input_value",
@@ -212,7 +216,7 @@ Blockly.Blocks['variables_create_array'] = {
                 {
                     "type": "field_variable",
                     "name": "VAR",
-                    "variable": Blockly.Msg.VARIABLES_DEFAULT_NAME
+                    "variable": Blockly.getDefaultVariableName()
                 },
                 {
                     "type": "input_value",
@@ -274,7 +278,7 @@ Blockly.Blocks['variables_create_global'] = {
                 {
                     "type": "field_variable",
                     "name": "VAR",
-                    "variable": Blockly.Msg.VARIABLES_DEFAULT_NAME
+                    "variable": Blockly.getDefaultVariableName()
                 },
                 {
                     "type": "input_value",
@@ -289,7 +293,7 @@ Blockly.Blocks['variables_create_global'] = {
             "previousStatement": null,
             "nextStatement": null,
             "colour": 231,
-            "tooltip": Blockly.Msg.VARIABLES_SET_TOOLTIP,
+            "tooltip": Blockly.Msg.VARIaABLES_SET_TOOLTIP,
             "helpUrl": Blockly.Msg.VARIABLES_SET_HELPURL
         });
         this.setPreviousStatement(false, null);

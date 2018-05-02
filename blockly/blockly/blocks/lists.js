@@ -215,7 +215,7 @@ Blockly.Blocks['lists_variable'] = {
                 {
                     "type": "field_variable",
                     "name": "VAR",
-                    "variable": Blockly.Msg.VARIABLES_DEFAULT_NAME
+                    "variable": Blockly.getDefaultVariableName()
                 },
                 {
                     "type": "input_value",
