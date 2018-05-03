@@ -56,7 +56,6 @@ Blockly.changeVariableName = (selectedMessage, oldVarName) => {
         }
 
     });
-
 };
 
 /**
@@ -77,6 +76,10 @@ document.addEventListener('DOMContentLoaded', () => {
             media: './images/media/',
             toolbox: toolbox
         });
+
+    Blockly.mainWorkspace.addChangeListener((event) => {
+        ipcRenderer.send('display:code', Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace));
+    });
 
     resizeListener();
 });
