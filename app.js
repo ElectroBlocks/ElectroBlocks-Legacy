@@ -173,7 +173,9 @@ ipcMain.on('open:serial-monitor', () => {
 ipcMain.on('get:code', () => mainWindow.webContents.send('get:code'));
 
 ipcMain.on('display:code', (event, code) => {
-    codeWindow.webContents.send('show:code', code);
+    if (codeWindow) {
+        codeWindow.webContents.send('show:code', code);
+    }
 });
 
 ipcMain.on('debug:continue', () => sendContinueFunction());

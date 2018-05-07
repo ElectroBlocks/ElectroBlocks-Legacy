@@ -5,12 +5,9 @@ const fs = require('fs');
 const Avrgirl = require('avrgirl-arduino');
 const path = require('path');
 
-const {Observable} = RX;
-
+const { Observable } = RX;
 
 const ARDUINO_FILE = path.join('/','tmp', 'Arduino.cpp.hex');
-
-console.log(ARDUINO_FILE, 'FILE');
 
 /**
  * Writes the arduino code
