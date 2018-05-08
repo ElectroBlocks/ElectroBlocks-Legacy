@@ -1,8 +1,16 @@
 # Arduino Blockly IDE
 
+## Demo Video
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/5nv_PJeeYhI" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+## Description
+
 I created a "drag and drop" app for programming the Arduino.   You use this with Serial Monitor, Bluetooth, NeoPixels, LED Matrix, IR Remotes and much more.  It also has a debug block which will pause the program and print out all the variables.  
 
 You can also save and see the code view as well.  I will have a much more in through tour real soon.  I am working on updating my all the lessons and finishing everything off. 
+
+## Downloads
 
 Windows: 
 https://github.com/phptuts/ArduinoBlocklyIDE/releases/download/v1.0.14/Arduino.Blockly.IDE.Setup.1.0.14.exe
