@@ -1,6 +1,3 @@
-/**
- * Created by noahglaser on 1/10/18.
- */
 'use strict';
 
 goog.provide('Blockly.Blocks.neo_pixel');
@@ -23,7 +20,6 @@ Blockly.Blocks['neo_pixel_setup'] = {
 
         this.setPreviousStatement(false, null);
         this.setNextStatement(false, null);
-
     }
 };
 
