@@ -13,13 +13,13 @@ You can also save and see the code view as well.  I will have a much more in thr
 ## Downloads
 
 Windows: 
-https://github.com/phptuts/ArduinoBlocklyIDE/releases/download/v1.0.14/Arduino.Blockly.IDE.Setup.1.0.14.exe
+https://github.com/phptuts/ArduinoBlocklyIDE/releases/download/v1.0.16/Arduino.Blockly.IDE.Setup.1.0.14.exe
 
 Mac:
-https://github.com/phptuts/ArduinoBlocklyIDE/releases/download/v1.0.14/ArduinoBlocklyIDE-1.0.14-mac.zip
+https://github.com/phptuts/ArduinoBlocklyIDE/releases/download/v1.0.16/ArduinoBlocklyIDE-1.0.14-mac.zip
 
 Linux:
-https://github.com/phptuts/ArduinoBlocklyIDE/releases/download/v1.0.14/ArduinoBlocklyIDE_1.0.14_amd64.deb
+https://github.com/phptuts/ArduinoBlocklyIDE/releases/download/v1.0.16/ArduinoBlocklyIDE_1.0.14_amd64.deb
 
 The Setup Guide:
 http://oaklandcodeschool.org/arduino-blockly-ide-setup/
