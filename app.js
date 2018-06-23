@@ -79,7 +79,7 @@ let menuTemplate = [
                 label: 'Open',
                 click() {
                     dialog.showOpenDialog(mainWindow, {
-                        properties: ['openFile', 'openDirectory'],
+                        properties: ['openFile'],
                         filters: [
                             {name: 'Arduino Blockly', extensions: ['xml']}
                         ]
