@@ -30,13 +30,20 @@ Blockly.Arduino['bluetooth_is_available'] = function (block) {
 };
 
 Blockly.Arduino['bluetooth_read_until_string'] = function (block) {
-    var stringValue =  Blockly.Arduino.valueToCode(block, 'STRING VALUE', Blockly.Arduino.ORDER_ATOMIC)
+    var stringValue =  Blockly.Arduino.valueToCode(block, 'STRING VALUE', Blockly.Arduino.ORDER_ATOMIC);
+    var intoFunction = '';
+    if (stringValue.indexOf('"') > - 1) {
+        intoFunction = stringValue.replace(/"/g, "'");
+    }
+    else {
+        intoFunction = stringValue + '[0]';
+    }
 
-    return ['blueToothSerial.readStringUntil(' + stringValue + ')', Blockly.Arduino.ORDER_ATOMIC];
+    return ['blueToothSerial.readStringUntil(' + intoFunction + ')', Blockly.Arduino.ORDER_ATOMIC];
 };
 
 Blockly.Arduino['bluetooth_write'] = function (block) {
-    var stringValue =  Blockly.Arduino.valueToCode(block, 'DATA', Blockly.Arduino.ORDER_ATOMIC)
+    var stringValue =  Blockly.Arduino.valueToCode(block, 'DATA', Blockly.Arduino.ORDER_ATOMIC);
 
     return 'blueToothSerial.println(' + stringValue + '); \n\n';
 };
