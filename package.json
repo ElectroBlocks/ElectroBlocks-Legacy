@@ -2,7 +2,7 @@
   "name": "ArduinoBlocklyIDE",
   "productName": "Arduino Blockly IDE App",
   "email": "Noah Glaser",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "An ide for developing arduino code with blockly.",
   "main": "app.js",
   "author": "Noah Glaser",

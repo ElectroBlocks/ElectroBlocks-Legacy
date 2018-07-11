@@ -23,6 +23,26 @@ let codeWindow;
  */
 let currentFilePath = undefined;
 
+let loadMainWindow =  () => {
+
+    mainWindow = new BrowserWindow({
+        title: APP_TITLE,
+        width: 1400,
+        height: 900,
+        icon: path.join('icons', 'icon.png')
+    });
+
+
+    mainWindow.loadURL('file://' + path.join(__dirname, 'view', 'workspace.html'));
+    app.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
+    mainWindow.on('close', () => app.quit());
+    mainWindow.webContents.on('crashed', () => {
+        mainWindow.destroy();
+        loadMainWindow();
+    });
+};
+
+
 let menuTemplate = [
     {
         label: APP_TITLE,
@@ -138,18 +158,7 @@ let menuTemplate = [
 
 app.on('ready', () => {
     autoUpdater.checkForUpdatesAndNotify();
-
-    mainWindow = new BrowserWindow({
-        title: APP_TITLE,
-        width: 1400,
-        height: 900,
-        icon: path.join('icons', 'icon.png')
-    });
-
-
-    mainWindow.loadURL('file://' + path.join(__dirname, 'view', 'workspace.html'));
-    app.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
-    mainWindow.on('close', () => app.quit());
+    loadMainWindow();
 });
 
 ipcMain.on('open:serial-monitor', () => {
