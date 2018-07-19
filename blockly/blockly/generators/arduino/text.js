@@ -40,17 +40,12 @@ Blockly.Arduino.text_join = function (block) {
     for (var i = 0; i < block.inputList.length; i += 1) {
 
         if (block.getChildren()[i].type == 'text') {
-            result += '"';
+            result += 'String("';
             result += Blockly.Arduino.valueToCode(block, block.inputList[i].name, Blockly.Arduino.ORDER_ATOMIC).replace(/"/g, '').toString();
-            result += '"';
-        }
-        else if (block.getChildren()[i].outputConnection.check_ && block.getChildren()[i].outputConnection.check_.indexOf('String') > -1) {
-            result += Blockly.Arduino.valueToCode(block, block.inputList[i].name, Blockly.Arduino.ORDER_ATOMIC).toString();
+            result += '")';
         }
         else {
-            result += 'String(' +
-                Blockly.Arduino.valueToCode(block, block.inputList[i].name, Blockly.Arduino.ORDER_ATOMIC).replace(/"/g, '').toString()
-                + ')';
+            result += Blockly.Arduino.valueToCode(block, block.inputList[i].name, Blockly.Arduino.ORDER_ATOMIC).toString();
         }
 
         if (i < (block.inputList.length -1)) {

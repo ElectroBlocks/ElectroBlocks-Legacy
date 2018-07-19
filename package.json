@@ -14,8 +14,10 @@
     "dist": "build",
     "dist-win": "build --win",
     "publish": "build -p always",
-    "dist-linux-mac": "build --linux --mac",
-    "publish-linux-mac": "build --linux --mac -p always"
+    "dist-mac": "build --mac",
+    "publish-mac": "build  --mac -p always",
+    "dist-linux": "build --linux",
+    "publish-linux": "build  --linux -p always"
   },
   "build": {
     "appId": "arduinoblocklyide.oaklandcodeschool.org",
