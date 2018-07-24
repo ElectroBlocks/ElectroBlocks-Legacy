@@ -138,6 +138,34 @@ let menuTemplate = [
         ]
     },
     {
+        label: 'Edit',
+        submenu: [
+            {
+                label: 'Undo',
+                accelerator: 'CmdOrCtrl+Z',
+                selector: 'undo:'
+            },
+            {
+                label: 'Redo',
+                accelerator: 'Shift+CmdOrCtrl+Z',
+                selector: 'redo:'
+            },
+            {
+                type: 'separator'
+            },
+            {
+                label: 'Copy',
+                accelerator: 'CmdOrCtrl+C',
+                selector: 'copy:'
+            },
+            {
+                label: 'Select All',
+                accelerator: 'CmdOrCtrl+A',
+                selector: 'selectAll:'
+            }
+        ]
+    },
+    {
         label: 'Help',
         submenu: [
             {

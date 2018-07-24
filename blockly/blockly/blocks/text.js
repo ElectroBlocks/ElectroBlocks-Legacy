@@ -106,7 +106,26 @@ Blockly.Blocks['text_value_to_string'] = {
 
         this.appendValueInput("VALUE")
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("Value To String ");
+            .appendField("Value To String (Except Doubles) ");
+
+        this.setOutput(true, "String");
+    }
+};
+
+Blockly.Blocks['text_double_to_string'] = {
+    init: function () {
+        this.setColour(Blockly.Blocks.texts.HUE);
+
+        this.appendDummyInput()
+            .appendField('Double To String');
+
+        this.appendValueInput("VALUE")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("Variable");
+
+        this.appendValueInput("PRECISION")
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("Number of decimals places");
 
         this.setOutput(true, "String");
     }

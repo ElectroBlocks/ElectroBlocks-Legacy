@@ -39,14 +39,7 @@ Blockly.Arduino.text_join = function (block) {
     var result = '';
     for (var i = 0; i < block.inputList.length; i += 1) {
 
-        if (block.getChildren()[i].type == 'text') {
-            result += 'String("';
-            result += Blockly.Arduino.valueToCode(block, block.inputList[i].name, Blockly.Arduino.ORDER_ATOMIC).replace(/"/g, '').toString();
-            result += '")';
-        }
-        else {
-            result += Blockly.Arduino.valueToCode(block, block.inputList[i].name, Blockly.Arduino.ORDER_ATOMIC).toString();
-        }
+        result += 'String(' + Blockly.Arduino.valueToCode(block, block.inputList[i].name, Blockly.Arduino.ORDER_ATOMIC).toString() + ')';
 
         if (i < (block.inputList.length -1)) {
             result += ' + ';
@@ -73,6 +66,16 @@ Blockly.Arduino.text_value_to_string = function (block) {
     var toBeStringValue = Blockly.Arduino.valueToCode(block, 'VALUE', Blockly.Arduino.ORDER_ATOMIC);
 
     return [ 'String(' + toBeStringValue + ')', Blockly.Arduino.ORDER_ATOMIC];
+};
+
+Blockly.Arduino.text_double_to_string = function (block) {
+    Blockly.Arduino.definitions_['double_to_string_debug'] = createDoubleToStringCFunc();
+
+    var variable = Blockly.Arduino.valueToCode(block, 'VALUE', Blockly.Arduino.ORDER_ATOMIC);
+
+    var numberOfDigits = Blockly.Arduino.valueToCode(block, 'PRECISION', Blockly.Arduino.ORDER_ATOMIC);
+
+    return [ 'double2string(' + variable + ', ' +  numberOfDigits + ')', Blockly.Arduino.ORDER_ATOMIC];
 };
 
 Blockly.Arduino.text_get_part_of_string = function (block) {
