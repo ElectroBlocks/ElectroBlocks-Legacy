@@ -157,6 +157,23 @@ Blockly.Arduino.servo_move = function() {
   return code;
 };
 
+Blockly.Arduino.servo_move_adafruit_tico = function () {
+    var dropdown_pin = this.getFieldValue('PIN');
+    var value_degree = Blockly.Arduino.valueToCode(this, 'DEGREE', Blockly.Arduino.ORDER_ATOMIC);
+
+    Blockly.Arduino.definitions_['servo_move_adafruit_'] = '#include <Adafruit_TiCoServo.h>\n';
+    Blockly.Arduino.definitions_['var_servo_adafruit_' + dropdown_pin]
+        = 'Adafruit_TiCoServo servo_adafruit' + dropdown_pin + ';\n';
+    Blockly.Arduino.setups_['setup_servo_adafruit'] =
+        '#if (F_CPU == 16000000L)\n clock_prescale_set(clock_div_1);\n#endif';
+    Blockly.Arduino.setups_['setup_servo_adafruit' + dropdown_pin] =
+        'servo_adafruit' + dropdown_pin + '.attach(' + dropdown_pin + ');\n';
+
+    var code = 'servo_adafruit' + dropdown_pin + '.write(' + value_degree + ');\n';
+    return code;
+
+};
+
 Blockly.Arduino.servo_read_degrees = function() {
   var dropdown_pin = this.getFieldValue('PIN');
 

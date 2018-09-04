@@ -227,6 +227,24 @@ Blockly.Blocks['servo_move'] = {
   }
 };
 
+Blockly.Blocks['servo_move_adafruit_tico'] = {
+    init: function() {
+        this.setColour(242);
+        this.appendDummyInput()
+            .appendField("Servo Use with Neo Pixels")
+            .appendField(new Blockly.FieldImage("https://statics3.seeedstudio.com/images/product/EMAX%20Servo.jpg", 64, 64))
+            .appendField("PIN#")
+            .appendField(new Blockly.FieldDropdown([["9","9"],["10","10"]]), "PIN")
+        this.appendValueInput("DEGREE", 'Number')
+            .setCheck('Number')
+            .setAlign(Blockly.ALIGN_RIGHT)
+            .appendField("Degree (0~180)");
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setTooltip('move between 0~180 degree');
+    }
+};
+
 Blockly.Blocks['servo_read_degrees'] = {
   helpUrl: 'http://www.arduino.cc/playground/ComponentLib/servo',
   init: function() {
