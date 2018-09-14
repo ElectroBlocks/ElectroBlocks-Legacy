@@ -7,12 +7,19 @@ const path = require('path');
 
 const { Observable } = RX;
 
-const ARDUINO_FILE = path.join('/','tmp', 'Arduino.cpp.hex');
+const ARDUINO_FILE = path.join('/', 'tmp', 'Arduino.cpp.hex');
+
+const ARDUINO_TEMP_FOLDER = path.join('/', 'tmp');
 
 /**
  * Writes the arduino code
  */
 let writeArduinoHexFile = (code) => {
+
+    if (!fs.existsSync(ARDUINO_TEMP_FOLDER)) {
+        fs.mkdirSync(ARDUINO_TEMP_FOLDER);
+    }
+
     if (fs.existsSync(ARDUINO_FILE)) {
         fs.unlinkSync(ARDUINO_FILE);
     }

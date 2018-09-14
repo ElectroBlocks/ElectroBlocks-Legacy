@@ -1,17 +1,19 @@
 const RX = require('rxjs');
 const SerialPort = require('serialport');
-const Delimiter = require('parser-delimiter');
 const { DEBUG_TABLE_FILTER, DEBUG_BLOCK } = require('./constants');
 
 const { Observable, BehaviorSubject } = RX;
+
+const serialListFunc = RX.Observable.bindCallback(SerialPort.list);
 
 /**
  * Observable of all usb ports
  */
 const observableUSBPorts$ = Observable
     .interval(500)
-    .flatMap(() => RX.Observable.fromPromise(SerialPort.list()))
-    .distinctUntilChanged(null, (ports) => ports.length)
+    .flatMap(() => serialListFunc())
+    .map(portInfo => portInfo[1])
+    .distinctUntilChanged(null, ports =>  ports.length)
     .map(ports => ports.filter(port => isArduino(port)))
     .map(ports => ports.length > 0 ? ports[0].comName : undefined);
 
@@ -49,14 +51,15 @@ function openSerialPort() {
                 console.log('serial monitor');
 
                 serialPort = new SerialPort(usbPort.toString(), {
-                    autoOpen: true,
-                    debug: true
+                    baudRate: 9600,
+                    parser: SerialPort.parsers.readline('\n')
                 });
-                const parser = serialPort.pipe(new Delimiter({ delimiter: '\n' }));
 
-                parser.on('data', line => {
+                serialPort.on('data', line => {
                     subjectSerialOutput.next(line)
                 });
+
+
                 serialPort.on('close', () => {
                     console.log('Serial Port was closed')
                 });
@@ -84,7 +87,7 @@ function openSerialPortIfClosed() {
 }
 
 function closeSerialPort() {
-    if (serialPort == null || !serialPort.isOpen) {
+    if (serialPort == null || !serialPort.isOpen()) {
         return Observable.of(undefined);
     }
 
@@ -127,12 +130,12 @@ function sendSerialMonitorMessage(word) {
  * @returns {boolean}
  */
 function isArduino(port) {
-    let isArduino = false;
     if (port.vendorId || port.productId) {
-        isArduino = port.vendorId== '2341' || port.productId == '0043';
+        return port.vendorId== '2341' || port.productId == '0043' ||
+            port.vendorId== '0x2341' || port.productId == '0x0043';
     }
 
-    return isArduino;
+    return false;
 }
 
 module.exports = {
