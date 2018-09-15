@@ -32,14 +32,9 @@ let loadMainWindow =  () => {
         icon: path.join('icons', 'icon.png')
     });
 
-
     mainWindow.loadURL('file://' + path.join(__dirname, 'view', 'workspace.html'));
     app.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
     mainWindow.on('close', () => app.quit());
-    mainWindow.webContents.on('crashed', () => {
-        mainWindow.destroy();
-        loadMainWindow();
-    });
 };
 
 
@@ -140,29 +135,8 @@ let menuTemplate = [
     {
         label: 'Edit',
         submenu: [
-            {
-                label: 'Undo',
-                accelerator: 'CmdOrCtrl+Z',
-                selector: 'undo:'
-            },
-            {
-                label: 'Redo',
-                accelerator: 'Shift+CmdOrCtrl+Z',
-                selector: 'redo:'
-            },
-            {
-                type: 'separator'
-            },
-            {
-                label: 'Copy',
-                accelerator: 'CmdOrCtrl+C',
-                selector: 'copy:'
-            },
-            {
-                label: 'Select All',
-                accelerator: 'CmdOrCtrl+A',
-                selector: 'selectAll:'
-            }
+            { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+            { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" }
         ]
     },
     {
