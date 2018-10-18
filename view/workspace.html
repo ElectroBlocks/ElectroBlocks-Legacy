@@ -195,7 +195,13 @@
     <category name="Functions" custom="PROCEDURE"></category>
     <sep></sep>
     <category name="Motor">
-        <block type="motor" />
+        <block type="motor" >
+            <value name="Speed">
+                <block type="math_number">
+                    <field name="NUM">150</field>
+                </block>
+            </value>
+        </block>
     </category>
     <category name="Input/Output">
         <block type="inout_highlow"></block>
@@ -235,6 +241,27 @@
         <block type="inout_pulse_in"></block>
         <block type="inout_buildin_led"></block>
     </category>
+    <category name="Color">
+        <block type="colour_picker">
+        </block>
+        <block type="colour_rgb">
+            <value name="RED">
+                <block type="math_number">
+                    <field name="NUM">60</field>
+                </block>
+            </value>
+            <value name="BLUE">
+                <block type="math_number">
+                    <field name="NUM">0</field>
+                </block>
+            </value>
+            <value name="GREEN">
+                <block type="math_number">
+                    <field name="NUM">0</field>
+                </block>
+            </value>
+        </block>
+    </category>
     <category name="NEO Pixel">
         <block type="neo_pixel_setup">
             <value name="NUMBER OF LEDS">
@@ -244,19 +271,8 @@
             </value>
         </block>
         <block type="neo_pixel_set_pixel_color">
-            <value name="BLUE">
-                <block type="math_number">
-                    <field name="NUM">150</field>
-                </block>
-            </value>
-            <value name="RED">
-                <block type="math_number">
-                    <field name="NUM">0</field>
-                </block>
-            </value>
-            <value name="GREEN">
-                <block type="math_number">
-                    <field name="NUM">0</field>
+            <value name="COLOR">
+                <block type="colour_picker">
                 </block>
             </value>
             <value name="PIXEL">
@@ -286,8 +302,26 @@
     <category name="LCD Screens">
         <category name="LCD Print">
             <block type="liquid_crystal_ic2_lcd_clear"></block>
-            <block type="liquid_crystal_ic2_lcd_set_cursor"></block>
-            <block type="liquid_crystal_ic2_lcd_print"></block>
+            <block type="liquid_crystal_ic2_lcd_set_cursor">
+                <value name="Row">
+                    <block type="math_number">
+                        <field name="NUM">0</field>
+                    </block>
+                </value>
+                <value name="Column">
+                    <block type="math_number">
+                        <field name="NUM">0</field>
+                    </block>
+                </value>
+            </block>
+            <block type="liquid_crystal_ic2_lcd_print">
+                <value name="Print Message">
+                    <block type="text">
+                        <field name="TEXT"></field>
+                    </block>
+                </value>
+
+            </block>
             <block type="liquid_crystal_ic2_lcd_blink"></block>
             <block type="liquid_crystal_ic2_lcd_scroll_left"></block>
             <block type="liquid_crystal_ic2_lcd_scroll_right"></block>
@@ -382,7 +416,13 @@
     <category name="Bluetooth">
         <block type="bluetooth_setup"></block>
         <block type="bluetooth_is_available"></block>
-        <block type="bluetooth_read_until_string"></block>
+        <block type="bluetooth_read_until_string">
+            <value name="STRING VALUE">
+                <block type="text">
+                    <field name="TEXT">|</field>
+                </block>
+            </value>
+        </block>
         <block type="bluetooth_write"></block>
     </category>
 </xml>

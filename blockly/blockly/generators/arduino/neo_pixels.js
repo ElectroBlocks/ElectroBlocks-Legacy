@@ -18,10 +18,16 @@ Blockly.Arduino['neo_pixel_setup'] = function (block) {
 };
 
 Blockly.Arduino['neo_pixel_set_pixel_color'] = function (block) {
-    var red = Blockly.Arduino.valueToCode(block, 'RED', Blockly.Arduino.ORDER_ATOMIC);
-    var blue = Blockly.Arduino.valueToCode(block, 'BLUE', Blockly.Arduino.ORDER_ATOMIC);
-    var green = Blockly.Arduino.valueToCode(block, 'GREEN', Blockly.Arduino.ORDER_ATOMIC);
+    var colors = Blockly
+        .Arduino
+        .valueToCode(block, 'COLOR', Blockly.Arduino.ORDER_ATOMIC)
+        .replace(/"/g, '')
+        .split('-');
+    console.log(colors);
     var led = Blockly.Arduino.valueToCode(block, 'PIXEL', Blockly.Arduino.ORDER_ATOMIC);
+    var red = !isNaN(parseInt(colors[0])) ? parseInt(colors[0]) : colors[0];
+    var green = !isNaN(parseInt(colors[1])) ? parseInt(colors[1]) : colors[0];
+    var blue = !isNaN(parseInt(colors[2])) ? parseInt(colors[2]) : colors[0];
 
     return 'pixels.setPixelColor(' + led + ', pixels.Color(' + red + ',' + green + ',' + blue + '));\n pixels.show(); \n';
 };

@@ -9,19 +9,7 @@ Blockly.Blocks['bluetooth_setup'] = {
         this.setColour(195);
 
         this.appendDummyInput()
-            .appendField("Setup Bluetooth (Must use 9600 baud rate) ")
-            .appendField(new Blockly.FieldImage("images/setup.jpg", 50, 50, "*"));
-
-        this.appendValueInput("NAME")
-            .setCheck("String")
-            .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("Name (String Block Only No Variable): ");
-
-        this.appendValueInput("PIN")
-            .setCheck("Number")
-            .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("PIN Code (4 digits): ");
-
+            .appendField("Setup Bluetooth ")
 
         this.appendDummyInput()
             .appendField('RX Pin')

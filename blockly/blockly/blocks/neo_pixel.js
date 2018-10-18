@@ -11,7 +11,7 @@ Blockly.Blocks['neo_pixel_setup'] = {
         this.appendDummyInput()
             .appendField(new Blockly.FieldImage("images/setup.jpg", 50, 50, "*"))
             .appendField("Setup Neo Pixel - AnalogWrite PIN#")
-            .appendField(new Blockly.FieldDropdown(profile.default.digital), "PIN");
+            .appendField(new Blockly.FieldDropdown(profile.default.analog), "PIN");
 
         this.appendValueInput("NUMBER OF LEDS")
             .setCheck("Number")
@@ -29,25 +29,15 @@ Blockly.Blocks['neo_pixel_set_pixel_color'] = {
         this.appendDummyInput()
             .appendField(new Blockly.FieldImage("images/rgblight.jpg", 50, 50, "*"))
 
-        this.appendValueInput("RED")
-            .setCheck("Number")
+        this.appendValueInput("COLOR")
+            .setCheck("Colour")
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("Red Color Value: ");
-
-        this.appendValueInput("BLUE")
-            .setCheck("Number")
-            .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("Blue Color Value: ");
-
-        this.appendValueInput("GREEN")
-            .setCheck("Number")
-            .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("Green Color Value: ");
+            .appendField("Color: ");
 
         this.appendValueInput("PIXEL")
             .setCheck("Number")
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("LED to turn on: ");
+            .appendField("LED (Start At 0): ");
 
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
