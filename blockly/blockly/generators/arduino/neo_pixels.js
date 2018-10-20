@@ -26,8 +26,8 @@ Blockly.Arduino['neo_pixel_set_pixel_color'] = function (block) {
     console.log(colors);
     var led = Blockly.Arduino.valueToCode(block, 'PIXEL', Blockly.Arduino.ORDER_ATOMIC);
     var red = !isNaN(parseInt(colors[0])) ? parseInt(colors[0]) : colors[0];
-    var green = !isNaN(parseInt(colors[1])) ? parseInt(colors[1]) : colors[0];
-    var blue = !isNaN(parseInt(colors[2])) ? parseInt(colors[2]) : colors[0];
+    var green = !isNaN(parseInt(colors[1])) ? parseInt(colors[1]) : colors[1];
+    var blue = !isNaN(parseInt(colors[2])) ? parseInt(colors[2]) : colors[2];
 
     return 'pixels.setPixelColor(' + led + ', pixels.Color(' + red + ',' + green + ',' + blue + '));\n pixels.show(); \n';
 };

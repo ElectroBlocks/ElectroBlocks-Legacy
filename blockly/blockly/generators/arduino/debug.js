@@ -74,7 +74,7 @@ function createDebugVariable() {
     for (i = 0; i < allVariables.length; i += 1) {
         var variableNameToTest = Blockly.Arduino.variableDB_.getName(allVariables[i], Blockly.Variables.NAME_TYPE);
         if (variableNames.indexOf(variableNameToTest) === -1) {
-            debugString += '\t\tSerial.println("**(|)' + allVariables[i] + '_|_int_|_" + String(' + allVariables[i] + ')); \n';
+            debugString += '\t\tSerial.println("**(|)' + allVariables[i] + '_|_int_|_" + String(' + allVariables[i].replace(/ /g,"_") + ')); \n';
         }
     }
 
