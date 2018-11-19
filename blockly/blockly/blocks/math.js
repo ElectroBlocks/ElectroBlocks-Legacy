@@ -54,7 +54,7 @@ Blockly.Blocks['math_parse_int'] = {
    init: function () {
        this.setColour(Blockly.Blocks.math.HUE);
        this.appendValueInput("String Variable")
-           .setCheck("Variable")
+           .setCheck(["Variable", "String"])
            .setAlign(Blockly.ALIGN_RIGHT)
            .appendField("String To Whole Number (int) ");
 
@@ -67,7 +67,7 @@ Blockly.Blocks['math_parse_double'] = {
     init: function () {
         this.setColour(Blockly.Blocks.math.HUE);
         this.appendValueInput("String Variable")
-            .setCheck("Variable")
+            .setCheck(["Variable", "String"])
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField("String To Decimal Number (double) ");
 
