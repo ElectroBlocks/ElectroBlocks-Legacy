@@ -22,7 +22,7 @@ Linux:
 https://github.com/phptuts/ArduinoBlocklyIDE/releases/download/v1.0.28/ArduinoBlocklyIDE_1.0.28_amd64.deb
 
 The Setup Guide:
-http://oaklandcodeschool.org/arduino-blockly-ide-setup/
+http://codingwithnoah.com/arduino-blockly-ide-setup/
 
 
 Windows Users,
