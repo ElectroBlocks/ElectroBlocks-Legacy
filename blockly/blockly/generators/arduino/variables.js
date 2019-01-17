@@ -1,69 +1,31 @@
-/**
- * Visual Blocks Language
- *
- * Copyright 2012 Google Inc.
- * http://blockly.googlecode.com/
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
-/**
- * @fileoverview Variable blocks for Arduino.
- * @author gasolin@gmail.com (Fred Lin)
- */
 'use strict';
 
 goog.provide('Blockly.Arduino.variables');
 
 goog.require('Blockly.Arduino');
 
+var setVariableFunction = function (block) {
+    var variableName = Blockly.Arduino.variableDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+    var variableValue = Blockly.Arduino.valueToCode(block, 'VALUE', Blockly.Arduino.ORDER_ATOMIC);
 
-Blockly.Arduino.variables_get = function() {
-  // Variable getter.
-  var code = Blockly.Arduino.variableDB_.getName(this.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-  return [code, Blockly.Arduino.ORDER_ATOMIC];
+    return variableName + ' = ' + variableValue + ';\n'
 };
 
-Blockly.Arduino.variables_declare = function() {
-  var argument0 = Blockly.Arduino.valueToCode(this, 'VALUE', Blockly.Arduino.ORDER_ASSIGNMENT) || '0';
-  var varName = Blockly.Arduino.variableDB_.getName(this.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-  Blockly.Arduino.setups_['setup_var' + varName] = varName + ' = ' + argument0 + ';\n';
-  return '';
+var getVariableFunction = function(block) {
+    var variableName = Blockly.Arduino.variableDB_.getName(block.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+
+    return [variableName, Blockly.Arduino.ORDER_ATOMIC];
+
 };
 
-Blockly.Arduino.variables_set = function() {
-  // Variable setter.
-  var argument0 = Blockly.Arduino.valueToCode(this, 'VALUE',  Blockly.Arduino.ORDER_ASSIGNMENT) || '0';
-  var varName = Blockly.Arduino.variableDB_.getName(this.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
+Blockly.Arduino['variables_set_number'] = setVariableFunction;
+Blockly.Arduino['variables_set_boolean'] = setVariableFunction;
+Blockly.Arduino['variables_set_string'] = setVariableFunction;
+Blockly.Arduino['variables_set_colour'] = setVariableFunction;
 
-  return varName + ' = ' + argument0 + ';\n';
-};
 
-Blockly.Arduino.variables_create_global = function () {
-    var argument0 = Blockly.Arduino.valueToCode(this, 'VALUE',  Blockly.Arduino.ORDER_ASSIGNMENT) || '0';
-    var varName = Blockly.Arduino.variableDB_.getName(this.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-
-    Blockly.Arduino.setups_['setup_var' + varName] = varName + ' = ' + argument0 + ';\n';
-    return '';
-};
-
-Blockly.Arduino.variables_create = function () {
-    var argument0 = Blockly.Arduino.valueToCode(this, 'VALUE',  Blockly.Arduino.ORDER_ASSIGNMENT) || '0';
-    var varName = Blockly.Arduino.variableDB_.getName(this.getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-
-    return varName + ' = ' + argument0 + ';\n';
-};
-
-Blockly.Arduino.variables_create_array = function () {
-    return '';
-};
+Blockly.Arduino['variables_get_number'] = getVariableFunction;
+Blockly.Arduino['variables_get_boolean'] = getVariableFunction;
+Blockly.Arduino['variables_get_string'] = getVariableFunction;
+Blockly.Arduino['variables_get_colour'] = getVariableFunction;

@@ -1,26 +1,7 @@
 /**
- * Visual Blocks Language
- *
- * Copyright 2012 Google Inc.
- * http://blockly.googlecode.com/
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Created by noahg on 1/1/19.
  */
 
-/**
- * @fileoverview Generating Arduino for math blocks.
- * @author gasolin@gmail.com  (Fred Lin)
- */
 'use strict';
 
 goog.provide('Blockly.Arduino.math');
@@ -28,66 +9,91 @@ goog.provide('Blockly.Arduino.math');
 goog.require('Blockly.Arduino');
 
 
-Blockly.Arduino.math_byte = function () {
-  var byteValue = 'B';
-
-  for (var i = 1; i <= 8; i += 1) {
-      byteValue += this.getFieldValue("BYTE " + i) || '0';
-  }
-
-  return [byteValue, Blockly.Arduino.ORDER_ATOMIC];
+Blockly.Arduino['math_number'] = function(block) {
+    // Numeric value.
+    return [parseFloat(block.getFieldValue('NUM')), Blockly.Arduino.ORDER_ATOMIC];
 };
 
-Blockly.Arduino.math_number = function() {
-  // Numeric value.
-  var code = window.parseFloat(this.getFieldValue('NUM'));
-  // -4.abs() returns -4 in Dart due to strange order of operation choices.
-  // -4 is actually an operator and a number.  Reflect this in the order.
-  var order = code < 0 ?
-      Blockly.Arduino.ORDER_UNARY_PREFIX : Blockly.Arduino.ORDER_ATOMIC;
-  return [code, order];
+Blockly.Arduino['math_arithmetic'] = function(block) {
+    // Basic arithmetic operators, and power.
+    var OPERATORS = {
+        'ADD': [' + ', Blockly.Arduino.ORDER_ASSIGNMENT],
+        'MINUS': [' - ', Blockly.Arduino.ORDER_ASSIGNMENT],
+        'MULTIPLY': [' * ', Blockly.Arduino.ORDER_ASSIGNMENT],
+        'DIVIDE': [' / ', Blockly.Arduino.ORDER_ASSIGNMENT],
+        'POWER': [null, Blockly.Arduino.ORDER_ASSIGNMENT]  // Handle power separately.
+    };
+    var tuple = OPERATORS[block.getFieldValue('OP')];
+    var operator = tuple[0];
+    var order = tuple[1];
+    var argument0 = Blockly.Arduino.valueToCode(block, 'A', order) || '0';
+    var argument1 = Blockly.Arduino.valueToCode(block, 'B', order) || '0';
+    var code;
+    // Power in Arduino requires a special case since it has no operator.
+    if (!operator) {
+        code = 'pow(' + argument0 + ', ' + argument1 + ')';
+        return [code, Blockly.Arduino.ORDER_ASSIGNMENT];
+    }
+    code = argument0 + operator + argument1;
+    return [code, order];
 };
 
-Blockly.Arduino.math_parse_int = function (block) {
-    var stringVariable = Blockly.Arduino.valueToCode(block, 'String Variable', Blockly.Arduino.ORDER_ATOMIC);
+Blockly.Arduino['math_round'] = function(block) {
+    var operator = block.getFieldValue('OP');
+    var arg = Blockly.Arduino.valueToCode(block, 'NUM',
+            Blockly.Arduino.ORDER_NONE) || '0';
+    var code = '';
+    switch (operator ) {
+        case 'ROUND':
+            code = '(double)round(' + arg + ')';
+            break;
+        case 'ROUNDUP':
+            code = '(double)ceil(' + arg + ')';
+            break;
+        case 'ROUNDDOWN':
+            code = '(double)floor(' + arg + ')';
+            break;
+        default:
+            throw Error('No option for this operator: ' + operator);
+    }
 
-    return [stringVariable + '.toInt()', Blockly.Arduino.ORDER_ATOMIC];
+    return [code, Blockly.Arduino.ORDER_UNARY_PREFIX];
 };
 
-Blockly.Arduino.math_parse_double = function (block) {
-    var stringVariable = Blockly.Arduino.valueToCode(block, 'String Variable', Blockly.Arduino.ORDER_ATOMIC);
+Blockly.Arduino['math_modulo'] = function (block) {
+    var dividend = Blockly.Arduino.valueToCode(block, 'DIVIDEND',
+            Blockly.Arduino.ORDER_MODULUS) || '0';
+    var divisor = Blockly.Arduino.valueToCode(block, 'DIVISOR',
+            Blockly.Arduino.ORDER_MODULUS) || '0';
 
-    return [stringVariable + '.toDouble()', Blockly.Arduino.ORDER_ATOMIC];
+    var code = '(double)(' + dividend + ' % ' + divisor + ')';
+
+    return [code, Blockly.Arduino.ORDER_MODULUS];
 };
 
-Blockly.Arduino.math_arithmetic = function() {
-  // Basic arithmetic operators, and power.
-  var mode = this.getFieldValue('OP');
-  var tuple = Blockly.Arduino.math_arithmetic.OPERATORS[mode];
-  var operator = tuple[0];
-  var order = tuple[1];
-  var argument0 = Blockly.Arduino.valueToCode(this, 'A', order) || '0';
-  var argument1 = Blockly.Arduino.valueToCode(this, 'B', order) || '0';
-  var code;
-  if (!operator) {
-    code = 'Math.pow(' + argument0 + ', ' + argument1 + ')';
+Blockly.Arduino['math_random_int'] = function(block) {
+    var start = Blockly.Arduino.valueToCode(block, 'FROM',
+            Blockly.Arduino.ORDER_MODULUS) || 0;
+
+    var finish = Blockly.Arduino.valueToCode(block, 'TO',
+            Blockly.Arduino.ORDER_MODULUS) || 1;
+
+    var code = '';
+    if (start > finish) {
+        code = '(double)rand(' + finish + ', ' + start + ')';
+    } else {
+        code = '(double)rand(' + start + ', ' + finish + ')';
+    }
+
     return [code, Blockly.Arduino.ORDER_UNARY_POSTFIX];
-  }
-  code = argument0 + operator + argument1;
-  return [code, order];
 };
 
-Blockly.Arduino.math_arithmetic.OPERATORS = {
-  ADD: [' + ', Blockly.Arduino.ORDER_ADDITIVE],
-  MINUS: [' - ', Blockly.Arduino.ORDER_ADDITIVE],
-  MULTIPLY: [' * ', Blockly.Arduino.ORDER_MULTIPLICATIVE],
-  DIVIDE: [' / ', Blockly.Arduino.ORDER_MULTIPLICATIVE],
-  POWER: [null, Blockly.Arduino.ORDER_NONE]  // Handle power separately.
-};
+Blockly.Arduino['string_to_number'] = function (block) {
+    Blockly.Arduino.functionNames_['parseDouble'] = '\ndouble parseDouble(String num) {\n' +
+            '\treturn num.toDouble();\n' +
+            '}\n';
 
-Blockly.Arduino.math_random_int = function (block) {
-    var min = Blockly.Arduino.valueToCode(block, 'FROM', Blockly.Arduino.ORDER_ATOMIC);
-    var max = Blockly.Arduino.valueToCode(block, 'TO', Blockly.Arduino.ORDER_ATOMIC);
+    var string = Blockly.Arduino.valueToCode(block, 'VALUE', Blockly.Arduino.ORDER_ATOMIC);
 
-    return ["random(" + min + ', ' +  max + ")", Blockly.Arduino.ORDER_ATOMIC];
+    return ['parseDouble(' + string + ')', Blockly.Arduino.ORDER_ATOMIC];
 };

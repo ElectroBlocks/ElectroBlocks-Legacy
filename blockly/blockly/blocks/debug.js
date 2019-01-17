@@ -1,22 +1,23 @@
 
 'use strict';
 
-goog.provide('Blockly.Blocks.debug');
+goog.provide('Blockly.Blocks.debug');  // Deprecated
+goog.provide('Blockly.Constants.Debug');  // deprecated, 2018 April 5
 
 goog.require('Blockly.Blocks');
+goog.require('Blockly');
+
 
 Blockly.Blocks['debug'] = {
-    init: function () {
+    init: function() {
         this.appendDummyInput()
-            .appendField("Debug Block \n")
-            .appendField(new Blockly.FieldImage("http://www.publicdomainpictures.net/pictures/40000/velka/lady-bug-clip-art.jpg", 100, 100,"*"));
-
-
-        this.setInputsInline(false);
+            .appendField("Debug \n")
+            .appendField(new Blockly.FieldImage("images/debug.jpg", 100, 100, "*"));
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(210);
-        this.setTooltip("Stop program and print all variables.");
-
+        this.setColour(345);
+        this.setTooltip("");
+        this.setHelpUrl("");
     }
 };
+

@@ -1,14 +1,47 @@
-goog.provide('Blockly.Blocks.time');
+
+'use strict';
+
+
+goog.provide('Blockly.Blocks.time');  // Deprecated
+goog.provide('Blockly.Constants.Time');
 
 goog.require('Blockly.Blocks');
+goog.require('Blockly');
 
 
-Blockly.Blocks['time_millis'] = {
-    init: function () {
-        this.setColour(345);
-        this.appendDummyInput()
-            .appendField("millis")
-            .appendField(new Blockly.FieldImage("images/time.png", 50, 50, "*"))
-        this.setOutput(true, 'Number');
+Blockly.defineBlocksWithJsonArray([
+    {
+        "type": "time_seconds",
+        "message0": "Number of seconds code has been running. %1",
+        "args0": [
+            {
+                "type": "field_image",
+                "src": "images/time.png",
+                "width": 50,
+                "height": 50,
+                "alt": "*"
+            }
+        ],
+        "output": "Number",
+        "colour": 345,
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "delay_block",
+        "message0": "Wait For  %1   seconds.",
+        "args0": [
+            {
+                "type": "input_value",
+                "name": "DELAY",
+                "check": "Number"
+            }
+        ],
+        "inputsInline": true,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 345,
+        "tooltip": "",
+        "helpUrl": ""
     }
-};
+]);
