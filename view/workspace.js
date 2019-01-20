@@ -83,27 +83,37 @@ const blocksThatRequireSetup = {
     'temp_get_humidity': 'temp_setup'
 };
 
-Blockly.changeVariableName = (selectedMessage, oldVarName) => {
-
-    if (selectedMessage != Blockly.Msg.RENAME_VARIABLE) {
-        return;
-    }
-
+Blockly.prompt = function(message, defaultValue, callback) {
     prompt({
-        title: 'Renaming',
-        label: 'Renaming variable to:',
+        title: message,
+        value: defaultValue,
         type: 'input'
-    }).then(newVar => {
-        if (newVar) {
-            newVar = newVar.replace(/[\s\xa0]+/g, ' ').replace(/^ | $/g, '');
-            if (newVar == Blockly.Msg.RENAME_VARIABLE || newVar == Blockly.Msg.NEW_VARIABLE) {
-                return;
-            }
-            Blockly.Variables.renameVariable(oldVarName, newVar, Blockly.mainWorkspace);
-        }
-
+    }).then(value => {
+        callback(value);
     });
 };
+
+// Blockly.changeVariableName = (selectedMessage, oldVarName) => {
+//
+//     if (selectedMessage != Blockly.Msg.RENAME_VARIABLE) {
+//         return;
+//     }
+//
+//     prompt({
+//         title: 'Renaming',
+//         label: 'Renaming variable to:',
+//         type: 'input'
+//     }).then(newVar => {
+//         if (newVar) {
+//             newVar = newVar.replace(/[\s\xa0]+/g, ' ').replace(/^ | $/g, '');
+//             if (newVar == Blockly.Msg.RENAME_VARIABLE || newVar == Blockly.Msg.NEW_VARIABLE) {
+//                 return;
+//             }
+//             Blockly.Variables.renameVariable(oldVarName, newVar, Blockly.mainWorkspace);
+//         }
+//
+//     });
+// };
 
 /**
  * Event Listeners
@@ -408,7 +418,7 @@ uploadCodeBtn.addEventListener('click', () => {
             }
          
             alert('Your code has been uploaded.');
-        });
+        }, err => console.log(err, 'error'), () => console.log('finished'));
 });
 
 continueBtn.addEventListener('click', () => {
@@ -486,17 +496,18 @@ arduinoUSB$
     });
 
 serialDebugBlockOutput$.subscribe(blockNumber => {
+    console.log(blockNumber);
     const blocks = Blockly.mainWorkspace.getAllBlocks();
 
     for (let i = 0; i < blocks.length; i += 1) {
         if (blocks[i].id == blockNumber) {
-            blocks[i].setColour(450);
+            blocks[i].setColour("#000000");
             blocks[i].select();
             continue;
         }
 
         if (blocks[i].type === 'debug') {
-            blocks[i].setColour(210);
+            blocks[i].setColour(345);
         }
     }
 });
@@ -539,7 +550,7 @@ function clearDebugBlocks() {
     }
     for (let i = 0; i < blocks.length; i += 1) {
         if (blocks[i].type === 'debug') {
-            blocks[i].setColour(210);
+            blocks[i].setColour(345);
         }
     }
 }

@@ -3,6 +3,7 @@ const SerialPort = require('serialport');
 const { DEBUG_TABLE_FILTER, DEBUG_BLOCK } = require('./constants');
 
 const { Observable, BehaviorSubject } = RX;
+const Delimiter = require('@serialport/parser-delimiter')
 
 const serialListFunc = RX.Observable.bindCallback(SerialPort.list);
 
@@ -29,7 +30,8 @@ const serialOutput$ = subjectSerialOutput.asObservable().share();
 
 const serialDebugOutput$ = serialOutput$
                             .filter(data => data.toString().indexOf(DEBUG_TABLE_FILTER) > -1)
-                            .map(data => data.toString().replace(DEBUG_TABLE_FILTER,'').split('_|_'));
+                            .map(data => data.toString().replace(DEBUG_TABLE_FILTER,'')
+                            .split('_|_'));
 
 const serialPrintOutput$ = serialOutput$
     .filter(data => data.toString().indexOf(DEBUG_TABLE_FILTER) === -1 && data.toString().indexOf(DEBUG_BLOCK) === -1);
@@ -47,15 +49,20 @@ function openSerialPort() {
         .take(1)
         .flatMap(usbPort => {
 
+            console.log('serialport', serialPort);
+            console.log('usb port', usbPort);
+
             return Observable.create(observer => {
                 console.log('serial monitor');
 
                 serialPort = new SerialPort(usbPort.toString(), {
                     baudRate: 9600,
-                    parser: SerialPort.parsers.readline('\n')
+                    autoOpen: true
                 });
 
-                serialPort.on('data', line => {
+                const parser = serialPort.pipe(new Delimiter({ delimiter: '\n' }))
+
+                parser.on('data', line => {
                     subjectSerialOutput.next(line)
                 });
 
@@ -65,6 +72,7 @@ function openSerialPort() {
                 });
 
                 serialPort.on('open', err => {
+                    console.log('was this ever called');
                     if (err) {
                         observer.error(err);
                         return;
@@ -87,12 +95,15 @@ function openSerialPortIfClosed() {
 }
 
 function closeSerialPort() {
-    if (serialPort == null || !serialPort.isOpen()) {
+    if (serialPort == null || !serialPort.isOpen) {
+        serialPort = null;
         return Observable.of(undefined);
     }
 
     return Observable.create(observer => {
         serialPort.close(err => {
+            console.log(err);
+            console.log('here');
             if (err) {
                 observer.error(err);
             }
