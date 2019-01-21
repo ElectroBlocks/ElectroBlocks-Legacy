@@ -1,42 +1,64 @@
+
 'use strict';
 
-goog.provide('Blockly.Blocks.motor');
+goog.provide('Blockly.Blocks.motor');  // Deprecated
+goog.provide('Blockly.Constants.Motor');
 
 goog.require('Blockly.Blocks');
+goog.require('Blockly');
 
 
-Blockly.Blocks['motor'] = {
-    init: function () {
-
-        this.appendDummyInput()
-            .appendField("MOTORS")
-            .appendField(new Blockly.FieldImage("images/dc-motor.jpg", 50, 50, "*"));
-
-        this.setColour(232);
-        this.appendDummyInput()
-            .appendField('Direction ')
-            .appendField(new Blockly.FieldDropdown([
-                    ['Forward', 'FORWARD'],
-                    ['Backward', 'BACKWARD']
-                ]),
-                'direction');
-
-        this.appendDummyInput()
-            .appendField(new Blockly.FieldDropdown([
-                    ['Motor 1', '1'],
-                    ['Motor 2', '2']
-                ]),
-                'motor');
-
-        this.appendValueInput("Speed")
-            .setCheck("Number")
-            .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("Speed ");
-
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-
+Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
+    {
+        "type": "move_motor",
+        "message0": "Move motor %1 %2 Which Motor %3 Direction %4 %5 Motor Speed %6",
+        "args0": [
+            {
+                "type": "field_image",
+                "src": "images/dc-motor.jpg",
+                "width": 50,
+                "height": 50,
+                "alt": "*"
+            },
+            {
+                "type": "input_dummy"
+            },
+            {
+                "type": "input_value",
+                "name": "MOTOR",
+                "check": "Number",
+                "align": "RIGHT"
+            },
+            {
+                "type": "field_dropdown",
+                "name": "DIRECTION",
+                "options": [
+                    [
+                        "Forward",
+                        "Forward"
+                    ],
+                    [
+                        "Backward",
+                        "Backward"
+                    ]
+                ]
+            },
+            {
+                "type": "input_dummy",
+                "align": "RIGHT"
+            },
+            {
+                "type": "input_value",
+                "name": "SPEED",
+                "check": "Number",
+                "align": "RIGHT"
+            }
+        ],
+        "inputsInline": false,
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 15,
+        "tooltip": "",
+        "helpUrl": ""
     }
-};
-
-
+]);

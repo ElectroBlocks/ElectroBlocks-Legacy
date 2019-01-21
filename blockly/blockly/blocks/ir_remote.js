@@ -1,50 +1,72 @@
 'use strict';
 
-goog.provide('Blockly.Blocks.ir_remote');
-
 goog.require('Blockly.Blocks');
-
+goog.require('Blockly');
 
 Blockly.Blocks['ir_remote_setup'] = {
-    init: function () {
-        this.setColour(290);
+    init: function() {
         this.appendDummyInput()
-            .appendField(new Blockly.FieldImage("images/setup.jpg", 50, 50, "*"))
-            .appendField("Setup IR Remote - AnalogWrite PIN#")
-            .appendField(new Blockly.FieldDropdown(profile.default.digital), "PIN");
-
+            .appendField("Setup Soil Sensor");
+        this.appendDummyInput()
+            .appendField("Analog Pin #")
+            .appendField(new Blockly.FieldDropdown(profile.arduino_uno.analog), "PIN");
+        this.setColour(195);
+        this.setTooltip("");
+        this.setHelpUrl("");
     }
 };
 
-
-Blockly.Blocks['ir_remote_has_reading'] = {
-    init: function () {
-        this.setColour(290);
-        this.appendDummyInput()
-            .appendField("Has Reading")
-            .appendField(new Blockly.FieldImage("images/sensing.jpg", 50, 50, "*"))
-        this.setOutput(true, 'Boolean');
+Blockly.defineBlocksWithJsonArray([
+    {
+        "type": "ir_remote_has_code_receive",
+        "message0": "Is receiving code? %1",
+        "args0": [
+            {
+                "type": "field_image",
+                "src": "images/sensing.jpg",
+                "width": 25,
+                "height": 25,
+                "alt": "*"
+            }
+        ],
+        "output": "Boolean",
+        "colour": 195,
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "ir_remote_get_code",
+        "message0": "Get last code received from IR Remote. %1",
+        "args0": [
+            {
+                "type": "field_image",
+                "src": "images/ir_sensor.jpg",
+                "width": 25,
+                "height": 25,
+                "alt": "*"
+            }
+        ],
+        "output": "String",
+        "colour": 195,
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "ir_remote_scan_again",
+        "message0": "Scan Again %1",
+        "args0": [
+            {
+                "type": "field_image",
+                "src": "images/re_scan.png",
+                "width": 40,
+                "height": 40,
+                "alt": "*"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 195,
+        "tooltip": "",
+        "helpUrl": ""
     }
-};
-
-Blockly.Blocks['ir_remote_can_read_again'] = {
-    init: function () {
-        this.setColour(290);
-        this.appendDummyInput()
-            .appendField("Can Read Again")
-            .appendField(new Blockly.FieldImage("images/re_scan.png", 50, 50, "*"))
-
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-    }
-};
-
-Blockly.Blocks['ir_remote_get_hex'] = {
-    init: function () {
-        this.setColour(290);
-        this.appendDummyInput()
-            .appendField("Get Code From Button")
-            .appendField(new Blockly.FieldImage("images/ir_sensor.jpg", 50, 50, "*"))
-        this.setOutput(true, 'String');
-    }
-};
+]);

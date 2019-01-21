@@ -1,26 +1,3 @@
-/**
- * Visual Blocks Language
- *
- * Copyright 2012 Google Inc.
- * http://code.google.com/p/blockly/
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
- * @fileoverview Helper functions for generating Arduino for blocks.
- * @author gasolin@gmail.com (Fred Lin)
- */
 'use strict';
 
 goog.provide('Blockly.Arduino');
@@ -42,8 +19,18 @@ Blockly.Arduino = new Blockly.Generator('Arduino');
  * @private
  */
 Blockly.Arduino.addReservedWords(
-  // http://arduino.cc/en/Reference/HomePage
-  'setup,loop,if,else,for,switch,case,while,do,break,continue,return,goto,define,include,HIGH,LOW,INPUT,OUTPUT,INPUT_PULLUP,true,false,interger, constants,floating,point,void,bookean,char,unsigned,byte,int,word,long,float,double,string,String,array,static, volatile,const,sizeof,pinMode,digitalWrite,digitalRead,analogReference,analogRead,analogWrite,tone,noTone,shiftOut,shitIn,pulseIn,millis,micros,delay,delayMicroseconds,min,max,abs,constrain,map,pow,sqrt,sin,cos,tan,randomSeed,random,lowByte,highByte,bitRead,bitWrite,bitSet,bitClear,bit,attachInterrupt,detachInterrupt,interrupts,noInterrupts'
+    // http://arduino.cc/en/Reference/HomePage
+    'setup,loop,if,else,for,switch,case,while,' +
+    'do,break,continue,return,goto,define,include,' +
+    'HIGH,LOW,INPUT,OUTPUT,INPUT_PULLUP,true,false,' +
+    'interger, constants,floating,point,void,bookean,char,' +
+    'unsigned,byte,int,word,long,float,double,string,String,array,' +
+    'static, volatile,const,sizeof,pinMode,digitalWrite,digitalRead,' +
+    'analogReference,analogRead,analogWrite,tone,noTone,shiftOut,shitIn,' +
+    'pulseIn,millis,micros,delay,delayMicroseconds,min,max,abs,constrain,' +
+    'map,pow,sqrt,sin,cos,tan,randomSeed,random,lowByte,highByte,bitRead,' +
+    'bitWrite,bitSet,bitClear,ultraSonicDistance,parseDouble,setNeoPixelColor,' +
+    'bit,attachInterrupt,detachInterrupt,interrupts,noInterrupts','short','isBtnPressed'
 );
 
 /**
@@ -55,7 +42,9 @@ Blockly.Arduino.ORDER_UNARY_POSTFIX = 1;  // expr++ expr-- () [] .
 Blockly.Arduino.ORDER_UNARY_PREFIX = 2;   // -expr !expr ~expr ++expr --expr
 Blockly.Arduino.ORDER_MULTIPLICATIVE = 3; // * / % ~/
 Blockly.Arduino.ORDER_ADDITIVE = 4;       // + -
+Blockly.Arduino.ORDER_LOGICAL_NOT = 4.4;  // !
 Blockly.Arduino.ORDER_SHIFT = 5;          // << >>
+Blockly.Arduino.ORDER_MODULUS = 5.3;        // %
 Blockly.Arduino.ORDER_RELATIONAL = 6;     // is is! >= > <= <
 Blockly.Arduino.ORDER_EQUALITY = 7;       // == != === !==
 Blockly.Arduino.ORDER_BITWISE_AND = 8;    // &
@@ -65,77 +54,68 @@ Blockly.Arduino.ORDER_LOGICAL_AND = 11;   // &&
 Blockly.Arduino.ORDER_LOGICAL_OR = 12;    // ||
 Blockly.Arduino.ORDER_CONDITIONAL = 13;   // expr ? expr : expr
 Blockly.Arduino.ORDER_ASSIGNMENT = 14;    // = *= /= ~/= %= += -= <<= >>= &= ^= |=
+Blockly.Arduino.ORDER_COMMA = 18;      // ,
 Blockly.Arduino.ORDER_NONE = 99;          // (...)
 
-/*
- * Arduino Board profiles
- *
- */
-var profile = {
-  arduino: {
-    description: "Arduino standard-compatible board",
-    digital: [["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"], ["10", "10"], ["11", "11"], ["12", "12"], ["13", "13"], ["A0", "A0"], ["A1", "A1"], ["A2", "A2"], ["A3", "A3"], ["A4", "A4"], ["A5", "A5"]],
-    analog: [["A0", "A0"], ["A1", "A1"], ["A2", "A2"], ["A3", "A3"], ["A4", "A4"], ["A5", "A5"]],
-    serial: 9600
-  },
-  arduino_mega: {
-    description: "Arduino Mega-compatible board"
-    //53 digital
-    //15 analog
-  }
-};
-//set default profile to arduino standard-compatible board
-profile["default"] = profile["arduino"];
-//alert(profile.default.digital[0]);
 
 /**
  * Initialise the database of variable names.
  * @param {!Blockly.Workspace} workspace Workspace to generate code from.
  */
 Blockly.Arduino.init = function(workspace) {
-  // Create a dictionary of definitions to be printed before setups.
-  Blockly.Arduino.definitions_ = Object.create(null);
-  // Create a dictionary of setups to be printed before the code.
-  Blockly.Arduino.setups_ = Object.create(null);
+    // Create a dictionary of definitions to be printed before the code.
+    Blockly.Arduino.libraries_ = Object.create(null);
 
-	if (!Blockly.Arduino.variableDB_) {
-		Blockly.Arduino.variableDB_ =
-				new Blockly.Names(Blockly.Arduino.RESERVED_WORDS_);
-	} else {
-		Blockly.Arduino.variableDB_.reset();
-	}
-    var defvars = [];
-	var variableNames = [];
-
-    var blocks = Blockly.mainWorkspace.getAllBlocks();
+    // creates a list of code to be setup before the setup block
+    Blockly.Arduino.setupCode_ = Object.create(null);
 
 
-    for (var i = 0; i < blocks.length; i += 1) {
-        var variableName = '';
-	  if (blocks[i].type === 'variables_create' || blocks[i].type === 'variables_create_global') {
-          variableName = Blockly.Arduino.variableDB_.getName(blocks[i].getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-          defvars[defvars.length] = blocks[i].getFieldValue('DATA TYPE') + ' ' + variableName + ';\n';
-          variableNames.push(variableName);
-      }
+    // Create a dictionary mapping desired function names in definitions_
+    // to actual function names (to avoid collisions with user functions).
+    Blockly.Arduino.functionNames_ = Object.create(null);
 
-      if (blocks[i].type === 'variables_create_array') {
-	      var size = Blockly.Arduino.valueToCode(blocks[i], 'SIZE',  Blockly.Arduino.ORDER_ASSIGNMENT) || '0';
-          variableName = Blockly.Arduino.variableDB_.getName(blocks[i].getFieldValue('VAR'), Blockly.Variables.NAME_TYPE);
-          defvars[defvars.length] = blocks[i].getFieldValue('DATA TYPE') + ' ' +  variableName +  '[' + size + ']; \n';
-          variableNames.push(variableName);
-      }
+    Blockly.Arduino.variablesInitCode_ = '';
+
+    if (!Blockly.Arduino.variableDB_) {
+        Blockly.Arduino.variableDB_ =
+            new Blockly.Names(Blockly.Arduino.RESERVED_WORDS_);
+    } else {
+        Blockly.Arduino.variableDB_.reset();
     }
 
-    var allVariables = Blockly.Variables.allVariables(workspace);
+    Blockly.Arduino.variableDB_.setVariableMap(workspace.getVariableMap());
 
-    for (var i = 0; i < allVariables.length; i += 1) {
-       var variableNameToTest = Blockly.Arduino.variableDB_.getName(allVariables[i], Blockly.Variables.NAME_TYPE);
-       if (variableNames.indexOf(variableNameToTest) === -1) {
-          defvars[defvars.length] = 'int ' + Blockly.Arduino.variableDB_.getName(allVariables[i], Blockly.Variables.NAME_TYPE)  + ';';
-       }
+    // We don't have developer variables for now
+    // // Add developer variables (not created or named by the user).
+    // var devVarList = Blockly.Variables.allDeveloperVariables(workspace);
+    // for (var i = 0; i < devVarList.length; i++) {
+    //     defvars.push(Blockly.Arduino.variableDB_.getName(devVarList[i],
+    //         Blockly.Names.DEVELOPER_VARIABLE_TYPE));
+    // }
+
+    var doubleVariables = workspace.getVariablesOfType('Number');
+    var i = 0;
+    var variableCode = '';
+    for (i = 0; i < doubleVariables.length; i += 1) {
+        variableCode += 'double ' + doubleVariables[i].name + ' = 0; \n\n';
     }
 
-	Blockly.Arduino.definitions_['variables'] = defvars.join('\n');
+    var stringVariables = workspace.getVariablesOfType('String');
+    for (i = 0; i < stringVariables.length; i += 1) {
+        variableCode += 'String ' + stringVariables[i].name + ' = ""; \n\n';
+    }
+
+    var booleanVariables = workspace.getVariablesOfType('Boolean');
+    for (i = 0; i < booleanVariables.length; i += 1) {
+        variableCode += 'boolean ' + booleanVariables[i].name + ' = false; \n\n';
+    }
+
+    var colourVariables = workspace.getVariablesOfType('Colour');
+    for (i = 0; i < colourVariables.length; i += 1) {
+        variableCode += 'RGB ' + colourVariables[i].name + ' = {0, 0, 0}; \n\n';
+    }
+
+    Blockly.Arduino.variablesInitCode_ = variableCode;
 };
 
 /**
@@ -144,32 +124,37 @@ Blockly.Arduino.init = function(workspace) {
  * @return {string} Completed code.
  */
 Blockly.Arduino.finish = function(code) {
-  // Indent every line.
-  code = '  ' + code.replace(/\n/g, '\n  ');
-  code = code.replace(/\n\s+$/, '\n');
-  code = 'void loop() \n{\n' + code + '\n}';
 
-  // Convert the definitions dictionary into a list.
-  var imports = [];
-  var definitions = [];
-  for (var name in Blockly.Arduino.definitions_) {
-    var def = Blockly.Arduino.definitions_[name];
-    if (def.match(/^#include/)) {
-      imports.push(def);
-    } else {
-      definitions.push(def);
+    var libraryCode = '';
+    var functionsCode = '';
+
+    for (var key in Blockly.Arduino.libraries_) {
+        libraryCode += Blockly.Arduino.libraries_[key] + '\n';
     }
-  }
 
-  // Convert the setups dictionary into a list.
-  var setups = [];
-  for (var name in Blockly.Arduino.setups_) {
-    setups.push(Blockly.Arduino.setups_[name]);
-  }
+    for (var key in Blockly.Arduino.functionNames_) {
+        functionsCode += Blockly.Arduino.functionNames_[key] + '\n';
+    }
 
-  var allDefs = imports.join('\n') + '\n\n' + definitions.join('\n') + '\nvoid setup() \n{\n  '+setups.join('\n  ') + '\n}'+ '\n\n';
-  return allDefs.replace(/\n\n+/g, '\n\n').replace(/\n*$/, '\n\n\n') + code;
+    // Convert the definitions dictionary into a list.
+    code = libraryCode + '\n' +
+            'struct RGB { \n' +
+        '\tint red;\n' +
+        '\tint green;\n' +
+        '\tint blue;\n' +
+        '};\n' + Blockly.Arduino.variablesInitCode_ + '\n' + '\n\n' +
+        '\n' + functionsCode + code;
+
+    // Clean up temporary data.
+    delete Blockly.Arduino.definitions_;
+    delete Blockly.Arduino.functionNames_;
+    delete Blockly.Arduino.variablesInitCode_;
+    delete Blockly.Arduino.libraries_;
+    Blockly.Arduino.variableDB_.reset();
+
+    return code;
 };
+
 
 /**
  * Naked values are top-level blocks with outputs that aren't plugged into
@@ -178,24 +163,25 @@ Blockly.Arduino.finish = function(code) {
  * @return {string} Legal line of code.
  */
 Blockly.Arduino.scrubNakedValue = function(line) {
-  return line + ';\n';
+    return line + ';\n';
 };
 
 /**
- * Encode a string as a properly escaped Arduino string, complete with quotes.
+ * Encode a string as a properly escaped Arduino string, complete with
+ * quotes.
  * @param {string} string Text to encode.
  * @return {string} Arduino string.
  * @private
  */
 Blockly.Arduino.quote_ = function(string) {
-  // TODO: This is a quick hack.  Replace with goog.string.quote
-  string = string.replace(/\\/g, '\\\\')
-                 .replace(/\n/g, '\\\n')
-                 .replace(/\$/g, '\\$')
-                 .replace(/\"/g,'\\"')
-                  .replace(/'/g, '\\\'');
-  return '\"' + string + '\"';
+    // Can't use goog.string.quote since Google's style guide recommends
+    // JS string literals use single quotes.
+    string = string.replace(/\\/g, '\\\\')
+        .replace(/\n/g, '\\\n')
+        .replace(/'/g, '\\\'');
+    return '"' + string + '"';
 };
+
 
 /**
  * Common tasks for generating Arduino from blocks.
@@ -207,33 +193,81 @@ Blockly.Arduino.quote_ = function(string) {
  * @private
  */
 Blockly.Arduino.scrub_ = function(block, code) {
-  if (code === null) {
-    // Block has handled code generation itself.
-    return '';
-  }
-  var commentCode = '';
-  // Only collect comments for blocks that aren't inline.
-  if (!block.outputConnection || !block.outputConnection.targetConnection) {
-    // Collect comment for this block.
-    var comment = block.getCommentText();
-    if (comment) {
-      commentCode += Blockly.Arduino.prefixLines(comment, '// ') + '\n';
-    }
-    // Collect comments for all value arguments.
-    // Don't collect comments for nested statements.
-    for (var x = 0; x < block.inputList.length; x++) {
-      if (block.inputList[x].type == Blockly.INPUT_VALUE) {
-        var childBlock = block.inputList[x].connection.targetBlock();
-        if (childBlock) {
-          var comment = Blockly.Arduino.allNestedComments(childBlock);
-          if (comment) {
-            commentCode += Blockly.Arduino.prefixLines(comment, '// ');
-          }
+    var commentCode = '';
+    // Only collect comments for blocks that aren't inline.
+    if (!block.outputConnection || !block.outputConnection.targetConnection) {
+        // Collect comment for this block.
+        var comment = block.getCommentText();
+        comment = Blockly.utils.wrap(comment, Blockly.Arduino.COMMENT_WRAP - 3);
+        if (comment) {
+            if (block.getProcedureDef) {
+                // Use a comment block for function comments.
+                commentCode += '/**\n' +
+                    Blockly.Arduino.prefixLines(comment + '\n', ' * ') +
+                    ' */\n';
+            } else {
+                commentCode += Blockly.Arduino.prefixLines(comment + '\n', '// ');
+            }
         }
-      }
+        // Collect comments for all value arguments.
+        // Don't collect comments for nested statements.
+        for (var i = 0; i < block.inputList.length; i++) {
+            if (block.inputList[i].type == Blockly.INPUT_VALUE) {
+                var childBlock = block.inputList[i].connection.targetBlock();
+                if (childBlock) {
+                    var comment = Blockly.Arduino.allNestedComments(childBlock);
+                    if (comment) {
+                        commentCode += Blockly.Arduino.prefixLines(comment, '// ');
+                    }
+                }
+            }
+        }
     }
-  }
-  var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
-  var nextCode = Blockly.Arduino.blockToCode(nextBlock);
-  return commentCode + code + nextCode;
+    var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
+    var nextCode = Blockly.Arduino.blockToCode(nextBlock);
+    return commentCode + code + nextCode;
 };
+
+
+/**
+ * Arduino Board profiles
+ *
+ */
+var profile = {
+    arduino_uno: {
+        description: "Arduino standard-compatible board",
+        digital: [
+            ["1", "1"],
+            ["2", "2"],
+            ["3", "3"],
+            ["4", "4"],
+            ["5", "5"],
+            ["6", "6"],
+            ["7", "7"],
+            ["8", "8"],
+            ["9", "9"],
+            ["10", "10"],
+            ["11", "11"],
+            ["12", "12"],
+            ["13", "13"],
+            ["A0", "A0"],
+            ["A1", "A1"],
+            ["A2", "A2"],
+            ["A3", "A3"],
+            ["A4", "A4"],
+            ["A5", "A5"]
+        ],
+        analog: [
+            ["A0", "A0"],
+            ["A1", "A1"],
+            ["A2", "A2"],
+            ["A3", "A3"],
+            ["A4", "A4"],
+            ["A5", "A5"]
+        ],
+        serial_baud_rate: 9600,
+        parseKey: '_*_'
+    }
+};
+
+var selectedBoard = profile.arduino_uno;

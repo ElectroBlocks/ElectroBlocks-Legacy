@@ -49,8 +49,10 @@ function flashArduino() {
         })).flatMap(avrgirl => Observable.create(observer => {
             avrgirl.flash(ARDUINO_FILE, (err) => {
                 if (err) {
+                    console.error('error flashing', err);
                     observer.error({'avr_girl': err});
                 } else {
+                    console.log('successfully flashed');
                     observer.next(undefined)
                 }
                 observer.complete();
@@ -65,13 +67,29 @@ function flashArduino() {
  */
 let uploadCode = (code) => {
 
-    return Observable.forkJoin(createHexFile(code), closeSerialPort())
-        .take(1)
-        .flatMap(() => flashArduino())
-        .flatMap(() => openSerialPort())
-        .do(() => fs.unlinkSync(ARDUINO_FILE))
-        .map(() => undefined)
-        .catch(err => Observable.of(err));
+    try {
+        return Observable.forkJoin(createHexFile(code), closeSerialPort())
+            .take(1)
+            .flatMap(() => flashArduino())
+            .do(() => console.log('flashed arduino'))
+            .flatMap(() => openSerialPort())
+            .do(() => console.log('open serial after flashing'))
+            .do(() => {
+                console.log('before deleting');
+                fs.unlinkSync(ARDUINO_FILE)
+                console.log('deleted arduino file');
+            })
+            .map(() => {
+                console.log('inside map');
+            })
+            .catch(err =>  {
+                console.log('error');
+                return Observable.of(err)
+            });
+    } catch(e) {
+        console.log(e);
+    }
+
 
 };
 

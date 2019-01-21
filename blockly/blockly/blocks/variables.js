@@ -20,307 +20,190 @@
 
 /**
  * @fileoverview Variable blocks for Blockly.
+
+ * This file is scraped to extract a .json file of block definitions. The array
+ * passed to defineBlocksWithJsonArray(..) must be strict JSON: double quotes
+ * only, no outside references, no functions, no trailing commas, etc. The one
+ * exception is end-of-line comments, which the scraper will remove.
  * @author fraser@google.com (Neil Fraser)
  */
 'use strict';
 
-goog.provide('Blockly.Blocks.variables');
+goog.provide('Blockly.Blocks.variables');  // Deprecated.
+goog.provide('Blockly.Constants.Variables');
 
 goog.require('Blockly.Blocks');
-
-
-var VARIABLE_TYPES = [
-    ['Whole Number (int)', 'int'],
-    ['Big Whole Number (long)', 'long'],
-    ['Decimal Number (double)', 'double'],
-    ['Byte 8 zeros or ones', 'byte'],
-    ['Text (String)', 'String'],
-    ['True / False (boolean)', 'bool']
-];
-
-Blockly.getDefaultVariableName = function () {
-    return Blockly.Msg.VARIABLES_DEFAULT_NAME + (Blockly.mainWorkspace.getAllBlocks().length + 100).toString();
-
-}
+goog.require('Blockly');
 
 /**
- * Common HSV hue for all blocks in this category.
+ * Unused constant for the common HSV hue for all blocks in this category.
+ * @deprecated Use Blockly.Msg['VARIABLES_HUE']. (2018 April 5)
  */
-Blockly.Blocks.variables.HUE = 330;
+Blockly.Constants.Variables.HUE = 330;
 
-Blockly.Blocks['variables_get'] = {
-  /**
-   * Block for variable getter.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.setHelpUrl(Blockly.Msg.VARIABLES_GET_HELPURL);
-    this.setColour(Blockly.Blocks.variables.HUE);
-    this.appendDummyInput()
-        .appendField(new Blockly.FieldVariable(Blockly.getDefaultVariableName()), 'VAR');
-    this.setOutput(true);
-    this.setTooltip(Blockly.Msg.VARIABLES_GET_TOOLTIP);
-    this.contextMenuMsg_ = Blockly.Msg.VARIABLES_GET_CREATE_SET;
-  },
-  /**
-   * Return all variables referenced by this block.
-   * @return {!Array.<string>} List of variable names.
-   * @this Blockly.Block
-   */
-  getVars: function() {
-    return [this.getFieldValue('VAR')];
-  },
-  /**
-   * Notification that a variable is renaming.
-   * If the name matches one of this block's variables, rename it.
-   * @param {string} oldName Previous name of variable.
-   * @param {string} newName Renamed variable.
-   * @this Blockly.Block
-   */
-  renameVar: function(oldName, newName) {
-    if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
-      this.setFieldValue(newName, 'VAR');
+Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
+    {
+        "type": "variables_get_number",
+        "message0": "Get number stored in the variable named %1",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": null,
+                "variableTypes": ["Number"],
+                "defaultType": "Number"
+            }
+        ],
+        "output": "Number",
+        "colour": "300",
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "variables_set_number",
+        "message0": "This variable named %1 will store this number %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": null,
+                "variableTypes": ["Number"],
+                "defaultType": "Number"
+            },
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Number"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "300",
+        "tooltip": "",
+        "helpUrl": ""
+
+    },
+    {
+        "type": "variables_get_colour",
+        "message0": "Get color stored in the variable named %1",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": null,
+                "variableTypes": ["Colour"],
+                "defaultType": "Colour"
+            }
+        ],
+        "output": "Colour",
+        "colour": "330",
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "variables_set_colour",
+        "message0": "This variable named %1 will store this color %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": null,
+                "variableTypes": ["Colour"],
+                "defaultType": "Colour"
+            },
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Colour"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "330",
+        "tooltip": "",
+        "helpUrl": ""
+
+    },
+    {
+        "type": "variables_get_string",
+        "message0": "Get text stored in the variable named %1",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": null,
+                "variableTypes": ["String"],
+                "defaultType": "String"
+            }
+        ],
+        "output": "String",
+        "colour": "240",
+        "tooltip": "",
+        "helpUrl": ""
+
+    },
+    {
+        "type": "variables_set_string",
+        "message0": "This variable named %1 will store this text %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": null,
+                "variableTypes": ["String"],
+                "defaultType": "String"
+            },
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "String"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "240",
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
+        "type": "variables_get_boolean",
+        "message0": "Get boolean stored in the variable named %1",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": null,
+                "variableTypes": ["Boolean"],
+                "defaultType": "Boolean"
+            }
+        ],
+        "output": "Boolean",
+        "colour": "210",
+        "tooltip": "",
+        "helpUrl": ""
+
+    },
+    {
+        "type": "variables_set_boolean",
+        "message0": "This variable named %1 will store this boolean %2",
+        "args0": [
+            {
+                "type": "field_variable",
+                "name": "VAR",
+                "variable": null,
+                "variableTypes": ["Boolean"],
+                "defaultType": "Boolean"
+            },
+            {
+                "type": "input_value",
+                "name": "VALUE",
+                "check": "Boolean"
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": "210",
+        "tooltip": "",
+        "helpUrl": ""
     }
-  },
-  contextMenuType_: 'variables_set',
-  /**
-   * Add menu option to create getter/setter block for this setter/getter.
-   * @param {!Array} options List of menu options to add to.
-   * @this Blockly.Block
-   */
-  customContextMenu: function(options) {
-    var option = {enabled: true};
-    var name = this.getFieldValue('VAR');
-    option.text = this.contextMenuMsg_.replace('%1', name);
-    var xmlField = goog.dom.createDom('field', null, name);
-    xmlField.setAttribute('name', 'VAR');
-    var xmlBlock = goog.dom.createDom('block', null, xmlField);
-    xmlBlock.setAttribute('type', this.contextMenuType_);
-    option.callback = Blockly.ContextMenu.callbackFactory(this, xmlBlock);
-    options.push(option);
-  }
-};
-
-Blockly.Blocks['variables_set'] = {
-  /**
-   * Block for variable setter.
-   * @this Blockly.Block
-   */
-  init: function() {
-    this.jsonInit({
-      "message0": 'Set %1 equal to %2',
-      "args0": [
-        {
-          "type": "field_variable",
-          "name": "VAR",
-          "variable": Blockly.getDefaultVariableName()
-        },
-        {
-          "type": "input_value",
-          "name": "VALUE"
-        }
-      ],
-      "previousStatement": null,
-      "nextStatement": null,
-      "colour": Blockly.Blocks.variables.HUE,
-      "tooltip": Blockly.Msg.VARIABLES_SET_TOOLTIP,
-      "helpUrl": Blockly.Msg.VARIABLES_SET_HELPURL,
-
-    });
-    this.contextMenuMsg_ = Blockly.Msg.VARIABLES_SET_CREATE_GET;
-  },
-  /**
-   * Return all variables referenced by this block.
-   * @return {!Array.<string>} List of variable names.
-   * @this Blockly.Block
-   */
-  getVars: function() {
-    return [this.getFieldValue('VAR')];
-  },
-  /**
-   * Notification that a variable is renaming.
-   * If the name matches one of this block's variables, rename it.
-   * @param {string} oldName Previous name of variable.
-   * @param {string} newName Renamed variable.
-   * @this Blockly.Block
-   */
-  renameVar: function(oldName, newName) {
-    if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
-      this.setFieldValue(newName, 'VAR');
-    }
-  },
-  contextMenuType_: 'variables_get',
-  customContextMenu: Blockly.Blocks['variables_get'].customContextMenu
-};
-
-Blockly.Blocks['variables_create'] = {
-    init: function () {
-        this.jsonInit({
-            "message0": 'Create variable named %1 set to type %3 equal to %2',
-            "args0": [
-                {
-                    "type": "field_variable",
-                    "name": "VAR",
-                    "variable": Blockly.getDefaultVariableName()
-                },
-                {
-                    "type": "input_value",
-                    "name": "VALUE"
-                },
-                {
-                    "type": "field_dropdown",
-                    "name": "DATA TYPE",
-                    "options": VARIABLE_TYPES
-                }
-            ],
-            "previousStatement": null,
-            "nextStatement": null,
-            "colour": 231,
-            "tooltip": Blockly.Msg.VARIABLES_SET_TOOLTIP,
-            "helpUrl": Blockly.Msg.VARIABLES_SET_HELPURL
-        });
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-
-        this.contextMenuMsg_ = Blockly.Msg.VARIABLES_SET_CREATE_GET;
-    },
-    /**
-     * Return all variables referenced by this block.
-     * @return {!Array.<string>} List of variable names.
-     * @this Blockly.Block
-     */
-    getVars: function() {
-        return [this.getFieldValue('VAR')];
-    },
-    /**
-     * Notification that a variable is renaming.
-     * If the name matches one of this block's variables, rename it.
-     * @param {string} oldName Previous name of variable.
-     * @param {string} newName Renamed variable.
-     * @this Blockly.Block
-     */
-    renameVar: function(oldName, newName) {
-        if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
-            this.setFieldValue(newName, 'VAR');
-        }
-    },
-    contextMenuType_: 'variables_get',
-    customContextMenu: Blockly.Blocks['variables_get'].customContextMenu
-};
-
-Blockly.Blocks['variables_create_array'] = {
-    init: function () {
-        this.jsonInit({
-            "message0": 'Create an array variable named %1 set of type %3 of size %2',
-            "args0": [
-                {
-                    "type": "field_variable",
-                    "name": "VAR",
-                    "variable": Blockly.getDefaultVariableName()
-                },
-                {
-                    "type": "input_value",
-                    "name": "SIZE"
-                },
-                {
-                    "type": "field_dropdown",
-                    "name": "DATA TYPE",
-                    "options": VARIABLE_TYPES
-                }
-            ],
-            "previousStatement": null,
-            "nextStatement": null,
-            "colour": 231,
-            "tooltip": Blockly.Msg.VARIABLES_SET_TOOLTIP,
-            "helpUrl": Blockly.Msg.VARIABLES_SET_HELPURL
-        });
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-
-        this.contextMenuMsg_ = Blockly.Msg.VARIABLES_SET_CREATE_GET;
-    },
-    /**
-     * Return all variables referenced by this block.
-     * @return {!Array.<string>} List of variable names.
-     * @this Blockly.Block
-     */
-    getVars: function() {
-        return [this.getFieldValue('VAR')];
-    },
-    /**
-     * Notification that a variable is renaming.
-     * If the name matches one of this block's variables, rename it.
-     * @param {string} oldName Previous name of variable.
-     * @param {string} newName Renamed variable.
-     * @this Blockly.Block
-     */
-    renameVar: function(oldName, newName) {
-        if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
-            this.setFieldValue(newName, 'VAR');
-        }
-    },
-    contextMenuType_: 'variables_get',
-    customContextMenu: Blockly.Blocks['variables_get'].customContextMenu
-
-};
-
-Blockly.Blocks['variables_create_global'] = {
-    /**
-     * Block for variable setter.
-     * @this Blockly.Block
-     */
-    init: function() {
-
-
-        this.jsonInit({
-            "message0": 'Create global variable named %1 to type %3 equal to %2',
-            "args0": [
-                {
-                    "type": "field_variable",
-                    "name": "VAR",
-                    "variable": Blockly.getDefaultVariableName()
-                },
-                {
-                    "type": "input_value",
-                    "name": "VALUE"
-                },
-                {
-                    "type": "field_dropdown",
-                    "name": "DATA TYPE",
-                    "options": VARIABLE_TYPES
-                }
-            ],
-            "previousStatement": null,
-            "nextStatement": null,
-            "colour": 231,
-            "tooltip": Blockly.Msg.VARIaABLES_SET_TOOLTIP,
-            "helpUrl": Blockly.Msg.VARIABLES_SET_HELPURL
-        });
-        this.setPreviousStatement(false, null);
-        this.setNextStatement(false, null);
-
-        this.contextMenuMsg_ = Blockly.Msg.VARIABLES_SET_CREATE_GET;
-    },
-    /**
-     * Return all variables referenced by this block.
-     * @return {!Array.<string>} List of variable names.
-     * @this Blockly.Block
-     */
-    getVars: function() {
-        return [this.getFieldValue('VAR')];
-    },
-    /**
-     * Notification that a variable is renaming.
-     * If the name matches one of this block's variables, rename it.
-     * @param {string} oldName Previous name of variable.
-     * @param {string} newName Renamed variable.
-     * @this Blockly.Block
-     */
-    renameVar: function(oldName, newName) {
-        if (Blockly.Names.equals(oldName, this.getFieldValue('VAR'))) {
-            this.setFieldValue(newName, 'VAR');
-        }
-    },
-    contextMenuType_: 'variables_get',
-    customContextMenu: Blockly.Blocks['variables_get'].customContextMenu
-};
+]);  // END JSON EXTRACT (Do not delete this comment.)
