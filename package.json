@@ -1,6 +1,6 @@
 {
-  "name": "ArduinoBlocklyIDE",
-  "productName": "Arduino Blockly IDE App",
+  "name": "ElectroBlocks",
+  "productName": "ElectroBlocks A Blockly Based Arduino IDE",
   "email": "Noah Glaser",
   "version": "2.0.0",
   "description": "An ide for developing arduino code with blockly.",
@@ -20,7 +20,7 @@
     "publish-linux": "build  --linux -p always"
   },
   "build": {
-    "appId": "arduinoblocklyide.codingwithnoah.org",
+    "appId": "electroblocks.codingwithnoah.org",
     "productName": "ElectroBlocks",
     "copyright": "Copyright © 2019",
     "win": {
