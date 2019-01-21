@@ -2,7 +2,7 @@
   "name": "ArduinoBlocklyIDE",
   "productName": "Arduino Blockly IDE App",
   "email": "Noah Glaser",
-  "version": "1.0.28",
+  "version": "2.0.0",
   "description": "An ide for developing arduino code with blockly.",
   "main": "app.js",
   "author": "Noah Glaser",
@@ -20,9 +20,9 @@
     "publish-linux": "build  --linux -p always"
   },
   "build": {
-    "appId": "arduinoblocklyide.oaklandcodeschool.org",
-    "productName": "Arduino Blockly IDE",
-    "copyright": "Copyright © 2018",
+    "appId": "arduinoblocklyide.codingwithnoah.org",
+    "productName": "ElectroBlocks",
+    "copyright": "Copyright © 2019",
     "win": {
       "target": "nsis",
       "icon": "build/win-icon.ico"
