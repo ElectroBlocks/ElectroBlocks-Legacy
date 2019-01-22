@@ -17,7 +17,8 @@
     "dist-mac": "build --mac",
     "publish-mac": "build  --mac -p always",
     "dist-linux": "build --linux",
-    "publish-linux": "build  --linux -p always"
+    "publish-linux": "build  --linux -p always",
+    "postinstall": "electron-builder install-app-deps"
   },
   "build": {
     "appId": "electroblocks.codingwithnoah.org",
@@ -79,6 +80,7 @@
   },
   "devDependencies": {
     "electron": "^4.0.1",
-    "electron-builder": "^20.38.5"
+    "electron-builder": "^20.38.5",
+    "electron-rebuild": "^1.8.2"
   }
 }
