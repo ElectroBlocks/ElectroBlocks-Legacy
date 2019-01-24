@@ -172,7 +172,7 @@ let menuTemplate = [
 ];
 
 app.on('ready', () => {
-//    autoUpdater.checkForUpdatesAndNotify();
+    autoUpdater.checkForUpdatesAndNotify();
 
     loadMainWindow();
 });
