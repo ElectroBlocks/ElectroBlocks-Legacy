@@ -5,6 +5,19 @@ const {sendContinueFunction, sendSerialMonitorMessage} = require('./common/seria
 const path = require('path');
 const fs = require('fs');
 const autoUpdater = require("electron-updater").autoUpdater;
+const log = require('electron-log');
+
+//-------------------------------------------------------------------
+// Logging
+//
+// THIS SECTION IS NOT REQUIRED
+//
+// This logging setup is not required for auto-updates to work,
+// but it sure makes debugging easier :)
+//-------------------------------------------------------------------
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
 
 
 /**
@@ -47,7 +60,7 @@ let menuTemplate = [
                 click() {
                     if (!aboutSoftware) {
                         aboutSoftware = new BrowserWindow({
-                            title: 'About Arduino Blockly IDE',
+                            title: 'About ElectroBlocks IDE',
                             width: 500,
                             height: 520,
                             autoHideMenuBar: true
@@ -96,7 +109,7 @@ let menuTemplate = [
                     dialog.showOpenDialog(mainWindow, {
                         properties: ['openFile'],
                         filters: [
-                            {name: 'Arduino Blockly', extensions: ['xml']}
+                            {name: 'ElectroBlocks', extensions: ['xml']}
                         ]
                     }, (filePaths, err) => {
                         if (err) {
@@ -145,13 +158,13 @@ let menuTemplate = [
             {
                 label: 'Online Help',
                 click () {
-                    shell.openExternal('http://oaklandcodeschool.org/arduino-ide-help')
+                    shell.openExternal('http://codingwithnoah.com/arduino-ide-help')
                 }
             },
             {
                 label: 'Report a bug',
                 click() {
-                    shell.openExternal('https://github.com/phptuts/ArduinoBlocklyIDE/issues')
+                    shell.openExternal('https://github.com/phptuts/ElectroBlocks/issues')
                 }
             },
         ]
@@ -159,7 +172,8 @@ let menuTemplate = [
 ];
 
 app.on('ready', () => {
-    autoUpdater.checkForUpdatesAndNotify();
+//    autoUpdater.checkForUpdatesAndNotify();
+
     loadMainWindow();
 });
 
