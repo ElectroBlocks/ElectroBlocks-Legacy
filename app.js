@@ -220,3 +220,24 @@ ipcMain.on('save:file', (e, code, filePath) => {
 });
 
 
+autoUpdater.on('checking-for-update', () => {
+    log.error('Checking for update...');
+})
+autoUpdater.on('update-available', (info) => {
+    log.error('Update available. \n' + JSON.stringify(info));
+})
+autoUpdater.on('update-not-available', (info) => {
+    log.error('Update not available.\n' + JSON.stringify(info));
+})
+autoUpdater.on('error', (err) => {
+    log.error('Error in auto-updater. ' + err);
+})
+autoUpdater.on('download-progress', (progressObj) => {
+    let log_message = "Download speed: " + progressObj.bytesPerSecond;
+    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+    log.error(log_message);
+})
+autoUpdater.on('update-downloaded', (info) => {
+    log.error('Update downloaded\n' + JSON.stringify(info));
+});
