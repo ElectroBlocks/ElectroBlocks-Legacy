@@ -2,7 +2,7 @@
   "name": "ElectroBlocks",
   "productName": "ElectroBlocks A Blockly Based Arduino IDE",
   "email": "Noah Glaser",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "An ide for developing arduino code with blockly.",
   "main": "app.js",
   "author": "Noah Glaser",
