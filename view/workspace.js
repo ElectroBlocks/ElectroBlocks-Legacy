@@ -436,7 +436,7 @@ ipcRenderer.on('menu:save', (event, createNewFile = false) => {
     if (createNewFile) {
         dialog.showSaveDialog(remote.getCurrentWindow(), {
             filters: [
-                { name: 'Arduino Blockly', extensions: ['xml'] }
+                { name: 'ElectroBlocks', extensions: ['xml'] }
             ]
         }, filePath => {
             if (filePath) {
