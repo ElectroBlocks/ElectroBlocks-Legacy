@@ -4,3 +4,4 @@ builds
 release
 dist
 .env
+electron-windows-cert*

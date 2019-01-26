@@ -25,6 +25,8 @@
     "productName": "ElectroBlocks",
     "copyright": "Copyright © 2019",
     "win": {
+      "publisherName": "DigiCert Inc",
+      "certificateSubjectName": "Noah Glaser",
       "target": "nsis",
       "icon": "build/win-icon.ico"
     },
