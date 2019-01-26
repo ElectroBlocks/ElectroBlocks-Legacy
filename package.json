@@ -2,7 +2,7 @@
   "name": "ElectroBlocks",
   "productName": "ElectroBlocks A Blockly Based Arduino IDE",
   "email": "Noah Glaser",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "An ide for developing arduino code with blockly.",
   "main": "app.js",
   "author": "Noah Glaser",
@@ -16,6 +16,7 @@
     "publish": "build -p always",
     "dist-mac": "build --mac",
     "publish-mac": "build  --mac -p always",
+    "publish-win": "build  --win -p always",
     "dist-linux": "build --linux",
     "publish-linux": "build  --linux -p always",
     "postinstall": "electron-builder install-app-deps"
@@ -25,7 +26,7 @@
     "productName": "ElectroBlocks",
     "copyright": "Copyright © 2019",
     "win": {
-      "publisherName": "DigiCert Inc",
+      "publisherName": "Noah Glaser",
       "certificateSubjectName": "Noah Glaser",
       "target": "nsis",
       "icon": "build/win-icon.ico"
