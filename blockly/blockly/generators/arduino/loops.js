@@ -14,7 +14,7 @@ Blockly.Arduino['controls_repeat_ext'] = function(block) {
     var code = '';
     var loopVar = Blockly.Arduino.variableDB_.getDistinctName(
         'loop_index', Blockly.Variables.NAME_TYPE);
-    Blockly.Arduino.variablesInitCode_ = 'double ' + loopVar + ' = 0;\n';
+    Blockly.Arduino.variablesInitCode_ += '\ndouble ' + loopVar + ' = 0;\n';
     code += 'for (' + loopVar + ' = 0; ' + loopVar + ' <= ' + repeats + '; ' +
         loopVar + ' += 1) {\n' +
         branch + '}\n';

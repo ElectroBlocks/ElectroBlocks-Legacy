@@ -212,6 +212,46 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Responds to events that happen in the trashcan workspace
+    Blockly.mainWorkspace.trashcan.flyout_.workspace_.addChangeListener(function(event) {
+
+        var workspace = Blockly.Workspace.getById(event.workspaceId);
+        var trashCan = Blockly.mainWorkspace.trashcan;
+
+        // This handles removing items from the trash can
+        // after they have been used
+        if (event.type == Blockly.Events.UI) {
+
+            // Deletes them once they have been used
+            var block = workspace.getBlockById(event.newValue);
+            var xml = Blockly.Xml.blockToDom(block);
+            var cleanedXML = trashCan.cleanBlockXML_(xml);
+            for (var i = 0; i < trashCan.contents_.length; i += 1) {
+                var removeDisableStringFromBlock = trashCan.contents_[i].replace(/ disabled="true"/g, '');
+                if (cleanedXML === removeDisableStringFromBlock) {
+                    delete trashCan.contents_[i];
+                }
+            }
+
+            // Re index item strings in the trash can
+            var counter = 0;
+            var contentsOfTrashCan = trashCan.contents_;
+            var reIndexContents = [];
+            contentsOfTrashCan.forEach(function(content) {
+                reIndexContents[counter] = content;
+                counter += 1;
+            });
+            trashCan.contents_ = reIndexContents;
+            return;
+        }
+
+        // Makes sure all the blocks in the trash can are enabled.
+        var allBlocks = workspace.getAllBlocks();
+        allBlocks.forEach(function(block) {
+            block.setDisabled(false);
+        });
+    });
+
     Blockly.mainWorkspace.registerToolboxCategoryCallback('LIST', function (workspace) {
         var xmlList = [];
         var btnCreateNumberList = document.createElement('button');
