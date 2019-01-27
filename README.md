@@ -9,13 +9,13 @@ You can also save and see the code view as well.  I will have a much more in thr
 ## Downloads
 
 Windows: 
-https://github.com/phptuts/ElectroBlocks/releases/download/v2.0.6/ElectroBlocks-Setup-2.0.6.exe
+https://github.com/phptuts/ElectroBlocks/releases/download/v2.0.7/ElectroBlocks-Setup-2.0.7.exe
 
 Mac:
-https://github.com/phptuts/ElectroBlocks/releases/download/v2.0.6/ElectroBlocks-2.0.6-mac.zip
+https://github.com/phptuts/ElectroBlocks/releases/download/v2.0.7/ElectroBlocks-2.0.7-mac.zip
 
 Linux:
-https://github.com/phptuts/ElectroBlocks/releases/download/v2.0.6/ElectroBlocks_2.0.6_amd64.deb
+https://github.com/phptuts/ElectroBlocks/releases/download/v2.0.7/ElectroBlocks_2.0.7_amd64.deb
 
 The Setup Guide:
 http://codingwithnoah.com/arduino-blockly-ide-setup/
