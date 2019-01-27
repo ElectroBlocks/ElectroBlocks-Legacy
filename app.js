@@ -2,6 +2,9 @@ const electron = require('electron');
 const {app, BrowserWindow, Menu, ipcMain, dialog, shell} = electron;
 const {APP_TITLE, NODE_ERROR} = require('./common/constants');
 const {sendContinueFunction, sendSerialMonitorMessage} = require('./common/serial_port');
+
+const { resetUploadUrl }  = require('./common/upload_code');
+
 const path = require('path');
 const fs = require('fs');
 const autoUpdater = require("electron-updater").autoUpdater;
@@ -56,6 +59,34 @@ let menuTemplate = [
         label: APP_TITLE,
         submenu: [
             {
+                label: 'Code View',
+                click() {
+                    if (!codeWindow) {
+                        codeWindow = new BrowserWindow({
+                            title: 'Code View',
+                            width: 500,
+                            height: 520,
+                            autoHideMenuBar: true
+                        });
+                        codeWindow.loadURL('file://' + path.join(__dirname, 'view', 'code-view.html'));
+                    }
+                    codeWindow.show();
+                    codeWindow.on('close', () => codeWindow = null);
+                }
+            },
+            {
+                label: 'Change Upload Url',
+                click() {
+                    mainWindow.webContents.send('menu:changeUploadUrl');
+                }
+            },
+            {
+                label: 'Reset Upload Url',
+                click() {
+                    resetUploadUrl()
+                }
+            },
+            {
                 label: 'About Software',
                 click() {
                     if (!aboutSoftware) {
@@ -73,36 +104,27 @@ let menuTemplate = [
                 }
             },
             {
-                role: 'toggledevtools'
-            },
-            {
-                label: 'Code View',
-                click() {
-                    if (!codeWindow) {
-                        codeWindow = new BrowserWindow({
-                            title: 'Code View',
-                            width: 500,
-                            height: 520,
-                            autoHideMenuBar: true
-                        });
-                        codeWindow.loadURL('file://' + path.join(__dirname, 'view', 'code-view.html'));
-                    }
-                    codeWindow.show();
-                    codeWindow.on('close', () => codeWindow = null);
-                }
-            },
-            {
                 label: 'Close',
                 click() {
                     app.quit();
                 }
-            }
+            },
+            {
+                role: 'toggledevtools'
+            },
 
         ]
     },
     {
         label: 'File',
         submenu: [
+            {
+                label: 'New',
+                click() {
+                    currentFilePath = undefined;
+                    mainWindow.webContents.send('menu:new');
+                }
+            },
             {
                 label: 'Open',
                 click() {
@@ -149,7 +171,9 @@ let menuTemplate = [
         label: 'Edit',
         submenu: [
             { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-            { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" }
+            { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+            { label: 'Cut', accelerator: "CmdOrCtrl+X", selector: "cut:" },
+
         ]
     },
     {

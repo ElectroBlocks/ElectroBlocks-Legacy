@@ -4,7 +4,7 @@
 const electron = require('electron');
 const { remote, ipcRenderer } = electron;
 const {arduinoUSB$, serialDebugOutput$, serialDebugBlockOutput$} = remote.require('./common/serial_port');
-const {uploadCode}  = remote.require('./common/upload_code');
+const {uploadCode, setUploadUrl }  = remote.require('./common/upload_code');
 const { NODE_ERROR } = remote.require('./common/constants');
 const prompt = remote.require('electron-prompt');
 const { dialog } = remote;
@@ -93,28 +93,6 @@ Blockly.prompt = function(message, defaultValue, callback) {
     });
 };
 
-// Blockly.changeVariableName = (selectedMessage, oldVarName) => {
-//
-//     if (selectedMessage != Blockly.Msg.RENAME_VARIABLE) {
-//         return;
-//     }
-//
-//     prompt({
-//         title: 'Renaming',
-//         label: 'Renaming variable to:',
-//         type: 'input'
-//     }).then(newVar => {
-//         if (newVar) {
-//             newVar = newVar.replace(/[\s\xa0]+/g, ' ').replace(/^ | $/g, '');
-//             if (newVar == Blockly.Msg.RENAME_VARIABLE || newVar == Blockly.Msg.NEW_VARIABLE) {
-//                 return;
-//             }
-//             Blockly.Variables.renameVariable(oldVarName, newVar, Blockly.mainWorkspace);
-//         }
-//
-//     });
-// };
-
 /**
  * Event Listeners
  */
@@ -138,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     Blockly.mainWorkspace.addChangeListener((event) => {
         ipcRenderer.send('display:code', Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace));
     });
+
 
     var xml = '<xml><block type="arduino_start" deletable="false" movable="true"></block></xml>';
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), Blockly.mainWorkspace);
@@ -493,6 +472,13 @@ ipcRenderer.on('menu:save', (event, createNewFile = false) => {
     ipcRenderer.send('save:file', code);
 });
 
+ipcRenderer.on('menu:new', () => {
+    Blockly.mainWorkspace.clear();
+    var xml = '<xml><block type="arduino_start" deletable="false" movable="true"></block></xml>';
+    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), Blockly.mainWorkspace);
+    Blockly.mainWorkspace.centerOnBlock(Blockly.mainWorkspace.getAllBlocks()[0].id);
+});
+
 ipcRenderer.on(NODE_ERROR, (message) => {
     alert(message);
 });
@@ -504,6 +490,17 @@ ipcRenderer.on('open:file', (event, content) => {
 
 ipcRenderer.on('get:code', () => {
     ipcRenderer.send('display:code', Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace));
+});
+
+ipcRenderer.on('menu:changeUploadUrl', () => {
+    prompt({
+        title: 'Change Blockly Upload Url',
+        type: 'input'
+    }).then(value => {
+        if (value) {
+            setUploadUrl(value);
+        }
+    });
 });
 
 /**
@@ -539,7 +536,6 @@ arduinoUSB$
     });
 
 serialDebugBlockOutput$.subscribe(blockNumber => {
-    console.log(blockNumber);
     const blocks = Blockly.mainWorkspace.getAllBlocks();
 
     for (let i = 0; i < blocks.length; i += 1) {

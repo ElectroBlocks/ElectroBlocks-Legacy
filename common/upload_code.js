@@ -4,12 +4,16 @@ const axios = require('axios');
 const fs = require('fs');
 const Avrgirl = require('avrgirl-arduino');
 const path = require('path');
-
+const log = require('electron-log');
 const { Observable } = RX;
 
 const ARDUINO_FILE = path.join('/', 'tmp', 'Arduino.cpp.hex');
 
 const ARDUINO_TEMP_FOLDER = path.join('/', 'tmp');
+
+const DEFAULT_ARDUINO_URL = 'http://arduino-compile.noahglaser.net/upload-code/uno';
+
+let overRideUrl = undefined;
 
 /**
  * Writes the arduino code
@@ -30,10 +34,32 @@ let writeArduinoHexFile = (code) => {
  * This will upload the code to the server and write a hex file
  */
 function createHexFile(code) {
-    return Observable.fromPromise(axios.post('http://arduino-compile.noahglaser.net/upload-code/uno', code, {
+    return Observable.fromPromise(axios.post(getUploadUrl(), code, {
         headers: {'Content-Type': 'text/plain'}
     }))
         .do(res => writeArduinoHexFile(res.data));
+}
+
+/**
+ * Gets the upload url
+ *
+ * @return {string}
+ */
+function getUploadUrl() {
+    return overRideUrl || DEFAULT_ARDUINO_URL;
+}
+
+/**
+ * Sets the upload url
+ *
+ * @param url
+ */
+function setUploadUrl(url) {
+    overRideUrl = url;
+}
+
+function resetUploadUrl() {
+    overRideUrl = undefined;
 }
 
 /**
@@ -49,10 +75,9 @@ function flashArduino() {
         })).flatMap(avrgirl => Observable.create(observer => {
             avrgirl.flash(ARDUINO_FILE, (err) => {
                 if (err) {
-                    console.error('error flashing', err);
+                    log.error('error flashing', err);
                     observer.error({'avr_girl': err});
                 } else {
-                    console.log('successfully flashed');
                     observer.next(undefined)
                 }
                 observer.complete();
@@ -71,23 +96,17 @@ let uploadCode = (code) => {
         return Observable.forkJoin(createHexFile(code), closeSerialPort())
             .take(1)
             .flatMap(() => flashArduino())
-            .do(() => console.log('flashed arduino'))
             .flatMap(() => openSerialPort())
-            .do(() => console.log('open serial after flashing'))
-            .do(() => {
-                console.log('before deleting');
-                fs.unlinkSync(ARDUINO_FILE)
-                console.log('deleted arduino file');
-            })
-            .map(() => {
-                console.log('inside map');
-            })
+            .do(() => fs.unlinkSync(ARDUINO_FILE))
+            .map(() => undefined)
             .catch(err =>  {
-                console.log('error');
+                closeSerialPort();
+                log.error('error' + JSON.stringify(err));
                 return Observable.of(err)
             });
     } catch(e) {
-        console.log(e);
+        log.error(e);
+        closeSerialPort();
     }
 
 
@@ -95,4 +114,6 @@ let uploadCode = (code) => {
 
 module.exports = {
     'uploadCode': uploadCode,
+    'setUploadUrl': setUploadUrl,
+    'resetUploadUrl': resetUploadUrl
 };
