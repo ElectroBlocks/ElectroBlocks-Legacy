@@ -1,8 +1,4 @@
-# Arduino Blockly IDE
-
-## Demo Video
-
-[![Youtube Video Image](https://img.youtube.com/vi/5nv_PJeeYhI/0.jpg)](https://www.youtube.com/watch?v=5nv_PJeeYhI)
+# ElectroBlocks - Arduino Blockly IDE
 
 ## Description
 
@@ -13,18 +9,18 @@ You can also save and see the code view as well.  I will have a much more in thr
 ## Downloads
 
 Windows: 
-https://github.com/phptuts/ArduinoBlocklyIDE/releases/download/v1.0.28/Arduino.Blockly.IDE.Setup.1.0.28.exe
+https://github.com/phptuts/ElectroBlocks/releases/download/v2.0.6/ElectroBlocks-Setup-2.0.6.exe
 
 Mac:
-https://github.com/phptuts/ArduinoBlocklyIDE/releases/download/v1.0.28/ArduinoBlocklyIDE-1.0.28-mac.zip
+https://github.com/phptuts/ElectroBlocks/releases/download/v2.0.6/ElectroBlocks-2.0.6-mac.zip
 
 Linux:
-https://github.com/phptuts/ArduinoBlocklyIDE/releases/download/v1.0.28/ArduinoBlocklyIDE_1.0.28_amd64.deb
+https://github.com/phptuts/ElectroBlocks/releases/download/v2.0.6/ElectroBlocks_2.0.6_amd64.deb
 
 The Setup Guide:
 http://codingwithnoah.com/arduino-blockly-ide-setup/
 
 
-Windows Users,
+### Windows Users
 
 I got the app signed by DigiCert, but because I am not an organization, thus I can not get the EV Code Sign Cert.   This means you will have to click on the more information the windows defender SmartScreen and click run anyways.
