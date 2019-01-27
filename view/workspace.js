@@ -158,11 +158,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     var setupBlockRequired = blocksThatRequireSetup[property];
 
-                    var disableBlock = blocks.filter(function (block) {
+                    var noSetupBlock = blocks.filter(function (block) {
                             return block.type == setupBlockRequired;
                         }).length == 0;
 
-                    block.setDisabled(disableBlock);
+                    var canNotStandAlone =
+                        standAloneBlocks.indexOf(block.getRootBlock().type) == -1;
+
+                    block.setDisabled(noSetupBlock || canNotStandAlone);
                 })
             }
         }
