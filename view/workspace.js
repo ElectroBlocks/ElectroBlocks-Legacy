@@ -36,7 +36,7 @@ let uploadingCode = false;
 
 /**
  * A list of stand alone blocks
- * @type {[*]}
+ * @type {[string]}
  */
 const standAloneBlocks = [
     'arduino_start',
@@ -54,6 +54,12 @@ const standAloneBlocks = [
     'bluetooth_setup'
 ];
 
+/**
+ * List of library blocks
+ *
+ *
+ * @type {[string]}
+ */
 const setupBlocks = [
     'lcd_setup',
     'neo_pixel_setup',
@@ -63,6 +69,9 @@ const setupBlocks = [
     'bluetooth_setup'
 ];
 
+/**
+ * List of key value block type => setup block required
+ */
 const blocksThatRequireSetup = {
     'bt_receive_message': 'bluetooth_setup',
     'bt_has_message': 'bluetooth_setup',
@@ -83,6 +92,12 @@ const blocksThatRequireSetup = {
     'temp_get_humidity': 'temp_setup'
 };
 
+/**
+ * Replaces the blockly prompt with something that will work with electron.
+ * @param message
+ * @param defaultValue
+ * @param callback
+ */
 Blockly.prompt = function(message, defaultValue, callback) {
     prompt({
         title: message,
@@ -117,10 +132,11 @@ document.addEventListener('DOMContentLoaded', () => {
         ipcRenderer.send('display:code', Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace));
     });
 
-
-    var xml = '<xml><block type="arduino_start" deletable="false" movable="true"></block></xml>';
-    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), Blockly.mainWorkspace);
-    Blockly.mainWorkspace.centerOnBlock(Blockly.mainWorkspace.getAllBlocks()[0].id);
+    setTimeout(() => {
+        var xml = '<xml><block type="arduino_start" deletable="false" movable="true"></block></xml>';
+        Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), Blockly.mainWorkspace);
+        Blockly.mainWorkspace.centerOnBlock(Blockly.mainWorkspace.getAllBlocks()[0].id);
+    }, 250);
 
 
     // Clean up variable when a
@@ -230,7 +246,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Makes sure all the blocks in the trash can are enabled.
         var allBlocks = workspace.getAllBlocks();
         allBlocks.forEach(function(block) {
-            block.setDisabled(false);
+            if (block.type === 'arduino_start') {
+                block.dispose();
+            } else {
+                block.setDisabled(false);
+            }
         });
     });
 
@@ -244,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 var createListNumberBlock = Blockly.mainWorkspace.newBlock('create_list_number_block');
                 createListNumberBlock.initSvg();
                 createListNumberBlock.render();
-                createListNumberBlock.translate(-320, -170);
+                createListNumberBlock.translate(-100, -100);
                 createListNumberBlock.setDeletable(false);
             }, 'List Number');
         });
@@ -258,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 var createListStringBlock = Blockly.mainWorkspace.newBlock('create_list_string_block');
                 createListStringBlock.initSvg();
                 createListStringBlock.render();
-                createListStringBlock.translate(-320, -170);
+                createListStringBlock.translate(-100, -100);
                 createListStringBlock.setDeletable(false);
             }, 'List String');
         });
@@ -272,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 var createBooleanListBlock = Blockly.mainWorkspace.newBlock('create_list_boolean_block');
                 createBooleanListBlock.initSvg();
                 createBooleanListBlock.render();
-                createBooleanListBlock.translate(-320, -170);
+                createBooleanListBlock.translate(-100, -100);
                 createBooleanListBlock.setDeletable(false);
             }, 'List Boolean');
         });
@@ -286,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 var createColourListBlock = Blockly.mainWorkspace.newBlock('create_list_colour_block');
                 createColourListBlock.initSvg();
                 createColourListBlock.render();
-                createColourListBlock.translate(-320, -170);
+                createColourListBlock.translate(-100, -100);
                 createColourListBlock.setDeletable(false);
             }, 'List Colour');
         });
@@ -447,6 +467,8 @@ continueBtn.addEventListener('click', () => {
     ipcRenderer.send('debug:continue');
     clearDebugBlocks();
 });
+
+
 
 ipcRenderer.on('close:serial-monitor', () => {
     serialMonitorBtn.classList.remove('active');
