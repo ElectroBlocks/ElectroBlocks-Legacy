@@ -458,14 +458,16 @@ uploadCodeBtn.addEventListener('click', () => {
                 alert('Error uploading your code :(');
                 return;
             }
-         
+
             alert('Your code has been uploaded.');
         }, err => console.log(err, 'error'), () => console.log('finished'));
+
+
 });
 
 continueBtn.addEventListener('click', () => {
-    ipcRenderer.send('debug:continue');
-    clearDebugBlocks();
+   // ipcRenderer.send('debug:continue');
+   // clearDebugBlocks();
 });
 
 

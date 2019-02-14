@@ -79,6 +79,8 @@
     "electron-prompt": "0.5.0",
     "electron-publisher-s3": "^20.9.0",
     "electron-updater": "^4.0.6",
+    "johnny-five": "^1.0.0",
+    "lodash": "^4.17.11",
     "rxjs": "^5.5.8",
     "serialport": "^7.1.3"
   },
