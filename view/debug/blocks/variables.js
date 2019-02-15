@@ -1,18 +1,16 @@
 function variables_set_number(block, previousFrame = null) {
 
-    var frame = previousFrame || newFrame();
+    let frame = previousFrame || newFrame();
 
-    var variableName = Blockly.mainWorkspace.getVariableById(block.getFieldValue('VAR')).name;
+    let variableName = Blockly.mainWorkspace.getVariableById(block.getFieldValue('VAR')).name;
 
-    if (block.inputList.length == 0) {
-        throw Error('Must have value attached to it');
-    }
+    let value = getInputValue(block, 'VALUE', previousFrame, 0);
 
-    var inputBlock = block.inputList[0].connection.targetConnection.sourceBlock_;
+    value = value || 0;
 
     frame.variables[variableName] =
         {
-            value: functionList[inputBlock.type](inputBlock, previousFrame),
+            value,
             type: 'Number',
             name: variableName
         };
@@ -22,13 +20,13 @@ function variables_set_number(block, previousFrame = null) {
 
 
 function variables_get_number(block, previousFrame) {
-   var variableName = Blockly.mainWorkspace.getVariableById(block.getFieldValue('VAR')).name;
+   let variableName = Blockly.mainWorkspace.getVariableById(block.getFieldValue('VAR')).name;
 
    if (!previousFrame) {
        return 0;
    }
 
-   return previousFrame.variables[variableName].value;
+   return previousFrame.variables[variableName].value || 0;
 }
 
 

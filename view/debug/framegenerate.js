@@ -3,20 +3,20 @@
  */
 
 continueBtn.addEventListener('click', () => {
-    var arduinoBlock = Blockly.mainWorkspace.getAllBlocks().filter(function (block) {
+    let arduinoBlock = Blockly.mainWorkspace.getAllBlocks().filter(function (block) {
         return block.type == 'arduino_start';
     })[0];
 
-    var setupFrames  = generateSetupFrames(arduinoBlock);
+    let setupFrames  = generateSetupFrames(arduinoBlock);
 
-    console.log(setupFrames);
+    window.console.log(setupFrames);
 
-    console.log(JSON.stringify(setupFrames));
+    window.console.log(JSON.stringify(setupFrames));
 });
 
 function generateSetupFrames(arduinoBlock) {
 
-    var firstBlock = arduinoBlock.getInputTargetBlock('setup');
+    let firstBlock = arduinoBlock.getInputTargetBlock('setup');
 
     if (!firstBlock) {
 
@@ -28,8 +28,8 @@ function generateSetupFrames(arduinoBlock) {
 }
 
 function getFrames(topBlock) {
-    var blockList = [];
-    var frames = [];
+    let blockList = [];
+    let frames = [];
 
     do {
         blockList.push(topBlock);
@@ -42,11 +42,11 @@ function getFrames(topBlock) {
         topBlock = topBlock.nextConnection.targetBlock();
     } while(topBlock);
 
-    var previousFrame = null;
+    let previousFrame = null;
 
-    for (var i = 0; i < blockList.length; i += 1) {
-        var block = blockList[i];
-        var currentFrame = functionList[block.type](block, previousFrame);
+    for (let i = 0; i < blockList.length; i += 1) {
+        let block = blockList[i];
+        let currentFrame = functionList[block.type](block, previousFrame);
         frames.push(currentFrame);
         previousFrame = copyFrame(currentFrame);
     }

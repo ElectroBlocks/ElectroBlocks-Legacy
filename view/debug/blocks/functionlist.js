@@ -1,8 +1,14 @@
-var functionList = {
+let functionList = {
     variables_set_number,
     variables_get_number,
+
+
     math_number,
     math_arithmetic,
+    math_round,
+    math_modulo,
+    math_random_int,
+
 };
 
 function newFrame() {
@@ -13,9 +19,9 @@ function newFrame() {
 
 function copyFrame(frame) {
 
-    var newVariablesList = {};
+    let newVariablesList = {};
 
-    for (var key in frame.variables){
+    for (let key in frame.variables){
         if (frame.variables.hasOwnProperty(key)) {
             newVariablesList[key] = frame.variables[key];
         }
