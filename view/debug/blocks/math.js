@@ -5,7 +5,7 @@
  *
  * @return {Number}
  */
-function math_number(block, previousFrame) {
+function math_number_block(block, previousFrame) {
     return parseFloat(block.getFieldValue('NUM'));
 }
 
@@ -16,7 +16,7 @@ function math_number(block, previousFrame) {
  * @param previousFrame
  * @return {*}
  */
-function math_arithmetic(block, previousFrame) {
+function math_arithmetic_block(block, previousFrame) {
     let op = block.getFieldValue('OP');
 
     let aValue = getInputValue(block, 'A', previousFrame, 1);
@@ -49,7 +49,7 @@ function math_arithmetic(block, previousFrame) {
  * @param previousFrame
  * @return {number}
  */
-function math_round(block, previousFrame) {
+function math_round_block(block, previousFrame) {
 
     let op = block.getFieldValue('OP');
     let numValue = getInputValue(block, 'NUM', previousFrame, 1);
@@ -73,7 +73,7 @@ function math_round(block, previousFrame) {
  * @param previousFrame
  * @return {number}
  */
-function math_modulo(block, previousFrame) {
+function math_modulo_block(block, previousFrame) {
 
     let dividendValue = getInputValue(block, 'DIVIDEND', previousFrame, 1);
 
@@ -89,7 +89,7 @@ function math_modulo(block, previousFrame) {
  * @param previousFrame
  * @return {*}
  */
-function math_random_int(block, previousFrame) {
+function math_random_int_block(block, previousFrame) {
 
     let fromValue = getInputValue(block, 'FROM', previousFrame, 0);
 
@@ -104,7 +104,7 @@ function math_random_int(block, previousFrame) {
  * @param block
  * @param previousFrame
  */
-function string_to_number(block, previousFrame) {
+function string_to_number_block(block, previousFrame) {
 
     let numValue = getInputValue(block, 'VALUE', previousFrame, 0);
 

@@ -5,7 +5,7 @@
  * @param previousFrame
  * @return {{r: *, g: *, b: *}}
  */
-function colour_picker(block, previousFrame) {
+function colour_picker_block(block, previousFrame) {
     let value = block.getFieldValue('COLOUR');
 
     return hexToRgb(value)
@@ -18,7 +18,7 @@ function colour_picker(block, previousFrame) {
  * @param previousFrame
  * @return {{r: *, g: *, b: *}}
  */
-function colour_random(block, previousFrame) {
+function colour_random_block(block, previousFrame) {
 
     return { r: getRandomInt(0, 255), g : getRandomInt(0, 255), b: getRandomInt(0, 255) };
 }
@@ -30,7 +30,7 @@ function colour_random(block, previousFrame) {
  * @param previousFrame
  * @return {{r: Number, g: Number, b: Number}}
  */
-function colour_rgb(block, previousFrame) {
+function colour_rgb_block(block, previousFrame) {
     let red = getInputValue(block, 'RED', previousFrame, 0);
     let green = getInputValue(block, 'GREEN', previousFrame, 0);
     let blue = getInputValue(block, 'BLUE', previousFrame, 0);

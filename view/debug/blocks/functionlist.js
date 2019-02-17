@@ -1,32 +1,39 @@
 let functionList = {
-    variables_set_number,
-    variables_get_number,
-    variables_get_colour,
-    variables_set_colour,
-    variables_get_string,
-    variables_set_string,
-    variables_set_boolean,
-    variables_get_boolean,
+    variables_set_number_block,
+    variables_get_number_block,
+    variables_get_colour_block,
+    variables_set_colour_block,
+    variables_get_string_block,
+    variables_set_string_block,
+    variables_set_boolean_block,
+    variables_get_boolean_block,
 
-    logic_boolean,
+    logic_boolean_block,
+    logic_compare_block,
+    control_if_block,
+    controls_ifelse_block,
+    logic_operation_block,
+    logic_negate_block,
 
-    text,
 
-    colour_picker,
-    colour_random,
-    colour_rgb,
+    text_block,
 
-    math_number,
-    math_arithmetic,
-    math_round,
-    math_modulo,
-    math_random_int,
+    colour_picker_block,
+    colour_random_block,
+    colour_rgb_block,
+
+    math_number_block,
+    math_arithmetic_block,
+    math_round_block,
+    math_modulo_block,
+    math_random_int_block,
 
 };
 
 function newFrame() {
     return {
-        variables: {}
+        variables: {},
+        blockId: null
     };
 }
 

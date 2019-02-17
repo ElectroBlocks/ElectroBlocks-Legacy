@@ -6,7 +6,7 @@
  * @param previousFrame
  * @return {*|{variables}}
  */
-function variables_set_number(block, previousFrame) {
+function variables_set_number_block(block, previousFrame) {
     return setVariable(block, 'Number', previousFrame, 0);
 }
 
@@ -18,7 +18,7 @@ function variables_set_number(block, previousFrame) {
  * @param previousFrame
  * @return {Number}
  */
-function variables_get_number(block, previousFrame) {
+function variables_get_number_block(block, previousFrame) {
    return parseInt(getVariable(block, previousFrame, 0));
 }
 
@@ -30,7 +30,7 @@ function variables_get_number(block, previousFrame) {
  * @param previousFrame
  * @return {*|{variables}}
  */
-function variables_set_colour(block, previousFrame) {
+function variables_set_colour_block(block, previousFrame) {
     return setVariable(block, 'Colour', previousFrame, {r: 0, g: 0, b: 0});
 }
 
@@ -41,7 +41,7 @@ function variables_set_colour(block, previousFrame) {
  * @param previousFrame
  * @return {Number}
  */
-function variables_get_colour(block, previousFrame) {
+function variables_get_colour_block(block, previousFrame) {
     return getVariable(block, previousFrame, {r: 0, g: 0, b: 0})
 }
 
@@ -53,7 +53,7 @@ function variables_get_colour(block, previousFrame) {
  * @param previousFrame
  * @return {Number}
  */
-function variables_set_string(block, previousFrame) {
+function variables_set_string_block(block, previousFrame) {
     return setVariable(block, 'String', previousFrame, '');
 }
 
@@ -65,7 +65,7 @@ function variables_set_string(block, previousFrame) {
  * @param previousFrame
  * @return {*|{variables}}
  */
-function variables_get_string(block, previousFrame) {
+function variables_get_string_block(block, previousFrame) {
     return getVariable(block, previousFrame, '');
 }
 
@@ -77,7 +77,7 @@ function variables_get_string(block, previousFrame) {
  * @param previousFrame
  * @return {*|{variables}}
  */
-function variables_set_boolean(block, previousFrame) {
+function variables_set_boolean_block(block, previousFrame) {
     return setVariable(block, 'Boolean', previousFrame, true);
 }
 
@@ -89,7 +89,7 @@ function variables_set_boolean(block, previousFrame) {
  * @param previousFrame
  * @return {*}
  */
-function variables_get_boolean(block, previousFrame) {
+function variables_get_boolean_block(block, previousFrame) {
     return getVariable(block, previousFrame, true);
 }
 
@@ -153,7 +153,9 @@ function setVariable(block, type, previousFrame, defaultValue) {
             name: variableName
         };
 
-    return frame;
+    frame.blockId = block.id;
+
+    return [frame];
 }
 
 /**
