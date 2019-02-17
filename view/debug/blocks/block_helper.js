@@ -1,21 +1,15 @@
 /**
- * Created by noahglaser on 2/14/19.
- */
-
-
-/**
- *
- * Calculates the input blocks value
+ * Gets the value of the block attached to it
  *
  * @param parentBlock
  * @param inputName
  * @param previousFrame
- * @param defaultValue
+ * @param noBlockAttachedDefaultValue Only used if no block is attached to it
  */
-function getInputValue(parentBlock, inputName, previousFrame, defaultValue) {
+function getInputValue(parentBlock, inputName, previousFrame, noBlockAttachedDefaultValue) {
 
     if (!parentBlock.getInput(inputName).connection.targetConnection) {
-        return defaultValue;
+        return noBlockAttachedDefaultValue;
     }
 
     let block = parentBlock
@@ -25,8 +19,10 @@ function getInputValue(parentBlock, inputName, previousFrame, defaultValue) {
                     .getSourceBlock();
 
     if (!block) {
-        return defaultValue;
+        return noBlockAttachedDefaultValue;
     }
 
-    return functionList[block.type](block, previousFrame) || defaultValue;
+    // This means that the default value will be now come from the block definition
+    // Not from the block attached to it.
+    return functionList[block.type](block, previousFrame);
 }
