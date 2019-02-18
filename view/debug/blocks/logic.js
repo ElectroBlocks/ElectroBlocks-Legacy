@@ -127,7 +127,7 @@ function generateIfElseFrames(block, previousFrame, hasElse) {
     // ELSE is for if the ELSE block is true
     let inputStatementName = executeBlocksInsideIf ? 'DO0' : 'ELSE';
 
-    let frames = generateFrameForInputStatement(block, inputStatementName);
+    let frames = generateFrameForInputStatement(block, inputStatementName, ifFrame);
     frames.unshift(ifFrame);
 
     return frames;

@@ -16,6 +16,8 @@ let functionList = {
     logic_negate_block,
 
 
+    controls_repeat_ext_block,
+
     text_block,
 
     colour_picker_block,

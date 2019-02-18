@@ -33,9 +33,10 @@ function getInputValue(parentBlock, inputName, previousFrame, noBlockAttachedDef
  *
  * @param block the actual block
  * @param statement_name the input name where all the blocks are being stored
+ * @param previousFrame The previous frame before things are generated
  * @return {*}
  */
-function generateFrameForInputStatement(block, statement_name) {
+function generateFrameForInputStatement(block, statement_name, previousFrame = null) {
 
     let blockList = [];
     let frames = [];
@@ -56,8 +57,6 @@ function generateFrameForInputStatement(block, statement_name) {
 
         topBlock = topBlock.nextConnection.targetBlock();
     } while(topBlock);
-
-    let previousFrame = null;
 
     for (let i = 0; i < blockList.length; i += 1) {
         let block = blockList[i];
