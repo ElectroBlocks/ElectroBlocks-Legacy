@@ -17,8 +17,11 @@ let functionList = {
 
 
     controls_repeat_ext_block,
+    controls_for_block,
 
     text_block,
+    text_join_block,
+    text_length_block,
 
     colour_picker_block,
     colour_random_block,
@@ -43,13 +46,17 @@ function copyFrame(frame) {
 
     let newVariablesList = {};
 
-    for (let key in frame.variables){
-        if (frame.variables.hasOwnProperty(key)) {
-            newVariablesList[key] = frame.variables[key];
-        }
-    }
+    Object
+        .keys(frame.variables)
+        .forEach(function(key) {
+            newVariablesList[key] = {};
+            newVariablesList[key].value = frame.variables[key].value;
+            newVariablesList[key].name = frame.variables[key].name;
+            newVariablesList[key].type = frame.variables[key].type;
+        }) ;
 
     return {
-        variables: newVariablesList
+        variables: newVariablesList,
+        blockId: frame.hasOwnProperty('blockId') ? frame.blockId : null
     }
 }
