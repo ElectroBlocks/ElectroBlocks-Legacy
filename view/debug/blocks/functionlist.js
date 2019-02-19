@@ -22,6 +22,10 @@ let functionList = {
     text_block,
     text_join_block,
     text_length_block,
+    text_isEmpty_block,
+    number_to_string_block,
+    parse_string_block_block,
+    text_changeCase_block,
 
     colour_picker_block,
     colour_random_block,
