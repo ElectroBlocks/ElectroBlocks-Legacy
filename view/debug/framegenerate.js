@@ -7,11 +7,29 @@ continueBtn.addEventListener('click', () => {
         return block.type == 'arduino_start';
     })[0];
 
-    let setupFrames  = generateFrameForInputStatement(arduinoBlock, 'setup');
+    let topBlocks = Blockly
+                    .mainWorkspace
+                    .getTopBlocks()
+                    .filter(block => block.type != 'arduino_start');
 
-    window.console.log(setupFrames);
+    let frames = [];
 
-    window.console.log(JSON.stringify(setupFrames));
+    topBlocks.forEach(block => {
+        functionList[block.type + '_block'](block, frames.length == 0 ? null : frames[frames.length - 1])
+            .forEach(currentFrame => frames.push(currentFrame));
+    });
+
+    let setupFrames = generateFrameForInputStatement(
+        arduinoBlock,
+        'setup',
+        frames.length == 0 ? null : copyFrame(frames[frames.length - 1])
+    );
+
+    setupFrames.forEach(currentFrame => frames.push(currentFrame));
+
+    window.console.log(frames);
+
+    window.console.log(JSON.stringify(frames));
 });
 
 

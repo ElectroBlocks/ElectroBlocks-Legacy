@@ -19,6 +19,19 @@ let functionList = {
     controls_repeat_ext_block,
     controls_for_block,
 
+    create_list_number_block_block,
+    create_list_string_block_block,
+    create_list_boolean_block_block,
+    create_list_colour_block_block,
+    set_number_list_block_block,
+    set_string_list_block_block,
+    set_boolean_list_block_block,
+    set_colour_list_block_block,
+    get_number_from_list_block,
+    get_colour_from_list_block,
+    get_string_from_list_block,
+    get_boolean_from_list_block,
+
     text_block,
     text_join_block,
     text_length_block,
@@ -54,7 +67,7 @@ function copyFrame(frame) {
         .keys(frame.variables)
         .forEach(function(key) {
             newVariablesList[key] = {};
-            newVariablesList[key].value = frame.variables[key].value;
+            newVariablesList[key].value = copyValue(frame.variables[key].value);
             newVariablesList[key].name = frame.variables[key].name;
             newVariablesList[key].type = frame.variables[key].type;
         }) ;
@@ -63,4 +76,15 @@ function copyFrame(frame) {
         variables: newVariablesList,
         blockId: frame.hasOwnProperty('blockId') ? frame.blockId : null
     }
+}
+
+function copyValue(value) {
+    if (!Array.isArray(value)) {
+        return value;
+    }
+
+    let array = [];
+    value.forEach((value, index) => array[index] = value);
+
+    return array;
 }
