@@ -20,20 +20,25 @@ Blockly.Procedures.flyoutCategory = function(workspace) {
         block.appendChild(nameField);
         xmlList.push(block);
     }
-    if (Blockly.Blocks['procedures_defreturn']) {
-        // <block type="procedures_defreturn" gap="16">
-        //     <field name="NAME">do something</field>
-        // </block>
-        var block = Blockly.Xml.utils.createElement('block');
-        block.setAttribute('type', 'procedures_defreturn');
-        block.setAttribute('gap', 16);
-        var nameField = Blockly.Xml.utils.createElement('field');
-        nameField.setAttribute('name', 'NAME');
-        nameField.appendChild(Blockly.Xml.utils.createTextNode(
-            Blockly.Msg['PROCEDURES_DEFRETURN_PROCEDURE']));
-        block.appendChild(nameField);
-        xmlList.push(block);
-    }
+
+
+    // MORE NOW COMMENTING THIS OUT FOR DEBUG
+    // HAVE NOT RAN INTO A SITUATION YET THAT REQUIRES RETURN TYPE
+    // POSSIBLE VERSION 4
+    // if (Blockly.Blocks['procedures_defreturn']) {
+    //     // <block type="procedures_defreturn" gap="16">
+    //     //     <field name="NAME">do something</field>
+    //     // </block>
+    //     var block = Blockly.Xml.utils.createElement('block');
+    //     block.setAttribute('type', 'procedures_defreturn');
+    //     block.setAttribute('gap', 16);
+    //     var nameField = Blockly.Xml.utils.createElement('field');
+    //     nameField.setAttribute('name', 'NAME');
+    //     nameField.appendChild(Blockly.Xml.utils.createTextNode(
+    //         Blockly.Msg['PROCEDURES_DEFRETURN_PROCEDURE']));
+    //     block.appendChild(nameField);
+    //     xmlList.push(block);
+    // }
 
 
     if (xmlList.length) {

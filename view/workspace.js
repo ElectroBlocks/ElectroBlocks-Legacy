@@ -142,6 +142,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Clean up variable when a
     Blockly.mainWorkspace.addChangeListener(function (event) {
 
+        if (event.element == 'disabled') {
+            return;
+        }
+
         var blocks = Blockly.mainWorkspace.getAllBlocks();
 
         for (var k = 0; k < blocks.length; k += 1) {

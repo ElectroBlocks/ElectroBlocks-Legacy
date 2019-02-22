@@ -14,7 +14,9 @@ continueBtn.addEventListener('click', () => {
 
     let frames = [];
 
-    topBlocks.forEach(block => {
+    topBlocks
+        .filter(block => block.type != 'procedures_defnoreturn')
+        .forEach(block => {
         functionList[block.type + '_block'](block, frames.length == 0 ? null : frames[frames.length - 1])
             .forEach(currentFrame => frames.push(currentFrame));
     });

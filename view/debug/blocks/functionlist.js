@@ -50,41 +50,6 @@ let functionList = {
     math_modulo_block,
     math_random_int_block,
 
+    procedures_callnoreturn_block
+
 };
-
-function newFrame() {
-    return {
-        variables: {},
-        blockId: null
-    };
-}
-
-function copyFrame(frame) {
-
-    let newVariablesList = {};
-
-    Object
-        .keys(frame.variables)
-        .forEach(function(key) {
-            newVariablesList[key] = {};
-            newVariablesList[key].value = copyValue(frame.variables[key].value);
-            newVariablesList[key].name = frame.variables[key].name;
-            newVariablesList[key].type = frame.variables[key].type;
-        }) ;
-
-    return {
-        variables: newVariablesList,
-        blockId: frame.hasOwnProperty('blockId') ? frame.blockId : null
-    }
-}
-
-function copyValue(value) {
-    if (!Array.isArray(value)) {
-        return value;
-    }
-
-    let array = [];
-    value.forEach((value, index) => array[index] = value);
-
-    return array;
-}

@@ -1,3 +1,5 @@
+
+
 /**
  * Gets the value of the block attached to it
  *
@@ -59,7 +61,11 @@ function generateFrameForInputStatement(block, statement_name, previousFrame = n
     } while(topBlock);
 
     for (let i = 0; i < blockList.length; i += 1) {
+
         let block = blockList[i];
+        if (block.disabled) {
+            continue;
+        }
         let currentFrames = functionList[block.type + '_block'](block, previousFrame);
 
         currentFrames.forEach(currentFrame => {
@@ -69,4 +75,41 @@ function generateFrameForInputStatement(block, statement_name, previousFrame = n
     }
 
     return frames;
+}
+
+function newFrame() {
+    return {
+        variables: {},
+        blockId: null
+    };
+}
+
+function copyFrame(frame) {
+
+    let newVariablesList = {};
+
+    Object
+        .keys(frame.variables)
+        .forEach(function(key) {
+            newVariablesList[key] = {};
+            newVariablesList[key].value = copyValue(frame.variables[key].value);
+            newVariablesList[key].name = frame.variables[key].name;
+            newVariablesList[key].type = frame.variables[key].type;
+        }) ;
+
+    return {
+        variables: newVariablesList,
+        blockId: frame.hasOwnProperty('blockId') ? frame.blockId : null
+    }
+}
+
+function copyValue(value) {
+    if (!Array.isArray(value)) {
+        return value;
+    }
+
+    let array = [];
+    value.forEach((value, index) => array[index] = value);
+
+    return array;
 }
