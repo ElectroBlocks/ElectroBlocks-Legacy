@@ -100,8 +100,7 @@ function parseArrayInsertValue(value, type) {
 }
 
 function createArrayType(block, type, previousFrame) {
-    let frame = previousFrame || newFrame();
-    frame.blockId = block.id;
+    let frame = createNewFrame(block, previousFrame);
 
     let variableName = getVariableName(block);
 

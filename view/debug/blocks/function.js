@@ -6,8 +6,7 @@ function procedures_callnoreturn_block(block, previousFrame) {
     let procedureCall = block.getProcedureCall();
     let functionDefinitionBlock = findFunctionDefinition(procedureCall);
 
-    let callBlockFrame =  previousFrame ? copyFrame(previousFrame) : newFrame();
-    callBlockFrame.blockId = block.id;
+    let callBlockFrame = createNewFrame(block, previousFrame);
 
     frames.push(callBlockFrame);
 

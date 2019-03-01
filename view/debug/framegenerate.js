@@ -29,9 +29,13 @@ continueBtn.addEventListener('click', () => {
 
     setupFrames.forEach(currentFrame => frames.push(currentFrame));
 
+
     window.console.log(frames);
 
     window.console.log(JSON.stringify(frames));
+
+    executeFrames(frames, 0);
+
 });
 
 

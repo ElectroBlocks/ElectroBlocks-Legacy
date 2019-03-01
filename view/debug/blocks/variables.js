@@ -135,7 +135,7 @@ function getVariable(block, previousFrame, defaultValue) {
  * @return {*|{variables}}
  */
 function setVariable(block, type, previousFrame, defaultValue) {
-    let frame = previousFrame || newFrame();
+    let frame = createNewFrame(block, previousFrame);
 
     let variableName = getVariableName(block);
 
@@ -152,8 +152,6 @@ function setVariable(block, type, previousFrame, defaultValue) {
             type,
             name: variableName
         };
-
-    frame.blockId = block.id;
 
     return [frame];
 }

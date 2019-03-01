@@ -80,13 +80,16 @@ function generateFrameForInputStatement(block, statement_name, previousFrame = n
 function newFrame() {
     return {
         variables: {},
-        blockId: null
+        blockId: null,
+        pins: {}
     };
 }
 
 function copyFrame(frame) {
 
     let newVariablesList = {};
+
+    let pins = {};
 
     Object
         .keys(frame.variables)
@@ -95,11 +98,22 @@ function copyFrame(frame) {
             newVariablesList[key].value = copyValue(frame.variables[key].value);
             newVariablesList[key].name = frame.variables[key].name;
             newVariablesList[key].type = frame.variables[key].type;
-        }) ;
+        });
+
+    Object
+        .keys(frame.pins)
+        .forEach(function(key) {
+            pins[key] = {};
+            pins[key].pin = frame.pins[key].pin;
+            pins[key].state = frame.pins[key].state;
+            pins[key].type = frame.pins[key].type;
+        });
 
     return {
         variables: newVariablesList,
-        blockId: frame.hasOwnProperty('blockId') ? frame.blockId : null
+        blockId: frame.hasOwnProperty('blockId') ? frame.blockId : null,
+        pins,
+        move: {}
     }
 }
 
@@ -112,4 +126,11 @@ function copyValue(value) {
     value.forEach((value, index) => array[index] = value);
 
     return array;
+}
+
+function createNewFrame(block, previousFrame) {
+    let frame = previousFrame ? copyFrame(previousFrame) : newFrame();
+    frame.blockId = block.id;
+
+    return frame;
 }

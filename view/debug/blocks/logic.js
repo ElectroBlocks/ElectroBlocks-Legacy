@@ -114,8 +114,7 @@ function logic_negate_block(block, previousFrame) {
  */
 function generateIfElseFrames(block, previousFrame, hasElse) {
 
-    let ifFrame = previousFrame || newFrame();
-    ifFrame.blockId = block.id;
+    let ifFrame = createNewFrame(block, previousFrame);
 
     let executeBlocksInsideIf = getInputValue(block, 'IF0', previousFrame, true);
 

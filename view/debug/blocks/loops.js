@@ -6,8 +6,7 @@
  * @return {*}
  */
 function controls_repeat_ext_block(block, previousFrame) {
-    let loopFrame = previousFrame || newFrame();
-    loopFrame.blockId = block.id;
+    let loopFrame = createNewFrame(block, previousFrame);
 
     let times = getInputValue(block, 'TIMES', previousFrame, 1);
 
@@ -35,8 +34,7 @@ function controls_repeat_ext_block(block, previousFrame) {
  */
 function controls_for_block(block, previousFrame) {
 
-    let loopFrame = previousFrame || newFrame();
-    loopFrame.blockId = block.id;
+    let loopFrame = createNewFrame(block, previousFrame);
 
     let start = parseInt(getInputValue(block, 'FROM', previousFrame, 1));
 

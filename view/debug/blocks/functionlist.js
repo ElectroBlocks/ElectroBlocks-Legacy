@@ -50,6 +50,11 @@ let functionList = {
     math_modulo_block,
     math_random_int_block,
 
-    procedures_callnoreturn_block
+    procedures_callnoreturn_block,
+
+    digital_write_block,
+
+
+    delay_block_block
 
 };
