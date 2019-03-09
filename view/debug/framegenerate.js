@@ -34,7 +34,7 @@ continueBtn.addEventListener('click', () => {
 
     window.console.log(JSON.stringify(frames));
 
-    executeFrames(frames, 0);
+    play(frames, 0);
 
 });
 

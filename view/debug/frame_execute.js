@@ -1,14 +1,24 @@
 
-
 let timeout;
-function executeFrames(frames, currentFrame) {
 
-    if (currentFrame >= frames.length - 1) {
+let stop = true;
+
+function play(frames, frameNumber) {
+
+    if (!stop) {
         return;
     }
 
-    executeFrame(frames[currentFrame])
-        .then(() => executeFrames(frames, currentFrame + 1));
+    if (frameNumber >= frames.length - 1) {
+        return;
+    }
+
+    updateSlideBar(frameNumber);
+
+    executeFrame(frames[frameNumber])
+        .then(() => {
+            play(frames, frameNumber + 1);
+        });
 
 }
 
@@ -33,4 +43,13 @@ let executeFrame = (frame) => {
             res(undefined);
         }, 150);
     });
+}
+
+function updateSlideBar(frameNumber) {
+    console.log(frameNumber, 'fake updating slidebar');
+}
+
+function goToFrameNumber(frames, frameNumber)  {
+    // kill all setTimeouts
+    // Execute all the commands
 }

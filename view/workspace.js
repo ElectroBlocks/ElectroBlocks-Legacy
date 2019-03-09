@@ -7,6 +7,7 @@ const {arduinoUSB$, serialDebugOutput$, serialDebugBlockOutput$} = remote.requir
 const {uploadCode, setUploadUrl }  = remote.require('./common/upload_code');
 const { NODE_ERROR } = remote.require('./common/constants');
 const prompt = remote.require('electron-prompt');
+
 const { dialog } = remote;
 
 /**

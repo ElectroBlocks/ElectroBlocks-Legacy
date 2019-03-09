@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "outDir": "./frontent_output/"
+    },
+    "include": [
+        "src/**/*.ts"
+    ],
+    "exclude": [
+    ]
+}
