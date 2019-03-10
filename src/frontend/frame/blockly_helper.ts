@@ -13,13 +13,13 @@ import { frameGeneratingBlocks, valueGeneratingBlocks } from './frame_list';
                             .filter(block => !block.disabled);
 
         return generateFrames(blockList, previousFrame);
-    }
+    };
 
    /**
     * Gets the value of the block attached to it
     *
     */
-   const getInputValue = (parentBlock: Block, inputName: string, noBlockAttachedDefaultValue: any, previousFrame?: Frame): number|string|boolean|object|Array<number|string|boolean|object> => {
+   const getInputValue = (parentBlock: Block, inputName: string, noBlockAttachedDefaultValue: any, previousFrame?: Frame): number|string|boolean|Object|Array<number|string|boolean|Object> => {
 
         if (!parentBlock.getInput(inputName).connection.targetConnection) {
             return noBlockAttachedDefaultValue;
@@ -38,7 +38,7 @@ import { frameGeneratingBlocks, valueGeneratingBlocks } from './frame_list';
         // This means that the default value will be now come from the block definition
         // Not from the block attached to it.
         return valueGeneratingBlocks[block.type + '_block'](block, previousFrame);
-    }
+    };
 
     /**
      * 
@@ -62,7 +62,7 @@ import { frameGeneratingBlocks, valueGeneratingBlocks } from './frame_list';
         } while(topBlock);
 
         return blockList;
-    }
+    };
 
     const generateFrames = (blockList: Block[], previousFrame?: Frame) => {
         let frames = new Array<Frame>();
@@ -77,7 +77,7 @@ import { frameGeneratingBlocks, valueGeneratingBlocks } from './frame_list';
         }
 
         return frames;
-    }
+    };
 
 
 export {

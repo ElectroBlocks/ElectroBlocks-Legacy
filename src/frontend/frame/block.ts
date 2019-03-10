@@ -69,5 +69,8 @@ export interface Blockly {
 export interface WorkSpace {
     
      getVariableById: (variableId: string) => Variable; 
-    
+
+     getAllBlocks(): Block[];
+
+    getTopBlocks(): Block[];
 }

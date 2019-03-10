@@ -1,9 +1,9 @@
-import { ArduinoFrame } from './../arduino/arduino_frame';
-import { Block } from './../frame/block';
+import { ArduinoFrame } from '../arduino/arduino_frame';
+import { Block } from '../frame/block';
 import { Blockly } from "../frame/block";
 import { getInputValue } from '../frame/blockly_helper';
 
-declare var Blockly: Blockly;
+declare const Blockly: Blockly;
 
 /**
  * Returns the frame with the variable set for number type
@@ -11,7 +11,7 @@ declare var Blockly: Blockly;
  */
 const variables_set_number_block = (block: Block, previousFrame: ArduinoFrame) => {
     return setVariable(block, 'Number', 0, previousFrame);
-}
+};
 
 /**
  * Returns the number in the variable,
@@ -19,7 +19,7 @@ const variables_set_number_block = (block: Block, previousFrame: ArduinoFrame) =
  */
 const variables_get_number_block = (block: Block, previousFrame: ArduinoFrame) =>  {
    return parseInt(getVariable(block, 0, previousFrame));
-}
+};
 
 /**
  * Returns the frame with the variable set for colour type
@@ -27,14 +27,14 @@ const variables_get_number_block = (block: Block, previousFrame: ArduinoFrame) =
  */
 const variables_set_colour_block = (block: Block, previousFrame: ArduinoFrame) => {
     return setVariable(block, 'Colour', {r: 0, g: 0, b: 0},  previousFrame);
-}
+};
 
 /**
  * Returns the colour in the variable, if not available it used 0 for the rgb values as the default
  */
 const variables_get_colour_block = (block: Block, previousFrame?: ArduinoFrame) => {
-    return getVariable(block, {r: 0, g: 0, b: 0}, previousFrame)
-}
+    return getVariable(block, {r: 0, g: 0, b: 0}, previousFrame);
+};
 
 /**
  * Returns the frame with the variable set for string type
@@ -42,7 +42,7 @@ const variables_get_colour_block = (block: Block, previousFrame?: ArduinoFrame) 
  */
 const variables_set_string_block = (block: Block, previousFrame?: ArduinoFrame) => {
     return setVariable(block, 'String', '', previousFrame);
-}
+};
 
 /**
  * Returns the colour in the variable,
@@ -50,7 +50,7 @@ const variables_set_string_block = (block: Block, previousFrame?: ArduinoFrame) 
  */
 const variables_get_string_block = (block: Block, previousFrame?: ArduinoFrame) => {
     return getVariable(block, '', previousFrame);
-}
+};
 
 /**
  * Returns the frame with the variable set for boolean type
@@ -58,7 +58,7 @@ const variables_get_string_block = (block: Block, previousFrame?: ArduinoFrame) 
  */
 const variables_set_boolean_block = (block: Block, previousFrame?: ArduinoFrame) => {
     return setVariable(block, 'Boolean', true, previousFrame);
-}
+};
 
 /**
  * Returns the colour in the variable,
@@ -66,7 +66,7 @@ const variables_set_boolean_block = (block: Block, previousFrame?: ArduinoFrame)
  */
 const variables_get_boolean_block = (block: Block, previousFrame?: ArduinoFrame) => {
     return getVariable(block, true, previousFrame);
-}
+};
 
 
 /**
@@ -93,7 +93,7 @@ const getVariable = (block: Block,  defaultValue: any, previousFrame?: ArduinoFr
     }
 
     return  value || defaultValue;
-}
+};
 
 /**
  * Returns the new frame attached with the new value of the variable
@@ -106,7 +106,7 @@ const setVariable = (block: Block, type: string, defaultValue: any, previousFram
     let variableName = getVariableName(block);
 
     
-    let value = getInputValue(block, 'VALUE', previousFrame, defaultValue);
+    let value = getInputValue(block, 'VALUE', defaultValue, previousFrame);
 
     // If the type of variable is boolean we want it to be able to return false
     if (!isBooleanVariableReturningValue(type, value)) {
@@ -122,7 +122,7 @@ const setVariable = (block: Block, type: string, defaultValue: any, previousFram
 
 
     return [new ArduinoFrame(block.id, variableList, previousFrame.components, previousFrame.lastMovedComponent)];
-}
+};
 
 /**
  * Returns true if we are dealing with a boolean variable that returns false
@@ -133,21 +133,21 @@ const isBooleanVariableReturningValue = (type: string, value: any) => {
     }
 
     return value === false;
-}
+};
 
 /**
  * Gets the variable's name used in the block
  */
 const  getVariableName = (block: Block) => {
     return Blockly.mainWorkspace.getVariableById(block.getFieldValue('VAR')).name;
-}
+};
 
 /**
  * Returns the variables type as string
  */
 const getVariableType = (block: Block) => {
     return Blockly.mainWorkspace.getVariableById(block.getFieldValue('VAR')).type;
-}
+};
 
 export {
     variables_set_boolean_block,

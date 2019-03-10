@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const arduino_frame_1 = require("./../arduino/arduino_frame");
+const arduino_frame_1 = require("../arduino/arduino_frame");
 const blockly_helper_1 = require("../frame/blockly_helper");
 const variables_set_number_block = (block, previousFrame) => {
     return setVariable(block, 'Number', 0, previousFrame);
@@ -48,10 +48,10 @@ const getVariable = (block, defaultValue, previousFrame) => {
     }
     return value || defaultValue;
 };
-function setVariable(block, type, defaultValue, previousFrame) {
+const setVariable = (block, type, defaultValue, previousFrame) => {
     previousFrame = previousFrame || arduino_frame_1.ArduinoFrame.makeEmptyFrame(block.id);
     let variableName = getVariableName(block);
-    let value = blockly_helper_1.getInputValue(block, 'VALUE', previousFrame, defaultValue);
+    let value = blockly_helper_1.getInputValue(block, 'VALUE', defaultValue, previousFrame);
     if (!isBooleanVariableReturningValue(type, value)) {
         value = value || defaultValue;
     }
@@ -62,17 +62,20 @@ function setVariable(block, type, defaultValue, previousFrame) {
         value
     };
     return [new arduino_frame_1.ArduinoFrame(block.id, variableList, previousFrame.components, previousFrame.lastMovedComponent)];
-}
+};
 const isBooleanVariableReturningValue = (type, value) => {
     if (type != 'Boolean') {
         return false;
     }
     return value === false;
 };
+exports.isBooleanVariableReturningValue = isBooleanVariableReturningValue;
 const getVariableName = (block) => {
     return Blockly.mainWorkspace.getVariableById(block.getFieldValue('VAR')).name;
 };
+exports.getVariableName = getVariableName;
 const getVariableType = (block) => {
     return Blockly.mainWorkspace.getVariableById(block.getFieldValue('VAR')).type;
 };
+exports.getVariableType = getVariableType;
 //# sourceMappingURL=variables.js.map

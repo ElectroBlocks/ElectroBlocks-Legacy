@@ -1,7 +1,7 @@
 export interface Variable {
     name: string;
     value: any;
-    type: VARIABLE_TYPE|string
+    type: string
 }
 
 export enum VARIABLE_TYPE {

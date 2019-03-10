@@ -10,6 +10,8 @@ const prompt = remote.require('electron-prompt');
 
 const { dialog } = remote;
 
+require('../frontent_output/frame_genorator/entry');
+
 /**
  * Elements
  */
@@ -470,10 +472,10 @@ uploadCodeBtn.addEventListener('click', () => {
 
 });
 
-continueBtn.addEventListener('click', () => {
-   // ipcRenderer.send('debug:continue');
-   // clearDebugBlocks();
-});
+// continueBtn.addEventListener('click', () => {
+//    // ipcRenderer.send('debug:continue');
+//    // clearDebugBlocks();
+// });
 
 
 
