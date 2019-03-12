@@ -35,7 +35,7 @@ Blockly.Arduino['controls_for'] = function (block) {
     var toNumber = Blockly.Arduino.valueToCode(block, 'TO',
             Blockly.Arduino.ORDER_ASSIGNMENT) || '0';
 
-    var byNumber = Math.abs(parseInt(Blockly.Arduino.valueToCode(block, 'TO',
+    var byNumber = Math.abs(parseInt(Blockly.Arduino.valueToCode(block, 'BY',
             Blockly.Arduino.ORDER_ASSIGNMENT)));
 
     byNumber = byNumber == 0 ? 1 : byNumber;
