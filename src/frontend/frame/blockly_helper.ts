@@ -21,15 +21,7 @@ import { frameGeneratingBlocks, valueGeneratingBlocks } from './frame_list';
     */
    const getInputValue = (parentBlock: Block, inputName: string, noBlockAttachedDefaultValue: any, previousFrame?: Frame): number|string|boolean|Object|Array<number|string|boolean|Object> => {
 
-        if (!parentBlock.getInput(inputName).connection.targetConnection) {
-            return noBlockAttachedDefaultValue;
-        }
-
-        const block = parentBlock
-                        .getInput(inputName)
-                        .connection
-                        .targetConnection
-                        .getSourceBlock();
+       const block = parentBlock.getInput(inputName).connection.targetBlock();
 
         if (!block) {
             return noBlockAttachedDefaultValue;
@@ -64,6 +56,9 @@ import { frameGeneratingBlocks, valueGeneratingBlocks } from './frame_list';
         return blockList;
     };
 
+    /**
+     * Generates Frames for each block in the list
+     */
     const generateFrames = (blockList: Block[], previousFrame?: Frame) => {
         let frames = new Array<Frame>();
 

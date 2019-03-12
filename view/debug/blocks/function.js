@@ -69,10 +69,10 @@ function getVariableDefaultType(type) {
 function findFunctionDefinition(functionName) {
     let functionBlocks = Blockly.mainWorkspace
         .getTopBlocks()
-        .filter(block => block.type == 'procedures_defnoreturn')
+        .filter(block => block.type === 'procedures_defnoreturn')
         .filter(block => block.getProcedureDef()[0] == functionName);
 
-    if (functionBlocks.length == 0) {
+    if (functionBlocks.length === 0) {
         throw new Error('No function definition found');
     }
 

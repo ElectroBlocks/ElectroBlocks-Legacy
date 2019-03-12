@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const arduino_frame_1 = require("../arduino/arduino_frame");
+const block_1 = require("../frame/block");
 const blockly_helper_1 = require("../frame/blockly_helper");
 const variables_set_number_block = (block, previousFrame) => {
     return setVariable(block, 'Number', 0, previousFrame);
@@ -11,11 +12,11 @@ const variables_get_number_block = (block, previousFrame) => {
 };
 exports.variables_get_number_block = variables_get_number_block;
 const variables_set_colour_block = (block, previousFrame) => {
-    return setVariable(block, 'Colour', { r: 0, g: 0, b: 0 }, previousFrame);
+    return setVariable(block, 'Colour', { red: 0, green: 0, blue: 0 }, previousFrame);
 };
 exports.variables_set_colour_block = variables_set_colour_block;
 const variables_get_colour_block = (block, previousFrame) => {
-    return getVariable(block, { r: 0, g: 0, b: 0 }, previousFrame);
+    return getVariable(block, { red: 0, green: 0, blue: 0 }, previousFrame);
 };
 exports.variables_get_colour_block = variables_get_colour_block;
 const variables_set_string_block = (block, previousFrame) => {
@@ -71,11 +72,11 @@ const isBooleanVariableReturningValue = (type, value) => {
 };
 exports.isBooleanVariableReturningValue = isBooleanVariableReturningValue;
 const getVariableName = (block) => {
-    return Blockly.mainWorkspace.getVariableById(block.getFieldValue('VAR')).name;
+    return block_1.getBlockly().mainWorkspace.getVariableById(block.getFieldValue('VAR')).name;
 };
 exports.getVariableName = getVariableName;
 const getVariableType = (block) => {
-    return Blockly.mainWorkspace.getVariableById(block.getFieldValue('VAR')).type;
+    return block_1.getBlockly().mainWorkspace.getVariableById(block.getFieldValue('VAR')).type;
 };
 exports.getVariableType = getVariableType;
 //# sourceMappingURL=variables.js.map

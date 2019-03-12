@@ -1,4 +1,4 @@
-import { Frame } from './../frame/frame';
+import { Frame } from '../frame/frame';
 import { Variable } from '../frame/variable';
 import { USB, USB_COMMAND_TYPES } from './usb';
 import { Copy } from './copy';

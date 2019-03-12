@@ -1,5 +1,7 @@
 import { Variable } from './variable';
 
+declare const Blockly: Blockly;
+
 export interface Block {
     
     /**
@@ -53,7 +55,7 @@ export interface Connection {
     /**
      * Gets connect to the other block that it is connecting to 
      */
-    targetConnection: Connection;
+    targetConnection?: Connection;
 
     /**
      * Gets the source / from block
@@ -74,3 +76,12 @@ export interface WorkSpace {
 
     getTopBlocks(): Block[];
 }
+
+const getBlockly = (): Blockly => {
+    return Blockly;
+};
+
+export {
+    getBlockly
+}
+

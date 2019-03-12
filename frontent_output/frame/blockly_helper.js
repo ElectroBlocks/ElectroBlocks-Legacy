@@ -8,14 +8,7 @@ const generateFrameForInputStatement = (block, statement_name, previousFrame) =>
 };
 exports.generateFrameForInputStatement = generateFrameForInputStatement;
 const getInputValue = (parentBlock, inputName, noBlockAttachedDefaultValue, previousFrame) => {
-    if (!parentBlock.getInput(inputName).connection.targetConnection) {
-        return noBlockAttachedDefaultValue;
-    }
-    const block = parentBlock
-        .getInput(inputName)
-        .connection
-        .targetConnection
-        .getSourceBlock();
+    const block = parentBlock.getInput(inputName).connection.targetBlock();
     if (!block) {
         return noBlockAttachedDefaultValue;
     }

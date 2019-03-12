@@ -1,6 +1,6 @@
 
 /**
- * For Compontents that attach to the arduino that copies are needed to be made
+ * For Components that attach to the arduino that copies are needed to be made
  */
 export interface Copy<T> {
     

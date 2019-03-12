@@ -1,10 +1,8 @@
 import { LCDScreen, LCD_SCREEN_MEMORY_TYPE } from './lcd_screen';
-import { NeoPixel } from './neo_pixels';
 import { Servo } from './servo';
 import { ArduinoFrame } from './arduino_frame';
 import 'jasmine';
 import { Pin, ARDUINO_UNO_PINS, PIN_TYPE } from './pin';
-import { Variable } from '../frame/variable';
 
 describe('Arduino Frame', () => {
 
