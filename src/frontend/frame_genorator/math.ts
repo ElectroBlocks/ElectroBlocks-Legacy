@@ -14,7 +14,6 @@ const math_number_block = (block: Block, previousFrame?: ArduinoFrame): number =
  */
 const math_arithmetic_block = (block: Block, previousFrame?: ArduinoFrame): number => {
 	let op = block.getFieldValue('OP');
-
 	const aValue = getInputValue(block, 'A', 1, previousFrame);
 	const bValue = getInputValue(block, 'B', 1, previousFrame);
 
@@ -88,7 +87,7 @@ const math_random_int_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
 /**
  * Turns a "string" to a number not super relevant in javascript
  */
-const string_to_number_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
+const string_to_number_block = (block: Block, previousFrame?: ArduinoFrame): string =>  {
 
 	let numValue = getInputValue(block, 'VALUE',0, previousFrame);
 
