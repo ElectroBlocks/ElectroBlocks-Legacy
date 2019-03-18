@@ -109,5 +109,6 @@ export {
 	math_modulo_block,
 	math_random_int_block,
 	math_number_block,
-	math_round_block
+	math_round_block,
+	getRandomInt
 };
