@@ -61,7 +61,7 @@ function getArrayValue(block, previousFrame, defaultValue, type) {
 
     let array = previousFrame.variables[variableName].value;
 
-    if (type == 'Boolean' && array[position] === false) {
+    if (type === 'Boolean' && array[position] === false) {
         return false;
     }
 
@@ -93,7 +93,7 @@ function parseArrayInsertValue(value, type) {
         case 'String':
             return value.toString();
         case 'Boolean':
-            return value == true;
+            return value === true;
         case 'Colour':
             return value;
     }

@@ -28,6 +28,23 @@ import {
     Color
 } from '../frame_genorator/colour';
 
+import {
+    get_colour_from_list_block,
+    get_boolean_from_list_block,
+    get_number_from_list_block,
+    get_string_from_list_block,
+    set_boolean_list_block_block,
+    set_colour_list_block_block,
+    set_number_list_block_block,
+    set_string_list_block_block,
+    create_list_boolean_block_block,
+    create_list_colour_block_block,
+    create_list_number_block_block,
+    create_list_string_block_block
+
+} from '../frame_genorator/list';
+
+import { procedures_callnoreturn_block } from '../frame_genorator/function';
 
 let valueGeneratingBlocks: { [key: string] : (block: Block, previousFrame?: Frame) =>  number|string|boolean|Color|Array<number|string|boolean|Color> };
 
@@ -38,6 +55,18 @@ frameGeneratingBlocks = {
     variables_set_string_block,
     variables_set_colour_block,
     variables_set_number_block,
+
+    procedures_callnoreturn_block,
+
+    set_boolean_list_block_block,
+    set_colour_list_block_block,
+    set_number_list_block_block,
+    set_string_list_block_block,
+    create_list_boolean_block_block,
+    create_list_colour_block_block,
+    create_list_number_block_block,
+    create_list_string_block_block
+
 };
 
 valueGeneratingBlocks = {
@@ -55,7 +84,13 @@ valueGeneratingBlocks = {
 
     colour_random_block,
     colour_picker_block,
-    colour_rgb_block
+    colour_rgb_block,
+
+    get_colour_from_list_block,
+    get_boolean_from_list_block,
+    get_number_from_list_block,
+    get_string_from_list_block,
+
 };
 
 export {

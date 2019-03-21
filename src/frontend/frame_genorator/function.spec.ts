@@ -1,0 +1,85 @@
+import 'jasmine';
+import * as blockHelper from '../frame/blockly_helper';
+import { Block, Blockly } from "../frame/block";
+import * as blockly from "../frame/block";
+import { Variable } from "../frame/variable";
+import { procedures_callnoreturn_block } from "./function";
+import { ArduinoFrame } from "../arduino/arduino_frame";
+
+
+describe( 'functions', () => {
+	describe( 'procedures_callnoreturn_block', () => {
+		it( 'should generate frames for a custom block', () => {
+
+			const functionDefinitionBlock: any | Block = {
+				type: 'procedures_defnoreturn',
+				id: 'asdfasdfasdfas',
+				getProcedureDef(): [ string, string[], boolean, Variable[] ] {
+					return [ 'func_name', [], false, [
+						{
+							type: 'Number',
+							name: 'var1',
+							value: 3
+						},
+						{
+							type: 'String',
+							name: 'var2',
+							value: 'hello'
+						}
+
+					] ]
+				}
+			};
+
+			const block2: any | Block = {
+				type: 'anotherblock'
+			};
+
+			const blocklyMock: any | Blockly = {
+				mainWorkspace: {
+					getTopBlocks: () => {
+						return [
+							functionDefinitionBlock,
+							block2
+						]
+					}
+				}
+			};
+
+			const functionCallBlock: any | Block = {
+				id: 'fadssdf',
+
+				getProcedureCall() {
+					return 'func_name';
+				}
+			};
+
+			spyOn( blockly, 'getBlockly' ).and.returnValue( blocklyMock );
+
+			const getInputValueSpy = spyOn( blockHelper, 'getInputValue' );
+			getInputValueSpy.withArgs( functionCallBlock, 'ARG0', 0, undefined )
+				.and.returnValue( 34 );
+
+			getInputValueSpy.withArgs( functionCallBlock, 'ARG1', '', undefined )
+				.and.returnValue( 'Hello World' );
+
+			spyOn( blockHelper, 'generateFrameForInputStatement' )
+				.withArgs( functionDefinitionBlock, 'STACK', jasmine.any( ArduinoFrame ) )
+				.and.returnValue( [ ArduinoFrame.makeEmptyFrame( 'block_23' ), ArduinoFrame.makeEmptyFrame( 'block_23423' ) ] );
+
+			const frames = procedures_callnoreturn_block( functionCallBlock );
+			// Testing the number of frames is right.
+			expect( frames.length ).toBe( 4 );
+
+			const definitionFrameBlock = frames[1];
+			// Testing that values get assigned to the definition block
+			expect(definitionFrameBlock.variables['var1'].type).toBe('Number');
+			expect(definitionFrameBlock.variables['var1'].name).toBe('var1');
+			expect(definitionFrameBlock.variables['var1'].value).toBe(34);
+
+			expect(definitionFrameBlock.variables['var2'].value).toBe('Hello World');
+			expect(definitionFrameBlock.variables['var2'].name).toBe('var2');
+			expect(definitionFrameBlock.variables['var2'].type).toBe('String');
+		} );
+	} );
+} );

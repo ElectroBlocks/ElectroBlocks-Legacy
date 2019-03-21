@@ -30,6 +30,12 @@ export class Pin implements USB, Copy<Pin> {
 
 export enum PIN_TYPE { DIGITAL = 'D', ANALOG = 'A' };
 
+export const stringToPin = (pin: string): ARDUINO_UNO_PINS => {
+    const pinKey = "PIN_" + pin.toString();
+
+    return (<any>ARDUINO_UNO_PINS)[pinKey];
+};
+
 export enum ARDUINO_UNO_PINS {
     PIN_1 = '1',
     PIN_2 = '2',
@@ -49,4 +55,4 @@ export enum ARDUINO_UNO_PINS {
     PIN_A3 = 'A3',
     PIN_A4 = 'A4',
     PIN_A5 = 'A5'
-}
+};

@@ -1,10 +1,9 @@
 import { Frame } from '../frame/frame';
 import { Variable } from '../frame/variable';
 import { USB, USB_COMMAND_TYPES } from './usb';
-import { Copy } from './copy';
 import { EmptyComponent } from './empty_component';
 
-export class ArduinoFrame implements Frame, USB, Copy<ArduinoFrame> {
+export class ArduinoFrame implements Frame, USB {
     
 
     constructor(
@@ -53,8 +52,8 @@ export class ArduinoFrame implements Frame, USB, Copy<ArduinoFrame> {
         return `${USB_COMMAND_TYPES.SETUP}-${numberOfThingSetup}${endOfSetup}${USB_COMMAND_TYPES.END_OF_COMMAND}`;
     }
 
-    makeCopy(): ArduinoFrame {
-        return new ArduinoFrame(this.blockId, this.variables, this.components, this.lastMovedComponent);
+    makeCopy(blockId: string): ArduinoFrame {
+        return new ArduinoFrame(blockId, this.variables, this.components, this.lastMovedComponent);
     }
 }
 

@@ -14,5 +14,5 @@ export interface Frame {
     /**
      * Makes a copy of the current frame
      */
-    makeCopy(): Frame;
+    makeCopy(blockId: string): Frame;
 }

@@ -43,6 +43,10 @@ export interface Block {
      * @param statementName The name of the input where the blocks are stored
      */
     getInputTargetBlock(statementName: string): Block;
+
+    getProcedureDef(): [string, string[], boolean, Variable[] ]
+
+    getProcedureCall(): string;
 }
 
 export interface Connection {

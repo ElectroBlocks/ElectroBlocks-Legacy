@@ -7,5 +7,5 @@ export interface Copy<T> {
     /**
      * Makes new copy of itself
      */
-    makeCopy(): T;
+    makeCopy(blockId: string): T;
 }
