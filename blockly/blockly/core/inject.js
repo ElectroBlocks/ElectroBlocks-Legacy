@@ -69,13 +69,10 @@ Blockly.inject = function(container, opt_options) {
 
   var workspace = Blockly.createMainWorkspace_(svg, options, blockDragSurface,
       workspaceDragSurface);
-  Blockly.setTheme(options.theme);
-
   Blockly.init_(workspace);
   Blockly.mainWorkspace = workspace;
 
   Blockly.svgResize(workspace);
-
   return workspace;
 };
 
@@ -221,19 +218,13 @@ Blockly.createMainWorkspace_ = function(svg, options, blockDragSurface,
     var flyout = mainWorkspace.addFlyout_('svg');
     Blockly.utils.insertAfter(flyout, svg);
   }
-  if (options.hasTrashcan) {
-    mainWorkspace.addTrashcan();
-  }
-  if (options.zoomOptions && options.zoomOptions.controls) {
-    mainWorkspace.addZoomControls();
-  }
 
   // A null translation will also apply the correct initial scale.
   mainWorkspace.translate(0, 0);
   Blockly.mainWorkspace = mainWorkspace;
 
   if (!options.readOnly && !options.hasScrollbars) {
-    var workspaceChanged = function(e) {
+    var workspaceChanged = function() {
       if (!mainWorkspace.isDragging()) {
         var metrics = mainWorkspace.getMetrics();
         var edgeLeft = metrics.viewLeft + metrics.absoluteLeft;
@@ -248,12 +239,6 @@ Blockly.createMainWorkspace_ = function(svg, options, blockDragSurface,
           // One or more blocks may be out of bounds.  Bump them back in.
           var MARGIN = 25;
           var blocks = mainWorkspace.getTopBlocks(false);
-          var oldGroup = null;
-          if (e) {
-            oldGroup = Blockly.Events.getGroup();
-            Blockly.Events.setGroup(e.group);
-          }
-          var movedBlocks = false;
           for (var b = 0, block; block = blocks[b]; b++) {
             var blockXY = block.getRelativeToSurfaceXY();
             var blockHW = block.getHeightWidth();
@@ -261,36 +246,25 @@ Blockly.createMainWorkspace_ = function(svg, options, blockDragSurface,
             var overflowTop = edgeTop + MARGIN - blockHW.height - blockXY.y;
             if (overflowTop > 0) {
               block.moveBy(0, overflowTop);
-              movedBlocks = true;
             }
             // Bump any block that's below the bottom back inside.
             var overflowBottom =
                 edgeTop + metrics.viewHeight - MARGIN - blockXY.y;
             if (overflowBottom < 0) {
               block.moveBy(0, overflowBottom);
-              movedBlocks = true;
             }
             // Bump any block that's off the left back inside.
             var overflowLeft = MARGIN + edgeLeft -
                 blockXY.x - (options.RTL ? 0 : blockHW.width);
             if (overflowLeft > 0) {
               block.moveBy(overflowLeft, 0);
-              movedBlocks = true;
             }
             // Bump any block that's off the right back inside.
             var overflowRight = edgeLeft + metrics.viewWidth - MARGIN -
                 blockXY.x + (options.RTL ? blockHW.width : 0);
             if (overflowRight < 0) {
               block.moveBy(overflowRight, 0);
-              movedBlocks = true;
             }
-          }
-          if (e) {
-            if (!e.group && movedBlocks) {
-              console.log('WARNING: Moved blocks in bounds but there was no event group.'
-                        + ' This may break undo.');
-            }
-            Blockly.Events.setGroup(oldGroup);
           }
         }
       }
@@ -346,14 +320,6 @@ Blockly.init_ = function(mainWorkspace) {
       }
       mainWorkspace.translate(mainWorkspace.scrollX, 0);
     }
-  }
-
-  var verticalSpacing = Blockly.Scrollbar.scrollbarThickness;
-  if (options.hasTrashcan) {
-    verticalSpacing = mainWorkspace.trashcan.init(verticalSpacing);
-  }
-  if (options.zoomOptions && options.zoomOptions.controls) {
-    mainWorkspace.zoomControls_.init(verticalSpacing);
   }
 
   if (options.hasScrollbars) {

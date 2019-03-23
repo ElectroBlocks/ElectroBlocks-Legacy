@@ -416,7 +416,7 @@ Code.blocksThatRequireSetup = {
     'temp_read_temp_humidity': 'temp_setup',
     'temp_get_temp': 'temp_setup',
     'temp_get_humidity': 'temp_setup'
-};
+}
 
 
 /**

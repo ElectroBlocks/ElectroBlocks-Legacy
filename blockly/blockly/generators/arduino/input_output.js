@@ -16,7 +16,7 @@ Blockly.Arduino['is_button_pressed'] = function (block) {
 Blockly.Arduino['digital_read'] = function (block) {
     var pin = block.getFieldValue('PIN');
 
-    Blockly.Arduino.setupCode_['digital_pin_' + pin ] = '\tpinMode(' + pin + ', INPUT); \n';
+    Blockly.Arduino.setupCode_['digital_read' + pin ] = '\tpinMode(' + pin + ', INPUT); \n';
 
     return ['digitalRead(' + pin +')', Blockly.Arduino.ORDER_ATOMIC];
 };
@@ -25,8 +25,6 @@ Blockly.Arduino['digital_write'] = function(block) {
     var pin = block.getFieldValue('PIN');
 
     var state = block.getFieldValue('STATE') == 'ON' ? 'HIGH' : 'LOW';
-    Blockly.Arduino.setupCode_['digital_pin_' + pin ] = '\tpinMode(' + pin + ', OUTPUT); \n';
-
 
     return 'digitalWrite(' + pin + ', ' + state + '); \n';
 };

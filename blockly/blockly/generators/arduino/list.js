@@ -25,7 +25,7 @@ var setListVariable = function (block) {
 
     position = parseInt(position) > 0 ? position -1 : 0;
 
-    var variableId = block.getFieldValue('VAR');
+    var variableId = block.getFieldValue('NAME');
 
     var variable = Blockly.mainWorkspace.getVariableById(variableId);
 

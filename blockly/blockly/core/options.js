@@ -27,7 +27,6 @@
 goog.provide('Blockly.Options');
 
 goog.require('Blockly.Xml');
-goog.require('Blockly.Themes.Classic');
 
 
 /**
@@ -54,14 +53,6 @@ Blockly.Options = function(options) {
     var hasTrashcan = options['trashcan'];
     if (hasTrashcan === undefined) {
       hasTrashcan = hasCategories;
-    }
-    var maxTrashcanContents = options['maxTrashcanContents'];
-    if (hasTrashcan) {
-      if (maxTrashcanContents === undefined) {
-        maxTrashcanContents = 32;
-      }
-    } else {
-      maxTrashcanContents = 0;
     }
     var hasCollapse = options['collapse'];
     if (hasCollapse === undefined) {
@@ -120,10 +111,6 @@ Blockly.Options = function(options) {
   } else {
     var oneBasedIndex = !!options['oneBasedIndex'];
   }
-  var theme = options['theme'];
-  if (theme === undefined) {
-    theme = Blockly.Themes.Classic;
-  }
 
   this.RTL = rtl;
   this.oneBasedIndex = oneBasedIndex;
@@ -132,12 +119,10 @@ Blockly.Options = function(options) {
   this.disable = hasDisable;
   this.readOnly = readOnly;
   this.maxBlocks = options['maxBlocks'] || Infinity;
-  this.maxInstances = options['maxInstances'];
   this.pathToMedia = pathToMedia;
   this.hasCategories = hasCategories;
   this.hasScrollbars = hasScrollbars;
   this.hasTrashcan = hasTrashcan;
-  this.maxTrashcanContents = maxTrashcanContents;
   this.hasSounds = hasSounds;
   this.hasCss = hasCss;
   this.horizontalLayout = horizontalLayout;
@@ -145,7 +130,6 @@ Blockly.Options = function(options) {
   this.gridOptions = Blockly.Options.parseGridOptions_(options);
   this.zoomOptions = Blockly.Options.parseZoomOptions_(options);
   this.toolboxPosition = toolboxPosition;
-  this.theme = theme;
 };
 
 /**

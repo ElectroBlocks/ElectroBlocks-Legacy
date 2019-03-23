@@ -260,7 +260,11 @@ Blockly.ContextMenu.blockHelpOption = function(block) {
  * @package
  */
 Blockly.ContextMenu.blockDuplicateOption = function(block) {
-  var enabled = block.isDuplicatable();
+  var enabled = true;
+  if (block.getDescendants(false).length >
+      block.workspace.remainingCapacity()) {
+    enabled = false;
+  }
   var duplicateOption = {
     text: Blockly.Msg['DUPLICATE_BLOCK'],
     enabled: enabled,

@@ -466,6 +466,13 @@ Blockly.WorkspaceSvg.prototype.createDom = function(opt_backgroundClass) {
   /** @type {SVGElement} */
   this.svgBubbleCanvas_ = Blockly.utils.createSvgElement('g',
       {'class': 'blocklyBubbleCanvas'}, this.svgGroup_);
+  var bottom = Blockly.Scrollbar.scrollbarThickness;
+  if (this.options.hasTrashcan) {
+    bottom = this.addTrashcan_(bottom);
+  }
+  if (this.options.zoomOptions && this.options.zoomOptions.controls) {
+    this.addZoomControls_(bottom);
+  }
 
   if (!this.isFlyout) {
     Blockly.bindEventWithChecks_(this.svgGroup_, 'mousedown', this,
@@ -575,24 +582,30 @@ Blockly.WorkspaceSvg.prototype.newBlock = function(prototypeName, opt_id) {
 
 /**
  * Add a trashcan.
- * @package
+ * @param {number} bottom Distance from workspace bottom to bottom of trashcan.
+ * @return {number} Distance from workspace bottom to the top of trashcan.
+ * @private
  */
-Blockly.WorkspaceSvg.prototype.addTrashcan = function() {
+Blockly.WorkspaceSvg.prototype.addTrashcan_ = function(bottom) {
   /** @type {Blockly.Trashcan} */
   this.trashcan = new Blockly.Trashcan(this);
   var svgTrashcan = this.trashcan.createDom();
   this.svgGroup_.insertBefore(svgTrashcan, this.svgBlockCanvas_);
+  return this.trashcan.init(bottom);
 };
 
 /**
  * Add zoom controls.
- * @package
+ * @param {number} bottom Distance from workspace bottom to bottom of controls.
+ * @return {number} Distance from workspace bottom to the top of controls.
+ * @private
  */
-Blockly.WorkspaceSvg.prototype.addZoomControls = function() {
+Blockly.WorkspaceSvg.prototype.addZoomControls_ = function(bottom) {
   /** @type {Blockly.ZoomControls} */
   this.zoomControls_ = new Blockly.ZoomControls(this);
   var svgZoomControls = this.zoomControls_.createDom();
   this.svgGroup_.appendChild(svgZoomControls);
+  return this.zoomControls_.init(bottom);
 };
 
 /**
@@ -1272,9 +1285,6 @@ Blockly.WorkspaceSvg.prototype.cleanUp = function() {
   var topBlocks = this.getTopBlocks(true);
   var cursorY = 0;
   for (var i = 0, block; block = topBlocks[i]; i++) {
-    if (!block.isMovable()) {
-      continue;
-    }
     var xy = block.getRelativeToSurfaceXY();
     block.moveBy(-xy.x, cursorY - xy.y);
     block.snapToGrid();

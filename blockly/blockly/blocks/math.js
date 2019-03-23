@@ -73,11 +73,11 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
                 "type": "field_dropdown",
                 "name": "OP",
                 "options": [
-                    ["+", "ADD"],
-                    ["-", "MINUS"],
-                    ["*", "MULTIPLY"],
-                    ["/", "DIVIDE"],
-                    ["^", "POWER"]
+                    ["%{BKY_MATH_ADDITION_SYMBOL}", "ADD"],
+                    ["%{BKY_MATH_SUBTRACTION_SYMBOL}", "MINUS"],
+                    ["%{BKY_MATH_MULTIPLICATION_SYMBOL}", "MULTIPLY"],
+                    ["%{BKY_MATH_DIVISION_SYMBOL}", "DIVIDE"],
+                    ["%{BKY_MATH_POWER_SYMBOL}", "POWER"]
                 ]
             },
             {
@@ -122,7 +122,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     // Block for remainder of a division.
     {
         "type": "math_modulo",
-        "message0": "remainder of %1 / %2",
+        "message0": "%{BKY_MATH_MODULO_TITLE}",
         "args0": [
             {
                 "type": "input_value",

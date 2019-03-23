@@ -60,7 +60,14 @@ const get_colour_from_list_block = (block: Block, previousFrame?: ArduinoFrame):
 const getArrayValue = (block: Block, defaultValue: any, type: string, previousFrame?: ArduinoFrame) => {
 	let variableName = getVariableName(block);
 
-	let position = parseInt(getInputValue(block, 'POSITION',  0, previousFrame).toString());
+	let position = parseInt(
+		getInputValue(
+			block,
+			'POSITION',
+			0,
+			previousFrame
+		).toString()
+	);
 
 	position = position > 0 ? position - 1 : 0;
 
@@ -75,13 +82,27 @@ const getArrayValue = (block: Block, defaultValue: any, type: string, previousFr
 };
 
 const setArrayValue = (block: Block, type: string, previousFrame?: ArduinoFrame) => {
-	const frame = previousFrame ? previousFrame.makeCopy(block.id) : ArduinoFrame.makeEmptyFrame(block.id);
+	const frame = previousFrame ?
+		previousFrame.makeCopy(block.id) :
+		ArduinoFrame.makeEmptyFrame(block.id);
 
-	let position = parseInt(getInputValue(block, 'POSITION', 0, previousFrame).toString());
+	let position = parseInt(
+		getInputValue(
+			block,
+			'POSITION',
+			0,
+			previousFrame
+		).toString()
+	);
 
 	position = position > 0 ? position - 1 : 0;
 
-	const value = getInputValue(block, 'VALUE',  0, previousFrame);
+	const value = getInputValue(
+		block,
+		'VALUE',
+		0,
+		previousFrame
+	);
 
 	const variableName = getVariableName(block);
 

@@ -8,14 +8,14 @@ var VARIABLE_TYPES = ['double', 'String', 'bool'];
 
 Blockly.Arduino['debug'] = function(block) {
 
-    stepSerialBegin()
+
     Blockly.Arduino.functionNames_['double_to_string_debug'] = createDoubleToStringCFunc();
 
     for (var i = 0; i < VARIABLE_TYPES.length; i += 1) {
         Blockly.Arduino.functionNames_['print_array_' + VARIABLE_TYPES[i].replace(' ', '')] = createPrintArrayFuncInC(VARIABLE_TYPES[i].replace(' ', '')) + '\n\n';
     }
 
-    var debugFunction  = '\n\nvoid debug(String blockNumber) { \n' +
+    var debugFunction  = '\n\nvoid debug(int blockNumber) { \n' +
         '\t\tString stopDebug = ""; \n';
 
 
@@ -56,60 +56,13 @@ function createDebugVariable() {
             continue;
         }
 
-        debugString += '\t\tSerial.println("**(|)' + allVariables[i].name + '_|_'
-            +  'An Array of ' + allVariables[i].type + 's size => '  +
-            getSizeOfArray(allVariables[i]) +    '_|_" + ' + 'printArray'
-            + listTypeToArduinoBasicTypes(allVariables[i].type) +
-            '(' + allVariables[i].name + ', ' + getSizeOfArray(allVariables[i]) + ')); \n';
+        debugString += '\t\tSerial.println("**(|)' + allVariables.name + '_|_'
+            +  'An Array of ' + allVariables[i].type + 's size => size('
+            + allVariables.name + ')_|_" +' + 'printArray'  + allVariables[i].type.replace(' ', '') + '(' + allVariables[i].name + ', ' + size + ')); \n';
 
     }
 
     return debugString;
-}
-
-function getSizeOfArray(variable) {
-    var blocks = Blockly.mainWorkspace.getAllBlocks();
-    for (var i = 0; i < blocks.length; i += 1) {
-        var block = blocks[i];
-        if (block.type != 'create_list_' +
-            listTypeToBlocklyBasicTypes(variable.type).toLowerCase() + '_block') {
-            continue;
-        }
-
-        var blockVariable = Blockly.mainWorkspace.getVariableById(block.getFieldValue('VAR'));
-
-        if (blockVariable.getId() != variable.getId()) {
-            continue;
-        }
-
-        return block.getFieldValue('SIZE');
-    }
-}
-
-function listTypeToArduinoBasicTypes(type) {
-    switch(type.toUpperCase()) {
-        case 'LIST NUMBER':
-            return 'double';
-        case 'LIST STRING':
-            return 'String';
-        case 'LIST BOOLEAN':
-            return 'boolean';
-        default:
-            return 'double';
-    }
-}
-
-function listTypeToBlocklyBasicTypes(type) {
-    switch(type.toUpperCase()) {
-        case 'LIST NUMBER':
-            return 'Number';
-        case 'LIST STRING':
-            return 'String';
-        case 'LIST BOOLEAN':
-            return 'Boolean';
-        default:
-            return 'Number';
-    }
 }
 
 function createPrintArrayFuncInC(type)

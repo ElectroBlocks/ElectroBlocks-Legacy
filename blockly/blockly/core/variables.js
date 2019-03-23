@@ -539,13 +539,7 @@ Blockly.Variables.getVariable = function(workspace, id, opt_name, opt_type) {
     if (!variable && potentialVariableMap) {
       variable = potentialVariableMap.getVariableById(id);
     }
-    if (variable) {
-      return variable;
-    }
-  }
-  // If there was no ID, or there was an ID but it didn't match any variables,
-  // look up by name and type.
-  if (opt_name) {
+  } else if (opt_name) {
     if (opt_type == undefined) {
       throw Error('Tried to look up a variable by name without a type');
     }

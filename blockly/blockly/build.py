@@ -209,7 +209,7 @@ class Gen_compressed(threading.Thread):
       self.gen_generator("arduino")
 
   def gen_core(self):
-    target_filename = "./../../view/blockly/blockly_compressed.js"
+    target_filename = "blockly_compressed.js"
     # Define the parameters for the POST request.
     params = [
         ("compilation_level", "SIMPLE_OPTIMIZATIONS"),
@@ -237,7 +237,7 @@ class Gen_compressed(threading.Thread):
     self.do_compile(params, target_filename, filenames, "")
 
   def gen_accessible(self):
-    target_filename = "./../../view/blockly/blockly_accessible_compressed.js"
+    target_filename = "blockly_accessible_compressed.js"
     # Define the parameters for the POST request.
     params = [
         ("compilation_level", "SIMPLE_OPTIMIZATIONS"),
@@ -266,7 +266,7 @@ class Gen_compressed(threading.Thread):
     self.do_compile(params, target_filename, filenames, "")
 
   def gen_blocks(self):
-    target_filename = "./../../view/blockly/blocks_compressed.js"
+    target_filename = "blocks_compressed.js"
     # Define the parameters for the POST request.
     params = [
         ("compilation_level", "SIMPLE_OPTIMIZATIONS"),
@@ -293,7 +293,7 @@ class Gen_compressed(threading.Thread):
     self.do_compile(params, target_filename, filenames, remove)
 
   def gen_generator(self, language):
-    target_filename = "./../../view/blockly/" + language + "_compressed.js"
+    target_filename = language + "_compressed.js"
     # Define the parameters for the POST request.
     params = [
         ("compilation_level", "SIMPLE_OPTIMIZATIONS"),
@@ -539,10 +539,10 @@ developers.google.com/blockly/guides/modify/web/closure""")
   # Uncompressed and compressed are run in parallel threads.
   # Uncompressed is limited by processor speed.
   if ('core' in args):
-    Gen_uncompressed(core_search_paths, './../../view/blockly/blockly_uncompressed.js').start()
+    Gen_uncompressed(core_search_paths, 'blockly_uncompressed.js').start()
 
   if ('accessible' in args):
-    Gen_uncompressed(full_search_paths, './../../view/blockly/blockly_accessible_uncompressed.js').start()
+    Gen_uncompressed(full_search_paths, 'blockly_accessible_uncompressed.js').start()
 
   # Compressed is limited by network and server speed.
   Gen_compressed(full_search_paths, args).start()
