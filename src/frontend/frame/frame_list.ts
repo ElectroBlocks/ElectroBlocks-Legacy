@@ -44,6 +44,15 @@ import {
 
 } from '../frame_genorator/list';
 
+import {
+    logic_boolean_block,
+    logic_compare_block,
+    logic_negate_block,
+    logic_operation_block,
+    control_if_block,
+    controls_ifelse_block
+} from  '../frame_genorator/logic';
+
 import { procedures_callnoreturn_block } from '../frame_genorator/function';
 
 let valueGeneratingBlocks: { [key: string] : (block: Block, previousFrame?: Frame) =>  number|string|boolean|Color|Array<number|string|boolean|Color> };
@@ -66,8 +75,10 @@ frameGeneratingBlocks = {
     create_list_boolean_block_block,
     create_list_colour_block_block,
     create_list_number_block_block,
-    create_list_string_block_block
+    create_list_string_block_block,
 
+    control_if_block,
+    controls_ifelse_block
 };
 
 valueGeneratingBlocks = {
@@ -92,6 +103,10 @@ valueGeneratingBlocks = {
     get_number_from_list_block,
     get_string_from_list_block,
 
+    logic_boolean_block,
+    logic_compare_block,
+    logic_negate_block,
+    logic_operation_block
 };
 
 export {
