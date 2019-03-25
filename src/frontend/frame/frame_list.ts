@@ -53,6 +53,11 @@ import {
     controls_ifelse_block
 } from  '../frame_genorator/logic';
 
+import {
+    controls_for_block,
+    controls_repeat_ext_block
+} from '../frame_genorator/loops';
+
 import { procedures_callnoreturn_block } from '../frame_genorator/function';
 
 let valueGeneratingBlocks: { [key: string] : (block: Block, previousFrame?: Frame) =>  number|string|boolean|Color|Array<number|string|boolean|Color> };
@@ -78,7 +83,10 @@ frameGeneratingBlocks = {
     create_list_string_block_block,
 
     control_if_block,
-    controls_ifelse_block
+    controls_ifelse_block,
+
+    controls_for_block,
+    controls_repeat_ext_block
 };
 
 valueGeneratingBlocks = {
