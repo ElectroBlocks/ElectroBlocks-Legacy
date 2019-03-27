@@ -1,14 +1,16 @@
+import { Command } from "../frame/command";
+
 export interface USB {
 
     /**
      * This will generate a usb command to send
      */
-    usbCommand(): string;
+    usbCommand(): Command;
 
     /**
      * This will only do the component part of the command.
      */
-    setupCommandUSB(): string;
+    setupCommandUSB(): Command;
 
 }
 

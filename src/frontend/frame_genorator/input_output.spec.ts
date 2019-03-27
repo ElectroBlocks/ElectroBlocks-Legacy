@@ -2,7 +2,7 @@ import 'jasmine';
 import { Block } from "../frame/block";
 import { digital_write_block } from "./input_output";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { EmptyComponent } from "../arduino/empty_component";
+import { EmptyCommand } from "../frame/command";
 
 describe('input output frame generators', () => {
 
@@ -24,14 +24,14 @@ describe('input output frame generators', () => {
 
 			const previousFrame = new ArduinoFrame('asdf', {'hello': {
 				name: 'hello', type: 'String', value: 'Hello'
-				}}, [], new EmptyComponent());
+				}}, [], new EmptyCommand());
 
 			getFieldValueSpy.withArgs('PIN').and.returnValue('3');
 			getFieldValueSpy.withArgs('STATE').and.returnValue('ON');
 
 			const [frame] = digital_write_block(block, previousFrame);
 
-			expect(frame.lastMovedComponent.usbCommand()).toBe('M-P-D:3:1|');
+			expect(frame.nextCommand().command).toBe('M-P-D:3:1|');
 			expect(frame.variables['hello'].name).toBe('hello');
 			expect(frame.variables['hello'].value).toBe('Hello');
 			expect(frame.variables['hello'].type).toBe('String');
@@ -43,7 +43,7 @@ describe('input output frame generators', () => {
 
 			const [frame] = digital_write_block(block);
 
-			expect(frame.lastMovedComponent.usbCommand()).toBe('M-P-D:3:0|');
+			expect(frame.nextCommand().command).toBe('M-P-D:3:0|');
 
 		});
 	});

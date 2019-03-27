@@ -17,9 +17,9 @@ import { Block, Blockly } from "../frame/block";
 import { Variable } from "../frame/variable";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { ARDUINO_UNO_PINS, Pin, PIN_TYPE } from "../arduino/pin";
-import { EmptyComponent } from "../arduino/empty_component";
 import * as blockHelper from "../frame/blockly_helper";
 import * as variableHelper from '../frame_genorator/variables';
+import { EmptyCommand } from "../frame/command";
 
 describe('list generators', () => {
 
@@ -85,7 +85,7 @@ describe('list generators', () => {
 					value: 32
 				}},
 				[pinComponent],
-				new EmptyComponent()
+				new EmptyCommand()
 			);
 
 			fakeVariable = {
@@ -102,7 +102,7 @@ describe('list generators', () => {
 
 			expect(frame.variables['bill'].type).toBe('Number');
 			expect(frame.variables['bill'].value).toBe(32);
-			expect(frame.variables['bill'].name).toBe('bill')
+			expect(frame.variables['bill'].name).toBe('bill');
 
 			expect(frame.components[0]).toBe(pinComponent);
 		});
@@ -277,7 +277,7 @@ describe('list generators', () => {
 			.and.returnValue(position);
 
 		spyGetInputValue.withArgs(block, 'VALUE', defaultValue, previousFrame)
-			.and.returnValue(actualValue)
+			.and.returnValue(actualValue);
 
 		spyOn(variableHelper, 'getVariableName').withArgs(block).and.returnValue(variableName);
 	}

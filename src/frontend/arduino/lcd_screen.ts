@@ -1,5 +1,6 @@
 import { Copy } from './copy';
 import { USB, USB_COMMAND_TYPES } from './usb';
+import { Command, COMMAND_TYPE } from "../frame/command";
 
 export class LCDScreen implements USB, Copy<LCDScreen> {
 
@@ -9,7 +10,7 @@ export class LCDScreen implements USB, Copy<LCDScreen> {
                 public readonly rowsToPrint: string[]) {}
 
 
-    usbCommand(): string {
+    usbCommand(): Command {
         let command = `${USB_COMMAND_TYPES.MOVE}-${USB_COMMAND_TYPES.LCD}-`;
 
         for (let i = 0; i < this.rows; i += 1) {
@@ -17,11 +18,21 @@ export class LCDScreen implements USB, Copy<LCDScreen> {
             command += i < (this.rows - 1) ? ':' : '';
         }
 
-        return command + USB_COMMAND_TYPES.END_OF_COMMAND;
+         command += USB_COMMAND_TYPES.END_OF_COMMAND;
+
+        return {
+            command,
+            type: COMMAND_TYPE.USB
+        };
     }
 
     setupCommandUSB() {
-        return `${USB_COMMAND_TYPES.LCD}:${this.memoryType}:${this.rows}:${this.columns}`;
+        const command =  `${USB_COMMAND_TYPES.LCD}:${this.memoryType}:${this.rows}:${this.columns}`;
+
+        return {
+            command,
+            type: COMMAND_TYPE.USB
+        };
     }
 
 

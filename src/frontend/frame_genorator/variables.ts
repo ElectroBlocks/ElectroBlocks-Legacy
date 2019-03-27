@@ -1,6 +1,7 @@
 import { ArduinoFrame } from '../arduino/arduino_frame';
 import { Block, getBlockly } from '../frame/block';
 import { getInputValue } from '../frame/blockly_helper';
+import { EmptyCommand } from "../frame/command";
 
 
 /**
@@ -119,7 +120,7 @@ const setVariable = (block: Block, type: string, defaultValue: any, previousFram
     };
 
 
-    return [new ArduinoFrame(block.id, variableList, previousFrame.components, previousFrame.lastMovedComponent)];
+    return [new ArduinoFrame(block.id, variableList, previousFrame.components, new EmptyCommand())];
 };
 
 /**

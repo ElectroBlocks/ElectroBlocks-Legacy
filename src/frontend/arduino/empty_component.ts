@@ -1,13 +1,14 @@
 import { USB } from './usb';
+import { Command, EmptyCommand } from "../frame/command";
 
 
 export class EmptyComponent implements USB {
     
-    usbCommand(): string {
-        return '';
+    usbCommand(): Command {
+        return new EmptyCommand();
     }  
 
-    setupCommandUSB(): string {
-        return '';
+    setupCommandUSB(): Command {
+        return new EmptyCommand();
     }
 }

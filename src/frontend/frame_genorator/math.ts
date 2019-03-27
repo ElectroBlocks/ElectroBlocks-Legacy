@@ -55,7 +55,7 @@ const math_round_block = (block: Block, previousFrame?: ArduinoFrame) => {
 			return Math.ceil(number);
 		case 'ROUNDDOWN':
 			return Math.floor(number);
-	};
+	}
 
 	throw Error('No Valid Math Operation Found');
 };

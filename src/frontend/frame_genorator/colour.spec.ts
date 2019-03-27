@@ -3,6 +3,7 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
 import { EmptyComponent } from "../arduino/empty_component";
 import * as blockHelperFunctions from "../frame/blockly_helper";
 import { colour_picker_block, colour_random_block, colour_rgb_block } from "./colour";
+import { EmptyCommand } from "../frame/command";
 
 describe('Color Blocks', () => {
 
@@ -16,7 +17,7 @@ describe('Color Blocks', () => {
 
 	beforeEach(() => {
 		previousFrame =
-			new ArduinoFrame( 'block_id', {}, [], new EmptyComponent() );
+			new ArduinoFrame( 'block_id', {}, [], new EmptyCommand() );
 
 		getInputValueSpy = spyOn( blockHelperFunctions, 'getInputValue' );
 

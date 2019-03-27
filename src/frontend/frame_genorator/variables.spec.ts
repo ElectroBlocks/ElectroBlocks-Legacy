@@ -12,7 +12,7 @@ import {
 	variables_set_string_block
 } from "./variables";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { EmptyComponent } from "../arduino/empty_component";
+import { EmptyCommand } from "../frame/command";
 
 describe('Variables Frame Generators', () => {
 
@@ -178,7 +178,7 @@ describe('Variables Frame Generators', () => {
 						}
 				},
 				[],
-				new EmptyComponent()
+				new EmptyCommand()
 			);
 
 			mockGetVariable('Colour', 'variable_name');
@@ -202,7 +202,7 @@ describe('Variables Frame Generators', () => {
 						}
 				},
 				[],
-				new EmptyComponent()
+				new EmptyCommand()
 			);
 
 			mockGetVariable('colour', 'variable_name');
@@ -223,7 +223,7 @@ describe('Variables Frame Generators', () => {
 						}
 				},
 				[],
-				new EmptyComponent()
+				new EmptyCommand()
 			);
 
 			mockGetVariable('colour', 'variable_name');
@@ -246,7 +246,7 @@ describe('Variables Frame Generators', () => {
 						}
 				},
 				[],
-				new EmptyComponent()
+				new EmptyCommand()
 			);
 
 			mockGetVariable('Boolean', 'variable_name');

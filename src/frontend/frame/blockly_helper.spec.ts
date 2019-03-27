@@ -3,21 +3,21 @@ import { Block, Connection } from "./block";
 import { frameGeneratingBlocks, valueGeneratingBlocks } from './frame_list';
 import { Frame } from "./frame";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { EmptyComponent } from "../arduino/empty_component";
 import { generateFrameForInputStatement, getInputValue } from "./blockly_helper";
+import { EmptyCommand } from "./command";
 
 describe('generateFrameForInputStatement', () => {
 
 	it ('should generate a list of frames from a input that contains blocks', () => {
 
 		frameGeneratingBlocks['fake_generate_block'] = (block: Block, previousFrame?: Frame): Frame[] => {
-			return [new ArduinoFrame('block_id', {}, [], new EmptyComponent())];
+			return [new ArduinoFrame('block_id', {}, [], new EmptyCommand())];
 		};
 
 		frameGeneratingBlocks['fake_generate_2_block'] = (block: Block, previousFrame?: Frame): Frame[] => {
 			return [
-				new ArduinoFrame('block_id', {}, [], new EmptyComponent()),
-				new ArduinoFrame('block_id', {}, [], new EmptyComponent()),
+				new ArduinoFrame('block_id', {}, [], new EmptyCommand()),
+				new ArduinoFrame('block_id', {}, [], new EmptyCommand()),
 			];
 		};
 

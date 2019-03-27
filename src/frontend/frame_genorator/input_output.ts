@@ -16,5 +16,5 @@ export const digital_write_block = (block: Block, previousFrame?: ArduinoFrame):
 	const variables = previousFrame ?  previousFrame.variables: {};
 
 
-	return [new ArduinoFrame(block.id, variables, components, pinComponent)];
-}
+	return [new ArduinoFrame(block.id, variables, components, pinComponent.usbCommand())];
+};

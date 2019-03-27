@@ -1,5 +1,6 @@
 import { LedInMatrix, LedMatrix } from './led_matrix';
 import 'jasmine';
+import { COMMAND_TYPE, EmptyCommand } from "../frame/command";
 
 describe('Led Matrix', () => {
 
@@ -14,7 +15,7 @@ describe('Led Matrix', () => {
             expect(led.hasSamePosition(led2)).toBeFalsy();
         });
 
-        it ('should diplay usb string on or off', () => {
+        it ('should display usb string on or off', () => {
             let led = new LedInMatrix(false, 3, 4);
             expect(led.usbOnOff()).toBe('OFF');
             led.isOn = true;
@@ -23,16 +24,18 @@ describe('Led Matrix', () => {
 
         it('should be able to create move command', () => {
             let led = new LedInMatrix(true, 3, 4);
-            expect(led.usbCommand()).toBe('M-LC-4:3:ON|');
+            expect(led.usbCommand().command).toBe('M-LC-4:3:ON|');
+            expect(led.usbCommand().type).toBe(COMMAND_TYPE.USB);
 
             led.isOn = false;
-            expect(led.usbCommand()).toBe('M-LC-4:3:OFF|');
+            expect(led.usbCommand().command).toBe('M-LC-4:3:OFF|');
+            expect(led.usbCommand().type).toBe(COMMAND_TYPE.USB);
         });
 
         it ('setup command should return nothing', () => {
             let led = new LedInMatrix(true, 3, 4);
     
-            expect(led.setupCommandUSB()).toBe('');
+            expect(led.setupCommandUSB()).toEqual(new EmptyCommand());
         });
     });
 
@@ -48,7 +51,8 @@ describe('Led Matrix', () => {
             matrix.setLed(led2);
             matrix.setLed(led3);
 
-            expect(matrix.usbCommand()).toBe('M-LC-4:3:ON|M-LC-4:4:ON|');
+            expect(matrix.usbCommand().command).toBe('M-LC-4:3:ON|M-LC-4:4:ON|');
+            expect(matrix.usbCommand().type).toBe(COMMAND_TYPE.USB);
         });
 
         it ('should be able to make a copy of itself', () => {
@@ -67,7 +71,8 @@ describe('Led Matrix', () => {
 
         it ('should be able to make the setup command', () => {
             let matrix = new LedMatrix();
-            expect(matrix.setupCommandUSB()).toBe('LC');
+            expect(matrix.setupCommandUSB().command).toBe('LC');
+            expect(matrix.setupCommandUSB().type).toBe(COMMAND_TYPE.USB);
         });
 
         

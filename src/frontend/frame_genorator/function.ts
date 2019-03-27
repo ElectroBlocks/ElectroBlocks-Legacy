@@ -20,7 +20,7 @@ export const procedures_callnoreturn_block = (block: Block, previousFrame?: Ardu
 		functionDefinitionBlock.id,
 		callBlockFrame.variables,
 		callBlockFrame.components,
-		callBlockFrame.lastMovedComponent
+		callBlockFrame.command
 	);
 
 	const procedureDefinition = mapProcedureDefinition(functionDefinitionBlock);

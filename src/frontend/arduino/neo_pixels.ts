@@ -1,8 +1,8 @@
 import { ARDUINO_UNO_PINS } from './pin';
-import { LCDScreen } from './lcd_screen';
 import { USB, USB_COMMAND_TYPES } from './usb';
 import { RGB } from "./rgb";
 import { Copy } from './copy';
+import { Command, COMMAND_TYPE, EmptyCommand } from "../frame/command";
 
 export class NeoPixelStrip implements USB, Copy<NeoPixelStrip> {
     
@@ -28,13 +28,16 @@ export class NeoPixelStrip implements USB, Copy<NeoPixelStrip> {
         this.leds.push(neoPixel);
     }
 
-    public usbCommand(): string {
+    public usbCommand(): Command {
         let command = '';
         this.leds.forEach(led => {
-            command += led.usbCommand();
+            command += led.usbCommand().command;
         });
 
-        return command;
+        return {
+            type: COMMAND_TYPE.USB,
+            command
+        };
     }
 
     makeCopy() {
@@ -45,8 +48,11 @@ export class NeoPixelStrip implements USB, Copy<NeoPixelStrip> {
         return neoPixel;
     }
 
-    setupCommandUSB(): string {
-        return `${USB_COMMAND_TYPES.NEO_PIXEL}:${this.pin}:${this.numberOfPixels}`;
+    setupCommandUSB(): Command {
+        return {
+            command: `${USB_COMMAND_TYPES.NEO_PIXEL}:${this.pin}:${this.numberOfPixels}`,
+            type: COMMAND_TYPE.USB
+        };
     }
 }
 
@@ -55,7 +61,11 @@ export class NeoPixel implements Copy<NeoPixel>, USB {
     constructor(public color: RGB, public readonly position: number) {}
 
     usbCommand() {
-        return `${USB_COMMAND_TYPES.MOVE}-${USB_COMMAND_TYPES.NEO_PIXEL}-${this.color.red}:${this.color.green}:${this.color.blue}:${this.position}${USB_COMMAND_TYPES.END_OF_COMMAND}`;
+        const command = `${USB_COMMAND_TYPES.MOVE}-${USB_COMMAND_TYPES.NEO_PIXEL}-${this.color.red}:${this.color.green}:${this.color.blue}:${this.position}${USB_COMMAND_TYPES.END_OF_COMMAND}`;
+        return {
+            command,
+            type: COMMAND_TYPE.USB
+        };
     }
 
     makeCopy() {
@@ -63,7 +73,7 @@ export class NeoPixel implements Copy<NeoPixel>, USB {
     }
 
     setupCommandUSB() {
-        return '';
+        return new EmptyCommand();
     }
 
 }

@@ -5,8 +5,8 @@ import { Block } from "../frame/block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { getVariableName } from "./variables";
 import { getInputValue } from "../frame/blockly_helper";
-import { EmptyComponent } from "../arduino/empty_component";
 import { Color } from "./colour";
+import { EmptyCommand } from "../frame/command";
 
 
 const create_list_number_block_block = (block: Block, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
@@ -139,7 +139,7 @@ const createArrayType = (block: Block, type: string, previousFrame?: ArduinoFram
 
 	const components = previousFrame ? previousFrame.components : [];
 
-	const frame = new ArduinoFrame(block.id, variables, components, new EmptyComponent());
+	const frame = new ArduinoFrame(block.id, variables, components, new EmptyCommand());
 
 	return [frame];
 };

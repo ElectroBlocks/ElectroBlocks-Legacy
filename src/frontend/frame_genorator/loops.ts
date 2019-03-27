@@ -9,10 +9,10 @@ import { Block } from "../frame/block";
  * over the index variable.
  */
 const controls_repeat_ext_block = (block: Block, previousFrame?: ArduinoFrame) => {
-	let loopFrame = previousFrame ? previousFrame.makeCopy(block.id) :
+	const loopFrame = previousFrame ? previousFrame.makeCopy(block.id) :
 		ArduinoFrame.makeEmptyFrame(block.id);
 
-	let times = getInputValue(block, 'TIMES', 1, previousFrame);
+	const times = getInputValue(block, 'TIMES', 1, previousFrame);
 
 	if (times <= 0) {
 		return [loopFrame];
@@ -42,9 +42,9 @@ const controls_repeat_ext_block = (block: Block, previousFrame?: ArduinoFrame) =
 const controls_for_block = (block: Block, previousFrame?: ArduinoFrame) => {
 
 
-	let start = parseInt(getInputValue(block, 'FROM', 1, previousFrame).toString());
+	const start = parseInt(getInputValue(block, 'FROM', 1, previousFrame).toString());
 
-	let to = parseInt(getInputValue(block, 'TO', 1, previousFrame).toString());
+	const to = parseInt(getInputValue(block, 'TO', 1, previousFrame).toString());
 
 	let by = Math.abs(
 		parseInt(
@@ -116,7 +116,7 @@ const generateLoopFrame = (indexValue: number, block: Block, previousFrame?: Ard
 		name: indexVariableName
 	};
 
-	return new ArduinoFrame(block.id, variables, startFrame.components, startFrame.lastMovedComponent);
+	return new ArduinoFrame(block.id, variables, startFrame.components, startFrame.command);
 
 };
 

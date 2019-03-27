@@ -1,59 +1,71 @@
 import { Frame } from '../frame/frame';
 import { Variable } from '../frame/variable';
 import { USB, USB_COMMAND_TYPES } from './usb';
-import { EmptyComponent } from './empty_component';
+import { Command, COMMAND_TYPE, EmptyCommand } from "../frame/command";
 
 export class ArduinoFrame implements Frame, USB {
-    
 
-    constructor(
-            public readonly blockId: string,
-            public readonly variables: { [key: string]: Variable }, 
-            public readonly components: Array<USB>,
-            public readonly lastMovedComponent: USB) {}  
-            
-    public static makeEmptyFrame(blockId: string) {
-        return new ArduinoFrame(blockId, {}, [], new EmptyComponent());
-    }
 
-    nextCommand() {
-        return this.lastMovedComponent.usbCommand();
-    }
+	constructor(
+		public readonly blockId: string,
+		public readonly variables: { [ key: string ]: Variable },
+		public readonly components: Array<USB>,
+		public readonly command: Command ) {
+	}
 
-    directFrameCommand() {
-        return this.setupCommandUSB() + this.usbCommand();
-    }
+	public static makeEmptyFrame( blockId: string ) {
+		return new ArduinoFrame( blockId, {}, [], new EmptyCommand() );
+	}
 
-    usbCommand(): string {
-        return this.components.reduce((previousValue, component) => {
-            return previousValue + component.usbCommand();
-        }, '');
-    }
+	nextCommand(): Command {
+		return this.command;
+	}
 
-    setupCommandUSB(): string {
-        if (this.components.length == 0) {
-            return '';
-        }
+	directFrameCommand(): Command[] {
+		return [ this.setupCommandUSB(), this.usbCommand() ];
+	}
 
-        let endOfSetup = this.components
-                        .filter(component => component.setupCommandUSB().length > 0)
-                        .reduce((previousValue, component) => {
-                                return previousValue + '-' + component.setupCommandUSB();
-                        }, '');
+	usbCommand(): Command {
+		const command = this.components.reduce( ( previousValue, component ) => {
+			return previousValue + component.usbCommand().command;
+		}, '' );
 
-        if (endOfSetup == '') {
-            return '';
-        }
+		return {
+			command,
+			type: COMMAND_TYPE.USB
+		};
+	}
 
-        let numberOfThingSetup = this.components
-                    .filter(component => component.setupCommandUSB().length > 0)
-                    .length;
+	setupCommandUSB(): Command {
+		if (this.components.length == 0) {
+			return new EmptyCommand();
+		}
 
-        return `${USB_COMMAND_TYPES.SETUP}-${numberOfThingSetup}${endOfSetup}${USB_COMMAND_TYPES.END_OF_COMMAND}`;
-    }
+		let endOfSetup = this.components
+			.filter( component => component.setupCommandUSB().type == COMMAND_TYPE.USB )
+			.reduce( ( previousValue, component ) => {
+				return previousValue + '-' + component.setupCommandUSB().command;
+			}, '' );
 
-    makeCopy(blockId: string): ArduinoFrame {
-        return new ArduinoFrame(blockId, this.variables, this.components, this.lastMovedComponent);
-    }
+		if (endOfSetup == '') {
+			return new EmptyCommand();
+		}
+
+		let numberOfThingSetup = this.components
+			.filter( component => component.setupCommandUSB().type == COMMAND_TYPE.USB)
+			.length;
+
+		const command = `${USB_COMMAND_TYPES.SETUP}-${numberOfThingSetup}${endOfSetup}${USB_COMMAND_TYPES.END_OF_COMMAND}`;
+
+		return {
+			type: COMMAND_TYPE.USB,
+			command
+		};
+
+	}
+
+	makeCopy( blockId: string ): ArduinoFrame {
+		return new ArduinoFrame( blockId, this.variables, this.components, this.command );
+	}
 }
 

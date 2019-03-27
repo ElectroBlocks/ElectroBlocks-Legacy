@@ -1,5 +1,6 @@
 import { Copy } from './copy';
 import { USB, USB_COMMAND_TYPES } from './usb';
+import { Command, COMMAND_TYPE, EmptyCommand } from "../frame/command";
 
 export class Pin implements USB, Copy<Pin> {
 
@@ -9,18 +10,21 @@ export class Pin implements USB, Copy<Pin> {
 
     constructor(public readonly pinNumber: ARDUINO_UNO_PINS, public readonly type: PIN_TYPE, public readonly state: number) {}
 
-    usbCommand(): string {
+    usbCommand(): Command {
         let pinState = Math.abs(this.state);
     
         if (this.type == PIN_TYPE.DIGITAL) {
             pinState = pinState == 0 ? Pin.LOW : Pin.HIGH;        
         }
     
-        return `${USB_COMMAND_TYPES.MOVE}-${USB_COMMAND_TYPES.PIN}-${this.type}:${this.pinNumber}:${pinState}${USB_COMMAND_TYPES.END_OF_COMMAND}`
+        return {
+            command: `${USB_COMMAND_TYPES.MOVE}-${USB_COMMAND_TYPES.PIN}-${this.type}:${this.pinNumber}:${pinState}${USB_COMMAND_TYPES.END_OF_COMMAND}`,
+            type: COMMAND_TYPE.USB
+        }
     }
 
     setupCommandUSB() {
-        return '';
+        return new EmptyCommand();
     }
 
     makeCopy() {
