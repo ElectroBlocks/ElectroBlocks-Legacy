@@ -1,7 +1,6 @@
 import { Blockly } from '../frame/block';
 import { frameGeneratingBlocks } from '../frame/frame_list'
 import { generateFrameForInputStatement } from "../frame/blockly_helper";
-import { ArduinoFrame } from "../arduino/arduino_frame";
 import { Frame } from "../frame/frame";
 
 declare const Blockly: Blockly;

@@ -60,6 +60,16 @@ import {
 
 import { procedures_callnoreturn_block } from '../frame_genorator/function';
 
+import {
+    text_block,
+    text_changeCase_block,
+    text_isEmpty_block,
+    text_join_block,
+    text_length_block,
+    number_to_string_block,
+    parse_string_block_block
+} from  '../frame_genorator/text';
+
 let valueGeneratingBlocks: { [key: string] : (block: Block, previousFrame?: Frame) =>  number|string|boolean|Color|Array<number|string|boolean|Color> };
 
 let frameGeneratingBlocks: { [key: string] : (block: Block, previousFrame?: Frame) =>  Frame[] };
@@ -114,7 +124,15 @@ valueGeneratingBlocks = {
     logic_boolean_block,
     logic_compare_block,
     logic_negate_block,
-    logic_operation_block
+    logic_operation_block,
+
+    text_block,
+    text_changeCase_block,
+    text_isEmpty_block,
+    text_join_block,
+    text_length_block,
+    number_to_string_block,
+    parse_string_block_block
 };
 
 export {

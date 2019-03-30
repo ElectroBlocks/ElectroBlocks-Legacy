@@ -24,6 +24,10 @@ export interface Block {
      */
     type: string;
 
+    /**
+     * An array of inputs
+     */
+    inputList: Connection[],
 
     getInput(inputName: string): { connection: Connection };
 
