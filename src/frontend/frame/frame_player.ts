@@ -17,6 +17,9 @@ export interface FrameType {
 
 export class FramePlayer {
 
+	/**
+	 * The subject that controls the next frame.
+	 */
 	private readonly frameSubject = new Subject<FrameType>();
 
 	/**
@@ -34,41 +37,52 @@ export class FramePlayer {
 	 */
 	private currentFrame = 0;
 
-	public readonly frame$ = this.frameSubject
-								.asObservable()
-								.pipe(
-									filter(() => this.executeOnce || this.playFrame),
-									tap(frameType => {
-										const frame = frameType.frame;
-										const executeFrame = new ExecuteUSBFrame(frame);
+	private frames: ArduinoFrame[] = [];
 
-										if (frameType.type == FrameExecutionType.DIRECT) {
-											executeFrame.usbSetupFrame();
-										}
+	public readonly frame$ =
+		this.frameSubject
+			.asObservable()
+			.pipe(
+				filter(() => this.executeOnce || this.playFrame),
+				tap(frameType => {
+					const frame = frameType.frame;
 
-										if (frame.command.type == COMMAND_TYPE.USB) {
-											executeFrame.playCommand();
-										}
-									}),
-									delayWhen(frameType => {
-										if (frameType.frame.command.type == COMMAND_TYPE.TIME) {
-											return timer(parseInt(frameType.frame.command.command));
-										}
+					if (frameType.type == FrameExecutionType.DIRECT) {
+						this.frameExecutor.executeCommand(frame.setupCommandUSB().command)
+					}
 
-										return timer(0);
-									}),
-									tap(() => this.executeOnce = false),
-									tap(() => this.currentFrame += 1),
-									delay(200),
-									tap(() => {
-										if (this.playFrame && this.currentFrame < this.frames.length - 1) {
-											this.play();
-										}
-									})
-								);
+					if (frame.command.type == COMMAND_TYPE.USB) {
+						this.frameExecutor.executeCommand(frame.nextCommand().command)
+					}
+				}),
+				delayWhen(frameType => {
+					if (frameType.frame.command.type == COMMAND_TYPE.TIME) {
+						return timer(parseInt(frameType.frame.command.command));
+					}
+
+					return timer(200);
+				}),
+				tap(() => this.executeOnce = false),
+				tap(() => this.currentFrame += 1),
+				tap(() => {
+					if (this.playFrame && this.currentFrame < this.frames.length) {
+						this.play();
+					}
+				})
+			);
 
 
-	constructor(private frames: ArduinoFrame[]) {}
+	constructor(
+		private frameExecutor: ExecuteFrameInterface
+	) {}
+
+	/**
+	 * Sets the Arduino Frames for the Player
+	 * @param frames
+	 */
+	public setFrames(frames: ArduinoFrame[]) {
+		this.frames = frames;
+	}
 
 	/**
 	 * Plays the currentFrame in the list of frames.
@@ -104,19 +118,28 @@ export class FramePlayer {
 
 }
 
-export class ExecuteUSBFrame {
+export class ExecuteUSBFrame implements ExecuteFrameInterface {
 
 
-	constructor(private frame: ArduinoFrame) {}
+	constructor() {}
 
-	public playCommand() {
-		ipcRenderer.send('send:message', this.frame.command.command);
+	public executeCommand(command: string) {
+		ipcRenderer.send('send:message', command);
 	}
 
-	public usbSetupFrame()
-	{
-		const usbSetupCommand = this.frame.setupCommandUSB();
-		ipcRenderer.send('send:message', usbSetupCommand);
+
+
+}
+
+export class ExecuteDebugFrame implements ExecuteFrameInterface {
+	executeCommand( command: string ): void {
+		console.log(command, 'USB COMMAND');
 	}
 
+
+}
+
+export interface ExecuteFrameInterface {
+
+	executeCommand(command: string): void;
 }

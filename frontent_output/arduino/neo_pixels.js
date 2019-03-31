@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const usb_1 = require("./usb");
+const command_1 = require("../frame/command");
 class NeoPixelStrip {
     constructor(pin, numberOfPixels) {
         this.pin = pin;
@@ -18,9 +19,12 @@ class NeoPixelStrip {
     usbCommand() {
         let command = '';
         this.leds.forEach(led => {
-            command += led.usbCommand();
+            command += led.usbCommand().command;
         });
-        return command;
+        return {
+            type: command_1.COMMAND_TYPE.USB,
+            command
+        };
     }
     makeCopy() {
         let neoPixel = new NeoPixelStrip(this.pin, this.numberOfPixels);
@@ -28,7 +32,10 @@ class NeoPixelStrip {
         return neoPixel;
     }
     setupCommandUSB() {
-        return `${usb_1.USB_COMMAND_TYPES.NEO_PIXEL}:${this.pin}:${this.numberOfPixels}`;
+        return {
+            command: `${usb_1.USB_COMMAND_TYPES.NEO_PIXEL}:${this.pin}:${this.numberOfPixels}`,
+            type: command_1.COMMAND_TYPE.USB
+        };
     }
 }
 exports.NeoPixelStrip = NeoPixelStrip;
@@ -38,13 +45,17 @@ class NeoPixel {
         this.position = position;
     }
     usbCommand() {
-        return `${usb_1.USB_COMMAND_TYPES.MOVE}-${usb_1.USB_COMMAND_TYPES.NEO_PIXEL}-${this.color.red}:${this.color.green}:${this.color.blue}:${this.position}${usb_1.USB_COMMAND_TYPES.END_OF_COMMAND}`;
+        const command = `${usb_1.USB_COMMAND_TYPES.MOVE}-${usb_1.USB_COMMAND_TYPES.NEO_PIXEL}-${this.color.red}:${this.color.green}:${this.color.blue}:${this.position}${usb_1.USB_COMMAND_TYPES.END_OF_COMMAND}`;
+        return {
+            command,
+            type: command_1.COMMAND_TYPE.USB
+        };
     }
     makeCopy() {
         return new NeoPixel(this.color, this.position);
     }
     setupCommandUSB() {
-        return '';
+        return new command_1.EmptyCommand();
     }
 }
 exports.NeoPixel = NeoPixel;

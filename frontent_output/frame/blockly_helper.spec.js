@@ -3,17 +3,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 require("jasmine");
 const frame_list_1 = require("./frame_list");
 const arduino_frame_1 = require("../arduino/arduino_frame");
-const empty_component_1 = require("../arduino/empty_component");
 const blockly_helper_1 = require("./blockly_helper");
+const command_1 = require("./command");
 describe('generateFrameForInputStatement', () => {
     it('should generate a list of frames from a input that contains blocks', () => {
         frame_list_1.frameGeneratingBlocks['fake_generate_block'] = (block, previousFrame) => {
-            return [new arduino_frame_1.ArduinoFrame('block_id', {}, [], new empty_component_1.EmptyComponent())];
+            return [new arduino_frame_1.ArduinoFrame('block_id', {}, [], new command_1.EmptyCommand())];
         };
         frame_list_1.frameGeneratingBlocks['fake_generate_2_block'] = (block, previousFrame) => {
             return [
-                new arduino_frame_1.ArduinoFrame('block_id', {}, [], new empty_component_1.EmptyComponent()),
-                new arduino_frame_1.ArduinoFrame('block_id', {}, [], new empty_component_1.EmptyComponent()),
+                new arduino_frame_1.ArduinoFrame('block_id', {}, [], new command_1.EmptyCommand()),
+                new arduino_frame_1.ArduinoFrame('block_id', {}, [], new command_1.EmptyCommand()),
             ];
         };
         const block3 = {

@@ -1,5 +1,10 @@
 import { Frame } from './frame';
 import { Block } from './block';
+
+import { digital_write_block } from "../frame_genorator/input_output";
+
+import { delay_block_block } from "../frame_genorator/time";
+
 import { 
     variables_set_boolean_block,
     variables_set_string_block,
@@ -96,7 +101,11 @@ frameGeneratingBlocks = {
     controls_ifelse_block,
 
     controls_for_block,
-    controls_repeat_ext_block
+    controls_repeat_ext_block,
+
+    digital_write_block,
+
+    delay_block_block,
 };
 
 valueGeneratingBlocks = {

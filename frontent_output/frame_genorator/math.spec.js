@@ -4,7 +4,7 @@ require("jasmine");
 const math_1 = require("./math");
 const blockHelperFunctions = require("../frame/blockly_helper");
 const arduino_frame_1 = require("../arduino/arduino_frame");
-const empty_component_1 = require("../arduino/empty_component");
+const command_1 = require("../frame/command");
 describe('Math', () => {
     let mathOperation = 'ADD';
     let block;
@@ -15,7 +15,7 @@ describe('Math', () => {
     let numValue;
     beforeEach(() => {
         previousFrame =
-            new arduino_frame_1.ArduinoFrame('block_id', {}, [], new empty_component_1.EmptyComponent());
+            new arduino_frame_1.ArduinoFrame('block_id', {}, [], new command_1.EmptyCommand());
         getInputValueSpy = spyOn(blockHelperFunctions, 'getInputValue');
         block = {
             getFieldValue(fieldName) {

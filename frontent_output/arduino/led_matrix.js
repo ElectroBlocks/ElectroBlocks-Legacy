@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const usb_1 = require("./usb");
+const command_1 = require("../frame/command");
 class LedMatrix {
     constructor() {
         this.leds = new Array();
@@ -14,7 +15,10 @@ class LedMatrix {
         existingLed.isOn = led.isOn;
     }
     setupCommandUSB() {
-        return usb_1.USB_COMMAND_TYPES.LED_MATRIX;
+        return {
+            command: usb_1.USB_COMMAND_TYPES.LED_MATRIX,
+            type: command_1.COMMAND_TYPE.USB
+        };
     }
     makeCopy() {
         let matrix = new LedMatrix();
@@ -24,9 +28,12 @@ class LedMatrix {
     usbCommand() {
         let command = '';
         this.leds.forEach(led => {
-            command += led.usbCommand();
+            command += led.usbCommand().command;
         });
-        return command;
+        return {
+            command,
+            type: command_1.COMMAND_TYPE.USB
+        };
     }
 }
 exports.LedMatrix = LedMatrix;
@@ -40,10 +47,14 @@ class LedInMatrix {
         return this.xPosition == led.xPosition && this.yPosition == led.yPosition;
     }
     usbCommand() {
-        return `${usb_1.USB_COMMAND_TYPES.MOVE}-${usb_1.USB_COMMAND_TYPES.LED_MATRIX}-${this.yPosition}:${this.xPosition}:${this.usbOnOff()}${usb_1.USB_COMMAND_TYPES.END_OF_COMMAND}`;
+        const command = `${usb_1.USB_COMMAND_TYPES.MOVE}-${usb_1.USB_COMMAND_TYPES.LED_MATRIX}-${this.yPosition}:${this.xPosition}:${this.usbOnOff()}${usb_1.USB_COMMAND_TYPES.END_OF_COMMAND}`;
+        return {
+            type: command_1.COMMAND_TYPE.USB,
+            command
+        };
     }
     setupCommandUSB() {
-        return '';
+        return new command_1.EmptyCommand();
     }
     usbOnOff() {
         return this.isOn ? 'ON' : 'OFF';

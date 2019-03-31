@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const arduino_frame_1 = require("../arduino/arduino_frame");
-const empty_component_1 = require("../arduino/empty_component");
 const blockHelperFunctions = require("../frame/blockly_helper");
 const colour_1 = require("./colour");
+const command_1 = require("../frame/command");
 describe('Color Blocks', () => {
     let block;
     let previousFrame;
@@ -11,7 +11,7 @@ describe('Color Blocks', () => {
     let getFieldValueSpy;
     beforeEach(() => {
         previousFrame =
-            new arduino_frame_1.ArduinoFrame('block_id', {}, [], new empty_component_1.EmptyComponent());
+            new arduino_frame_1.ArduinoFrame('block_id', {}, [], new command_1.EmptyCommand());
         getInputValueSpy = spyOn(blockHelperFunctions, 'getInputValue');
         block = {
             getFieldValue(fieldName) {

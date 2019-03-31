@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const usb_1 = require("./usb");
+const command_1 = require("../frame/command");
 class LCDScreen {
     constructor(memoryType, rows, columns, rowsToPrint) {
         this.memoryType = memoryType;
@@ -14,10 +15,18 @@ class LCDScreen {
             command += this.appendSpace(this.rowsToPrint[i] || '');
             command += i < (this.rows - 1) ? ':' : '';
         }
-        return command + usb_1.USB_COMMAND_TYPES.END_OF_COMMAND;
+        command += usb_1.USB_COMMAND_TYPES.END_OF_COMMAND;
+        return {
+            command,
+            type: command_1.COMMAND_TYPE.USB
+        };
     }
     setupCommandUSB() {
-        return `${usb_1.USB_COMMAND_TYPES.LCD}:${this.memoryType}:${this.rows}:${this.columns}`;
+        const command = `${usb_1.USB_COMMAND_TYPES.LCD}:${this.memoryType}:${this.rows}:${this.columns}`;
+        return {
+            command,
+            type: command_1.COMMAND_TYPE.USB
+        };
     }
     appendSpace(printString) {
         let spacesToPrint = this.columns - printString.length;

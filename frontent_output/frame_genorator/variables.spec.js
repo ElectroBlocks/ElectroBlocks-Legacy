@@ -5,7 +5,7 @@ const blockHelperFunctions = require("../frame/blockly_helper");
 const blockly = require("../frame/block");
 const variables_1 = require("./variables");
 const arduino_frame_1 = require("../arduino/arduino_frame");
-const empty_component_1 = require("../arduino/empty_component");
+const command_1 = require("../frame/command");
 describe('Variables Frame Generators', () => {
     let block;
     let blocklyMock;
@@ -104,7 +104,7 @@ describe('Variables Frame Generators', () => {
                     type: 'Colour',
                     value: { red: 30, green: 30, blue: 20 }
                 }
-            }, [], new empty_component_1.EmptyComponent());
+            }, [], new command_1.EmptyCommand());
             mockGetVariable('Colour', 'variable_name');
             expect(variables_1.variables_get_colour_block(block, previousFrame))
                 .toEqual({ red: 30, green: 30, blue: 20 });
@@ -117,7 +117,7 @@ describe('Variables Frame Generators', () => {
                     type: 'Number',
                     value: 33
                 }
-            }, [], new empty_component_1.EmptyComponent());
+            }, [], new command_1.EmptyCommand());
             mockGetVariable('colour', 'variable_name');
             expect(variables_1.variables_get_number_block(block, previousFrame)).toBe(33);
         });
@@ -129,7 +129,7 @@ describe('Variables Frame Generators', () => {
                     type: 'String',
                     value: 'Hello World'
                 }
-            }, [], new empty_component_1.EmptyComponent());
+            }, [], new command_1.EmptyCommand());
             mockGetVariable('colour', 'variable_name');
             expect(variables_1.variables_get_string_block(block, previousFrame))
                 .toBe('Hello World');
@@ -142,7 +142,7 @@ describe('Variables Frame Generators', () => {
                     type: 'Boolean',
                     value: false
                 }
-            }, [], new empty_component_1.EmptyComponent());
+            }, [], new command_1.EmptyCommand());
             mockGetVariable('Boolean', 'variable_name');
             expect(variables_1.variables_get_string_block(block, previousFrame)).toBe(false);
         });

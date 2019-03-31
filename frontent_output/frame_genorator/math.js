@@ -39,7 +39,6 @@ const math_round_block = (block, previousFrame) => {
         case 'ROUNDDOWN':
             return Math.floor(number);
     }
-    ;
     throw Error('No Valid Math Operation Found');
 };
 exports.math_round_block = math_round_block;

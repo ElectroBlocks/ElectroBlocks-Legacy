@@ -8,10 +8,10 @@ exports.procedures_callnoreturn_block = (block, previousFrame) => {
     let procedureCall = block.getProcedureCall();
     let functionDefinitionBlock = findFunctionDefinitionBlock(procedureCall);
     let callBlockFrame = previousFrame ?
-        previousFrame.makeCopy() :
+        previousFrame.makeCopy(block.id) :
         arduino_frame_1.ArduinoFrame.makeEmptyFrame(block.id);
     frames.push(callBlockFrame);
-    const definitionBlockFrame = new arduino_frame_1.ArduinoFrame(functionDefinitionBlock.id, callBlockFrame.variables, callBlockFrame.components, callBlockFrame.lastMovedComponent);
+    const definitionBlockFrame = new arduino_frame_1.ArduinoFrame(functionDefinitionBlock.id, callBlockFrame.variables, callBlockFrame.components, callBlockFrame.command);
     const procedureDefinition = mapProcedureDefinition(functionDefinitionBlock);
     const variableModels = procedureDefinition.variableModels;
     for (let i = 0; i < variableModels.length; i += 1) {

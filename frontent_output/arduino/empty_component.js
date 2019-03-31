@@ -1,11 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const command_1 = require("../frame/command");
 class EmptyComponent {
     usbCommand() {
-        return '';
+        return new command_1.EmptyCommand();
     }
     setupCommandUSB() {
-        return '';
+        return new command_1.EmptyCommand();
     }
 }
 exports.EmptyComponent = EmptyComponent;

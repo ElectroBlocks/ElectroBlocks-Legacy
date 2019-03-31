@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const arduino_frame_1 = require("../arduino/arduino_frame");
 const block_1 = require("../frame/block");
 const blockly_helper_1 = require("../frame/blockly_helper");
+const command_1 = require("../frame/command");
 const variables_set_number_block = (block, previousFrame) => {
     return setVariable(block, 'Number', 0, previousFrame);
 };
@@ -62,7 +63,7 @@ const setVariable = (block, type, defaultValue, previousFrame) => {
         type,
         value
     };
-    return [new arduino_frame_1.ArduinoFrame(block.id, variableList, previousFrame.components, previousFrame.lastMovedComponent)];
+    return [new arduino_frame_1.ArduinoFrame(block.id, variableList, previousFrame.components, new command_1.EmptyCommand())];
 };
 const isBooleanVariableReturningValue = (type, value) => {
     if (type != 'Boolean') {

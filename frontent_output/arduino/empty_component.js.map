@@ -1,1 +1,1 @@
-{"version":3,"file":"empty_component.js","sourceRoot":"","sources":["../../src/frontend/arduino/empty_component.ts"],"names":[],"mappings":";;AAGA,MAAa,cAAc;IAEvB,UAAU;QACN,OAAO,EAAE,CAAC;IACd,CAAC;IAED,eAAe;QACX,OAAO,EAAE,CAAC;IACd,CAAC;CACJ;AATD,wCASC"}
+{"version":3,"file":"empty_component.js","sourceRoot":"","sources":["../../src/frontend/arduino/empty_component.ts"],"names":[],"mappings":";;AACA,8CAAyD;AAGzD,MAAa,cAAc;IAEvB,UAAU;QACN,OAAO,IAAI,sBAAY,EAAE,CAAC;IAC9B,CAAC;IAED,eAAe;QACX,OAAO,IAAI,sBAAY,EAAE,CAAC;IAC9B,CAAC;CACJ;AATD,wCASC"}

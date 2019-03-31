@@ -10,15 +10,19 @@ describe('Arduino Frame', () => {
     let servo = new servo_1.Servo(pin_1.ARDUINO_UNO_PINS.PIN_A0, 30);
     let lcdscreen = new lcd_screen_1.LCDScreen(lcd_screen_1.LCD_SCREEN_MEMORY_TYPE.OX3F, 4, 20, ['hello', 'world']);
     let variables = {};
-    let simpleFrame = new arduino_frame_1.ArduinoFrame('23423', variables, [pin, servo], servo);
-    let complexFrame = new arduino_frame_1.ArduinoFrame('23423', variables, [lcdscreen, pin, servo], lcdscreen);
+    let simpleFrame = new arduino_frame_1.ArduinoFrame('23423', variables, [pin, servo], servo.usbCommand());
+    let complexFrame = new arduino_frame_1.ArduinoFrame('23423', variables, [lcdscreen, pin, servo], lcdscreen.usbCommand());
     it('should use the last used component to create the next command', () => {
-        expect(simpleFrame.nextCommand()).toBe('M-S-A0:30|');
-        expect(complexFrame.nextCommand()).toBe('M-L-hello               :world               :                    :                    |');
+        expect(simpleFrame.nextCommand().command).toBe('M-S-A0:30|');
+        expect(complexFrame.nextCommand().command).toBe('M-L-hello               :world               :                    :                    |');
     });
-    it('should be able to go directly to the frame', () => {
-        expect(simpleFrame.directFrameCommand()).toBe('M-P-D:12:1|M-S-A0:30|');
-        expect(complexFrame.directFrameCommand()).toBe('S-1-L:0x3F:4:20|M-L-hello               :world               :                    :                    |M-P-D:12:1|M-S-A0:30|');
+    it('Should be able to navigate directly to the frame', () => {
+        expect(simpleFrame.directFrameCommand()
+            .map(command => command.command)
+            .reduce((previous, currentValue) => previous + currentValue, '')).toBe('M-P-D:12:1|M-S-A0:30|');
+        expect(complexFrame.directFrameCommand()
+            .map(command => command.command)
+            .reduce((previous, currentValue) => previous + currentValue, '')).toBe('S-1-L:0x3F:4:20|M-L-hello               :world               :                    :                    |M-P-D:12:1|M-S-A0:30|');
     });
 });
 //# sourceMappingURL=arduino_frame.spec.js.map
