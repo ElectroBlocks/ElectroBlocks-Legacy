@@ -8,7 +8,11 @@ import { frameGeneratingBlocks, valueGeneratingBlocks } from './frame_list';
      * under it and generate frames based on those blocks
      *
      */
-    const generateFrameForInputStatement = (block: Block, statement_name: string, previousFrame?: Frame): Array<Frame> => {
+    const generateFrameForInputStatement = (
+        block: Block,
+        statement_name: string,
+        previousFrame?: Frame
+    ): Array<Frame> => {
         const blockList = blocksInsideInput(block, statement_name)
                             .filter(block => !block.disabled);
 
@@ -66,7 +70,8 @@ import { frameGeneratingBlocks, valueGeneratingBlocks } from './frame_list';
 
             let block = blockList[i];
             
-            let currentFrames = frameGeneratingBlocks[block.type + '_block'](block, previousFrame);
+            let currentFrames =
+                frameGeneratingBlocks[block.type + '_block'](block, previousFrame);
             frames = frames.concat(currentFrames);
             previousFrame = frames[frames.length - 1];
         }

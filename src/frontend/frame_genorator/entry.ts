@@ -1,9 +1,9 @@
 import { Blockly } from '../frame/block';
 import { frameGeneratingBlocks } from '../frame/frame_list'
 import { generateFrameForInputStatement } from "../frame/blockly_helper";
-import { Frame } from "../frame/frame";
-import { ExecuteDebugFrame, ExecuteUSBFrame, FramePlayer } from "../frame/frame_player";
+import { ExecuteUSBFrame, FramePlayer } from "../frame/frame_player";
 import { ArduinoFrame } from "../arduino/arduino_frame";
+import { currentGeneratingFrameLocation, FrameLocationType } from "../frame/frame_location";
 
 declare const Blockly: Blockly;
 
@@ -23,6 +23,8 @@ const generateListOfFrame = () => {
 
 		let frames = new Array<ArduinoFrame>();
 
+
+
 		topBlocks
 			.filter(block => block.type != 'procedures_defnoreturn')
 			.forEach(block => {
@@ -30,6 +32,8 @@ const generateListOfFrame = () => {
 					.filter(frame => frame instanceof ArduinoFrame)
 					.forEach((currentFrame: ArduinoFrame) => frames.push(currentFrame));
 			});
+
+		currentGeneratingFrameLocation.location = FrameLocationType.SETUP;
 
 		let setupFrames = generateFrameForInputStatement(
 			arduinoBlock,
@@ -39,7 +43,7 @@ const generateListOfFrame = () => {
 
 		setupFrames.forEach(currentFrame => frames.push(currentFrame));
 
-		console.log(frames);
+		currentGeneratingFrameLocation.location = FrameLocationType.LOOP;
 
 		return frames;
 };

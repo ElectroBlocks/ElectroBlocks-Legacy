@@ -116,7 +116,12 @@ const generateLoopFrame = (indexValue: number, block: Block, previousFrame?: Ard
 		name: indexVariableName
 	};
 
-	return new ArduinoFrame(block.id, variables, startFrame.components, startFrame.command);
+	return new ArduinoFrame(
+		block.id,
+		variables,
+		startFrame.components,
+		startFrame.command
+	);
 
 };
 

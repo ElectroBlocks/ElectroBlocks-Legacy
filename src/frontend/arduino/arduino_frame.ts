@@ -10,7 +10,7 @@ export class ArduinoFrame implements Frame, USB {
 		public readonly blockId: string,
 		public readonly variables: { [ key: string ]: Variable },
 		public readonly components: Array<USB>,
-		public readonly command: Command ) {
+		public readonly command: Command) {
 	}
 
 	public static makeEmptyFrame( blockId: string ) {
