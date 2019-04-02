@@ -4,8 +4,10 @@ const frame_list_1 = require("../frame/frame_list");
 const blockly_helper_1 = require("../frame/blockly_helper");
 const frame_player_1 = require("../frame/frame_player");
 const arduino_frame_1 = require("../arduino/arduino_frame");
+const frame_location_1 = require("../frame/frame_location");
 const continueBtn = document.getElementById('continue-btn');
-const generateListOfFrame = () => {
+const scrubBar = document.getElementById('scrub-bar');
+const generateListOfFrame = (numberOfTimesThroughLoop = 1) => {
     let arduinoBlock = Blockly.mainWorkspace.getAllBlocks().filter(function (block) {
         return block.type == 'arduino_start';
     })[0];
@@ -21,19 +23,31 @@ const generateListOfFrame = () => {
             .filter(frame => frame instanceof arduino_frame_1.ArduinoFrame)
             .forEach((currentFrame) => frames.push(currentFrame));
     });
+    frame_location_1.currentGeneratingFrameLocation.location = frame_location_1.FrameLocationType.SETUP;
     let setupFrames = blockly_helper_1.generateFrameForInputStatement(arduinoBlock, 'setup', frames.length == 0 ? null : frames[frames.length - 1]);
     setupFrames.forEach(currentFrame => frames.push(currentFrame));
-    console.log(frames);
+    frame_location_1.currentGeneratingFrameLocation.location = frame_location_1.FrameLocationType.LOOP;
+    for (let i = 0; i < numberOfTimesThroughLoop; i += 1) {
+        let loopFrames = blockly_helper_1.generateFrameForInputStatement(arduinoBlock, 'loop', frames.length == 0 ? null : frames[frames.length - 1]);
+        loopFrames.forEach(currentFrame => frames.push(currentFrame));
+    }
     return frames;
 };
-const framePlayer = new frame_player_1.FramePlayer(new frame_player_1.ExecuteUSBFrame());
-framePlayer.frame$.subscribe(frame => {
-    console.log(frame, 'Arduino Frame Executed');
+const framePlayer = new frame_player_1.FramePlayer(new frame_player_1.ExecuteDebugFrame(), scrubBar);
+scrubBar.oninput = function () {
+    framePlayer.stop();
+    framePlayer.skipToFrame(parseInt(scrubBar.value));
+};
+framePlayer.frame$.subscribe((info) => {
+    console.log(`Executing Frame number ${info.frameNumber}.`);
     console.log(new Date());
 });
 continueBtn.addEventListener('click', () => {
     framePlayer.stop();
-    const frames = generateListOfFrame();
+    const frames = generateListOfFrame(3);
+    scrubBar.setAttribute('min', '0');
+    scrubBar.setAttribute('max', (frames.length - 1).toString());
+    scrubBar.value = '0';
     framePlayer.setFrames(frames);
     framePlayer.play();
 });

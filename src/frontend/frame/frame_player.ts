@@ -1,9 +1,10 @@
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { COMMAND_TYPE } from "./command";
 import { ipcRenderer } from 'electron';
-import { Subject } from "rxjs";
-import { delay, delayWhen, filter, tap } from "rxjs/operators";
+import { Observable, Subject } from "rxjs";
+import { delayWhen, filter, map, tap } from "rxjs/operators";
 import { timer } from "rxjs/observable/timer";
+import { getBlockly } from "./block";
 
 
 export enum FrameExecutionType {
@@ -39,7 +40,7 @@ export class FramePlayer {
 
 	private frames: ArduinoFrame[] = [];
 
-	public readonly frame$ =
+	public readonly frame$: Observable<{frameNumber: number, frame: ArduinoFrame}> =
 		this.frameSubject
 			.asObservable()
 			.pipe(
@@ -55,6 +56,13 @@ export class FramePlayer {
 						this.frameExecutor.executeCommand(frame.nextCommand().command)
 					}
 				}),
+				tap(frameInfo => {
+					console.log(this.currentFrame, 'current frame');
+					this.scrubBar.value = this.currentFrame.toString();
+					const block =
+						getBlockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);
+					block.select();
+				}),
 				delayWhen(frameType => {
 					if (frameType.frame.command.type == COMMAND_TYPE.TIME) {
 						return timer(parseInt(frameType.frame.command.command));
@@ -63,17 +71,25 @@ export class FramePlayer {
 					return timer(200);
 				}),
 				tap(() => this.executeOnce = false),
-				tap(() => this.currentFrame += 1),
 				tap(() => {
 					if (this.playFrame && this.currentFrame < this.frames.length) {
 						this.play();
 					}
-				})
+				}),
+				map((frame: FrameType) => {
+					return {
+						frameNumber: this.currentFrame,
+						frame: frame.frame
+					}
+				}),
+				tap(() => this.currentFrame += 1),
 			);
 
 
 	constructor(
-		private frameExecutor: ExecuteFrameInterface
+		private frameExecutor: ExecuteFrameInterface,
+		private scrubBar: HTMLInputElement,
+
 	) {}
 
 	/**
@@ -88,9 +104,20 @@ export class FramePlayer {
 	 * Plays the currentFrame in the list of frames.
 	 */
 	public play() {
+
+		if (this.currentFrame >= this.frames.length) {
+			this.currentFrame = 0; // Reset back to zero
+		}
+
+		const frame = this.frames[ this.currentFrame ];
+
+		if (!frame) {
+			return;
+		}
+
 		this.playFrame = true;
 		this.frameSubject.next( {
-			frame: this.frames[ this.currentFrame ],
+			frame,
 			type: FrameExecutionType.NEXT
 		});
 	}

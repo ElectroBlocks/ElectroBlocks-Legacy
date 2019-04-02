@@ -3,93 +3,115 @@ import { Variable } from './variable';
 declare const Blockly: Blockly;
 
 export interface Block {
-    
-    /**
-     * Unique id for the block
-     */
-    id: string;
 
-    /**
-     * Whether the block is disabled
-     */
-    disabled: boolean;
+	/**
+	 * Unique id for the block
+	 */
+	id: string;
 
-    /**
-     * Represents below the block
-     */
-    nextConnection?: Connection;
+	/**
+	 * Whether the block is disabled
+	 */
+	disabled: boolean;
 
-    /**
-     * The type of blocks
-     */
-    type: string;
+	/**
+	 * Represents below the block
+	 */
+	nextConnection?: Connection;
 
-    /**
-     * An array of inputs
-     */
-    inputList: Connection[],
+	/**
+	 * The type of blocks
+	 */
+	type: string;
 
-    getInput(inputName: string): { connection: Connection };
+	/**
+	 * An array of inputs
+	 */
+	inputList: Connection[],
 
-    /**
-     * Returns the value from field
-     * Field could an text, dropdown, variable etc
-     * 
-     * 
-     * @param fieldName 
-     */
-    getFieldValue(fieldName: string): any
+	getInput( inputName: string ): { connection: Connection };
 
-    /**
-     * Gets the top block from block that has an input that stores other blocks.
-     * 
-     * 
-     * @param statementName The name of the input where the blocks are stored
-     */
-    getInputTargetBlock(statementName: string): Block;
+	/**
+	 * Returns the value from field
+	 * Field could an text, dropdown, variable etc
+	 *
+	 *
+	 * @param fieldName
+	 */
+	getFieldValue( fieldName: string ): any
 
-    getProcedureDef(): [string, string[], boolean, Variable[] ]
+	/**
+	 * Gets the top block from block that has an input that stores other blocks.
+	 *
+	 *
+	 * @param statementName The name of the input where the blocks are stored
+	 */
+	getInputTargetBlock( statementName: string ): Block;
 
-    getProcedureCall(): string;
+	/**
+	 *
+	 */
+	getProcedureDef(): [ string, string[], boolean, Variable[] ]
+
+	/**
+	 *
+	 */
+	getProcedureCall(): string;
+
+
+	/**
+	 * Sets the color of the block to a hex color
+	 * @param hexColor
+	 */
+	setColour( hexColor: string ): void;
+
+	/**
+	 * Highlights the block
+	 */
+	select(): void;
+
 }
 
 export interface Connection {
 
-    /**
-     * Return the block that is connected to it
-     */
-    targetBlock(): Block;
+	/**
+	 * Return the block that is connected to it
+	 */
+	targetBlock(): Block;
 
-    /**
-     * Gets connect to the other block that it is connecting to 
-     */
-    targetConnection?: Connection;
+	/**
+	 * Gets connect to the other block that it is connecting to
+	 */
+	targetConnection?: Connection;
 
-    /**
-     * Gets the source / from block
-     */
-    getSourceBlock(): Block;
+	/**
+	 * Gets the source / from block
+	 */
+	getSourceBlock(): Block;
+
 
 }
 
 export interface Blockly {
-    readonly mainWorkspace: WorkSpace;
+	readonly mainWorkspace: WorkSpace;
 }
 
 export interface WorkSpace {
-    
-     getVariableById: (variableId: string) => Variable; 
 
-     getAllBlocks(): Block[];
+	getVariableById: ( variableId: string ) => Variable;
 
-    getTopBlocks(): Block[];
+	getAllBlocks(): Block[];
+
+	getTopBlocks(): Block[];
+
+	getBlockById( blockId: string ): Block;
 }
 
 const getBlockly = (): Blockly => {
-    return Blockly;
+	return Blockly;
 };
 
 export {
-    getBlockly
+	getBlockly
 }
 
