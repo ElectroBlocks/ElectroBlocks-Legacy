@@ -19,7 +19,8 @@ Blockly.Constants.InputOutput.HUE = 315;
 
 
 Blockly.Blocks['is_button_pressed'] = {
-    init: function() {
+
+    init: function () {
         this.appendDummyInput()
             .appendField("Is button connected to PIN# ")
             .appendField(new Blockly.FieldDropdown(profile.arduino_uno.digital), "PIN")
@@ -29,6 +30,20 @@ Blockly.Blocks['is_button_pressed'] = {
         this.setColour(315);
         this.setTooltip("");
         this.setHelpUrl("");
+    },
+
+    numberOfLoops: 0,
+
+    setNumberOfLoops(loopNumber) {
+        this.numberOfLoops = loopNumber;
+
+    },
+
+    mutationToDom: function () {
+
+    },
+
+    domToMutation: function(xmlElement) {
     }
 };
 

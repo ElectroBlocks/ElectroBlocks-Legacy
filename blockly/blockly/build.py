@@ -1,3 +1,4 @@
+
 #!/usr/bin/python2.7
 # Compresses the core Blockly files into a single JavaScript file.
 #
@@ -71,10 +72,8 @@ import errno, glob, httplib, json, os, re, subprocess, threading, urllib
 def import_path(fullpath):
   """Import a file with full path specification.
   Allows one to import from any directory, something __import__ does not do.
-
   Args:
       fullpath:  Path and filename of import.
-
   Returns:
       An imported module.
   """
@@ -105,7 +104,6 @@ class Gen_uncompressed(threading.Thread):
     f.write(HEADER)
     f.write("""
 this.IS_NODE_JS = !!(typeof module !== 'undefined' && module.exports);
-
 this.BLOCKLY_DIR = (function(root) {
   if (!root.IS_NODE_JS) {
     // Find name of current directory.
@@ -121,7 +119,6 @@ this.BLOCKLY_DIR = (function(root) {
   }
   return '';
 })(this);
-
 this.BLOCKLY_BOOT = function(root) {
   if (root.IS_NODE_JS) {
     require('google-closure-library');
@@ -129,7 +126,6 @@ this.BLOCKLY_BOOT = function(root) {
     alert('Error: Closure not found.  Read this:\\n' +
           'developers.google.com/blockly/guides/modify/web/closure');
   }
-
   var dir = '';
   if (root.IS_NODE_JS) {
     dir = 'blockly';
@@ -167,7 +163,6 @@ delete root.BLOCKLY_DIR;
 delete root.BLOCKLY_BOOT;
 delete root.IS_NODE_JS;
 };
-
 if (this.IS_NODE_JS) {
   this.BLOCKLY_BOOT(this);
   module.exports = Blockly;
@@ -209,7 +204,7 @@ class Gen_compressed(threading.Thread):
       self.gen_generator("arduino")
 
   def gen_core(self):
-    target_filename = "blockly_compressed.js"
+    target_filename = "../../view/blockly/blockly_compressed.js"
     # Define the parameters for the POST request.
     params = [
         ("compilation_level", "SIMPLE_OPTIMIZATIONS"),
@@ -237,7 +232,7 @@ class Gen_compressed(threading.Thread):
     self.do_compile(params, target_filename, filenames, "")
 
   def gen_accessible(self):
-    target_filename = "blockly_accessible_compressed.js"
+    target_filename = "../../view/blockly/blockly_accessible_compressed.js"
     # Define the parameters for the POST request.
     params = [
         ("compilation_level", "SIMPLE_OPTIMIZATIONS"),
@@ -266,7 +261,7 @@ class Gen_compressed(threading.Thread):
     self.do_compile(params, target_filename, filenames, "")
 
   def gen_blocks(self):
-    target_filename = "blocks_compressed.js"
+    target_filename = "../../view/blockly/blocks_compressed.js"
     # Define the parameters for the POST request.
     params = [
         ("compilation_level", "SIMPLE_OPTIMIZATIONS"),
@@ -293,7 +288,7 @@ class Gen_compressed(threading.Thread):
     self.do_compile(params, target_filename, filenames, remove)
 
   def gen_generator(self, language):
-    target_filename = language + "_compressed.js"
+    target_filename = "../../view/blockly/" + language + "_compressed.js"
     # Define the parameters for the POST request.
     params = [
         ("compilation_level", "SIMPLE_OPTIMIZATIONS"),
@@ -384,18 +379,13 @@ class Gen_compressed(threading.Thread):
       # Trim down Google's (and only Google's) Apache licences.
       # The Closure Compiler preserves these.
       LICENSE = re.compile("""/\\*
-
  [\w ]+
-
  Copyright \\d+ Google Inc.
  https://developers.google.com/blockly/
-
  Licensed under the Apache License, Version 2.0 \(the "License"\);
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
-
    http://www.apache.org/licenses/LICENSE-2.0
-
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -424,7 +414,6 @@ class Gen_compressed(threading.Thread):
 
 class Gen_langfiles(threading.Thread):
   """Generate JavaScript file for each natural language supported.
-
   Runs in a separate thread.
   """
 
@@ -460,8 +449,8 @@ class Gen_langfiles(threading.Thread):
         subprocess.check_call([
             "python",
             os.path.join("i18n", "js_to_json.py"),
-            "--input_file", "msg/messages.js",
-            "--output_dir", "msg/json/",
+            "--input_file", "../../view/blockly/msg/messages.js",
+            "--output_dir", "../../view/blockly/msg/json/",
             "--quiet"])
       except (subprocess.CalledProcessError, OSError) as e:
         # Documentation for subprocess.check_call says that CalledProcessError
@@ -539,10 +528,10 @@ developers.google.com/blockly/guides/modify/web/closure""")
   # Uncompressed and compressed are run in parallel threads.
   # Uncompressed is limited by processor speed.
   if ('core' in args):
-    Gen_uncompressed(core_search_paths, 'blockly_uncompressed.js').start()
+    Gen_uncompressed(core_search_paths, '../../view/blockly/blockly_uncompressed.js').start()
 
   if ('accessible' in args):
-    Gen_uncompressed(full_search_paths, 'blockly_accessible_uncompressed.js').start()
+    Gen_uncompressed(full_search_paths, '../../view/blockly/blockly_accessible_uncompressed.js').start()
 
   # Compressed is limited by network and server speed.
   Gen_compressed(full_search_paths, args).start()

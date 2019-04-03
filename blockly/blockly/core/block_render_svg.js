@@ -370,20 +370,34 @@ Blockly.BlockSvg.prototype.renderFields_ = function(fieldList,
       continue;
     }
 
+    var translateX;
+    var scale = '';
     if (this.RTL) {
       cursorX -= field.renderSep + field.renderWidth;
-      root.setAttribute('transform',
-          'translate(' + cursorX + ',' + cursorY + ')');
+      translateX = cursorX;
       if (field.renderWidth) {
         cursorX -= Blockly.BlockSvg.SEP_SPACE_X;
       }
     } else {
-      root.setAttribute('transform',
-          'translate(' + (cursorX + field.renderSep) + ',' + cursorY + ')');
+      translateX = cursorX + field.renderSep;
       if (field.renderWidth) {
         cursorX += field.renderSep + field.renderWidth +
             Blockly.BlockSvg.SEP_SPACE_X;
       }
+    }
+    if (this.RTL &&
+        field instanceof  Blockly.FieldImage &&
+        field.getFlipRtl()) {
+      scale = 'scale(-1 1)';
+      translateX += field.renderWidth;
+    }
+    root.setAttribute('transform',
+        'translate(' + translateX + ',' + cursorY + ')' + scale);
+
+    // Fields are invisible on insertion marker.  They still have to be rendered
+    // so that the block can be sized correctly.
+    if (this.isInsertionMarker()) {
+      root.setAttribute('display', 'none');
     }
   }
   return this.RTL ? -cursorX : cursorX;
@@ -553,6 +567,9 @@ Blockly.BlockSvg.prototype.renderDraw_ = function(iconWidth, inputRows) {
     this.squareTopLeftCorner_ = true;
     this.squareBottomLeftCorner_ = true;
   } else {
+    var renderCap = typeof this.hat !== undefined ? this.hat === 'cap' :
+      Blockly.BlockSvg.START_HAT;
+
     this.squareTopLeftCorner_ = false;
     this.squareBottomLeftCorner_ = false;
     // If this block is in the middle of a stack, square the corners.
@@ -561,7 +578,7 @@ Blockly.BlockSvg.prototype.renderDraw_ = function(iconWidth, inputRows) {
       if (prevBlock && prevBlock.getNextBlock() == this) {
         this.squareTopLeftCorner_ = true;
       }
-    } else if (Blockly.BlockSvg.START_HAT) {
+    } else if (renderCap) {
       // No output or previous connection.
       this.squareTopLeftCorner_ = true;
       this.startHat_ = true;
@@ -1142,5 +1159,45 @@ Blockly.BlockSvg.prototype.renderStatementInput_ = function(pathObject, row,
       highlightSteps.push('v', Blockly.BlockSvg.SEP_SPACE_Y - 1);
     }
     cursor.y += Blockly.BlockSvg.SEP_SPACE_Y;
+  }
+};
+
+/**
+ * Position an new block correctly, so that it doesn't move the existing block
+ * when connected to it.
+ * @param {!Blockly.Block} newBlock The block to position - either the first
+ *     block in a dragged stack or an insertion marker.
+ * @param {!Blockly.Connection} newConnection The connection on the new block's
+ *     stack - either a connection on newBlock, or the last NEXT_STATEMENT
+ *     connection on the stack if the stack's being dropped before another
+ *     block.
+ * @param {!Blockly.Connection} existingConnection The connection on the
+ *     existing block, which newBlock should line up with.
+ */
+Blockly.BlockSvg.prototype.positionNewBlock = function(newBlock, newConnection,
+    existingConnection) {
+  // We only need to position the new block if it's before the existing one,
+  // otherwise its position is set by the previous block.
+  if (newConnection.type == Blockly.NEXT_STATEMENT ||
+      newConnection.type == Blockly.INPUT_VALUE) {
+    var dx = existingConnection.x_ - newConnection.x_;
+    var dy = existingConnection.y_ - newConnection.y_;
+
+    newBlock.moveBy(dx, dy);
+  }
+};
+
+/**
+ * Visual effect to show that if the dragging block is dropped, this block will
+ * be replaced.  If a shadow block, it will disappear.  Otherwise it will bump.
+ * @param {boolean} add True if highlighting should be added.
+ */
+Blockly.BlockSvg.prototype.highlightForReplacement = function(add) {
+  if (add) {
+    Blockly.utils.addClass(/** @type {!Element} */ (this.svgGroup_),
+        'blocklyReplaceable');
+  } else {
+    Blockly.utils.removeClass(/** @type {!Element} */ (this.svgGroup_),
+        'blocklyReplaceable');
   }
 };

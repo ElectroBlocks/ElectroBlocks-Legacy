@@ -282,7 +282,7 @@ Blockly.Blocks['create_list_number_block'] = {
         this.appendDummyInput()
             .appendField("Create list of numbers named")
             .appendField(new Blockly.FieldVariable(
-                null, null, ['List Number'], 'List Number', true), "VAR")
+                null, null, ['List Number'], 'List Number', true, false), "VAR")
             .appendField("that stores ")
             .appendField(new Blockly.FieldNumber(0, 2, 2000), "SIZE")
             .appendField("numbers.");

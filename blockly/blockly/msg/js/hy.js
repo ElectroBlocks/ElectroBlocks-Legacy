@@ -10,7 +10,6 @@ Blockly.Msg["ADD_COMMENT"] = "Ավելացնել մեկնաբանություն"
 Blockly.Msg["CANNOT_DELETE_VARIABLE_PROCEDURE"] = "Հնարավոր չի ջնջել %1 փոփոխականը, որովհետև այն '%2' ֆունկցիայի հայտարարման մասն է";
 Blockly.Msg["CHANGE_VALUE_TITLE"] = "Փոխել նշանակություն:";
 Blockly.Msg["CLEAN_UP"] = "Մաքրել բլոկները";
-Blockly.Msg["COLLAPSED_WARNINGS_WARNING"] = "Collapsed blocks contain warnings.";  // untranslated
 Blockly.Msg["COLLAPSE_ALL"] = "Քանդել բլոկները";
 Blockly.Msg["COLLAPSE_BLOCK"] = "Կրճատել բլոկը";
 Blockly.Msg["COLOUR_BLEND_COLOUR1"] = "գույն 1";

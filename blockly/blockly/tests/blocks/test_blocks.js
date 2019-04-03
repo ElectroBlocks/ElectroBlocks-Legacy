@@ -19,6 +19,8 @@
  */
 'use strict';
 
+goog.provide('Blockly.TestBlocks');
+
 Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
   {
     "type": "empty_block",
@@ -30,7 +32,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "message0": "value to stack",
     "nextStatement": null,
     "output": null,
-    "colour": 230
+    "style": "math_blocks"
   },
   {
     "type": "value_to_statement",
@@ -42,7 +44,23 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
       }
     ],
     "output": null,
-    "colour": 230
+    "style": "math_blocks"
+  },
+  {
+    "type": "limit_instances",
+    "message0": "limit 3 instances %1 %2",
+    "args0": [
+      {
+        "type": "input_dummy"
+      },
+      {
+        "type": "input_statement",
+        "name": "STATEMENT"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "style": "math_blocks",
   },
   {
     "type": "example_dropdown_long",
@@ -145,17 +163,17 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "type": "example_angle",
     "message0": "angle: %1",
     "args0": [
-        {
-          "type": "field_angle",
-          "name": "FIELDNAME",
-          "angle": "90",
-          "alt":
-            {
-              "type": "field_label",
-              "text": "NO ANGLE FIELD"
-            }
-        }
-      ]
+      {
+        "type": "field_angle",
+        "name": "FIELDNAME",
+        "angle": "90",
+        "alt":
+          {
+            "type": "field_label",
+            "text": "NO ANGLE FIELD"
+          }
+      }
+    ]
   },
   {
     "type": "example_date",
@@ -183,7 +201,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "text": "0"
       }
     ],
-    "colour": 230,
+    "style": "math_blocks",
     "output": "Number",
     "tooltip": "A number."
   },
@@ -198,7 +216,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "text": "0"
       }
     ],
-    "colour": 230,
+    "style": "math_blocks",
     "output": "Number",
     "tooltip": "An integer."
   },
@@ -213,7 +231,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "text": "0"
       }
     ],
-    "colour": 230,
+    "style": "math_blocks",
     "output": "Number",
     "tooltip": "A dollar amount."
   },
@@ -230,7 +248,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "text": "0"
       }
     ],
-    "colour": 230,
+    "style": "math_blocks",
     "output": "Note",
     "tooltip": "A midi note."
   },
@@ -246,7 +264,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "alt": "*"
       }
     ],
-    "colour": 160
+    "style": "text_blocks"
   },
   {
     "type": "image_small",
@@ -260,7 +278,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "alt": "*"
       }
     ],
-    "colour": 160
+    "style": "text_blocks"
   },
   {
     "type": "image_large",
@@ -272,6 +290,21 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "width": 50,
         "height": 50,
         "alt": "*"
+      }
+    ],
+    "style": "text_blocks"
+  },
+  {
+    "type": "image_fliprtl",
+    "message0": "Image flipped RTL %1",
+    "args0": [
+      {
+        "type": "field_image",
+        "src": "media/arrow.png",
+        "width": 50,
+        "height": 50,
+        "alt": "*",
+        "flipRtl": true
       }
     ],
     "colour": 160
@@ -288,7 +321,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "alt": "*"
       }
     ],
-    "colour": 160
+    "style": "text_blocks"
   },
   {
     "type": "test_with_lots_of_network_icons",
@@ -413,16 +446,13 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "alt": "H"
       }
     ],
-    "colour": 160
+    "style": "text_blocks"
   },
   {
     "type": "styled_event_cap",
     "message0": "Hat block (event)",
     "nextStatement": null,
-    "colour": 330,
-    "style": {
-      "hat": "cap"
-    }
+    "style": "hat_blocks"
   },
   {
     "type": "block_colour_hex1",
@@ -542,4 +572,71 @@ Blockly.Blocks['empty_block_with_mutator'] = {
   init: function() {
     this.setMutator(new Blockly.Mutator(['math_number']));
   }
+};
+
+Blockly.Blocks['test_dropdown_dynamic'] = {
+  init: function() {
+    var dropdown = new Blockly.FieldDropdown(this.dynamicOptions);
+    this.appendDummyInput()
+      .appendField('dynamic')
+      .appendField(dropdown, 'OPTIONS');
+  },
+
+  dynamicOptions: function() {
+    if (!Blockly.TestBlocks.dynamicDropdownOptions_.length) {
+      return [['', 'OPTION0']];
+    }
+    return Blockly.TestBlocks.dynamicDropdownOptions_;
+  }
+};
+
+/**
+ * An array of options for the dynamic dropdown.
+ * @type {!Array<!Array>}
+ * @package
+ */
+Blockly.TestBlocks.dynamicDropdownOptions_ = [];
+
+/**
+ * Handles "add option" button in the field test category. This will prompt
+ * the user for an option to add.
+ * @package
+ */
+Blockly.TestBlocks.addDynamicDropdownOption_ = function() {
+  Blockly.prompt('Add an option?',
+      'option '  + Blockly.TestBlocks.dynamicDropdownOptions_.length,
+      function(text) {
+    if (text) {
+      // Do not remove this log! Helps you know if it was added correctly.
+      console.log('Adding option: ' + text);
+      // The option is an array containing human-readable text and a
+      // language-neutral id.
+      Blockly.TestBlocks.dynamicDropdownOptions_.push(
+          [text, 'OPTION' + Blockly.TestBlocks.dynamicDropdownOptions_.length]);
+    }
+  })
+};
+
+/**
+ * Handles "remove option" button in the field test category. This will prompt
+ * the user for an option to remove. May remove multiple options with the
+ * same name.
+ * @package
+ */
+Blockly.TestBlocks.removeDynamicDropdownOption_ = function() {
+  var defaultText = Blockly.TestBlocks.dynamicDropdownOptions_[0] ?
+      Blockly.TestBlocks.dynamicDropdownOptions_[0][0] : '';
+  Blockly.prompt('Remove an option?', defaultText, function(text) {
+    for (var i = 0, option;
+         option = Blockly.TestBlocks.dynamicDropdownOptions_[i];
+         i++) {
+      // The option is an array containing human-readable text and a
+      // language-neutral id, we'll compare against the human-readable text.
+      if (option[0] == text) {
+        // Do not remove this log! Helps you know if it was removed correctly.
+        console.log('Removing option: ' + text);
+        Blockly.TestBlocks.dynamicDropdownOptions_.splice(i, 1);
+      }
+    }
+  })
 };

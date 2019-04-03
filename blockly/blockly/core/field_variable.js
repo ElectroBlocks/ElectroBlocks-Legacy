@@ -35,34 +35,32 @@ goog.require('Blockly.Variables');
 goog.require('goog.math.Size');
 
 
-/**
- * Class for a variable's dropdown field.
- * @param {?string} varname The default name for the variable.  If null,
- *     a unique variable name will be generated.
- * @param {Function=} opt_validator A function that is executed when a new
- *     option is selected.  Its sole argument is the new option value.
- * @param {Array.<string>=} opt_variableTypes A list of the types of variables
- *     to include in the dropdown.
- * @param {string=} opt_defaultType The type of variable to create if this
- *     field's value is not explicitly set.  Defaults to ''.
- * @extends {Blockly.FieldDropdown}
- * @constructor
- */
-Blockly.FieldVariable = function(varname, opt_validator, opt_variableTypes,
-    opt_defaultType) {
-  // The FieldDropdown constructor would call setValue, which might create a
-  // spurious variable.  Just do the relevant parts of the constructor.
-  this.menuGenerator_ = Blockly.FieldVariable.dropdownCreate;
-  this.size_ = new goog.math.Size(0, Blockly.BlockSvg.MIN_BLOCK_Y);
-  this.setValidator(opt_validator);
-  this.defaultVariableName = (varname || '');
-
-  this.setTypes_(opt_variableTypes, opt_defaultType);
-  this.value_ = null;
-};
-goog.inherits(Blockly.FieldVariable, Blockly.FieldDropdown);
-
-
+// /**
+//  * Class for a variable's dropdown field.
+//  * @param {?string} varname The default name for the variable.  If null,
+//  *     a unique variable name will be generated.
+//  * @param {Function=} opt_validator A function that is executed when a new
+//  *     option is selected.  Its sole argument is the new option value.
+//  * @param {Array.<string>=} opt_variableTypes A list of the types of variables
+//  *     to include in the dropdown.
+//  * @param {string=} opt_defaultType The type of variable to create if this
+//  *     field's value is not explicitly set.  Defaults to ''.
+//  * @extends {Blockly.FieldDropdown}
+//  * @constructor
+//  */
+// Blockly.FieldVariable = function(varname, opt_validator, opt_variableTypes,
+//     opt_defaultType) {
+//   // The FieldDropdown constructor would call setValue, which might create a
+//   // spurious variable.  Just do the relevant parts of the constructor.
+//   this.menuGenerator_ = Blockly.FieldVariable.dropdownCreate;
+//   this.size_ = new goog.math.Size(0, Blockly.BlockSvg.MIN_BLOCK_Y);
+//   this.setValidator(opt_validator);
+//   this.defaultVariableName = (varname || '');
+//
+//   this.setTypes_(opt_variableTypes, opt_defaultType);
+//   this.value_ = null;
+// };
+// goog.inherits(Blockly.FieldVariable, Blockly.FieldDropdown);
 
 /**
  * OVER RIDE
@@ -87,17 +85,17 @@ goog.inherits(Blockly.FieldVariable, Blockly.FieldDropdown);
  */
 Blockly.FieldVariable = function(varname, opt_validator, opt_variableTypes,
                                  opt_defaultType, opt_showOnlyVariableAssigned, opt_createNewVariable) {
-    // The FieldDropdown constructor would call setValue, which might create a
-    // spurious variable.  Just do the relevant parts of the constructor.
-    this.menuGenerator_ = Blockly.FieldVariable.dropdownCreate;
-    this.size_ = new goog.math.Size(0, Blockly.BlockSvg.MIN_BLOCK_Y);
-    this.setValidator(opt_validator);
-    this.defaultVariableName = (varname || '');
+  // The FieldDropdown constructor would call setValue, which might create a
+  // spurious variable.  Just do the relevant parts of the constructor.
+  this.menuGenerator_ = Blockly.FieldVariable.dropdownCreate;
+  this.size_ = new goog.math.Size(0, Blockly.BlockSvg.MIN_BLOCK_Y);
+  this.setValidator(opt_validator);
+  this.defaultVariableName = (varname || '');
 
-    this.setTypes_(opt_variableTypes, opt_defaultType);
-    this.value_ = null;
-    this.showOnlyVariableAssigned = opt_showOnlyVariableAssigned || false;
-    this.createNewVariable = opt_createNewVariable || false;
+  this.setTypes_(opt_variableTypes, opt_defaultType);
+  this.value_ = null;
+  this.showOnlyVariableAssigned = opt_showOnlyVariableAssigned || false;
+  this.createNewVariable = opt_createNewVariable || false;
 };
 goog.inherits(Blockly.FieldVariable, Blockly.FieldDropdown);
 
@@ -403,6 +401,7 @@ Blockly.FieldVariable.prototype.referencesVariables = function() {
   return true;
 };
 
+
 /**
  *
  * OVER RIDING CORE FUNCTIONALITY
@@ -421,29 +420,72 @@ Blockly.FieldVariable.prototype.referencesVariables = function() {
  * @package
  */
 Blockly.FieldVariable.prototype.initModel = function() {
-    if (this.variable_) {
-        return; // Initialization already happened.
-    }
-    this.workspace_ = this.sourceBlock_.workspace;
-    var variables = Blockly.mainWorkspace.getVariablesOfType(this.defaultType_);
-    var variableId = null;
+  if (this.variable_) {
+    return; // Initialization already happened.
+  }
+  this.workspace_ = this.sourceBlock_.workspace;
+  var variables = Blockly.mainWorkspace.getVariablesOfType(this.defaultType_);
+  var variableId = null;
 
-    // This create new variable make it so that it creates a new variable
-    if (variables.length > 0 && !this.createNewVariable) {
-        variableId = variables[variables.length - 1].getId();
-    }
+  // This create new variable make it so that it creates a new variable
+  if (variables.length > 0 && !this.createNewVariable) {
+    variableId = variables[variables.length - 1].getId();
+  }
 
-    var variable = Blockly.Variables.getOrCreateVariablePackage(
-        this.workspace_, variableId, this.defaultVariableName, this.defaultType_);
+  var variable = Blockly.Variables.getOrCreateVariablePackage(
+      this.workspace_, variableId, this.defaultVariableName, this.defaultType_);
 
-    // Don't fire a change event for this setValue.  It would have null as the
-    // old value, which is not valid.
-    Blockly.Events.disable();
-    try {
-        this.setValue(variable.getId());
-    } finally {
-        Blockly.Events.enable();
-    }
+  // Don't fire a change event for this setValue.  It would have null as the
+  // old value, which is not valid.
+  Blockly.Events.disable();
+  try {
+    this.setValue(variable.getId());
+  } finally {
+    Blockly.Events.enable();
+  }
+};
+
+/**
+ *
+ * OVER RIDING CORE FUNCTIONALITY
+ *
+ */
+
+
+/**
+ * OVER RIDE
+ * This will insure that a new variable is not create when a set block is dragged
+ * onto the screen.  The reason is that we want variables to created with buttons.
+ *
+ * Initialize the model for this field if it has not already been initialized.
+ * If the value has not been set to a variable by the first render, we make up a
+ * variable rather than let the value be invalid.
+ * @package
+ */
+Blockly.FieldVariable.initModel = function() {
+  if (this.variable_) {
+    return; // Initialization already happened.
+  }
+  this.workspace_ = this.sourceBlock_.workspace;
+  var variables = Blockly.mainWorkspace.getVariablesOfType(this.defaultType_);
+  var variableId = null;
+
+  // This create new variable make it so that it creates a new variable
+  if (variables.length > 0 && !this.createNewVariable) {
+    variableId = variables[variables.length - 1].getId();
+  }
+
+  var variable = Blockly.Variables.getOrCreateVariablePackage(
+      this.workspace_, variableId, this.defaultVariableName, this.defaultType_);
+
+  // Don't fire a change event for this setValue.  It would have null as the
+  // old value, which is not valid.
+  Blockly.Events.disable();
+  try {
+    this.setValue(variable.getId());
+  } finally {
+    Blockly.Events.enable();
+  }
 };
 
 
@@ -459,50 +501,50 @@ Blockly.FieldVariable.prototype.initModel = function() {
  * @return {!Array.<string>} Array of variable names.
  * @this {Blockly.FieldVariable}
  */
-Blockly.FieldVariable.prototype.dropdownCreate = function() {
-    if (!this.variable_) {
-        throw Error('Tried to call dropdownCreate on a variable field with no' +
-            ' variable selected.');
+Blockly.FieldVariable.dropdownCreate = function() {
+  if (!this.variable_) {
+    throw Error('Tried to call dropdownCreate on a variable field with no' +
+        ' variable selected.');
+  }
+  var name = this.getText();
+  var workspace = null;
+  if (this.sourceBlock_) {
+    workspace = this.sourceBlock_.workspace;
+  }
+  var variableModelList = [];
+  if (workspace && !this.showOnlyVariableAssigned) {
+    var variableTypes = this.getVariableTypes_();
+    // Get a copy of the list, so that adding rename and new variable options
+    // doesn't modify the workspace's list.
+    for (var i = 0; i < variableTypes.length; i++) {
+      var variableType = variableTypes[i];
+      var variables = workspace.getVariablesOfType(variableType);
+      variableModelList = variableModelList.concat(variables);
     }
-    var name = this.getText();
-    var workspace = null;
-    if (this.sourceBlock_) {
-        workspace = this.sourceBlock_.workspace;
-    }
-    var variableModelList = [];
-    if (workspace && !this.showOnlyVariableAssigned) {
-        var variableTypes = this.getVariableTypes_();
-        // Get a copy of the list, so that adding rename and new variable options
-        // doesn't modify the workspace's list.
-        for (var i = 0; i < variableTypes.length; i++) {
-            var variableType = variableTypes[i];
-            var variables = workspace.getVariablesOfType(variableType);
-            variableModelList = variableModelList.concat(variables);
-        }
-    }
+  }
 
-    if (workspace && this.showOnlyVariableAssigned) {
-        variableModelList.push(this.variable_);
-    }
+  if (workspace && this.showOnlyVariableAssigned) {
+    variableModelList.push(this.variable_);
+  }
 
-    variableModelList.sort(Blockly.VariableModel.compareByName);
+  variableModelList.sort(Blockly.VariableModel.compareByName);
 
-    var options = [];
-    for (var i = 0; i < variableModelList.length; i++) {
-        // Set the UUID as the internal representation of the variable.
-        options[i] = [variableModelList[i].name, variableModelList[i].getId()];
-    }
-    options.push([Blockly.Msg['RENAME_VARIABLE'], Blockly.RENAME_VARIABLE_ID]);
-    if (Blockly.Msg['DELETE_VARIABLE']) {
-        options.push(
-            [
-                Blockly.Msg['DELETE_VARIABLE'].replace('%1', name),
-                Blockly.DELETE_VARIABLE_ID
-            ]
-        );
-    }
+  var options = [];
+  for (var i = 0; i < variableModelList.length; i++) {
+    // Set the UUID as the internal representation of the variable.
+    options[i] = [variableModelList[i].name, variableModelList[i].getId()];
+  }
+  options.push([Blockly.Msg['RENAME_VARIABLE'], Blockly.RENAME_VARIABLE_ID]);
+  if (Blockly.Msg['DELETE_VARIABLE']) {
+    options.push(
+        [
+          Blockly.Msg['DELETE_VARIABLE'].replace('%1', name),
+          Blockly.DELETE_VARIABLE_ID
+        ]
+    );
+  }
 
-    return options;
+  return options;
 };
 
 /**
@@ -517,12 +559,12 @@ Blockly.FieldVariable.prototype.dropdownCreate = function() {
  * @nocollapse
  */
 Blockly.FieldVariable.fromJson = function(options) {
-    var varname = Blockly.utils.replaceMessageReferences(options['variable']);
-    var variableTypes = options['variableTypes'];
-    var defaultType = options['defaultType'];
-    var showOnlyVariableAssigned = options['showOnlyVariableAssigned'];
-    var createNewVariable = options['createNewVariable'];
-    return new Blockly.FieldVariable(varname, null, variableTypes, defaultType, showOnlyVariableAssigned, createNewVariable);
+  var varname = Blockly.utils.replaceMessageReferences(options['variable']);
+  var variableTypes = options['variableTypes'];
+  var defaultType = options['defaultType'];
+  var showOnlyVariableAssigned = options['showOnlyVariableAssigned'];
+  var createNewVariable = options['createNewVariable'];
+  return new Blockly.FieldVariable(varname, null, variableTypes, defaultType, showOnlyVariableAssigned, createNewVariable);
 };
 
 
