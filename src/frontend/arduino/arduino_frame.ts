@@ -2,15 +2,19 @@ import { Frame } from '../frame/frame';
 import { Variable } from '../frame/variable';
 import { USB, USB_COMMAND_TYPES } from './usb';
 import { Command, COMMAND_TYPE, EmptyCommand } from "../frame/command";
+import { v4 } from 'uuid';
 
 export class ArduinoFrame implements Frame, USB {
 
+	private uuid: string;
 
 	constructor(
 		public readonly blockId: string,
 		public readonly variables: { [ key: string ]: Variable },
 		public readonly components: Array<USB>,
 		public readonly command: Command) {
+
+		this.uuid = v4();
 	}
 
 	public static makeEmptyFrame( blockId: string ) {

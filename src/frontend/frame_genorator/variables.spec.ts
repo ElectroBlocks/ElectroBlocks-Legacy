@@ -37,7 +37,7 @@ describe('Variables Frame Generators', () => {
 
 	const mockSetVariable =
 		(type: string, variableName: string, defaultValue: any, value: any) => {
-			spyOn(blockly, 'getBlockly').and.returnValue(blocklyMock);
+			spyOn(blockly, 'get_blockly').and.returnValue(blocklyMock);
 
 			spyOn(block, 'getFieldValue').withArgs('VAR')
 				.and.returnValue('variable_id');
@@ -56,7 +56,7 @@ describe('Variables Frame Generators', () => {
 
 	const mockGetVariable = (type: string, variableName: string) => {
 
-		spyOn(blockly, 'getBlockly').and.returnValue(blocklyMock);
+		spyOn(blockly, 'get_blockly').and.returnValue(blocklyMock);
 
 		spyOn(block, 'getFieldValue').withArgs('VAR')
 			.and.returnValue('variable_id');

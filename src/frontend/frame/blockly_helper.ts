@@ -37,9 +37,9 @@ import { frameGeneratingBlocks, valueGeneratingBlocks } from './frame_list';
     };
 
     /**
-     * 
+     * Gets a list of blocks inside input statement
      */
-    const blocksInsideInput = (containerBlock: Block, inputName: string): Block[] => {
+    export const blocksInsideInput = (containerBlock: Block, inputName: string): Block[] => {
         let blockList = [];
         let topBlock = containerBlock.getInputTargetBlock(inputName);
 

@@ -4,7 +4,7 @@ import { ipcRenderer } from 'electron';
 import { Observable, Subject } from "rxjs";
 import { delayWhen, filter, map, tap } from "rxjs/operators";
 import { timer } from "rxjs/observable/timer";
-import { getBlockly } from "./block";
+import { get_blockly } from "./block";
 
 
 export enum FrameExecutionType {
@@ -60,7 +60,7 @@ export class FramePlayer {
 					console.log(this.currentFrame, 'current frame');
 					this.scrubBar.value = this.currentFrame.toString();
 					const block =
-						getBlockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);
+						get_blockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);
 					block.select();
 				}),
 				delayWhen(frameType => {

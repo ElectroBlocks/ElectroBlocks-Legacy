@@ -45,7 +45,7 @@ const getVariableDefaultType = (type) => {
     throw new Error('Unknown Type For Function Parameter');
 };
 const findFunctionDefinitionBlock = (functionName) => {
-    let functionBlocks = block_1.getBlockly().mainWorkspace
+    let functionBlocks = block_1.get_blockly().mainWorkspace
         .getTopBlocks()
         .filter(block => block.type === 'procedures_defnoreturn')
         .filter(block => block.getProcedureDef()[0] == functionName);

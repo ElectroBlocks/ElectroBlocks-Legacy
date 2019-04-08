@@ -1,5 +1,5 @@
 import { ArduinoFrame } from '../arduino/arduino_frame';
-import { Block, getBlockly } from '../frame/block';
+import { Block, get_blockly } from '../frame/block';
 import { getInputValue } from '../frame/blockly_helper';
 import { EmptyCommand } from "../frame/command";
 
@@ -138,14 +138,14 @@ const isBooleanVariableReturningValue = (type: string, value: any) => {
  * Gets the variable's name used in the block
  */
 const  getVariableName = (block: Block) => {
-    return getBlockly().mainWorkspace.getVariableById(block.getFieldValue('VAR')).name;
+    return get_blockly().mainWorkspace.getVariableById(block.getFieldValue('VAR')).name;
 };
 
 /**
  * Returns the variables type as string
  */
 const getVariableType = (block: Block) => {
-    return getBlockly().mainWorkspace.getVariableById(block.getFieldValue('VAR')).type;
+    return get_blockly().mainWorkspace.getVariableById(block.getFieldValue('VAR')).type;
 };
 
 export {

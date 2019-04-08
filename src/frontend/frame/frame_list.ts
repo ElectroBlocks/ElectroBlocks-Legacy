@@ -1,7 +1,7 @@
 import { Frame } from './frame';
 import { Block } from './block';
 
-import { digital_write_block } from "../frame_genorator/input_output";
+import { digital_write_block, is_button_pressed_block } from "../frame_genorator/input_output";
 
 import { delay_block_block } from "../frame_genorator/time";
 
@@ -141,7 +141,9 @@ valueGeneratingBlocks = {
     text_join_block,
     text_length_block,
     number_to_string_block,
-    parse_string_block_block
+    parse_string_block_block,
+
+    is_button_pressed_block
 };
 
 export {

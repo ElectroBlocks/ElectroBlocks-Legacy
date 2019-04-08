@@ -33,7 +33,7 @@ class FramePlayer {
         }), operators_1.tap(frameInfo => {
             console.log(this.currentFrame, 'current frame');
             this.scrubBar.value = this.currentFrame.toString();
-            const block = block_1.getBlockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);
+            const block = block_1.get_blockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);
             block.select();
         }), operators_1.delayWhen(frameType => {
             if (frameType.frame.command.type == command_1.COMMAND_TYPE.TIME) {

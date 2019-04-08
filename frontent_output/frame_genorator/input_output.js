@@ -2,8 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const arduino_frame_1 = require("../arduino/arduino_frame");
 const pin_1 = require("../arduino/pin");
-const frame_location_1 = require("../frame/frame_location");
-const state_1 = require("../frame/state");
+const input_state_1 = require("../frame/input_state");
 exports.digital_write_block = (block, previousFrame) => {
     const pin = block.getFieldValue('PIN');
     const state = block.getFieldValue('STATE') == 'ON' ? '1' : '0';
@@ -14,11 +13,7 @@ exports.digital_write_block = (block, previousFrame) => {
     return [new arduino_frame_1.ArduinoFrame(block.id, variables, components, pinComponent.usbCommand())];
 };
 exports.is_button_pressed_block = (block, previousFrame) => {
-    const defaultInputValue = false;
-    let blockState = state_1.stateHolder.getState(block.id, frame_location_1.currentGeneratingFrameLocation);
-    if (!blockState) {
-        state_1.stateHolder.setState(block.id, frame_location_1.currentGeneratingFrameLocation, 'Boolean', defaultInputValue);
-    }
-    return blockState ? blockState.value : defaultInputValue;
+    const blockCall = input_state_1.inputState.addBlockCall(block.id);
+    return blockCall.value;
 };
 //# sourceMappingURL=input_output.js.map

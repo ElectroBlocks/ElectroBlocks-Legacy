@@ -54,7 +54,7 @@ describe('list generators', () => {
 			.withArgs('VAR')
 			.and.returnValue('variable_id');
 
-		spyOn(blockly, 'getBlockly').and.returnValue(blocklyMock);
+		spyOn(blockly, 'get_blockly').and.returnValue(blocklyMock);
 
 	});
 

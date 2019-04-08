@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const getBlockly = () => {
+exports.get_blockly = () => {
     return Blockly;
 };
-exports.getBlockly = getBlockly;
 //# sourceMappingURL=block.js.map

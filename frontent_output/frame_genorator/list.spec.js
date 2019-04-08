@@ -32,7 +32,7 @@ describe('list generators', () => {
         spyOn(block, 'getFieldValue')
             .withArgs('VAR')
             .and.returnValue('variable_id');
-        spyOn(blockly, 'getBlockly').and.returnValue(blocklyMock);
+        spyOn(blockly, 'get_blockly').and.returnValue(blocklyMock);
     });
     describe('create_list_number_block_block', () => {
         it('should create an array variable in the frame that is blank', () => {

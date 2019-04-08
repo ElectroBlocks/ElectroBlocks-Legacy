@@ -25,6 +25,11 @@ export interface Block {
 	type: string;
 
 	/**
+	 * The default debug value for the input block
+	 */
+	defaultDebugValue?: any;
+
+	/**
 	 * An array of inputs
 	 */
 	inputList: Connection[],
@@ -70,6 +75,21 @@ export interface Block {
 	 */
 	select(): void;
 
+	/**
+	 * Turns the blocks debug mode on
+	 */
+	debugModeOn(): void
+
+	/**
+	 * Turns the block debug mode off
+	 */
+	debugModeOff(): void;
+
+}
+
+export interface DebugValueBlock extends Block {
+
+	getFrameValue(): any;
 }
 
 export interface Connection {
@@ -107,11 +127,8 @@ export interface WorkSpace {
 	getBlockById( blockId: string ): Block;
 }
 
-const getBlockly = (): Blockly => {
+export const get_blockly = (): Blockly => {
 	return Blockly;
 };
 
-export {
-	getBlockly
-}
 

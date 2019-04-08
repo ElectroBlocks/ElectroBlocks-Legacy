@@ -73,11 +73,11 @@ const isBooleanVariableReturningValue = (type, value) => {
 };
 exports.isBooleanVariableReturningValue = isBooleanVariableReturningValue;
 const getVariableName = (block) => {
-    return block_1.getBlockly().mainWorkspace.getVariableById(block.getFieldValue('VAR')).name;
+    return block_1.get_blockly().mainWorkspace.getVariableById(block.getFieldValue('VAR')).name;
 };
 exports.getVariableName = getVariableName;
 const getVariableType = (block) => {
-    return block_1.getBlockly().mainWorkspace.getVariableById(block.getFieldValue('VAR')).type;
+    return block_1.get_blockly().mainWorkspace.getVariableById(block.getFieldValue('VAR')).type;
 };
 exports.getVariableType = getVariableType;
 //# sourceMappingURL=variables.js.map

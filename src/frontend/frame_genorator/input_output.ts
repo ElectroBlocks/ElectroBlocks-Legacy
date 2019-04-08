@@ -1,8 +1,7 @@
 import { Block } from "../frame/block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { Pin, PIN_TYPE, stringToPin } from "../arduino/pin";
-import { currentGeneratingFrameLocation } from "../frame/frame_location";
-import { stateHolder } from "../frame/state";
+import { inputState } from "../frame/input_state";
 
 export const digital_write_block = (block: Block, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
 
@@ -23,17 +22,7 @@ export const digital_write_block = (block: Block, previousFrame?: ArduinoFrame):
 
 export const is_button_pressed_block = (block: Block, previousFrame?: ArduinoFrame): boolean => {
 
-	const defaultInputValue = false;
-	let blockState = stateHolder.getState(block.id, currentGeneratingFrameLocation);
+	const blockCall = inputState.addBlockCall(block.id);
 
-	if (!blockState) {
-		stateHolder.setState(
-			block.id,
-			currentGeneratingFrameLocation,
-			'Boolean',
-			defaultInputValue
-		);
-	}
-
-	return blockState ? blockState.value as boolean : defaultInputValue;
+	return blockCall.value;
 }

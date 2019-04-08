@@ -30,45 +30,71 @@ Blockly.Blocks['is_button_pressed'] = {
         this.setColour(315);
         this.setTooltip("");
         this.setHelpUrl("");
-    },
 
-    numberOfLoops: 0,
+        this.appendDummyInput()
+            .appendField('Debug Mode Values')
+            .setVisible(false);
 
-    setNumberOfLoops(loopNumber) {
-        this.numberOfLoops = loopNumber;
-
-    },
-
-    mutationToDom: function () {
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('BOOL_FRAME')
+            .setVisible(false);
 
     },
 
-    domToMutation: function(xmlElement) {
-    }
+    debugModeOn() {
+        this.inputList[1].setVisible(true);
+        this.inputList[2].setVisible(true);
+        this.render();
+    },
+
+    debugModeOff() {
+        this.inputList[1].setVisible(false);
+        this.inputList[2].setVisible(false);
+        this.render();
+    },
+
+    defaultDebugValue: true
 };
 
 Blockly.Blocks['digital_read'] = {
-    init: function() {
+    init: function () {
         this.appendDummyInput()
             .appendField("Does PIN# ")
             .appendField(new Blockly.FieldDropdown(profile.arduino_uno.digital), "PIN")
             .appendField(" have electricity?")
             .appendField(new Blockly.FieldImage("images/digital_read.png", 30, 30, "*"));
+
+        this.appendDummyInput()
+            .appendField('Does pin have electricity in debug mode?')
+            .appendField(
+                new Blockly.FieldDropdown([["TRUE", "TRUE"], ["FALSE", "FALSE"]]), "DEBUG_STATE")
+            .setVisible(false);
+
         this.setOutput(true, "Boolean");
         this.setColour(315);
         this.setTooltip("");
         this.setHelpUrl("");
+    },
+
+    debugModeOn() {
+        this.inputList[1].setVisible(true);
+        this.render();
+    },
+
+    debugModeOff() {
+        this.inputList[1].setVisible(false);
+        this.render();
     }
 };
 
 Blockly.Blocks['digital_write'] = {
-    init: function() {
+    init: function () {
         this.appendDummyInput()
             .appendField("Turning PIN# ")
             .appendField(new Blockly.FieldDropdown(profile.arduino_uno.digital), "PIN")
             .appendField(" electricity ")
             .appendField(
-                new Blockly.FieldDropdown([["ON","ON"], ["OFF","OFF"]]), "STATE")
+                new Blockly.FieldDropdown([["ON", "ON"], ["OFF", "OFF"]]), "STATE")
             .appendField(".")
             .appendField(new Blockly.FieldImage("images/digital_write.png", 30, 30, "*"));
 
@@ -81,7 +107,7 @@ Blockly.Blocks['digital_write'] = {
 };
 
 Blockly.Blocks['analog_read'] = {
-    init: function() {
+    init: function () {
         this.appendDummyInput()
             .appendField("Read number from Analog PIN# ")
             .appendField(new Blockly.FieldDropdown(profile.arduino_uno.analog), "PIN")
@@ -95,7 +121,7 @@ Blockly.Blocks['analog_read'] = {
 
 
 Blockly.Blocks['analog_write'] = {
-    init: function() {
+    init: function () {
         this.appendValueInput("WRITE_VALUE")
             .setCheck("Number")
             .appendField(" Send number");
@@ -114,7 +140,7 @@ Blockly.Blocks['analog_write'] = {
 
 
 Blockly.Blocks['ultra_sonic_sensor_distance'] = {
-    init: function() {
+    init: function () {
         this.appendDummyInput()
             .appendField("Ultrasonic Sensor ");
         this.appendDummyInput()

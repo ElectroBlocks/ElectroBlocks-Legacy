@@ -63,6 +63,7 @@ exports.valueGeneratingBlocks = valueGeneratingBlocks = {
     text_join_block: text_1.text_join_block,
     text_length_block: text_1.text_length_block,
     number_to_string_block: text_1.number_to_string_block,
-    parse_string_block_block: text_1.parse_string_block_block
+    parse_string_block_block: text_1.parse_string_block_block,
+    is_button_pressed_block: input_output_1.is_button_pressed_block
 };
 //# sourceMappingURL=frame_list.js.map

@@ -2,12 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const usb_1 = require("./usb");
 const command_1 = require("../frame/command");
+const uuid_1 = require("uuid");
 class ArduinoFrame {
     constructor(blockId, variables, components, command) {
         this.blockId = blockId;
         this.variables = variables;
         this.components = components;
         this.command = command;
+        this.uuid = uuid_1.v4();
     }
     static makeEmptyFrame(blockId) {
         return new ArduinoFrame(blockId, {}, [], new command_1.EmptyCommand());

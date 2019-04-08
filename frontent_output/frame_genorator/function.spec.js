@@ -45,7 +45,7 @@ describe('functions', () => {
                     return 'func_name';
                 }
             };
-            spyOn(blockly, 'getBlockly').and.returnValue(blocklyMock);
+            spyOn(blockly, 'get_blockly').and.returnValue(blocklyMock);
             const getInputValueSpy = spyOn(blockHelper, 'getInputValue');
             getInputValueSpy.withArgs(functionCallBlock, 'ARG0', 0, undefined)
                 .and.returnValue(34);

@@ -4,7 +4,6 @@ const frame_list_1 = require("../frame/frame_list");
 const blockly_helper_1 = require("../frame/blockly_helper");
 const frame_player_1 = require("../frame/frame_player");
 const arduino_frame_1 = require("../arduino/arduino_frame");
-const frame_location_1 = require("../frame/frame_location");
 const continueBtn = document.getElementById('continue-btn');
 const scrubBar = document.getElementById('scrub-bar');
 const generateListOfFrame = (numberOfTimesThroughLoop = 1) => {
@@ -23,14 +22,13 @@ const generateListOfFrame = (numberOfTimesThroughLoop = 1) => {
             .filter(frame => frame instanceof arduino_frame_1.ArduinoFrame)
             .forEach((currentFrame) => frames.push(currentFrame));
     });
-    frame_location_1.currentGeneratingFrameLocation.location = frame_location_1.FrameLocationType.SETUP;
     let setupFrames = blockly_helper_1.generateFrameForInputStatement(arduinoBlock, 'setup', frames.length == 0 ? null : frames[frames.length - 1]);
     setupFrames.forEach(currentFrame => frames.push(currentFrame));
-    frame_location_1.currentGeneratingFrameLocation.location = frame_location_1.FrameLocationType.LOOP;
     for (let i = 0; i < numberOfTimesThroughLoop; i += 1) {
         let loopFrames = blockly_helper_1.generateFrameForInputStatement(arduinoBlock, 'loop', frames.length == 0 ? null : frames[frames.length - 1]);
         loopFrames.forEach(currentFrame => frames.push(currentFrame));
     }
+    console.log(frames, 'Arduino Frames Generated');
     return frames;
 };
 const framePlayer = new frame_player_1.FramePlayer(new frame_player_1.ExecuteDebugFrame(), scrubBar);

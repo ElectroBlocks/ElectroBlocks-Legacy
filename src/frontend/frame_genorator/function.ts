@@ -1,4 +1,4 @@
-import { Block, getBlockly } from "../frame/block";
+import { Block, get_blockly } from "../frame/block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { generateFrameForInputStatement, getInputValue } from "../frame/blockly_helper";
 import { Variable } from "../frame/variable";
@@ -74,7 +74,7 @@ const getVariableDefaultType = (type: string) => {
 };
 
 const findFunctionDefinitionBlock = (functionName: string): Block => {
-	let functionBlocks = getBlockly().mainWorkspace
+	let functionBlocks = get_blockly().mainWorkspace
 		.getTopBlocks()
 		.filter(block => block.type === 'procedures_defnoreturn')
 		.filter(block => block.getProcedureDef()[0] == functionName);

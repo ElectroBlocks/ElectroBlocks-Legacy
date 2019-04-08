@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const frame_list_1 = require("./frame_list");
 const generateFrameForInputStatement = (block, statement_name, previousFrame) => {
-    const blockList = blocksInsideInput(block, statement_name)
+    const blockList = exports.blocksInsideInput(block, statement_name)
         .filter(block => !block.disabled);
     return generateFrames(blockList, previousFrame);
 };
@@ -15,7 +15,7 @@ const getInputValue = (parentBlock, inputName, noBlockAttachedDefaultValue, prev
     return frame_list_1.valueGeneratingBlocks[block.type + '_block'](block, previousFrame);
 };
 exports.getInputValue = getInputValue;
-const blocksInsideInput = (containerBlock, inputName) => {
+exports.blocksInsideInput = (containerBlock, inputName) => {
     let blockList = [];
     let topBlock = containerBlock.getInputTargetBlock(inputName);
     if (!topBlock) {
