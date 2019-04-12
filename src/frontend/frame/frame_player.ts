@@ -2,7 +2,7 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
 import { COMMAND_TYPE } from "./command";
 import { ipcRenderer } from 'electron';
 import { Observable, Subject } from "rxjs";
-import { delayWhen, filter, map, tap } from "rxjs/operators";
+import { delay, delayWhen, filter, map, tap } from "rxjs/operators";
 import { timer } from "rxjs/observable/timer";
 import { get_blockly } from "./block";
 
@@ -45,6 +45,7 @@ export class FramePlayer {
 			.asObservable()
 			.pipe(
 				filter(() => this.executeOnce || this.playFrame),
+				filter(() => this.frames.length > 0),
 				tap(frameType => {
 					const frame = frameType.frame;
 
@@ -63,26 +64,21 @@ export class FramePlayer {
 						get_blockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);
 					block.select();
 				}),
-				delayWhen(frameType => {
-					if (frameType.frame.command.type == COMMAND_TYPE.TIME) {
-						return timer(parseInt(frameType.frame.command.command));
-					}
-
-					return timer(200);
-				}),
+				delay(200),
 				tap(() => this.executeOnce = false),
-				tap(() => {
-					if (this.playFrame && this.currentFrame < this.frames.length) {
-						this.play();
-					}
-				}),
 				map((frame: FrameType) => {
 					return {
 						frameNumber: this.currentFrame,
 						frame: frame.frame
 					}
 				}),
-				tap(() => this.currentFrame += 1),
+				tap(() => {
+					if (this.playFrame && this.currentFrame != this.frames.length -1) {
+						this.currentFrame += 1;
+						this.play();
+
+					}
+				})
 			);
 
 
@@ -98,12 +94,17 @@ export class FramePlayer {
 	 */
 	public setFrames(frames: ArduinoFrame[]) {
 		this.frames = frames;
+		this.currentFrame = 0;
 	}
 
 	/**
 	 * Plays the currentFrame in the list of frames.
 	 */
 	public play() {
+
+		if (this.frames.length == 0) {
+			return;
+		}
 
 		if (this.currentFrame >= this.frames.length) {
 			this.currentFrame = 0; // Reset back to zero
@@ -122,10 +123,34 @@ export class FramePlayer {
 		});
 	}
 
+	public next() {
+		if (this.frames.length == 0) {
+			return;
+		}
+
+		this.executeOnce = true;
+		this.currentFrame = this.currentFrame == this.frames.length - 1 ? this.currentFrame : this.currentFrame + 1;
+		this.skipToFrame(this.currentFrame);
+	}
+
+	public previous() {
+		if (this.frames.length == 0) {
+			return;
+		}
+		this.executeOnce = true;
+		this.currentFrame = this.currentFrame == 0 ? 0 : this.currentFrame -1;
+		this.skipToFrame(this.currentFrame);
+	}
+
 	/**
 	 * Signals a stop for the frames observable
 	 */
 	public stop() {
+
+		if (this.frames.length == 0) {
+			return;
+		}
+
 		this.playFrame = false;
 	}
 

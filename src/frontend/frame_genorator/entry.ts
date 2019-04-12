@@ -1,64 +1,20 @@
-import { Blockly } from '../frame/block';
-import { frameGeneratingBlocks } from '../frame/frame_list'
-import { generateFrameForInputStatement } from "../frame/blockly_helper";
 import { ExecuteDebugFrame, FramePlayer } from "../frame/frame_player";
 import { ArduinoFrame } from "../arduino/arduino_frame";
+import { generateListOfFrame } from "../frame/generate_frame";
 
-declare const Blockly: Blockly;
 
-
-const continueBtn = document.getElementById('continue-btn');
+const videoDebug = document.getElementById('debug-video');
 const scrubBar = document.getElementById('scrub-bar') as HTMLInputElement;
+const sliderContainer = document.getElementById('slide-container');
+const videoContainer = document.getElementById('video-controls-container');
+const inputNumberOfFrames = document.getElementById('loop_times') as HTMLInputElement;
 
-
-const generateListOfFrame = (numberOfTimesThroughLoop: number = 1) => {
-		let arduinoBlock = Blockly.mainWorkspace.getAllBlocks().filter(function (block) {
-			return block.type == 'arduino_start';
-		})[0];
-
-		let topBlocks = Blockly
-			.mainWorkspace
-			.getTopBlocks()
-			.filter(block => block.type != 'arduino_start');
-
-		let frames = new Array<ArduinoFrame>();
-
-
-
-		topBlocks
-			.filter(block => block.type != 'procedures_defnoreturn')
-			.forEach(block => {
-				frameGeneratingBlocks[block.type + '_block'](block, frames.length == 0 ? null : frames[frames.length - 1])
-					.filter(frame => frame instanceof ArduinoFrame)
-					.forEach((currentFrame: ArduinoFrame) => frames.push(currentFrame));
-			});
-
-
-		let setupFrames = generateFrameForInputStatement(
-			arduinoBlock,
-			'setup',
-			frames.length == 0 ? null : frames[frames.length - 1]
-		) as ArduinoFrame[];
-
-		setupFrames.forEach(currentFrame => frames.push(currentFrame));
-
-
-		for (let i = 0; i < numberOfTimesThroughLoop; i += 1) {
-			let loopFrames = generateFrameForInputStatement(
-				arduinoBlock,
-				'loop',
-				frames.length == 0 ? null : frames[frames.length - 1]
-			) as ArduinoFrame[];
-
-			loopFrames.forEach(currentFrame => frames.push(currentFrame));
-		}
-
-		console.log(frames, 'Arduino Frames Generated');
-
-		return frames;
-};
-
+const generateLoopBtn = document.getElementById('generate-loop');
 const framePlayer = new FramePlayer(new ExecuteDebugFrame(), scrubBar);
+const playBtn = document.getElementById('video-debug-play');
+const stopBtn = document.getElementById('video-debug-stop');
+const backwardBtn = document.getElementById('video-debug-backward');
+const forwardBtn = document.getElementById('video-debug-forward');
 
 scrubBar.oninput = function() {
 	framePlayer.stop();
@@ -72,16 +28,52 @@ framePlayer.frame$.subscribe((info: {frameNumber: number, frame: ArduinoFrame}) 
 });
 
 
-continueBtn.addEventListener('click', () => {
+videoDebug.addEventListener('click', () => {
 
+	if (sliderContainer.style.display === 'block') {
+		sliderContainer.style.display = 'none';
+		videoContainer.style.display = 'none';
+		return;
+	}
+
+	sliderContainer.style.display = 'block';
+
+	videoContainer.style.display = 'block';
+});
+
+generateLoopBtn.addEventListener('click', () => {
 	framePlayer.stop();
 
-	const frames = generateListOfFrame(3);
+	const frames = generateListOfFrame(parseInt(inputNumberOfFrames.value));
+
+	if (frames.length == 0) {
+		return;
+	}
 
 	scrubBar.setAttribute('min', '0');
 	scrubBar.setAttribute('max', (frames.length - 1).toString());
 	scrubBar.value = '0';
 	framePlayer.setFrames(frames);
+	playBtn.classList.remove('disable');
+	stopBtn.classList.remove('disable');
+	forwardBtn.classList.remove('disable');
+	backwardBtn.classList.remove('disable');
+});
 
+playBtn.addEventListener('click', () => {
 	framePlayer.play();
+	stopBtn.classList.remove('disable');
+});
+
+stopBtn.addEventListener('click', () => {
+	framePlayer.stop();
+	stopBtn.classList.add('disable');
+});
+
+forwardBtn.addEventListener('click', () => {
+	framePlayer.next();
+});
+
+backwardBtn.addEventListener('click', () => {
+	framePlayer.previous();
 });

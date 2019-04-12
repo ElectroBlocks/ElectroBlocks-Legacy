@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let property in blocksThatRequireSetup) {
                 if (!blocksThatRequireSetup.hasOwnProperty(property)) continue;
                 blocks.forEach(function (block) {
-                    if (block.type != property) {
+                    if (block.type !== property) {
                         return;
                     }
                     let setupBlockRequired = blocksThatRequireSetup[property];
@@ -472,10 +472,10 @@ uploadCodeBtn.addEventListener('click', () => {
 
 });
 
-// continueBtn.addEventListener('click', () => {
-//    // ipcRenderer.send('debug:continue');
-//    // clearDebugBlocks();
-// });
+continueBtn.addEventListener('click', () => {
+   ipcRenderer.send('debug:continue');
+   clearDebugBlocks();
+});
 
 
 

@@ -125,6 +125,9 @@ export interface WorkSpace {
 	getTopBlocks(): Block[];
 
 	getBlockById( blockId: string ): Block;
+
+	addChangeListener(listener: (event: any) => void ): void;
+
 }
 
 export const get_blockly = (): Blockly => {

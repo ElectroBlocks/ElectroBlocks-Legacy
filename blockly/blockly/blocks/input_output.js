@@ -65,10 +65,13 @@ Blockly.Blocks['digital_read'] = {
             .appendField(new Blockly.FieldImage("images/digital_read.png", 30, 30, "*"));
 
         this.appendDummyInput()
-            .appendField('Does pin have electricity in debug mode?')
-            .appendField(
-                new Blockly.FieldDropdown([["TRUE", "TRUE"], ["FALSE", "FALSE"]]), "DEBUG_STATE")
+            .appendField('Debug Mode Values')
             .setVisible(false);
+
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('BOOL_FRAME')
+            .setVisible(false);
+
 
         this.setOutput(true, "Boolean");
         this.setColour(315);
@@ -78,13 +81,18 @@ Blockly.Blocks['digital_read'] = {
 
     debugModeOn() {
         this.inputList[1].setVisible(true);
+        this.inputList[2].setVisible(true);
         this.render();
     },
 
     debugModeOff() {
         this.inputList[1].setVisible(false);
+        this.inputList[2].setVisible(false);
         this.render();
-    }
+    },
+
+    defaultDebugValue: true
+
 };
 
 Blockly.Blocks['digital_write'] = {
@@ -116,7 +124,31 @@ Blockly.Blocks['analog_read'] = {
         this.setColour(315);
         this.setTooltip("");
         this.setHelpUrl("");
-    }
+
+        this.appendDummyInput()
+            .appendField('Debug Mode Values')
+            .setVisible(false);
+
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('NUMBER_FRAME')
+            .setVisible(false);
+
+    },
+
+    debugModeOn() {
+        this.inputList[1].setVisible(true);
+        this.inputList[2].setVisible(true);
+        this.render();
+    },
+
+    debugModeOff() {
+        this.inputList[1].setVisible(false);
+        this.inputList[2].setVisible(false);
+        this.render();
+    },
+
+    defaultDebugValue: 32
+
 };
 
 
@@ -156,5 +188,28 @@ Blockly.Blocks['ultra_sonic_sensor_distance'] = {
         this.setColour(315);
         this.setTooltip("");
         this.setHelpUrl("");
-    }
+
+        this.appendDummyInput()
+            .appendField('Debug Mode Values')
+            .setVisible(false);
+
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('NUMBER_FRAME')
+            .setVisible(false);
+
+    },
+
+    debugModeOn() {
+        this.inputList[4].setVisible(true);
+        this.inputList[5].setVisible(true);
+        this.render();
+    },
+
+    debugModeOff() {
+        this.inputList[4].setVisible(false);
+        this.inputList[5].setVisible(false);
+        this.render();
+    },
+
+    defaultDebugValue: 10
 };

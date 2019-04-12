@@ -4,7 +4,6 @@ const command_1 = require("./command");
 const electron_1 = require("electron");
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
-const timer_1 = require("rxjs/observable/timer");
 const block_1 = require("./block");
 var FrameExecutionType;
 (function (FrameExecutionType) {
@@ -22,7 +21,7 @@ class FramePlayer {
         this.frames = [];
         this.frame$ = this.frameSubject
             .asObservable()
-            .pipe(operators_1.filter(() => this.executeOnce || this.playFrame), operators_1.tap(frameType => {
+            .pipe(operators_1.filter(() => this.executeOnce || this.playFrame), operators_1.filter(() => this.frames.length > 0), operators_1.tap(frameType => {
             const frame = frameType.frame;
             if (frameType.type == FrameExecutionType.DIRECT) {
                 this.frameExecutor.executeCommand(frame.setupCommandUSB().command);
@@ -35,26 +34,26 @@ class FramePlayer {
             this.scrubBar.value = this.currentFrame.toString();
             const block = block_1.get_blockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);
             block.select();
-        }), operators_1.delayWhen(frameType => {
-            if (frameType.frame.command.type == command_1.COMMAND_TYPE.TIME) {
-                return timer_1.timer(parseInt(frameType.frame.command.command));
-            }
-            return timer_1.timer(200);
-        }), operators_1.tap(() => this.executeOnce = false), operators_1.tap(() => {
-            if (this.playFrame && this.currentFrame < this.frames.length) {
-                this.play();
-            }
-        }), operators_1.map((frame) => {
+        }), operators_1.delay(200), operators_1.tap(() => this.executeOnce = false), operators_1.map((frame) => {
             return {
                 frameNumber: this.currentFrame,
                 frame: frame.frame
             };
-        }), operators_1.tap(() => this.currentFrame += 1));
+        }), operators_1.tap(() => {
+            if (this.playFrame && this.currentFrame != this.frames.length - 1) {
+                this.currentFrame += 1;
+                this.play();
+            }
+        }));
     }
     setFrames(frames) {
         this.frames = frames;
+        this.currentFrame = 0;
     }
     play() {
+        if (this.frames.length == 0) {
+            return;
+        }
         if (this.currentFrame >= this.frames.length) {
             this.currentFrame = 0;
         }
@@ -68,7 +67,26 @@ class FramePlayer {
             type: FrameExecutionType.NEXT
         });
     }
+    next() {
+        if (this.frames.length == 0) {
+            return;
+        }
+        this.executeOnce = true;
+        this.currentFrame = this.currentFrame == this.frames.length - 1 ? this.currentFrame : this.currentFrame + 1;
+        this.skipToFrame(this.currentFrame);
+    }
+    previous() {
+        if (this.frames.length == 0) {
+            return;
+        }
+        this.executeOnce = true;
+        this.currentFrame = this.currentFrame == 0 ? 0 : this.currentFrame - 1;
+        this.skipToFrame(this.currentFrame);
+    }
     stop() {
+        if (this.frames.length == 0) {
+            return;
+        }
         this.playFrame = false;
     }
     skipToFrame(frameNumber) {

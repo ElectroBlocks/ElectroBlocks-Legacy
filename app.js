@@ -74,18 +74,7 @@ let menuTemplate = [
                     codeWindow.on('close', () => codeWindow = null);
                 }
             },
-            {
-                label: 'Change Upload Url',
-                click() {
-                    mainWindow.webContents.send('menu:changeUploadUrl');
-                }
-            },
-            {
-                label: 'Reset Upload Url',
-                click() {
-                    resetUploadUrl()
-                }
-            },
+
             {
                 label: 'About Software',
                 click() {
@@ -174,6 +163,23 @@ let menuTemplate = [
             { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
             { label: 'Cut', accelerator: "CmdOrCtrl+X", selector: "cut:" },
 
+        ]
+    },
+    {
+        label: 'Url Settings',
+        submenu: [
+            {
+                label: 'Change Upload Url',
+                click() {
+                    mainWindow.webContents.send('menu:changeUploadUrl');
+                }
+            },
+            {
+                label: 'Reset Upload Url',
+                click() {
+                    resetUploadUrl()
+                }
+            },
         ]
     },
     {
