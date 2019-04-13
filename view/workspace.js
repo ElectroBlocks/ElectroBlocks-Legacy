@@ -150,9 +150,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let blocks = Blockly.mainWorkspace.getAllBlocks();
+        let videoContainer = document.getElementById('video-controls-container');
 
         for (let k = 0; k < blocks.length; k += 1) {
             for (let property in blocksThatRequireSetup) {
+
+                if (blocks[k].hasOwnProperty('defaultDebugValue') && window.getComputedStyle(videoContainer).display !== 'none') {
+                    blocks[k].debugModeOn();
+                }
+
+                if (blocks[k].hasOwnProperty('defaultDebugValue') && window.getComputedStyle(videoContainer).display === 'none') {
+                    blocks[k].debugModeOff();
+                }
+
                 if (!blocksThatRequireSetup.hasOwnProperty(property)) continue;
                 blocks.forEach(function (block) {
                     if (block.type !== property) {

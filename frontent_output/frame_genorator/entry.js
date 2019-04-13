@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const frame_player_1 = require("../frame/frame_player");
 const generate_frame_1 = require("../frame/generate_frame");
+const block_1 = require("../frame/block");
 const videoDebug = document.getElementById('debug-video');
 const scrubBar = document.getElementById('scrub-bar');
 const sliderContainer = document.getElementById('slide-container');
@@ -25,11 +26,23 @@ videoDebug.addEventListener('click', () => {
     if (sliderContainer.style.display === 'block') {
         sliderContainer.style.display = 'none';
         videoContainer.style.display = 'none';
+        toggleDebugBlocks(false);
         return;
     }
     sliderContainer.style.display = 'block';
     videoContainer.style.display = 'block';
+    toggleDebugBlocks(true);
 });
+const toggleDebugBlocks = (on) => {
+    const blocks = block_1.get_blockly().mainWorkspace.getAllBlocks();
+    blocks.filter(block => block.hasOwnProperty('defaultDebugValue')).forEach((block) => {
+        if (on) {
+            block.debugModeOn();
+            return;
+        }
+        block.debugModeOff();
+    });
+};
 generateLoopBtn.addEventListener('click', () => {
     framePlayer.stop();
     const frames = generate_frame_1.generateListOfFrame(parseInt(inputNumberOfFrames.value));

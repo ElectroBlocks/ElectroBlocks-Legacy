@@ -1,6 +1,7 @@
 import { ExecuteDebugFrame, FramePlayer } from "../frame/frame_player";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { generateListOfFrame } from "../frame/generate_frame";
+import { Block, Blockly, get_blockly } from "../frame/block";
 
 
 const videoDebug = document.getElementById('debug-video');
@@ -33,13 +34,30 @@ videoDebug.addEventListener('click', () => {
 	if (sliderContainer.style.display === 'block') {
 		sliderContainer.style.display = 'none';
 		videoContainer.style.display = 'none';
+		toggleDebugBlocks(false);
 		return;
 	}
+
 
 	sliderContainer.style.display = 'block';
 
 	videoContainer.style.display = 'block';
+
+	toggleDebugBlocks(true);
 });
+
+const toggleDebugBlocks = (on: boolean) => {
+	const blocks = get_blockly().mainWorkspace.getAllBlocks();
+
+	blocks.filter(block => block.hasOwnProperty('defaultDebugValue')).forEach((block: Block) => {
+		if (on) {
+			block.debugModeOn();
+			return;
+		}
+
+		block.debugModeOff();
+	});
+};
 
 generateLoopBtn.addEventListener('click', () => {
 	framePlayer.stop();
