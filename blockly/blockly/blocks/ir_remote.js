@@ -16,41 +16,78 @@ Blockly.Blocks['ir_remote_setup'] = {
     }
 };
 
+Blockly.Blocks['ir_remote_has_code_receive'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("Is receiving code?")
+            .appendField(new Blockly.FieldImage("images/sensing.jpg", 25, 25, "*"));
+        this.setOutput(true, "Boolean");
+        this.setColour(195);
+        this.setTooltip("");
+        this.setHelpUrl("");
+
+        this.appendDummyInput()
+            .appendField('Debug Mode Values')
+            .setVisible(false);
+
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('BOOL_FRAME')
+            .setVisible(false);
+
+    },
+
+    debugModeOn() {
+        this.inputList[1].setVisible(true);
+        this.inputList[2].setVisible(true);
+        this.render();
+    },
+
+    debugModeOff() {
+        this.inputList[1].setVisible(false);
+        this.inputList[2].setVisible(false);
+        this.render();
+    },
+
+    defaultDebugValue: true
+};
+
+Blockly.Blocks['ir_remote_get_code'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("Get code received from IR Remote.")
+            .appendField(new Blockly.FieldImage("images/ir_sensor.jpg", 25, 25, "*"));
+        this.setOutput(true, "String");
+        this.setColour(195);
+        this.setTooltip("");
+        this.setHelpUrl("");
+
+        this.appendDummyInput()
+            .appendField('Debug Mode Values')
+            .setVisible(false);
+
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('STRING_FRAME')
+            .setVisible(false);
+
+    },
+
+    debugModeOn() {
+        this.inputList[1].setVisible(true);
+        this.inputList[2].setVisible(true);
+        this.render();
+    },
+
+    debugModeOff() {
+        this.inputList[1].setVisible(false);
+        this.inputList[2].setVisible(false);
+        this.render();
+    },
+
+    defaultDebugValue: 'ir_code'
+
+};
+
 Blockly.defineBlocksWithJsonArray([
-    {
-        "type": "ir_remote_has_code_receive",
-        "message0": "Is receiving code? %1",
-        "args0": [
-            {
-                "type": "field_image",
-                "src": "images/sensing.jpg",
-                "width": 25,
-                "height": 25,
-                "alt": "*"
-            }
-        ],
-        "output": "Boolean",
-        "colour": 195,
-        "tooltip": "",
-        "helpUrl": ""
-    },
-    {
-        "type": "ir_remote_get_code",
-        "message0": "Get last code received from IR Remote. %1",
-        "args0": [
-            {
-                "type": "field_image",
-                "src": "images/ir_sensor.jpg",
-                "width": 25,
-                "height": 25,
-                "alt": "*"
-            }
-        ],
-        "output": "String",
-        "colour": 195,
-        "tooltip": "",
-        "helpUrl": ""
-    },
     {
         "type": "ir_remote_scan_again",
         "message0": "Scan Again %1",
