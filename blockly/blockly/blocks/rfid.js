@@ -4,56 +4,103 @@ goog.require('Blockly.Blocks');
 goog.require('Blockly');
 
 
-Blockly.defineBlocksWithJsonArray([
-    {
-        "type": "rfid_scan",
-        "message0": "RFID reader scanned card? %1",
-        "args0": [
-            {
-                "type": "field_image",
-                "src": "images/sensing.jpg",
-                "width": 25,
-                "height": 25,
-                "alt": "*"
-            }
-        ],
-        "output": "Boolean",
-        "colour": 60,
-        "tooltip": "",
-        "helpUrl": ""
+Blockly.Blocks['rfid_scan'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("RFID reader scanned card?")
+            .appendField(new Blockly.FieldImage("images/sensing.jpg", 25, 25, "*"));
+        this.setOutput(true, "Boolean");
+        this.setColour(60);
+        this.setTooltip("");
+        this.setHelpUrl("");
+        this.appendDummyInput()
+            .appendField('Debug Mode Values')
+            .setVisible(false);
+
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('BOOL_FRAME')
+            .setVisible(false);
     },
-    {
-        "type": "rfid_tag",
-        "message0": "RFID Tag Number %1",
-        "args0": [
-            {
-                "type": "field_image",
-                "src": "images/rfid.jpg",
-                "width": 25,
-                "height": 25,
-                "alt": "*"
-            }
-        ],
-        "output": "String",
-        "colour": 60,
-        "tooltip": "",
-        "helpUrl": ""
+
+    debugModeOn() {
+        this.inputList[1].setVisible(true);
+        this.inputList[2].setVisible(true);
+        this.render();
     },
-    {
-        "type": "rfid_card",
-        "message0": "RFID Tag Card Number %1",
-        "args0": [
-            {
-                "type": "field_image",
-                "src": "images/rfid.jpg",
-                "width": 25,
-                "height": 25,
-                "alt": "*"
-            }
-        ],
-        "output": "String",
-        "colour": 60,
-        "tooltip": "",
-        "helpUrl": ""
-    }
-]);
+
+    debugModeOff() {
+        this.inputList[1].setVisible(false);
+        this.inputList[2].setVisible(false);
+        this.render();
+    },
+
+    defaultDebugValue: false
+};
+
+Blockly.Blocks['rfid_tag'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("RFID Tag Number")
+            .appendField(new Blockly.FieldImage("images/rfid.jpg", 25, 25, "*"));
+        this.setOutput(true, "String");
+        this.setColour(60);
+        this.setTooltip("");
+        this.setHelpUrl("");
+
+        this.appendDummyInput()
+            .appendField('Debug Mode Values')
+            .setVisible(false);
+
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('STRING_FRAME')
+            .setVisible(false);
+    },
+
+    debugModeOn() {
+        this.inputList[1].setVisible(true);
+        this.inputList[2].setVisible(true);
+        this.render();
+    },
+
+    debugModeOff() {
+        this.inputList[1].setVisible(false);
+        this.inputList[2].setVisible(false);
+        this.render();
+    },
+
+    defaultDebugValue: 'rfid'
+};
+
+Blockly.Blocks['rfid_card'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("RFID Tag Card Number")
+            .appendField(new Blockly.FieldImage("images/rfid.jpg", 25, 25, "*"));
+        this.setOutput(true, "String");
+        this.setColour(60);
+        this.setTooltip("");
+        this.setHelpUrl("");
+
+        this.appendDummyInput()
+            .appendField('Debug Mode Values')
+            .setVisible(false);
+
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('STRING_FRAME')
+            .setVisible(false);
+    },
+
+    debugModeOn() {
+        this.inputList[1].setVisible(true);
+        this.inputList[2].setVisible(true);
+        this.render();
+    },
+
+    debugModeOff() {
+        this.inputList[1].setVisible(false);
+        this.inputList[2].setVisible(false);
+        this.render();
+    },
+
+    defaultDebugValue: 'rfid'
+};

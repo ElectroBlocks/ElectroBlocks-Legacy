@@ -55,5 +55,27 @@ Blockly.Blocks['servo_read_degrees'] = {
             .appendField("Read Degrees")
         this.setOutput(true, 'Number');
         this.setTooltip('return that degree with the last servo move.');
-    }
+        this.appendDummyInput()
+            .appendField('Debug Mode Values')
+            .setVisible(false);
+
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('NUMBER_FRAME')
+            .setVisible(false);
+    },
+
+    debugModeOn() {
+        this.inputList[2].setVisible(true);
+        this.inputList[3].setVisible(true);
+        this.render();
+    },
+
+    debugModeOff() {
+        this.inputList[2].setVisible(false);
+        this.inputList[3].setVisible(false);
+        this.render();
+    },
+
+    defaultDebugValue: 30
+
 };

@@ -17,56 +17,107 @@ Blockly.Blocks['soil_sensor_setup'] = {
     }
 };
 
-Blockly.defineBlocksWithJsonArray([
-    {
-        "type": "soil_humidity_percentage",
-        "message0": "What is the soils humidity percentage? %1",
-        "args0": [
-            {
-                "type": "field_image",
-                "src": "images/humidity_percentage.jpg",
-                "width": 45,
-                "height": 45,
-                "alt": "*"
-            }
-        ],
-        "output": "Number",
-        "colour": 150,
-        "tooltip": "",
-        "helpUrl": ""
+Blockly.Blocks['soil_humidity_value'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("What is the humidity?")
+            .appendField(new Blockly.FieldImage("images/humidity_value.png", 45, 45, "*"));
+        this.setOutput(true, "Number");
+        this.setColour(150);
+        this.setTooltip("");
+        this.setHelpUrl("");
+
+        this.appendDummyInput()
+            .appendField('Debug Mode Values')
+            .setVisible(false);
+
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('NUMBER_FRAME')
+            .setVisible(false);
     },
-    {
-        "type": "soil_humidity_value",
-        "message0": "What is the soils humidity? %1",
-        "args0": [
-            {
-                "type": "field_image",
-                "src": "images/humidity_value.png",
-                "width": 45,
-                "height": 45,
-                "alt": "*"
-            }
-        ],
-        "output": "Number",
-        "colour": 150,
-        "tooltip": "",
-        "helpUrl": ""
+
+    debugModeOn() {
+        this.inputList[1].setVisible(true);
+        this.inputList[2].setVisible(true);
+        this.render();
     },
-    {
-        "type": "soil_is_raining",
-        "message0": "Is it raining? %1",
-        "args0": [
-            {
-                "type": "field_image",
-                "src": "images/is_raining.png",
-                "width": 45,
-                "height": 45,
-                "alt": "*"
-            }
-        ],
-        "output": "Boolean",
-        "colour": 150,
-        "tooltip": "",
-        "helpUrl": ""
-    }
-]);
+
+    debugModeOff() {
+        this.inputList[1].setVisible(false);
+        this.inputList[2].setVisible(false);
+        this.render();
+    },
+
+    defaultDebugValue: 30
+
+};
+
+Blockly.Blocks['soil_humidity_percentage'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("What is the soils humidity percentage?")
+            .appendField(new Blockly.FieldImage("images/humidity_percentage.jpg", 45, 45, "*"));
+        this.setOutput(true, "Number");
+        this.setColour(150);
+        this.setTooltip("");
+        this.setHelpUrl("");
+
+        this.appendDummyInput()
+            .appendField('Debug Mode Values')
+            .setVisible(false);
+
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('NUMBER_FRAME')
+            .setVisible(false);
+    },
+
+    debugModeOn() {
+        this.inputList[1].setVisible(true);
+        this.inputList[2].setVisible(true);
+        this.render();
+    },
+
+    debugModeOff() {
+        this.inputList[1].setVisible(false);
+        this.inputList[2].setVisible(false);
+        this.render();
+    },
+
+    defaultDebugValue: 30
+
+};
+
+Blockly.Blocks['soil_is_raining'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("Is it raining?")
+            .appendField(new Blockly.FieldImage("images/is_raining.png", 45, 45, "*"));
+        this.setOutput(true, "Boolean");
+        this.setColour(150);
+        this.setTooltip("");
+        this.setHelpUrl("");
+
+        this.appendDummyInput()
+            .appendField('Debug Mode Values')
+            .setVisible(false);
+
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('BOOL_FRAME')
+            .setVisible(false);
+    },
+
+    debugModeOn() {
+        this.inputList[1].setVisible(true);
+        this.inputList[2].setVisible(true);
+        this.render();
+    },
+
+    debugModeOff() {
+        this.inputList[1].setVisible(false);
+        this.inputList[2].setVisible(false);
+        this.render();
+    },
+
+    defaultDebugValue: false
+
+};

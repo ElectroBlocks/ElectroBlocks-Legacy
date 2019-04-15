@@ -5,41 +5,77 @@ goog.require('Blockly.Blocks');
 goog.require('Blockly');
 
 
+Blockly.Blocks['receive_message'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("Get Message")
+            .appendField(new Blockly.FieldImage("images/mailing.png", 15, 15, "*"));
+        this.setOutput(true, "String");
+        this.setColour(30);
+        this.setTooltip("");
+        this.setHelpUrl("");
+
+        this.appendDummyInput()
+            .appendField('Debug Mode Values')
+            .setVisible(false);
+
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('STRING_FRAME')
+            .setVisible(false);
+    },
+
+    debugModeOn() {
+        this.inputList[1].setVisible(true);
+        this.inputList[2].setVisible(true);
+        this.render();
+    },
+
+    debugModeOff() {
+        this.inputList[1].setVisible(false);
+        this.inputList[2].setVisible(false);
+        this.render();
+    },
+
+    defaultDebugValue: 'Hello World'
+};
+
+Blockly.Blocks['has_message'] = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("Is Arduino receiving a message from the computer?")
+            .appendField(new Blockly.FieldImage("images/receiving_message.png", 15, 15, "*"));
+        this.setOutput(true, "Boolean");
+        this.setColour(30);
+        this.setTooltip("");
+        this.setHelpUrl("");
+
+        this.appendDummyInput()
+            .appendField('Debug Mode Values')
+            .setVisible(false);
+
+        this.appendStatementInput('FRAME_VALUES')
+            .setCheck('BOOL_FRAME')
+            .setVisible(false);
+
+    },
+
+    debugModeOn() {
+        this.inputList[1].setVisible(true);
+        this.inputList[2].setVisible(true);
+        this.render();
+    },
+
+    debugModeOff() {
+        this.inputList[1].setVisible(false);
+        this.inputList[2].setVisible(false);
+        this.render();
+    },
+
+    defaultDebugValue: false
+
+};
+
 Blockly.defineBlocksWithJsonArray([
-    {
-        "type": "receive_message",
-        "message0": "Arduino get message from computer %1",
-        "args0": [
-            {
-                "type": "field_image",
-                "src": "images/mailing.png",
-                "width": 15,
-                "height": 15,
-                "alt": "*"
-            }
-        ],
-        "output": "String",
-        "colour": 30,
-        "tooltip": "",
-        "helpUrl": ""
-    },
-    {
-        "type": "has_message",
-        "message0": "Is Arduino receiving a message from the computer? %1",
-        "args0": [
-            {
-                "type": "field_image",
-                "src": "images/receiving_message.png",
-                "width": 15,
-                "height": 15,
-                "alt": "*"
-            }
-        ],
-        "output": "Boolean",
-        "colour": 30,
-        "tooltip": "",
-        "helpUrl": ""
-    },
     {
         "type": "send_message",
         "message0": "Arduino send message to computer %1 %2",
