@@ -33,6 +33,13 @@ class InputState {
 
 		return blockCall;
 	}
+
+	/**
+	 * Clears all the blocks this should only be called during the first part of generating frames.
+	 */
+	clearBlockCalls(): void {
+		this.blockCalls = {};
+	}
 }
 
 /**

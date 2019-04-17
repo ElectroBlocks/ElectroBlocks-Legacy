@@ -201,9 +201,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 block.setDisabled(disableBlock);
-                for (let i = 0; i < block.getChildren().length; i += 1) {
-                    block.getChildren()[i].setDisabled(disableBlock);
+                let currentBlock = block.nextConnection.targetBlock();
+                console.log(block.getChildren());
+                while (currentBlock) {
+                    currentBlock.setDisabled(disableBlock);
+                    currentBlock = currentBlock.nextConnection.targetBlock();
                 }
+
                 if (setupBlocks.indexOf(block.type) > -1) {
                     for (let j = 0; j < blocks.length; j += 1) {
                         if (blocks[j].id !== block.id && block.type === blocks[j].type) {

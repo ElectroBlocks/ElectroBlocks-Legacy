@@ -21,8 +21,9 @@ export const digital_write_block = (block: Block, previousFrame?: ArduinoFrame):
 };
 
 export const is_button_pressed_block = (block: Block, previousFrame?: ArduinoFrame): boolean => {
+	return inputState.addBlockCall(block.id).value;
+};
 
-	const blockCall = inputState.addBlockCall(block.id);
-
-	return blockCall.value;
-}
+export const digital_read_block = (block: Block, previousFrame?: ArduinoFrame): boolean => {
+	return inputState.addBlockCall(block.id).value;
+};
