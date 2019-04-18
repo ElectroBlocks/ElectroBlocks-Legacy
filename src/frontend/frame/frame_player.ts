@@ -2,8 +2,7 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
 import { COMMAND_TYPE } from "./command";
 import { ipcRenderer } from 'electron';
 import { Observable, Subject } from "rxjs";
-import { delay, delayWhen, filter, map, tap } from "rxjs/operators";
-import { timer } from "rxjs/observable/timer";
+import { delay, filter, map, tap } from "rxjs/operators";
 import { get_blockly } from "./block";
 
 

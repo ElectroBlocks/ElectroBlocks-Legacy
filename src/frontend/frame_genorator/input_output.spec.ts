@@ -1,6 +1,6 @@
 import 'jasmine';
 import { Block } from "../frame/block";
-import { digital_read_block, digital_write_block, is_button_pressed_block } from "./input_output";
+import {  digital_write_block } from "./input_output";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { EmptyCommand } from "../frame/command";
 import { inputState } from "../frame/input_state";
@@ -53,19 +53,4 @@ describe('input output frame generators', () => {
 		});
 	});
 
-	describe('is_button_pressed_block', () => {
-		it ('should get the value from adding a block state', () => {
-			addBlockCallSpy.withArgs('block_id').and.returnValue({value: true});
-			block.id = 'block_id';
-			expect(is_button_pressed_block(block)).toBeTruthy();
-		});
-	});
-
-	describe('digital_read_block', () => {
-		it ('should get the value from adding a block state', () => {
-			addBlockCallSpy.withArgs('block_id').and.returnValue({value: true});
-			block.id = 'block_id';
-			expect(digital_read_block(block)).toBeTruthy();
-		});
-	});
 });

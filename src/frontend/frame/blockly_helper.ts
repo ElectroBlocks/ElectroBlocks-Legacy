@@ -1,6 +1,7 @@
 import { Block } from './block';
 import { Frame } from "./frame";
 import { frameGeneratingBlocks, valueGeneratingBlocks } from './frame_list';
+import { inputState } from "./input_state";
 
 
     /**
@@ -29,6 +30,14 @@ import { frameGeneratingBlocks, valueGeneratingBlocks } from './frame_list';
 
         if (!block) {
             return noBlockAttachedDefaultValue;
+        }
+
+        // This means that the block value is an input block whose value
+        // would come from the input of sensor or pin attached to the Arduino.
+        // Because to calculate the final frame by using the actual input the input is fake
+        // and comes from input_statement input block.
+        if (block.defaultDebugValue) {
+            return inputState.addBlockCall(block.id).value;
         }
 
         // This means that the default value will be now come from the block definition

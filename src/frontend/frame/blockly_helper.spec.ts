@@ -5,6 +5,7 @@ import { Frame } from "./frame";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { generateFrameForInputStatement, getInputValue } from "./blockly_helper";
 import { EmptyCommand } from "./command";
+import { inputState } from "./input_state";
 
 describe('generateFrameForInputStatement', () => {
 
@@ -96,6 +97,33 @@ describe('generateFrameForInputStatement', () => {
 		};
 
 		expect(getInputValue(parentBlock, 'VALUE', 0)).toBe(4);
+	});
+
+	it('should get the value from the inputState class for debug blcoks', () => {
+
+		spyOn(inputState, 'addBlockCall').withArgs('block_id').and.returnValue({'value': 'awesome'});
+
+		const targetBlockContainingValue: Block|any = {
+			defaultDebugValue: true,
+			id: 'block_id'
+		};
+
+		const parentBlock: Block|any = {
+			getInput( inputName: string ): { connection: Connection } {
+				return {
+					connection: {
+						getSourceBlock(): Block {
+							return parentBlock;
+						},
+						targetBlock(): Block {
+							return targetBlockContainingValue;
+						}
+					}
+				}
+			}
+		};
+
+		expect(getInputValue(parentBlock, 'VALUE', 0)).toBe('awesome');
 	});
 
 	it('should use default value if no blocks are attached', () => {

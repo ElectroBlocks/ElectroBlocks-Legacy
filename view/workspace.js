@@ -201,11 +201,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 block.setDisabled(disableBlock);
-                let currentBlock = block.nextConnection.targetBlock();
-                console.log(block.getChildren());
+                let currentBlock = block.nextConnection && block.nextConnection.targetBlock() ?
+                    block.nextConnection.targetBlock() : false;
+
                 while (currentBlock) {
                     currentBlock.setDisabled(disableBlock);
-                    currentBlock = currentBlock.nextConnection.targetBlock();
+                    currentBlock = block.nextConnection && block.nextConnection.targetBlock() ?
+                        block.nextConnection.targetBlock() : false;
                 }
 
                 if (setupBlocks.indexOf(block.type) > -1) {
