@@ -1,4 +1,4 @@
-import { Frame } from './frame';
+import { Frame, FrameLocation } from './frame';
 import { Block } from './block';
 
 import { digital_write_block } from "../frame_genorator/input_output";
@@ -77,7 +77,7 @@ import {
 
 let valueGeneratingBlocks: { [key: string] : (block: Block, previousFrame?: Frame) =>  number|string|boolean|Color|Array<number|string|boolean|Color> };
 
-let frameGeneratingBlocks: { [key: string] : (block: Block, previousFrame?: Frame) =>  Frame[] };
+let frameGeneratingBlocks: { [key: string] : (block: Block, frameLocation: FrameLocation, previousFrame?: Frame) =>  Frame[] };
 
 frameGeneratingBlocks = {
     variables_set_boolean_block,

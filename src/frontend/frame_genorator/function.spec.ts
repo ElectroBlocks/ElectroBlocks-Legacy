@@ -8,6 +8,9 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
 
 
 describe( 'functions', () => {
+
+	const frameLocation = { location: 'loop', iteration: 3 };
+
 	describe( 'procedures_callnoreturn_block', () => {
 		it( 'should generate frames for a custom block', () => {
 
@@ -57,17 +60,17 @@ describe( 'functions', () => {
 			spyOn( blockly, 'get_blockly' ).and.returnValue( blocklyMock );
 
 			const getInputValueSpy = spyOn( blockHelper, 'getInputValue' );
-			getInputValueSpy.withArgs( functionCallBlock, 'ARG0', 0, undefined )
+			getInputValueSpy.withArgs( functionCallBlock, 'ARG0', 0 , undefined )
 				.and.returnValue( 34 );
 
 			getInputValueSpy.withArgs( functionCallBlock, 'ARG1', '', undefined )
 				.and.returnValue( 'Hello World' );
 
 			spyOn( blockHelper, 'generateFrameForInputStatement' )
-				.withArgs( functionDefinitionBlock, 'STACK', jasmine.any( ArduinoFrame ) )
-				.and.returnValue( [ ArduinoFrame.makeEmptyFrame( 'block_23' ), ArduinoFrame.makeEmptyFrame( 'block_23423' ) ] );
+				.withArgs( functionDefinitionBlock, 'STACK', frameLocation,  jasmine.any( ArduinoFrame ) )
+				.and.returnValue( [ ArduinoFrame.makeEmptyFrame( 'block_23', frameLocation ), ArduinoFrame.makeEmptyFrame( 'block_23423', frameLocation ) ] );
 
-			const frames = procedures_callnoreturn_block( functionCallBlock );
+			const frames = procedures_callnoreturn_block( functionCallBlock, frameLocation );
 			// Testing the number of frames is right.
 			expect( frames.length ).toBe( 4 );
 

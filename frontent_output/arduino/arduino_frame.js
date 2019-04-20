@@ -4,15 +4,16 @@ const usb_1 = require("./usb");
 const command_1 = require("../frame/command");
 const uuid_1 = require("uuid");
 class ArduinoFrame {
-    constructor(blockId, variables, components, command) {
+    constructor(blockId, variables, components, command, frameLocation) {
         this.blockId = blockId;
         this.variables = variables;
         this.components = components;
         this.command = command;
+        this.frameLocation = frameLocation;
         this.uuid = uuid_1.v4();
     }
-    static makeEmptyFrame(blockId) {
-        return new ArduinoFrame(blockId, {}, [], new command_1.EmptyCommand());
+    static makeEmptyFrame(blockId, frameLocation) {
+        return new ArduinoFrame(blockId, {}, [], new command_1.EmptyCommand(), frameLocation);
     }
     nextCommand() {
         return this.command;
@@ -51,7 +52,7 @@ class ArduinoFrame {
         };
     }
     makeCopy(blockId) {
-        return new ArduinoFrame(blockId, this.variables, this.components, this.command);
+        return new ArduinoFrame(blockId, this.variables, this.components, this.command, this.frameLocation);
     }
 }
 exports.ArduinoFrame = ArduinoFrame;

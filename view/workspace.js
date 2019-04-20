@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 while (currentBlock) {
                     currentBlock.setDisabled(disableBlock);
-                    currentBlock = block.nextConnection && block.nextConnection.targetBlock() ?
+                    currentBlock = block.nextConnection && block.nextConnection.targetBlock().length > 0 ?
                         block.nextConnection.targetBlock() : false;
                 }
 
@@ -223,11 +223,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if ((event.element === 'mutatorOpen' && !event.newValue) ||
             event.type === Blockly.Events.BLOCK_DELETE) {
 
-            let letiables = Blockly.mainWorkspace.getAllVariables();
+            let variables = Blockly.mainWorkspace.getAllVariables();
 
-            for (let key in letiables) {
-                if (letiables.hasOwnProperty(key) && Blockly.mainWorkspace.getVariableUsesById(letiables[key].getId()).length === 0) {
-                    Blockly.mainWorkspace.deleteVariableById(letiables[key].getId());
+            for (let key in variables) {
+                if (variables.hasOwnProperty(key) &&
+                    Blockly.mainWorkspace.getVariableUsesById(variables[key].getId()).length === 0) {
+                    Blockly.mainWorkspace.deleteVariableById(variables[key].getId());
                 }
             }
         }

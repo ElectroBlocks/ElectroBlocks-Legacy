@@ -20,6 +20,8 @@ describe('Math', () => {
 
 	let block: any|Block;
 
+	const frameLocation = { location: 'loop', iteration: 3 };
+
 	let previousFrame: ArduinoFrame;
 
 	let getInputValueSpy:  jasmine.Spy;
@@ -31,7 +33,7 @@ describe('Math', () => {
 
 	beforeEach(() => {
 		previousFrame =
-			new ArduinoFrame('block_id', {}, [], new EmptyCommand());
+			new ArduinoFrame('block_id', {}, [], new EmptyCommand(), frameLocation);
 
 		getInputValueSpy =  spyOn(blockHelperFunctions, 'getInputValue');
 

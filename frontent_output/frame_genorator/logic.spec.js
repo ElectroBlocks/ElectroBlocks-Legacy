@@ -6,6 +6,7 @@ const blockHelper = require("../frame/blockly_helper");
 const arduino_frame_1 = require("../arduino/arduino_frame");
 describe('logic', () => {
     let block;
+    const frameLocation = { location: 'loop', iteration: 3 };
     let blockSpy;
     let getInputValueSpy;
     let generateFrameForInputStatementSpy;
@@ -77,8 +78,8 @@ describe('logic', () => {
         it('should generate frames that are inside do statement if the if blocks are true', () => {
             getInputValueSpy.withArgs(block, 'IF0', true, undefined)
                 .and.returnValue(true);
-            generateFrameForInputStatementSpy.withArgs(block, 'DO0', jasmine.any(arduino_frame_1.ArduinoFrame)).and.returnValue([arduino_frame_1.ArduinoFrame.makeEmptyFrame('block1'), arduino_frame_1.ArduinoFrame.makeEmptyFrame('block2')]);
-            const frames = logic_1.control_if_block(block);
+            generateFrameForInputStatementSpy.withArgs(block, 'DO0', frameLocation, jasmine.any(arduino_frame_1.ArduinoFrame)).and.returnValue([arduino_frame_1.ArduinoFrame.makeEmptyFrame('block1', frameLocation), arduino_frame_1.ArduinoFrame.makeEmptyFrame('block2', frameLocation)]);
+            const frames = logic_1.control_if_block(block, frameLocation);
             expect(frames.length).toBe(3);
             expect(frames[0].blockId).toBe('block_id');
             expect(frames[1].blockId).toBe('block1');
@@ -88,7 +89,7 @@ describe('logic', () => {
             getInputValueSpy.withArgs(block, 'IF0', true, undefined)
                 .and.returnValue(false);
             expect(generateFrameForInputStatementSpy).not.toHaveBeenCalledWith();
-            const frames = logic_1.control_if_block(block);
+            const frames = logic_1.control_if_block(block, frameLocation);
             expect(frames.length).toBe(1);
             expect(frames[0].blockId).toBe('block_id');
         });
@@ -97,8 +98,8 @@ describe('logic', () => {
         it('should execute blocks in else if false is connected', () => {
             getInputValueSpy.withArgs(block, 'IF0', true, undefined)
                 .and.returnValue(false);
-            generateFrameForInputStatementSpy.withArgs(block, 'ELSE', jasmine.any(arduino_frame_1.ArduinoFrame)).and.returnValue([arduino_frame_1.ArduinoFrame.makeEmptyFrame('block1'), arduino_frame_1.ArduinoFrame.makeEmptyFrame('block2')]);
-            const frames = logic_1.controls_ifelse_block(block);
+            generateFrameForInputStatementSpy.withArgs(block, 'ELSE', frameLocation, jasmine.any(arduino_frame_1.ArduinoFrame)).and.returnValue([arduino_frame_1.ArduinoFrame.makeEmptyFrame('block1', frameLocation), arduino_frame_1.ArduinoFrame.makeEmptyFrame('block2', frameLocation)]);
+            const frames = logic_1.controls_ifelse_block(block, frameLocation);
             expect(frames.length).toBe(3);
             expect(frames[0].blockId).toBe('block_id');
             expect(frames[1].blockId).toBe('block1');

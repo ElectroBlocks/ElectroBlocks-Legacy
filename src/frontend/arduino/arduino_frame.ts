@@ -1,4 +1,4 @@
-import { Frame } from '../frame/frame';
+import { Frame, FrameLocation } from '../frame/frame';
 import { Variable } from '../frame/variable';
 import { USB, USB_COMMAND_TYPES } from './usb';
 import { Command, COMMAND_TYPE, EmptyCommand } from "../frame/command";
@@ -6,19 +6,25 @@ import { v4 } from 'uuid';
 
 export class ArduinoFrame implements Frame, USB {
 
-	private uuid: string;
+	/**
+	 * The id of the fram
+	 */
+	 private uuid: string;
 
 	constructor(
 		public readonly blockId: string,
 		public readonly variables: { [ key: string ]: Variable },
 		public readonly components: Array<USB>,
-		public readonly command: Command) {
+		public readonly command: Command,
+		public readonly frameLocation: FrameLocation) {
 
-		this.uuid = v4();
+		 this.uuid = v4();
 	}
 
-	public static makeEmptyFrame( blockId: string ) {
-		return new ArduinoFrame( blockId, {}, [], new EmptyCommand() );
+	public static makeEmptyFrame( blockId: string, frameLocation: FrameLocation ) {
+		return new ArduinoFrame(
+			blockId, {}, [], new EmptyCommand(), frameLocation
+		);
 	}
 
 	nextCommand(): Command {
@@ -69,7 +75,10 @@ export class ArduinoFrame implements Frame, USB {
 	}
 
 	makeCopy( blockId: string ): ArduinoFrame {
-		return new ArduinoFrame( blockId, this.variables, this.components, this.command );
+		return new ArduinoFrame(
+			blockId, this.variables, this.components, this.command, this.frameLocation
+		);
 	}
 }
+
 

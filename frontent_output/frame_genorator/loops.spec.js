@@ -8,6 +8,7 @@ const loops_1 = require("./loops");
 describe('loops', () => {
     let block;
     let blockSpy;
+    const frameLocation = { location: 'loop', iteration: 3 };
     let getInputValueSpy;
     let generateFrameForInputStatementSpy;
     let getVariableNameSpy;
@@ -26,8 +27,8 @@ describe('loops', () => {
         it('should generate x number from frames', () => {
             getInputValueSpy.withArgs(block, 'TIMES', 1, undefined)
                 .and.returnValue(2);
-            generateFrameForInputStatementSpy.withArgs(block, 'DO', jasmine.any(arduino_frame_1.ArduinoFrame)).and.returnValue([arduino_frame_1.ArduinoFrame.makeEmptyFrame('block1'), arduino_frame_1.ArduinoFrame.makeEmptyFrame('block2')]);
-            const frames = loops_1.controls_repeat_ext_block(block);
+            generateFrameForInputStatementSpy.withArgs(block, 'DO', frameLocation, jasmine.any(arduino_frame_1.ArduinoFrame)).and.returnValue([arduino_frame_1.ArduinoFrame.makeEmptyFrame('block1', frameLocation), arduino_frame_1.ArduinoFrame.makeEmptyFrame('block2', frameLocation)]);
+            const frames = loops_1.controls_repeat_ext_block(block, frameLocation);
             expect(frames.length).toBe(6);
             expect(frames[0].blockId).toBe('loop_block');
             expect(frames[1].blockId).toBe('block1');
@@ -39,7 +40,7 @@ describe('loops', () => {
         it('should not generate any if times is 0 or less', () => {
             getInputValueSpy.withArgs(block, 'TIMES', 1, undefined)
                 .and.returnValue(0);
-            const frames = loops_1.controls_repeat_ext_block(block);
+            const frames = loops_1.controls_repeat_ext_block(block, frameLocation);
             expect(frames.length).toBe(1);
         });
     });
@@ -52,11 +53,11 @@ describe('loops', () => {
             getInputValueSpy.withArgs(block, 'BY', 1, undefined)
                 .and.returnValue(1);
             getVariableNameSpy.withArgs(block).and.returnValue('indexVariable');
-            generateFrameForInputStatementSpy.withArgs(block, 'DO', jasmine.any(arduino_frame_1.ArduinoFrame))
-                .and.callFake((block, inputStatement, previousFrame) => {
+            generateFrameForInputStatementSpy.withArgs(block, 'DO', frameLocation, jasmine.any(arduino_frame_1.ArduinoFrame))
+                .and.callFake((block, inputStatement, frameLocation, previousFrame) => {
                 return [previousFrame.makeCopy('block1'), previousFrame.makeCopy('block2')];
             });
-            const frames = loops_1.controls_for_block(block);
+            const frames = loops_1.controls_for_block(block, frameLocation);
             expect(frames.length).toBe(9);
             expect(frames[0].variables['indexVariable'].value).toBe(1);
             expect(frames[0].blockId).toBe('loop_block');
@@ -85,11 +86,11 @@ describe('loops', () => {
             getInputValueSpy.withArgs(block, 'BY', 1, undefined)
                 .and.returnValue(1);
             getVariableNameSpy.withArgs(block).and.returnValue('indexVariable');
-            generateFrameForInputStatementSpy.withArgs(block, 'DO', jasmine.any(arduino_frame_1.ArduinoFrame))
-                .and.callFake((block, inputStatement, previousFrame) => {
+            generateFrameForInputStatementSpy.withArgs(block, 'DO', frameLocation, jasmine.any(arduino_frame_1.ArduinoFrame))
+                .and.callFake((block, inputStatement, frameLocation, previousFrame) => {
                 return [previousFrame.makeCopy('block1'), previousFrame.makeCopy('block2')];
             });
-            const frames = loops_1.controls_for_block(block);
+            const frames = loops_1.controls_for_block(block, frameLocation);
             expect(frames.length).toBe(9);
             expect(frames[0].variables['indexVariable'].value).toBe(3);
             expect(frames[0].blockId).toBe('loop_block');
@@ -118,11 +119,12 @@ describe('loops', () => {
             getInputValueSpy.withArgs(block, 'BY', 1, undefined)
                 .and.returnValue(2);
             getVariableNameSpy.withArgs(block).and.returnValue('indexVariable');
-            generateFrameForInputStatementSpy.withArgs(block, 'DO', jasmine.any(arduino_frame_1.ArduinoFrame))
-                .and.callFake((block, inputStatement, previousFrame) => {
+            generateFrameForInputStatementSpy
+                .withArgs(block, 'DO', frameLocation, jasmine.any(arduino_frame_1.ArduinoFrame))
+                .and.callFake((block, inputStatement, frameLocation, previousFrame) => {
                 return [previousFrame.makeCopy('block1'), previousFrame.makeCopy('block2')];
             });
-            const frames = loops_1.controls_for_block(block);
+            const frames = loops_1.controls_for_block(block, frameLocation);
             expect(frames.length).toBe(9);
             expect(frames[0].variables['indexVariable'].value).toBe(1);
             expect(frames[0].blockId).toBe('loop_block');

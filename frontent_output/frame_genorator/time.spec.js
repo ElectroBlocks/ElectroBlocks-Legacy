@@ -5,6 +5,7 @@ const blockHelper = require("../frame/blockly_helper");
 const time_1 = require("./time");
 const command_1 = require("../frame/command");
 describe('time', () => {
+    const frameLocation = { location: 'loop', iteration: 3 };
     let block;
     let getInputValueSpy;
     beforeEach(() => {
@@ -19,7 +20,7 @@ describe('time', () => {
         it('should create a delay command in frame', () => {
             getInputValueSpy.withArgs(block, 'DELAY', 1, undefined)
                 .and.returnValue(2.432343);
-            const [frame] = time_1.delay_block_block(block);
+            const [frame] = time_1.delay_block_block(block, frameLocation);
             expect(frame.command instanceof command_1.TimeCommand).toBeTruthy();
             expect(frame.command.command).toBe("2432");
         });

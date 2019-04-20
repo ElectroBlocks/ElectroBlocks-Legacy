@@ -7,38 +7,39 @@ import { getVariableName } from "./variables";
 import { getInputValue } from "../frame/blockly_helper";
 import { Color } from "./colour";
 import { EmptyCommand } from "../frame/command";
+import { FrameLocation } from "../frame/frame";
 
 
-const create_list_number_block_block = (block: Block, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
-	return createArrayType(block, 'Number List', previousFrame);
+const create_list_number_block_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
+	return createArrayType(block, 'Number List', frameLocation, previousFrame);
 };
 
-const create_list_string_block_block = (block: Block, previousFrame?: ArduinoFrame):ArduinoFrame[] => {
-	return createArrayType(block, 'String List', previousFrame);
+const create_list_string_block_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame):ArduinoFrame[] => {
+	return createArrayType(block, 'String List',frameLocation, previousFrame);
 };
 
-const create_list_boolean_block_block = (block: Block, previousFrame?: ArduinoFrame):ArduinoFrame[] => {
-	return createArrayType(block, 'Boolean List', previousFrame);
+const create_list_boolean_block_block = (block: Block,frameLocation: FrameLocation, previousFrame?: ArduinoFrame):ArduinoFrame[] => {
+	return createArrayType(block, 'Boolean List',frameLocation, previousFrame);
 };
 
-const create_list_colour_block_block = (block: Block, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
-	return createArrayType(block, 'Colour List', previousFrame);
+const create_list_colour_block_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
+	return createArrayType(block, 'Colour List',frameLocation, previousFrame);
 };
 
-const set_number_list_block_block = (block: Block, previousFrame?: ArduinoFrame):ArduinoFrame[] => {
-	return setArrayValue(block,  'Number', previousFrame);
+const set_number_list_block_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame):ArduinoFrame[] => {
+	return setArrayValue(block,  'Number',frameLocation, previousFrame);
 };
 
-const set_string_list_block_block = (block: Block, previousFrame?: ArduinoFrame):ArduinoFrame[] => {
-	return setArrayValue(block,  'String', previousFrame);
+const set_string_list_block_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame):ArduinoFrame[] => {
+	return setArrayValue(block,  'String', frameLocation, previousFrame);
 };
 
-const set_boolean_list_block_block = (block: Block, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
-	return setArrayValue(block,  'Boolean', previousFrame);
+const set_boolean_list_block_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
+	return setArrayValue(block,  'Boolean',frameLocation, previousFrame);
 };
 
-const set_colour_list_block_block = (block: Block, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
-	return setArrayValue(block,  'Colour', previousFrame);
+const set_colour_list_block_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
+	return setArrayValue(block,  'Colour', frameLocation, previousFrame);
 };
 
 const get_number_from_list_block = (block: Block, previousFrame?: ArduinoFrame): number|undefined => {
@@ -81,10 +82,10 @@ const getArrayValue = (block: Block, defaultValue: any, type: string, previousFr
 
 };
 
-const setArrayValue = (block: Block, type: string, previousFrame?: ArduinoFrame) => {
+const setArrayValue = (block: Block, type: string, frameLocation: FrameLocation,  previousFrame?: ArduinoFrame) => {
 	const frame = previousFrame ?
 		previousFrame.makeCopy(block.id) :
-		ArduinoFrame.makeEmptyFrame(block.id);
+		ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
 	let position = parseInt(
 		getInputValue(
@@ -124,7 +125,7 @@ const parseArrayInsertValue = (value: any, type: string) => {
 	}
 };
 
-const createArrayType = (block: Block, type: string, previousFrame?: ArduinoFrame) =>  {
+const createArrayType = (block: Block, type: string, frameLocation: FrameLocation,  previousFrame?: ArduinoFrame) =>  {
 
 	const variableName = getVariableName(block);
 
@@ -139,7 +140,7 @@ const createArrayType = (block: Block, type: string, previousFrame?: ArduinoFram
 
 	const components = previousFrame ? previousFrame.components : [];
 
-	const frame = new ArduinoFrame(block.id, variables, components, new EmptyCommand());
+	const frame = new ArduinoFrame(block.id, variables, components, new EmptyCommand(), frameLocation);
 
 	return [frame];
 };

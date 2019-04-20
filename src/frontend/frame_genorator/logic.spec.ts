@@ -16,6 +16,8 @@ describe('logic', () => {
 
 	let block: any|Block;
 
+	const frameLocation = { location: 'loop', iteration: 3 };
+
 	let blockSpy: jasmine.Spy;
 
 	let getInputValueSpy: jasmine.Spy;
@@ -122,10 +124,11 @@ describe('logic', () => {
 			generateFrameForInputStatementSpy.withArgs(
 				block,
 				'DO0',
+				frameLocation,
 				jasmine.any(ArduinoFrame)
-			).and.returnValue([ArduinoFrame.makeEmptyFrame('block1'), ArduinoFrame.makeEmptyFrame('block2')]);
+			).and.returnValue([ArduinoFrame.makeEmptyFrame('block1', frameLocation), ArduinoFrame.makeEmptyFrame('block2', frameLocation)]);
 
-			const frames = control_if_block(block) as ArduinoFrame[];
+			const frames = control_if_block(block, frameLocation) as ArduinoFrame[];
 
 			expect(frames.length).toBe(3);
 
@@ -141,7 +144,7 @@ describe('logic', () => {
 
 			expect(generateFrameForInputStatementSpy).not.toHaveBeenCalledWith();
 
-			const frames = control_if_block(block) as ArduinoFrame[];
+			const frames = control_if_block(block, frameLocation) as ArduinoFrame[];
 
 			expect(frames.length).toBe(1);
 
@@ -159,10 +162,11 @@ describe('logic', () => {
 			generateFrameForInputStatementSpy.withArgs(
 				block,
 				'ELSE',
+				frameLocation,
 				jasmine.any(ArduinoFrame)
-			).and.returnValue([ArduinoFrame.makeEmptyFrame('block1'), ArduinoFrame.makeEmptyFrame('block2')]);
+			).and.returnValue([ArduinoFrame.makeEmptyFrame('block1', frameLocation), ArduinoFrame.makeEmptyFrame('block2', frameLocation)]);
 
-			const frames = controls_ifelse_block(block) as ArduinoFrame[];
+			const frames = controls_ifelse_block(block, frameLocation) as ArduinoFrame[];
 
 			expect(frames.length).toBe(3);
 

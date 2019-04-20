@@ -6,6 +6,7 @@ const blockly = require("../frame/block");
 const function_1 = require("./function");
 const arduino_frame_1 = require("../arduino/arduino_frame");
 describe('functions', () => {
+    const frameLocation = { location: 'loop', iteration: 3 };
     describe('procedures_callnoreturn_block', () => {
         it('should generate frames for a custom block', () => {
             const functionDefinitionBlock = {
@@ -52,9 +53,9 @@ describe('functions', () => {
             getInputValueSpy.withArgs(functionCallBlock, 'ARG1', '', undefined)
                 .and.returnValue('Hello World');
             spyOn(blockHelper, 'generateFrameForInputStatement')
-                .withArgs(functionDefinitionBlock, 'STACK', jasmine.any(arduino_frame_1.ArduinoFrame))
-                .and.returnValue([arduino_frame_1.ArduinoFrame.makeEmptyFrame('block_23'), arduino_frame_1.ArduinoFrame.makeEmptyFrame('block_23423')]);
-            const frames = function_1.procedures_callnoreturn_block(functionCallBlock);
+                .withArgs(functionDefinitionBlock, 'STACK', frameLocation, jasmine.any(arduino_frame_1.ArduinoFrame))
+                .and.returnValue([arduino_frame_1.ArduinoFrame.makeEmptyFrame('block_23', frameLocation), arduino_frame_1.ArduinoFrame.makeEmptyFrame('block_23423', frameLocation)]);
+            const frames = function_1.procedures_callnoreturn_block(functionCallBlock, frameLocation);
             expect(frames.length).toBe(4);
             const definitionFrameBlock = frames[1];
             expect(definitionFrameBlock.variables['var1'].type).toBe('Number');

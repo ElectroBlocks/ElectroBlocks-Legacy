@@ -1,5 +1,5 @@
 import { Block } from './block';
-import { Frame } from "./frame";
+import { Frame, FrameLocation } from "./frame";
 import { frameGeneratingBlocks, valueGeneratingBlocks } from './frame_list';
 import { inputState } from "./input_state";
 
@@ -12,12 +12,13 @@ import { inputState } from "./input_state";
     const generateFrameForInputStatement = (
         block: Block,
         statement_name: string,
+        frameLocation: FrameLocation,
         previousFrame?: Frame
     ): Array<Frame> => {
         const blockList = blocksInsideInput(block, statement_name)
                             .filter(block => !block.disabled);
 
-        return generateFrames(blockList, previousFrame);
+        return generateFrames(blockList, frameLocation, previousFrame);
     };
 
    /**
@@ -72,7 +73,7 @@ import { inputState } from "./input_state";
     /**
      * Generates Frames for each block in the list
      */
-    const generateFrames = (blockList: Block[], previousFrame?: Frame) => {
+    const generateFrames = (blockList: Block[], frameLocation: FrameLocation, previousFrame?: Frame) => {
         let frames = new Array<Frame>();
 
         for (let i = 0; i < blockList.length; i += 1) {
@@ -80,7 +81,7 @@ import { inputState } from "./input_state";
             let block = blockList[i];
             
             let currentFrames =
-                frameGeneratingBlocks[block.type + '_block'](block, previousFrame);
+                frameGeneratingBlocks[block.type + '_block'](block, frameLocation, previousFrame);
             frames = frames.concat(currentFrames);
             previousFrame = frames[frames.length - 1];
         }

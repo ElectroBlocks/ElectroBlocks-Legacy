@@ -5,13 +5,14 @@ const blockHelperFunctions = require("../frame/blockly_helper");
 const colour_1 = require("./colour");
 const command_1 = require("../frame/command");
 describe('Color Blocks', () => {
+    const frameLocation = { location: 'loop', iteration: 3 };
     let block;
     let previousFrame;
     let getInputValueSpy;
     let getFieldValueSpy;
     beforeEach(() => {
         previousFrame =
-            new arduino_frame_1.ArduinoFrame('block_id', {}, [], new command_1.EmptyCommand());
+            new arduino_frame_1.ArduinoFrame('block_id', {}, [], new command_1.EmptyCommand(), frameLocation);
         getInputValueSpy = spyOn(blockHelperFunctions, 'getInputValue');
         block = {
             getFieldValue(fieldName) {

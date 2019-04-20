@@ -6,6 +6,8 @@ import { TimeCommand } from "../frame/command";
 
 describe('time', () => {
 
+	const frameLocation = { location: 'loop', iteration: 3 };
+
 	let block: any|Block;
 
 	let getInputValueSpy: jasmine.Spy;
@@ -26,7 +28,7 @@ describe('time', () => {
 			getInputValueSpy.withArgs( block, 'DELAY', 1, undefined )
 				.and.returnValue( 2.432343 );
 
-			const [ frame ] = delay_block_block( block );
+			const [ frame ] = delay_block_block( block, frameLocation );
 
 			expect( frame.command instanceof TimeCommand ).toBeTruthy();
 			expect( frame.command.command ).toBe( "2432" );

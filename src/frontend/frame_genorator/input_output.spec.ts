@@ -29,12 +29,12 @@ describe('input output frame generators', () => {
 
 			const previousFrame = new ArduinoFrame('asdf', {'hello': {
 				name: 'hello', type: 'String', value: 'Hello'
-				}}, [], new EmptyCommand());
+				}}, [], new EmptyCommand(), { location: 'loop', iteration: 0 });
 
 			getFieldValueSpy.withArgs('PIN').and.returnValue('3');
 			getFieldValueSpy.withArgs('STATE').and.returnValue('ON');
 
-			const [frame] = digital_write_block(block, previousFrame);
+			const [frame] = digital_write_block(block, {location: 'loop', iteration: 3 }, previousFrame);
 
 			expect(frame.nextCommand().command).toBe('M-P-D:3:1|');
 			expect(frame.variables['hello'].name).toBe('hello');
@@ -46,7 +46,7 @@ describe('input output frame generators', () => {
 			getFieldValueSpy.withArgs('PIN').and.returnValue('3');
 			getFieldValueSpy.withArgs('STATE').and.returnValue('OFF');
 
-			const [frame] = digital_write_block(block);
+			const [frame] = digital_write_block(block, {location: 'loop', iteration: 3 });
 
 			expect(frame.nextCommand().command).toBe('M-P-D:3:0|');
 

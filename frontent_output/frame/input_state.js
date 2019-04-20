@@ -21,6 +21,9 @@ class InputState {
         this.blockCalls[blockId].push(blockCall);
         return blockCall;
     }
+    clearBlockCalls() {
+        this.blockCalls = {};
+    }
 }
 const getBlockValue = (blockId, callNumber) => {
     const block = block_1.get_blockly().mainWorkspace.getBlockById(blockId);

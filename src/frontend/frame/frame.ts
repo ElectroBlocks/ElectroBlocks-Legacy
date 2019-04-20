@@ -2,7 +2,6 @@ import { Command } from "./command";
 
 export interface Frame {
 
-
     /**
      * The command needed to execute if all the other frames have been executed
      */
@@ -17,4 +16,11 @@ export interface Frame {
      * Makes a copy of the current frame
      */
     makeCopy(blockId: string): Frame;
+}
+
+export interface FrameLocation {
+
+    iteration: number;
+
+    location: string;
 }

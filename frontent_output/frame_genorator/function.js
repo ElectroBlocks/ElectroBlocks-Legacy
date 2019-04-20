@@ -3,15 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const block_1 = require("../frame/block");
 const arduino_frame_1 = require("../arduino/arduino_frame");
 const blockly_helper_1 = require("../frame/blockly_helper");
-exports.procedures_callnoreturn_block = (block, previousFrame) => {
+exports.procedures_callnoreturn_block = (block, frameLocation, previousFrame) => {
     let frames = [];
     let procedureCall = block.getProcedureCall();
     let functionDefinitionBlock = findFunctionDefinitionBlock(procedureCall);
     let callBlockFrame = previousFrame ?
         previousFrame.makeCopy(block.id) :
-        arduino_frame_1.ArduinoFrame.makeEmptyFrame(block.id);
+        arduino_frame_1.ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
     frames.push(callBlockFrame);
-    const definitionBlockFrame = new arduino_frame_1.ArduinoFrame(functionDefinitionBlock.id, callBlockFrame.variables, callBlockFrame.components, callBlockFrame.command);
+    const definitionBlockFrame = new arduino_frame_1.ArduinoFrame(functionDefinitionBlock.id, callBlockFrame.variables, callBlockFrame.components, callBlockFrame.command, frameLocation);
     const procedureDefinition = mapProcedureDefinition(functionDefinitionBlock);
     const variableModels = procedureDefinition.variableModels;
     for (let i = 0; i < variableModels.length; i += 1) {
@@ -23,7 +23,7 @@ exports.procedures_callnoreturn_block = (block, previousFrame) => {
         };
     }
     frames.push(definitionBlockFrame);
-    let functionFrames = blockly_helper_1.generateFrameForInputStatement(functionDefinitionBlock, 'STACK', definitionBlockFrame);
+    let functionFrames = blockly_helper_1.generateFrameForInputStatement(functionDefinitionBlock, 'STACK', frameLocation, definitionBlockFrame);
     functionFrames.forEach(frame => frames.push(frame));
     return frames;
 };

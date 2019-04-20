@@ -9,6 +9,7 @@ const variableHelper = require("../frame_genorator/variables");
 const command_1 = require("../frame/command");
 describe('list generators', () => {
     let block;
+    const frameLocation = { location: 'loop', iteration: 3 };
     let blocklyMock;
     let fakeVariable = {
         'name': 'number list',
@@ -41,7 +42,7 @@ describe('list generators', () => {
                 value: [],
                 name: 'numberList'
             };
-            const [frame] = list_1.create_list_number_block_block(block);
+            const [frame] = list_1.create_list_number_block_block(block, frameLocation);
             expect(frame.variables['numberList'].value).toEqual([]);
             expect(frame.variables['numberList'].name).toBe('numberList');
             expect(frame.variables['numberList'].type).toBe('Number List');
@@ -54,13 +55,13 @@ describe('list generators', () => {
                     name: 'bill',
                     value: 32
                 }
-            }, [pinComponent], new command_1.EmptyCommand());
+            }, [pinComponent], new command_1.EmptyCommand(), { location: 'loop', iteration: 0 });
             fakeVariable = {
                 type: 'Number List',
                 value: [],
                 name: 'numberList'
             };
-            const [frame] = list_1.create_list_number_block_block(block, previousFrame);
+            const [frame] = list_1.create_list_number_block_block(block, frameLocation, previousFrame);
             expect(frame.variables['numberList'].value).toEqual([]);
             expect(frame.variables['numberList'].name).toBe('numberList');
             expect(frame.variables['numberList'].type).toBe('Number List');
@@ -77,7 +78,7 @@ describe('list generators', () => {
                 value: [],
                 name: 'stringList'
             };
-            const [frame] = list_1.create_list_string_block_block(block);
+            const [frame] = list_1.create_list_string_block_block(block, frameLocation);
             expect(frame.variables['stringList'].value).toEqual([]);
             expect(frame.variables['stringList'].name).toBe('stringList');
             expect(frame.variables['stringList'].type).toBe('String List');
@@ -90,7 +91,7 @@ describe('list generators', () => {
                 value: [],
                 name: 'booleanList'
             };
-            const [frame] = list_1.create_list_boolean_block_block(block);
+            const [frame] = list_1.create_list_boolean_block_block(block, frameLocation);
             expect(frame.variables['booleanList'].value).toEqual([]);
             expect(frame.variables['booleanList'].name).toBe('booleanList');
             expect(frame.variables['booleanList'].type).toBe('Boolean List');
@@ -103,7 +104,7 @@ describe('list generators', () => {
                 value: [],
                 name: 'color_list'
             };
-            const [frame] = list_1.create_list_colour_block_block(block);
+            const [frame] = list_1.create_list_colour_block_block(block, frameLocation);
             expect(frame.variables['color_list'].value).toEqual([]);
             expect(frame.variables['color_list'].name).toBe('color_list');
             expect(frame.variables['color_list'].type).toBe('Colour List');
@@ -116,9 +117,9 @@ describe('list generators', () => {
                 value: [],
                 name: 'numberList'
             };
-            const [previousFrame] = list_1.create_list_number_block_block(block);
+            const [previousFrame] = list_1.create_list_number_block_block(block, frameLocation);
             mockSetArrayValue(previousFrame, 3, 0, 323, 'numberList');
-            const [frame] = list_1.set_number_list_block_block(block, previousFrame);
+            const [frame] = list_1.set_number_list_block_block(block, frameLocation, previousFrame);
             const arrayVariable = frame.variables['numberList'];
             expect(arrayVariable.name).toBe('numberList');
             expect(arrayVariable.value).toEqual([undefined, undefined, 323]);
@@ -132,9 +133,9 @@ describe('list generators', () => {
                 value: [],
                 name: 'stringList'
             };
-            const [previousFrame] = list_1.create_list_string_block_block(block);
+            const [previousFrame] = list_1.create_list_string_block_block(block, frameLocation);
             mockSetArrayValue(previousFrame, 1, 0, 'Hello World', 'stringList');
-            const [frame] = list_1.set_string_list_block_block(block, previousFrame);
+            const [frame] = list_1.set_string_list_block_block(block, frameLocation, previousFrame);
             const arrayVariable = frame.variables['stringList'];
             expect(arrayVariable.name).toBe('stringList');
             expect(arrayVariable.value).toEqual(['Hello World']);
@@ -147,9 +148,9 @@ describe('list generators', () => {
                     value: [],
                     name: 'boolList'
                 };
-                const [previousFrame] = list_1.create_list_boolean_block_block(block);
+                const [previousFrame] = list_1.create_list_boolean_block_block(block, frameLocation);
                 mockSetArrayValue(previousFrame, 1, 0, false, 'boolList');
-                const [frame] = list_1.set_boolean_list_block_block(block, previousFrame);
+                const [frame] = list_1.set_boolean_list_block_block(block, frameLocation, previousFrame);
                 const arrayVariable = frame.variables['boolList'];
                 expect(arrayVariable.name).toBe('boolList');
                 expect(arrayVariable.value).toEqual([false]);
@@ -163,9 +164,9 @@ describe('list generators', () => {
                     value: [],
                     name: 'colorList'
                 };
-                const [previousFrame] = list_1.create_list_colour_block_block(block);
+                const [previousFrame] = list_1.create_list_colour_block_block(block, frameLocation);
                 mockSetArrayValue(previousFrame, 1, 0, { red: 32, green: 0, blue: 120 }, 'colorList');
-                const [frame] = list_1.set_colour_list_block_block(block, previousFrame);
+                const [frame] = list_1.set_colour_list_block_block(block, frameLocation, previousFrame);
                 const arrayVariable = frame.variables['colorList'];
                 expect(arrayVariable.name).toBe('colorList');
                 expect(arrayVariable.value).toEqual([{ red: 32, green: 0, blue: 120 }]);

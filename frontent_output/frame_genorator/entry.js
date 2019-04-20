@@ -46,6 +46,7 @@ const toggleDebugBlocks = (on) => {
 generateLoopBtn.addEventListener('click', () => {
     framePlayer.stop();
     const frames = generate_frame_1.generateListOfFrame(parseInt(inputNumberOfFrames.value));
+    console.log(frames, 'frames generated');
     if (frames.length == 0) {
         return;
     }

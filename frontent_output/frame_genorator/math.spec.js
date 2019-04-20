@@ -8,6 +8,7 @@ const command_1 = require("../frame/command");
 describe('Math', () => {
     let mathOperation = 'ADD';
     let block;
+    const frameLocation = { location: 'loop', iteration: 3 };
     let previousFrame;
     let getInputValueSpy;
     let aValue = 30;
@@ -15,7 +16,7 @@ describe('Math', () => {
     let numValue;
     beforeEach(() => {
         previousFrame =
-            new arduino_frame_1.ArduinoFrame('block_id', {}, [], new command_1.EmptyCommand());
+            new arduino_frame_1.ArduinoFrame('block_id', {}, [], new command_1.EmptyCommand(), frameLocation);
         getInputValueSpy = spyOn(blockHelperFunctions, 'getInputValue');
         block = {
             getFieldValue(fieldName) {

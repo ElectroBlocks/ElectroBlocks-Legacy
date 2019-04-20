@@ -63,7 +63,7 @@ generateLoopBtn.addEventListener('click', () => {
 	framePlayer.stop();
 
 	const frames = generateListOfFrame(parseInt(inputNumberOfFrames.value));
-
+	console.log(frames, 'frames generated');
 	if (frames.length == 0) {
 		return;
 	}

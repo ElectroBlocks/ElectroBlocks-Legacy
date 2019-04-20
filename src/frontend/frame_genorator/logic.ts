@@ -1,7 +1,7 @@
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { Block } from "../frame/block";
 import { generateFrameForInputStatement, getInputValue } from "../frame/blockly_helper";
-import { Frame } from "../frame/frame";
+import { Frame, FrameLocation } from "../frame/frame";
 
 
 /**
@@ -52,15 +52,15 @@ const logic_compare_block = (block: Block, previousFrame?: ArduinoFrame) => {
 /**
  * Generates the frames for the if block
  */
-const control_if_block = (block: Block, previousFrame?: ArduinoFrame): Frame[] => {
-	return generateIfElseFrames(block, false, previousFrame);
+const control_if_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): Frame[] => {
+	return generateIfElseFrames(block, false,frameLocation, previousFrame);
 };
 
 /**
  * Generates the frames for the if else block
  */
-const controls_ifelse_block = (block: Block, previousFrame?: ArduinoFrame) => {
-	return generateIfElseFrames(block, true, previousFrame);
+const controls_ifelse_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
+	return generateIfElseFrames(block, true, frameLocation, previousFrame);
 };
 
 /**
@@ -110,11 +110,11 @@ const logic_negate_block = (block: Block, previousFrame?: ArduinoFrame) => {
 /**
  * Generates frames for both the if and else blocks
  */
-const generateIfElseFrames = (block: Block, hasElse: boolean, previousFrame?: ArduinoFrame) =>  {
+const generateIfElseFrames = (block: Block, hasElse: boolean, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) =>  {
 
 	let ifFrame = previousFrame ?
 		previousFrame.makeCopy(block.id) :
-		ArduinoFrame.makeEmptyFrame(block.id);
+		ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
 	let executeBlocksInsideIf = getInputValue(
 		block,
@@ -131,7 +131,7 @@ const generateIfElseFrames = (block: Block, hasElse: boolean, previousFrame?: Ar
 	// ELSE is for if the ELSE block is true
 	let inputStatementName = executeBlocksInsideIf ? 'DO0' : 'ELSE';
 
-	let frames = generateFrameForInputStatement(block, inputStatementName, ifFrame);
+	let frames = generateFrameForInputStatement(block, inputStatementName, frameLocation, ifFrame);
 	frames.unshift(ifFrame);
 
 	return frames;

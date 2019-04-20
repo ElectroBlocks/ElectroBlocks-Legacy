@@ -4,32 +4,32 @@ const arduino_frame_1 = require("../arduino/arduino_frame");
 const block_1 = require("../frame/block");
 const blockly_helper_1 = require("../frame/blockly_helper");
 const command_1 = require("../frame/command");
-const variables_set_number_block = (block, previousFrame) => {
-    return setVariable(block, 'Number', 0, previousFrame);
+const variables_set_number_block = (block, frameLocation, previousFrame) => {
+    return setVariable(block, 'Number', 0, frameLocation, previousFrame);
 };
 exports.variables_set_number_block = variables_set_number_block;
 const variables_get_number_block = (block, previousFrame) => {
     return parseInt(getVariable(block, 0, previousFrame));
 };
 exports.variables_get_number_block = variables_get_number_block;
-const variables_set_colour_block = (block, previousFrame) => {
-    return setVariable(block, 'Colour', { red: 0, green: 0, blue: 0 }, previousFrame);
+const variables_set_colour_block = (block, frameLocation, previousFrame) => {
+    return setVariable(block, 'Colour', { red: 0, green: 0, blue: 0 }, frameLocation, previousFrame);
 };
 exports.variables_set_colour_block = variables_set_colour_block;
 const variables_get_colour_block = (block, previousFrame) => {
     return getVariable(block, { red: 0, green: 0, blue: 0 }, previousFrame);
 };
 exports.variables_get_colour_block = variables_get_colour_block;
-const variables_set_string_block = (block, previousFrame) => {
-    return setVariable(block, 'String', '', previousFrame);
+const variables_set_string_block = (block, frameLocation, previousFrame) => {
+    return setVariable(block, 'String', '', frameLocation, previousFrame);
 };
 exports.variables_set_string_block = variables_set_string_block;
 const variables_get_string_block = (block, previousFrame) => {
     return getVariable(block, '', previousFrame);
 };
 exports.variables_get_string_block = variables_get_string_block;
-const variables_set_boolean_block = (block, previousFrame) => {
-    return setVariable(block, 'Boolean', true, previousFrame);
+const variables_set_boolean_block = (block, frameLocation, previousFrame) => {
+    return setVariable(block, 'Boolean', true, frameLocation, previousFrame);
 };
 exports.variables_set_boolean_block = variables_set_boolean_block;
 const variables_get_boolean_block = (block, previousFrame) => {
@@ -50,8 +50,8 @@ const getVariable = (block, defaultValue, previousFrame) => {
     }
     return value || defaultValue;
 };
-const setVariable = (block, type, defaultValue, previousFrame) => {
-    previousFrame = previousFrame || arduino_frame_1.ArduinoFrame.makeEmptyFrame(block.id);
+const setVariable = (block, type, defaultValue, frameLocation, previousFrame) => {
+    previousFrame = previousFrame || arduino_frame_1.ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
     let variableName = getVariableName(block);
     let value = blockly_helper_1.getInputValue(block, 'VALUE', defaultValue, previousFrame);
     if (!isBooleanVariableReturningValue(type, value)) {
@@ -63,7 +63,7 @@ const setVariable = (block, type, defaultValue, previousFrame) => {
         type,
         value
     };
-    return [new arduino_frame_1.ArduinoFrame(block.id, variableList, previousFrame.components, new command_1.EmptyCommand())];
+    return [new arduino_frame_1.ArduinoFrame(block.id, variableList, previousFrame.components, new command_1.EmptyCommand(), frameLocation)];
 };
 const isBooleanVariableReturningValue = (type, value) => {
     if (type != 'Boolean') {

@@ -27,12 +27,12 @@ const logic_compare_block = (block, previousFrame) => {
     throw Error('No Valid Comparison Operation Found');
 };
 exports.logic_compare_block = logic_compare_block;
-const control_if_block = (block, previousFrame) => {
-    return generateIfElseFrames(block, false, previousFrame);
+const control_if_block = (block, frameLocation, previousFrame) => {
+    return generateIfElseFrames(block, false, frameLocation, previousFrame);
 };
 exports.control_if_block = control_if_block;
-const controls_ifelse_block = (block, previousFrame) => {
-    return generateIfElseFrames(block, true, previousFrame);
+const controls_ifelse_block = (block, frameLocation, previousFrame) => {
+    return generateIfElseFrames(block, true, frameLocation, previousFrame);
 };
 exports.controls_ifelse_block = controls_ifelse_block;
 const logic_operation_block = (block, previousFrame) => {
@@ -53,16 +53,16 @@ const logic_negate_block = (block, previousFrame) => {
     return !valueToInvert;
 };
 exports.logic_negate_block = logic_negate_block;
-const generateIfElseFrames = (block, hasElse, previousFrame) => {
+const generateIfElseFrames = (block, hasElse, frameLocation, previousFrame) => {
     let ifFrame = previousFrame ?
         previousFrame.makeCopy(block.id) :
-        arduino_frame_1.ArduinoFrame.makeEmptyFrame(block.id);
+        arduino_frame_1.ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
     let executeBlocksInsideIf = blockly_helper_1.getInputValue(block, 'IF0', true, previousFrame);
     if (!executeBlocksInsideIfElse(executeBlocksInsideIf, hasElse)) {
         return [ifFrame];
     }
     let inputStatementName = executeBlocksInsideIf ? 'DO0' : 'ELSE';
-    let frames = blockly_helper_1.generateFrameForInputStatement(block, inputStatementName, ifFrame);
+    let frames = blockly_helper_1.generateFrameForInputStatement(block, inputStatementName, frameLocation, ifFrame);
     frames.unshift(ifFrame);
     return frames;
 };

@@ -2,8 +2,9 @@ import { Block, get_blockly } from "../frame/block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { generateFrameForInputStatement, getInputValue } from "../frame/blockly_helper";
 import { Variable } from "../frame/variable";
+import { FrameLocation } from "../frame/frame";
 
-export const procedures_callnoreturn_block = (block: Block, previousFrame?: ArduinoFrame) => {
+export const procedures_callnoreturn_block = (block: Block, frameLocation: FrameLocation,  previousFrame?: ArduinoFrame) => {
 
 	let frames = [];
 
@@ -12,7 +13,7 @@ export const procedures_callnoreturn_block = (block: Block, previousFrame?: Ardu
 
 	let callBlockFrame = previousFrame ?
 		previousFrame.makeCopy(block.id) :
-		ArduinoFrame.makeEmptyFrame(block.id);
+		ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
 	frames.push(callBlockFrame);
 
@@ -20,7 +21,8 @@ export const procedures_callnoreturn_block = (block: Block, previousFrame?: Ardu
 		functionDefinitionBlock.id,
 		callBlockFrame.variables,
 		callBlockFrame.components,
-		callBlockFrame.command
+		callBlockFrame.command,
+		frameLocation
 	);
 
 	const procedureDefinition = mapProcedureDefinition(functionDefinitionBlock);
@@ -46,6 +48,7 @@ export const procedures_callnoreturn_block = (block: Block, previousFrame?: Ardu
 	let functionFrames = generateFrameForInputStatement(
 		functionDefinitionBlock,
 		'STACK',
+		frameLocation,
 		definitionBlockFrame
 	);
 

@@ -23,15 +23,15 @@ export const generateListOfFrame = (numberOfTimesThroughLoop: number = 1) => {
 		.filter(block => !block.disabled)
 		.filter(block => block.type != 'procedures_defnoreturn')
 		.forEach(block => {
-			frameGeneratingBlocks[block.type + '_block'](block, frames.length == 0 ? null : frames[frames.length - 1])
+			frameGeneratingBlocks[block.type + '_block'](block, { location: 'pre-setup', iteration: 0 }, frames.length == 0 ? null : frames[frames.length - 1])
 				.filter(frame => frame instanceof ArduinoFrame)
 				.forEach((currentFrame: ArduinoFrame) => frames.push(currentFrame));
 		});
 
-
 	let setupFrames = generateFrameForInputStatement(
 		arduinoBlock,
 		'setup',
+		{ location: 'setup', iteration: 0 },
 		frames.length == 0 ? null : frames[frames.length - 1]
 	) as ArduinoFrame[];
 
@@ -42,7 +42,8 @@ export const generateListOfFrame = (numberOfTimesThroughLoop: number = 1) => {
 		let loopFrames = generateFrameForInputStatement(
 			arduinoBlock,
 			'loop',
-			frames.length == 0 ? null : frames[frames.length - 1]
+			{ location: 'loop', iteration: i },
+			frames.length == 0 ? null : frames[frames.length - 1],
 		) as ArduinoFrame[];
 
 		loopFrames.forEach(currentFrame => frames.push(currentFrame));
