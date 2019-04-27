@@ -8,14 +8,16 @@ const videoDebug = document.getElementById('debug-video');
 const scrubBar = document.getElementById('scrub-bar') as HTMLInputElement;
 const sliderContainer = document.getElementById('slide-container');
 const videoContainer = document.getElementById('video-controls-container');
-const inputNumberOfFrames = document.getElementById('loop_times') as HTMLInputElement;
+const inputNumberOfFrames = document.getElementById('loop-times') as HTMLInputElement;
 
-const generateLoopBtn = document.getElementById('generate-loop');
+// const generateLoopBtn = document.getElementById('generate-loop');
 const framePlayer = new FramePlayer(new ExecuteDebugFrame(), scrubBar);
 const playBtn = document.getElementById('video-debug-play');
-const stopBtn = document.getElementById('video-debug-stop');
+// const stopBtn = document.getElementById('video-debug-stop');
 const backwardBtn = document.getElementById('video-debug-backward');
 const forwardBtn = document.getElementById('video-debug-forward');
+const blocklyDiv = document.getElementById('content-blocks');
+const debugMenu = document.getElementById('debug-menu');
 
 scrubBar.oninput = function() {
 	framePlayer.stop();
@@ -34,17 +36,34 @@ videoDebug.addEventListener('click', () => {
 	if (sliderContainer.style.display === 'block') {
 		sliderContainer.style.display = 'none';
 		videoContainer.style.display = 'none';
+		videoDebug.classList.remove('active');
 		toggleDebugBlocks(false);
+		resizeListener();
+
 		return;
 	}
 
+	setupVideoPlayer();
 
+	videoDebug.classList.add('active');
 	sliderContainer.style.display = 'block';
-
 	videoContainer.style.display = 'block';
-
 	toggleDebugBlocks(true);
+	document.getElementById('content-blocks').style.height = '600px';
+	resizeListener();
+
 });
+
+/**
+ * Controls the resizing
+ */
+function resizeListener() {
+	blocklyDiv.style.height =
+		(document.getElementsByTagName('body')[0].clientHeight - document.getElementById('top-menu').clientHeight - (videoContainer.clientHeight + sliderContainer.clientHeight )).toString() + "px";
+	get_blockly().svgResize(get_blockly().mainWorkspace);
+}
+
+
 
 const toggleDebugBlocks = (on: boolean) => {
 	const blocks = get_blockly().mainWorkspace.getAllBlocks();
@@ -59,7 +78,7 @@ const toggleDebugBlocks = (on: boolean) => {
 	});
 };
 
-generateLoopBtn.addEventListener('click', () => {
+const setupVideoPlayer = () => {
 	framePlayer.stop();
 
 	const frames = generateListOfFrame(parseInt(inputNumberOfFrames.value));
@@ -67,25 +86,18 @@ generateLoopBtn.addEventListener('click', () => {
 	if (frames.length == 0) {
 		return;
 	}
-
 	scrubBar.setAttribute('min', '0');
 	scrubBar.setAttribute('max', (frames.length - 1).toString());
 	scrubBar.value = '0';
-	framePlayer.setFrames(frames);
+ 	framePlayer.setFrames(frames);
 	playBtn.classList.remove('disable');
-	stopBtn.classList.remove('disable');
 	forwardBtn.classList.remove('disable');
 	backwardBtn.classList.remove('disable');
-});
+};
+
 
 playBtn.addEventListener('click', () => {
 	framePlayer.play();
-	stopBtn.classList.remove('disable');
-});
-
-stopBtn.addEventListener('click', () => {
-	framePlayer.stop();
-	stopBtn.classList.add('disable');
 });
 
 forwardBtn.addEventListener('click', () => {
@@ -95,3 +107,21 @@ forwardBtn.addEventListener('click', () => {
 backwardBtn.addEventListener('click', () => {
 	framePlayer.previous();
 });
+
+setTimeout(() => {
+	get_blockly().mainWorkspace.addChangeListener( (event: any) => {
+		console.log(event);
+		if (event.type !== get_blockly().Events.MOVE &&
+			event.type !== get_blockly().Events.CREATE &&
+			event.type !== get_blockly().Events.CHANGE &&
+			event.type !== get_blockly().Events.DELETE) {
+
+			return null;
+		}
+
+		if (sliderContainer.style.display === 'block') {
+			setupVideoPlayer();
+		}
+	});
+}, 200);
+

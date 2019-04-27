@@ -11,8 +11,15 @@
 
         .icon-bar {
             width: 100%;
-            background-color: #555;
             overflow: auto;
+        }
+
+        .icon-bar .fa {
+            color: gray;
+        }
+
+        .icon-bar .active .fa{
+            color: #4CAF50!important;
         }
 
         .icon-bar a, .icon-bar span {
@@ -30,28 +37,35 @@
         }
 
         .icon-bar a:hover {
-            background-color: #000;
+            background-color: #22fd73;
         }
 
-        .active {
-            background-color: #4CAF50 !important;
-        }
+        /*.active {*/
+            /*background-color: #4CAF50 !important;*/
+        /*}*/
 
         #debug-menu {
             max-height: 250px;
             position: absolute;
-            bottom: 0;
-            width: 100%;
+            /* bottom: 0; */
+            top: 72px;
+            right: 20px;
+            width: 434px;
             border: solid gray 1px;
-            overflow-y: scroll;
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
             z-index: 100;
+            background-color: white;
+            cursor: move;
+            overflow: hidden;
+        }
+
+        #debug-menu .icon-bar #continue-btn {
+            cursor: pointer;
         }
 
         #debug-menu h2 {
             display: inline-block;
             margin-left: 30px;
-            color: white;
         }
 
 
@@ -88,7 +102,6 @@
 
         .disable, .disable:hover {
             cursor: no-drop!important;
-            background: #78807d;
         }
 
         #slide-container {
@@ -128,23 +141,33 @@
         }
 
         #video-controls-container {
-            background-color: #2d4961;
             display: none;
         }
         #video-controls-container a {
             padding: 0;
         }
-        #video-controls-container > input {
-            width: 87px;
+        #video-controls-container label {
+            font-size: 33px;
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            color: #23922b;
+        }
+        #video-controls-container  input {
+            width: 150px;
             margin-top: 10px;
-            border-radius: 10px;
-            padding: 2px;
+            padding: 1px;
             margin-left: 10px;
+            height: 20px;
+            font-size: 16px;
+            vertical-align: top;
         }
         #video-controls-container > button {
             padding: 5px;
             border-radius: 5px;
             margin-left: 20px;
+        }
+        .menu-section {
+            width: 20%;
+            display: inline;
         }
     </style>
 </head>
@@ -157,17 +180,8 @@
     <a id="debug-btn" href="#"><i class="fa fa-bug"></i></a>
     <a id="debug-video" href="#"><i class="fa fa-video-camera"></i></a>
 </div>
-<div  id="slide-container">
-    <input type="range" min="1" max="100" value="0" class="slider" id="scrub-bar">
-</div>
-<div id="video-controls-container" class="icon-bar">
-    <a id="video-debug-play" class="disable" href="#"><i class="fa fa-play"></i></a>
-    <a id="video-debug-stop" class="disable" href="#"><i class="fa fa-stop"></i></a>
-    <a id="video-debug-backward" class="disable" href="#"><i class="fa fa-backward"></i></a>
-    <a id="video-debug-forward" class="disable" href="#"><i class="fa fa-forward"></i></a>
-    <input type="number" min="1" max="10" value="3" id="loop_times" />
-    <button type="button" id="generate-loop" >Generate Frames</button>
-</div>
+
+
 <div id="content-blocks">
 
 </div>
@@ -582,7 +596,22 @@
         <block type="bt_has_message"></block>
     </category>
 </xml>
-
+<div  id="slide-container">
+    <input type="range" min="1" max="100" value="0" class="slider" id="scrub-bar">
+</div>
+<div id="video-controls-container" class="icon-bar">
+    <a id="video-debug-play" class="disable" href="#"><i class="fa fa-play"></i></a>
+    <a id="video-debug-backward" class="disable" href="#"><i class="fa fa-backward"></i></a>
+    <a id="video-debug-forward" class="disable" href="#"><i class="fa fa-forward"></i></a>
+    <div class="menu-section">
+        <label for="speed">Speed: </label>
+        <input id="speed" type="range" min="1" max="10" value="4" />
+    </div>
+    <div class="menu-section">
+        <label for="loop-times">Loop: </label>
+        <input id="loop-times" type="number" min="1" max="100" value="3" />
+    </div>
+</div>
 <div id="debug-menu" style="display: none;">
     <div class="icon-bar icon-bar-bottom">
         <h2>Debug Menu</h2>

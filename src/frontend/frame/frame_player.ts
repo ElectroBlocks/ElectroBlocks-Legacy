@@ -61,7 +61,9 @@ export class FramePlayer {
 					this.scrubBar.value = this.currentFrame.toString();
 					const block =
 						get_blockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);
-					block.select();
+					if (block) {
+						block.select();
+					}
 				}),
 				delay(200),
 				tap(() => this.executeOnce = false),

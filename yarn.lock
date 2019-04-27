@@ -947,6 +947,10 @@ diff@^3.1.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.5.0.tgz#800c0dd1e0a8bfbc95835c202ad220fe317e5a12"
 
+displacejs@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/displacejs/-/displacejs-1.2.4.tgz#484f195be5c083d30f11e5ab285118c5ebf430cb"
+
 dmg-builder@6.5.4:
   version "6.5.4"
   resolved "https://registry.yarnpkg.com/dmg-builder/-/dmg-builder-6.5.4.tgz#18c573a5e777cbb39d84d7eaa84d965e1bb5b01f"

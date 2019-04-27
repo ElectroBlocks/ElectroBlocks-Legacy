@@ -1,4 +1,5 @@
 import { Variable } from './variable';
+import { observableToBeFn } from "rxjs/testing/TestScheduler";
 
 declare const Blockly: Blockly;
 
@@ -85,7 +86,10 @@ export interface Block {
 	 */
 	debugModeOff(): void;
 
+
 }
+
+
 
 export interface DebugValueBlock extends Block {
 
@@ -114,6 +118,20 @@ export interface Connection {
 
 export interface Blockly {
 	readonly mainWorkspace: WorkSpace;
+
+	svgResize(workspace: WorkSpace): void;
+
+	Events: { [key: string] : EventTypes }
+
+}
+
+export enum EventTypes {
+	MOVE = 'move',
+	DELETE = 'delete',
+	CREATE = 'create',
+	CHANGE = 'change',
+
+
 }
 
 export interface WorkSpace {
@@ -126,7 +144,7 @@ export interface WorkSpace {
 
 	getBlockById( blockId: string ): Block;
 
-	addChangeListener(listener: (event: any) => void ): void;
+	addChangeListener(listener: (event: {type: string}) => void ): void;
 
 }
 

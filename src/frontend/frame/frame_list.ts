@@ -1,7 +1,7 @@
 import { Frame, FrameLocation } from './frame';
 import { Block } from './block';
 
-import { digital_write_block } from "../frame_genorator/input_output";
+import { digital_write_block, analog_write_block } from "../frame_genorator/input_output";
 
 import { delay_block_block } from "../frame_genorator/time";
 
@@ -104,6 +104,7 @@ frameGeneratingBlocks = {
     controls_repeat_ext_block,
 
     digital_write_block,
+    analog_write_block,
 
     delay_block_block,
 };

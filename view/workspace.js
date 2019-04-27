@@ -7,7 +7,7 @@ const {arduinoUSB$, serialDebugOutput$, serialDebugBlockOutput$} = remote.requir
 const {uploadCode, setUploadUrl }  = remote.require('./common/upload_code');
 const { NODE_ERROR } = remote.require('./common/constants');
 const prompt = remote.require('electron-prompt');
-
+const displacejs = require('displacejs');
 const { dialog } = remote;
 
 require('../frontent_output/frame_genorator/entry');
@@ -26,6 +26,7 @@ const uploadCodeBtn = document.getElementById('upload-code-btn');
 const continueBtn = document.getElementById('continue-btn');
 const uploadCodeIcon = document.getElementById('upload-code-icon');
 
+displacejs(debugMenu);
 /**
  * letiable for storing data to render the debug table.
  */
@@ -111,6 +112,16 @@ Blockly.prompt = function(message, defaultValue, callback) {
     });
 };
 
+
+const toggleDisableChildBlocks = (parentBlock, disable) => {
+    parentBlock.childBlocks_.forEach(block => {
+        block.setDisabled(disable);
+        if (block.childBlocks_) {
+            toggleDisableChildBlocks(block, disable);
+        }
+    });
+};
+
 /**
  * Event Listeners
  */
@@ -138,8 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         let xml = '<xml><block type="arduino_start" deletable="false" movable="true"></block></xml>';
         Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), Blockly.mainWorkspace);
-        Blockly.mainWorkspace.centerOnBlock(Blockly.mainWorkspace.getAllBlocks()[0].id);
-    }, 250);
+    });
 
 
     // Clean up letiable when a
@@ -201,14 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 block.setDisabled(disableBlock);
-                let currentBlock = block.nextConnection && block.nextConnection.targetBlock() ?
-                    block.nextConnection.targetBlock() : false;
-
-                while (currentBlock) {
-                    currentBlock.setDisabled(disableBlock);
-                    currentBlock = block.nextConnection && block.nextConnection.targetBlock().length > 0 ?
-                        block.nextConnection.targetBlock() : false;
-                }
+                toggleDisableChildBlocks(block, disableBlock);
 
                 if (setupBlocks.indexOf(block.type) > -1) {
                     for (let j = 0; j < blocks.length; j += 1) {
@@ -446,9 +449,8 @@ debugBtn.addEventListener('click', () => {
         debugMenu.style.display = 'none';
     } else {
         debugBtn.classList.add('active');
-        debugMenu.style.display = 'block';
+        debugMenu.style.display = 'inline';
     }
-    resizeListener();
 });
 
 
@@ -624,7 +626,7 @@ function resizeListener() {
     blocklyDiv.style.height =
         (document.getElementsByTagName('body')[0].clientHeight - document.getElementById('top-menu').clientHeight - debugMenu.clientHeight).toString() + "px";
     Blockly.svgResize(Blockly.mainWorkspace);
-};
+}
 
 
 /**

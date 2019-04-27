@@ -33,6 +33,7 @@ exports.frameGeneratingBlocks = frameGeneratingBlocks = {
     controls_for_block: loops_1.controls_for_block,
     controls_repeat_ext_block: loops_1.controls_repeat_ext_block,
     digital_write_block: input_output_1.digital_write_block,
+    analog_write_block: input_output_1.analog_write_block,
     delay_block_block: time_1.delay_block_block,
 };
 exports.valueGeneratingBlocks = valueGeneratingBlocks = {

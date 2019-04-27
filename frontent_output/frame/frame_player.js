@@ -33,7 +33,9 @@ class FramePlayer {
             console.log(this.currentFrame, 'current frame');
             this.scrubBar.value = this.currentFrame.toString();
             const block = block_1.get_blockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);
-            block.select();
+            if (block) {
+                block.select();
+            }
         }), operators_1.delay(200), operators_1.tap(() => this.executeOnce = false), operators_1.map((frame) => {
             return {
                 frameNumber: this.currentFrame,

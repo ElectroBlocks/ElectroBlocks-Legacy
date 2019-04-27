@@ -76,6 +76,7 @@
     "@types/uuid": "^3.4.4",
     "avrgirl-arduino": "^3.0.0",
     "axios": "0.18.0",
+    "displacejs": "^1.2.4",
     "electron-log": "^2.2.17",
     "electron-online": "^1.0.0",
     "electron-prompt": "0.5.0",
