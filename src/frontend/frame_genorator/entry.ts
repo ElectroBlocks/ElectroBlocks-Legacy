@@ -1,7 +1,7 @@
 import { ExecuteDebugFrame, FramePlayer } from "../frame/frame_player";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { generateListOfFrame } from "../frame/generate_frame";
-import { Block, Blockly, get_blockly } from "../frame/block";
+import { Block, get_blockly } from "../frame/block";
 
 
 const videoDebug = document.getElementById('debug-video');
@@ -17,14 +17,19 @@ const playBtn = document.getElementById('video-debug-play');
 const backwardBtn = document.getElementById('video-debug-backward');
 const forwardBtn = document.getElementById('video-debug-forward');
 const blocklyDiv = document.getElementById('content-blocks');
-const debugMenu = document.getElementById('debug-menu');
 
 scrubBar.oninput = function() {
 	framePlayer.stop();
 	framePlayer.skipToFrame(parseInt(scrubBar.value));
+
 };
 
 framePlayer.frame$.subscribe((info: {frameNumber: number, frame: ArduinoFrame}) => {
+
+	if (!framePlayer.isPlaying()) {
+		playBtn.firstElementChild.classList.add('fa-play');
+		playBtn.firstElementChild.classList.remove('fa-stop');
+	}
 
 	console.log(`Executing Frame number ${info.frameNumber}.`);
 	console.log(new Date());
@@ -78,7 +83,7 @@ const toggleDebugBlocks = (on: boolean) => {
 	});
 };
 
-const setupVideoPlayer = () => {
+export const setupVideoPlayer = () => {
 	framePlayer.stop();
 
 	const frames = generateListOfFrame(parseInt(inputNumberOfFrames.value));
@@ -86,9 +91,9 @@ const setupVideoPlayer = () => {
 	if (frames.length == 0) {
 		return;
 	}
+
 	scrubBar.setAttribute('min', '0');
 	scrubBar.setAttribute('max', (frames.length - 1).toString());
-	scrubBar.value = '0';
  	framePlayer.setFrames(frames);
 	playBtn.classList.remove('disable');
 	forwardBtn.classList.remove('disable');
@@ -97,31 +102,27 @@ const setupVideoPlayer = () => {
 
 
 playBtn.addEventListener('click', () => {
+	if (framePlayer.isPlaying()) {
+		playBtn.firstElementChild.classList.add('fa-play');
+		playBtn.firstElementChild.classList.remove('fa-stop');
+		framePlayer.stop();
+		return;
+	}
+	playBtn.firstElementChild.classList.remove('fa-play');
+	playBtn.firstElementChild.classList.add('fa-stop');
 	framePlayer.play();
 });
 
 forwardBtn.addEventListener('click', () => {
+	playBtn.firstElementChild.classList.add('fa-play');
+	playBtn.firstElementChild.classList.remove('fa-stop');
 	framePlayer.next();
 });
 
 backwardBtn.addEventListener('click', () => {
+	playBtn.firstElementChild.classList.add('fa-play');
+	playBtn.firstElementChild.classList.remove('fa-stop');
 	framePlayer.previous();
 });
 
-setTimeout(() => {
-	get_blockly().mainWorkspace.addChangeListener( (event: any) => {
-		console.log(event);
-		if (event.type !== get_blockly().Events.MOVE &&
-			event.type !== get_blockly().Events.CREATE &&
-			event.type !== get_blockly().Events.CHANGE &&
-			event.type !== get_blockly().Events.DELETE) {
-
-			return null;
-		}
-
-		if (sliderContainer.style.display === 'block') {
-			setupVideoPlayer();
-		}
-	});
-}, 200);
 

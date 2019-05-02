@@ -1,6 +1,7 @@
 /**
  * Dependencies
  */
+
 const electron = require('electron');
 const { remote, ipcRenderer } = electron;
 const {arduinoUSB$, serialDebugOutput$, serialDebugBlockOutput$} = remote.require('./common/serial_port');
@@ -11,6 +12,8 @@ const displacejs = require('displacejs');
 const { dialog } = remote;
 
 require('../frontent_output/frame_genorator/entry');
+
+const { setupVideoPlayer }  =require('../frontent_output/frame_genorator/entry');
 
 /**
  * Elements
@@ -220,6 +223,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                 }
+            }
+
+            if (document.getElementById('slide-container').style.display === 'block') {
+                setupVideoPlayer();
             }
         }
 

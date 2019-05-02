@@ -35,10 +35,12 @@ export const generateListOfFrame = (numberOfTimesThroughLoop: number = 1) => {
 		frames.length == 0 ? null : frames[frames.length - 1]
 	) as ArduinoFrame[];
 
-	setupFrames.forEach(currentFrame => frames.push(currentFrame));
-
+	setupFrames.forEach(currentFrame => frames.push(currentFrame) );
 
 	for (let i = 0; i < numberOfTimesThroughLoop; i += 1) {
+
+
+
 		let loopFrames = generateFrameForInputStatement(
 			arduinoBlock,
 			'loop',
@@ -47,6 +49,7 @@ export const generateListOfFrame = (numberOfTimesThroughLoop: number = 1) => {
 		) as ArduinoFrame[];
 
 		loopFrames.forEach(currentFrame => frames.push(currentFrame));
+
 	}
 
 	return frames;

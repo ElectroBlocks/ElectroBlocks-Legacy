@@ -4,6 +4,7 @@ import { ipcRenderer } from 'electron';
 import { Observable, Subject } from "rxjs";
 import { delay, filter, map, tap } from "rxjs/operators";
 import { get_blockly } from "./block";
+import { FrameLocation } from "./frame";
 
 
 export enum FrameExecutionType {
@@ -16,6 +17,11 @@ export interface FrameType {
 }
 
 export class FramePlayer {
+
+	/**
+	 * The location that frame is at
+	 */
+	private frameLocation: FrameLocation|undefined = undefined;
 
 	/**
 	 * The subject that controls the next frame.
@@ -79,6 +85,10 @@ export class FramePlayer {
 						this.play();
 
 					}
+				}),
+				tap(frameInfo => {
+					console.log(frameInfo.frame.frameLocation, 'setting frame location to');
+					this.frameLocation = frameInfo.frame.frameLocation;
 				})
 			);
 
@@ -95,8 +105,42 @@ export class FramePlayer {
 	 */
 	public setFrames(frames: ArduinoFrame[]) {
 		this.frames = frames;
-		this.currentFrame = 0;
+
+		if (!this.frameLocation || this.frameLocation.location == 'setup') {
+			this.currentFrame = 0;
+			this.scrubBar.value = "0";
+			this.previous();
+			return;
+		}
+
+		const iteration = this.frameLocation.iteration;
+		let index = 0;
+
+		for (let i = 0; i < frames.length; i += 1) {
+			const currentFrame = frames[i];
+
+			if (currentFrame.frameLocation.location !== 'setup' && currentFrame.frameLocation.iteration == iteration) {
+				index = i;
+				break;
+			}
+
+		}
+
+		if (index === 0) {
+			this.currentFrame = 0;
+			this.scrubBar.value = "0";
+			this.previous();
+			return;
+		}
+
+
+		const frameBeforeCurrent = index -1;
+		this.currentFrame = frameBeforeCurrent;
+		this.scrubBar.value = frameBeforeCurrent.toString();
+
+		this.next()
 	}
+
 
 	/**
 	 * Plays the currentFrame in the list of frames.
@@ -124,13 +168,20 @@ export class FramePlayer {
 		});
 	}
 
+	public isPlaying(): boolean {
+		return this.playFrame;
+	}
+
 	public next() {
 		if (this.frames.length == 0) {
 			return;
 		}
 
 		this.executeOnce = true;
-		this.currentFrame = this.currentFrame == this.frames.length - 1 ? this.currentFrame : this.currentFrame + 1;
+		this.currentFrame =
+			this.currentFrame == this.frames.length - 1 ?
+				this.currentFrame : this.currentFrame + 1;
+
 		this.skipToFrame(this.currentFrame);
 	}
 

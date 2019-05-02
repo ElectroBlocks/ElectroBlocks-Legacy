@@ -14,6 +14,7 @@ class FramePlayer {
     constructor(frameExecutor, scrubBar) {
         this.frameExecutor = frameExecutor;
         this.scrubBar = scrubBar;
+        this.frameLocation = undefined;
         this.frameSubject = new rxjs_1.Subject();
         this.playFrame = false;
         this.executeOnce = false;
@@ -46,11 +47,38 @@ class FramePlayer {
                 this.currentFrame += 1;
                 this.play();
             }
+        }), operators_1.tap(frameInfo => {
+            console.log(frameInfo.frame.frameLocation, 'setting frame location to');
+            this.frameLocation = frameInfo.frame.frameLocation;
         }));
     }
     setFrames(frames) {
         this.frames = frames;
-        this.currentFrame = 0;
+        if (!this.frameLocation || this.frameLocation.location == 'setup') {
+            this.currentFrame = 0;
+            this.scrubBar.value = "0";
+            this.previous();
+            return;
+        }
+        const iteration = this.frameLocation.iteration;
+        let index = 0;
+        for (let i = 0; i < frames.length; i += 1) {
+            const currentFrame = frames[i];
+            if (currentFrame.frameLocation.location !== 'setup' && currentFrame.frameLocation.iteration == iteration) {
+                index = i;
+                break;
+            }
+        }
+        if (index === 0) {
+            this.currentFrame = 0;
+            this.scrubBar.value = "0";
+            this.previous();
+            return;
+        }
+        const frameBeforeCurrent = index - 1;
+        this.currentFrame = frameBeforeCurrent;
+        this.scrubBar.value = frameBeforeCurrent.toString();
+        this.next();
     }
     play() {
         if (this.frames.length == 0) {
@@ -69,12 +97,17 @@ class FramePlayer {
             type: FrameExecutionType.NEXT
         });
     }
+    isPlaying() {
+        return this.playFrame;
+    }
     next() {
         if (this.frames.length == 0) {
             return;
         }
         this.executeOnce = true;
-        this.currentFrame = this.currentFrame == this.frames.length - 1 ? this.currentFrame : this.currentFrame + 1;
+        this.currentFrame =
+            this.currentFrame == this.frames.length - 1 ?
+                this.currentFrame : this.currentFrame + 1;
         this.skipToFrame(this.currentFrame);
     }
     previous() {

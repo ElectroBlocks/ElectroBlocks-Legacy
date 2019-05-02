@@ -13,12 +13,15 @@ const playBtn = document.getElementById('video-debug-play');
 const backwardBtn = document.getElementById('video-debug-backward');
 const forwardBtn = document.getElementById('video-debug-forward');
 const blocklyDiv = document.getElementById('content-blocks');
-const debugMenu = document.getElementById('debug-menu');
 scrubBar.oninput = function () {
     framePlayer.stop();
     framePlayer.skipToFrame(parseInt(scrubBar.value));
 };
 framePlayer.frame$.subscribe((info) => {
+    if (!framePlayer.isPlaying()) {
+        playBtn.firstElementChild.classList.add('fa-play');
+        playBtn.firstElementChild.classList.remove('fa-stop');
+    }
     console.log(`Executing Frame number ${info.frameNumber}.`);
     console.log(new Date());
 });
@@ -31,7 +34,7 @@ videoDebug.addEventListener('click', () => {
         resizeListener();
         return;
     }
-    setupVideoPlayer();
+    exports.setupVideoPlayer();
     videoDebug.classList.add('active');
     sliderContainer.style.display = 'block';
     videoContainer.style.display = 'block';
@@ -54,7 +57,7 @@ const toggleDebugBlocks = (on) => {
         block.debugModeOff();
     });
 };
-const setupVideoPlayer = () => {
+exports.setupVideoPlayer = () => {
     framePlayer.stop();
     const frames = generate_frame_1.generateListOfFrame(parseInt(inputNumberOfFrames.value));
     console.log(frames, 'frames generated');
@@ -63,33 +66,30 @@ const setupVideoPlayer = () => {
     }
     scrubBar.setAttribute('min', '0');
     scrubBar.setAttribute('max', (frames.length - 1).toString());
-    scrubBar.value = '0';
     framePlayer.setFrames(frames);
     playBtn.classList.remove('disable');
     forwardBtn.classList.remove('disable');
     backwardBtn.classList.remove('disable');
 };
 playBtn.addEventListener('click', () => {
+    if (framePlayer.isPlaying()) {
+        playBtn.firstElementChild.classList.add('fa-play');
+        playBtn.firstElementChild.classList.remove('fa-stop');
+        framePlayer.stop();
+        return;
+    }
+    playBtn.firstElementChild.classList.remove('fa-play');
+    playBtn.firstElementChild.classList.add('fa-stop');
     framePlayer.play();
 });
 forwardBtn.addEventListener('click', () => {
+    playBtn.firstElementChild.classList.add('fa-play');
+    playBtn.firstElementChild.classList.remove('fa-stop');
     framePlayer.next();
 });
 backwardBtn.addEventListener('click', () => {
+    playBtn.firstElementChild.classList.add('fa-play');
+    playBtn.firstElementChild.classList.remove('fa-stop');
     framePlayer.previous();
 });
-setTimeout(() => {
-    block_1.get_blockly().mainWorkspace.addChangeListener((event) => {
-        console.log(event);
-        if (event.type !== block_1.get_blockly().Events.MOVE &&
-            event.type !== block_1.get_blockly().Events.CREATE &&
-            event.type !== block_1.get_blockly().Events.CHANGE &&
-            event.type !== block_1.get_blockly().Events.DELETE) {
-            return null;
-        }
-        if (sliderContainer.style.display === 'block') {
-            setupVideoPlayer();
-        }
-    });
-}, 200);
 //# sourceMappingURL=entry.js.map
