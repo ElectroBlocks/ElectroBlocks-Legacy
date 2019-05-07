@@ -20,7 +20,6 @@ const { setupVideoPlayer }  =require('../frontent_output/frame_genorator/entry')
  */
 const arduinoConnected = document.getElementById('arduino-connected');
 const debugMenu = document.getElementById('debug-menu');
-const debugBtn = document.getElementById('debug-btn');
 const debugTbody = document.getElementById('debug-tbody');
 const serialMonitorBtn = document.getElementById('serial-monitor');
 const toolbox = document.getElementById('toolbox');
@@ -450,15 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resizeListener();
 });
 
-debugBtn.addEventListener('click', () => {
-    if (debugBtn.classList.contains('active')) {
-        debugBtn.classList.remove('active');
-        debugMenu.style.display = 'none';
-    } else {
-        debugBtn.classList.add('active');
-        debugMenu.style.display = 'inline';
-    }
-});
+
 
 
 uploadCodeBtn.addEventListener('click', () => {

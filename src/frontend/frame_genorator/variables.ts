@@ -113,7 +113,7 @@ const setVariable = (block: Block, type: string, defaultValue: any, frameLocatio
         value = value || defaultValue;
     }
 
-    let variableList = previousFrame.variables;
+    let variableList = JSON.parse(JSON.stringify(previousFrame.variables));
     variableList[variableName] = {
         name: variableName,
         type,

@@ -105,11 +105,15 @@ const setArrayValue = (block: Block, type: string, frameLocation: FrameLocation,
 		previousFrame
 	);
 
+	const variables = JSON.parse(JSON.stringify(frame.variables));
+
 	const variableName = getVariableName(block);
 
-	frame.variables[variableName].value[position] = parseArrayInsertValue(value, type);
+	variables[variableName].value[position] = parseArrayInsertValue(value, type);
 
-	return [frame];
+	const newFrame = new ArduinoFrame(frame.blockId, variables, frame.components, frame.command, frame.frameLocation);
+
+	return [newFrame];
 };
 
 const parseArrayInsertValue = (value: any, type: string) => {

@@ -69,9 +69,11 @@ const setArrayValue = (block, type, frameLocation, previousFrame) => {
     let position = parseInt(blockly_helper_1.getInputValue(block, 'POSITION', 0, previousFrame).toString());
     position = position > 0 ? position - 1 : 0;
     const value = blockly_helper_1.getInputValue(block, 'VALUE', 0, previousFrame);
+    const variables = JSON.parse(JSON.stringify(frame.variables));
     const variableName = variables_1.getVariableName(block);
-    frame.variables[variableName].value[position] = parseArrayInsertValue(value, type);
-    return [frame];
+    variables[variableName].value[position] = parseArrayInsertValue(value, type);
+    const newFrame = new arduino_frame_1.ArduinoFrame(frame.blockId, variables, frame.components, frame.command, frame.frameLocation);
+    return [newFrame];
 };
 const parseArrayInsertValue = (value, type) => {
     switch (type) {

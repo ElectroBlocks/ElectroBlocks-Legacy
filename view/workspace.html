@@ -162,9 +162,18 @@
             color: #4CAF50;
         }
 
-        #video-controls-container a i.fa.disable {
+        #video-controls-container.disable{
+            cursor: no-drop;
+        }
+
+        #video-controls-container a.disable {
+            pointer-events: none;
+        }
+
+        #video-controls-container  a.disable i.fa {
             color: #aadcc3;
         }
+
 
 
         #video-controls-container > button {
@@ -613,7 +622,7 @@
     <a id="video-debug-forward" class="disable" href="#"><i class="fa fa-forward"></i></a>
     <div class="menu-section">
         <label for="speed">Speed: </label>
-        <input id="speed" type="range" min="1" max="10" value="4" />
+        <input id="speed" type="range" min="1" max="10" value="1" />
     </div>
     <div class="menu-section">
         <label for="loop-times">Loop: </label>

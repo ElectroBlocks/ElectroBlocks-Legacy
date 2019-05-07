@@ -57,7 +57,7 @@ const setVariable = (block, type, defaultValue, frameLocation, previousFrame) =>
     if (!isBooleanVariableReturningValue(type, value)) {
         value = value || defaultValue;
     }
-    let variableList = previousFrame.variables;
+    let variableList = JSON.parse(JSON.stringify(previousFrame.variables));
     variableList[variableName] = {
         name: variableName,
         type,

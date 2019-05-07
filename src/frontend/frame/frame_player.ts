@@ -1,10 +1,12 @@
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { COMMAND_TYPE } from "./command";
 import { ipcRenderer } from 'electron';
-import { Observable, Subject } from "rxjs";
-import { delay, filter, map, tap } from "rxjs/operators";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { delayWhen, filter, map, share, tap } from "rxjs/operators";
 import { get_blockly } from "./block";
 import { FrameLocation } from "./frame";
+import { timer } from "rxjs/observable/timer";
+import { Variable } from "./variable";
 
 
 export enum FrameExecutionType {
@@ -17,6 +19,21 @@ export interface FrameType {
 }
 
 export class FramePlayer {
+
+	private variableSubject = new BehaviorSubject< { [ key: string ]: Variable }>({});
+
+	public readonly varaible$ = this.variableSubject.asObservable()
+									.pipe(
+										share()
+									);
+
+	private frameNumberSubject = new BehaviorSubject(0);
+
+	public readonly frameNumber$ = this.frameNumberSubject
+										.asObservable()
+										.pipe(
+											share()
+										);
 
 	/**
 	 * The location that frame is at
@@ -43,6 +60,11 @@ export class FramePlayer {
 	 */
 	private currentFrame = 0;
 
+	/**
+	 * The number to the delay by when executing frames
+	 */
+	private delayDivider = 1;
+
 	private frames: ArduinoFrame[] = [];
 
 	public readonly frame$: Observable<{frameNumber: number, frame: ArduinoFrame}> =
@@ -53,7 +75,8 @@ export class FramePlayer {
 				filter(() => this.frames.length > 0),
 				tap(frameType => {
 					const frame = frameType.frame;
-
+					this.frameNumberSubject.next(this.currentFrame);
+					this.variableSubject.next(frameType.frame.variables);
 					if (frameType.type == FrameExecutionType.DIRECT) {
 						this.frameExecutor.executeCommand(frame.setupCommandUSB().command)
 					}
@@ -64,14 +87,23 @@ export class FramePlayer {
 				}),
 				tap(frameInfo => {
 					console.log(this.currentFrame, 'current frame');
-					this.scrubBar.value = this.currentFrame.toString();
 					const block =
 						get_blockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);
 					if (block) {
 						block.select();
 					}
 				}),
-				delay(200),
+				delayWhen(frameInfo => {
+
+					let time = 400 / this.delayDivider;
+
+					if (frameInfo.frame.command.type === COMMAND_TYPE.TIME) {
+						time= parseInt(frameInfo.frame.command.command);
+					}
+
+					// Max delay is 3 seconds
+					return timer(time > 3000 ? 3000: time);
+				}),
 				tap(() => this.executeOnce = false),
 				map((frame: FrameType) => {
 					return {
@@ -83,7 +115,6 @@ export class FramePlayer {
 					if (this.playFrame && this.currentFrame != this.frames.length -1) {
 						this.currentFrame += 1;
 						this.play();
-
 					}
 				}),
 				tap(frameInfo => {
@@ -94,10 +125,12 @@ export class FramePlayer {
 
 
 	constructor(
-		private frameExecutor: ExecuteFrameInterface,
-		private scrubBar: HTMLInputElement,
-
+		private frameExecutor: ExecuteFrameInterface
 	) {}
+
+	public setDelayDivider(divider: number) {
+		this.delayDivider = divider;
+	}
 
 	/**
 	 * Sets the Arduino Frames for the Player
@@ -108,7 +141,7 @@ export class FramePlayer {
 
 		if (!this.frameLocation || this.frameLocation.location == 'setup') {
 			this.currentFrame = 0;
-			this.scrubBar.value = "0";
+			this.frameNumberSubject.next(0);
 			this.previous();
 			return;
 		}
@@ -128,15 +161,14 @@ export class FramePlayer {
 
 		if (index === 0) {
 			this.currentFrame = 0;
-			this.scrubBar.value = "0";
+			this.frameNumberSubject.next(0)
 			this.previous();
 			return;
 		}
 
 
-		const frameBeforeCurrent = index -1;
-		this.currentFrame = frameBeforeCurrent;
-		this.scrubBar.value = frameBeforeCurrent.toString();
+		this.currentFrame = index -1;
+		this.frameNumberSubject.next(0);
 
 		this.next()
 	}
@@ -145,7 +177,11 @@ export class FramePlayer {
 	/**
 	 * Plays the currentFrame in the list of frames.
 	 */
-	public play() {
+	public play(triggerByUser = false) {
+
+		if (triggerByUser && this.currentFrame >= this.frames.length -1) {
+			this.currentFrame = 0;
+		}
 
 		if (this.frames.length == 0) {
 			return;
@@ -170,6 +206,10 @@ export class FramePlayer {
 
 	public isPlaying(): boolean {
 		return this.playFrame;
+	}
+
+	public onLastFrame() {
+		return this.currentFrame == this.frames.length - 1;
 	}
 
 	public next() {
@@ -218,7 +258,6 @@ export class FramePlayer {
 			type: FrameExecutionType.DIRECT
 		});
 	}
-
 
 }
 
