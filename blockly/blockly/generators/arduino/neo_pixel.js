@@ -26,14 +26,15 @@ Blockly.Arduino['neo_pixel_setup'] = function (block) {
 
 Blockly.Arduino['neo_pixel_set_color'] = function(block) {
     Blockly.Arduino.functionNames_['set_color'] = '\n\nvoid setNeoPixelColor(double pos, RGB color) {\n' +
+        '\tpos = pos <= 0 ? 0 : pos;\n' +
+        '\tpos = pos >= 1 ? pos - 1 : pos;\n' +
         '\tpixels.setPixelColor((int)pos, color.red, color.green, color.blue);\n' +
         '\tpixels.show();\n' +
     '}\n';
 
     var color = Blockly.Arduino.valueToCode(block, 'COLOR', Blockly.Arduino.ORDER_ATOMIC);
-    var position = Blockly.Arduino.valueToCode(block, 'POSITION', Blockly.Arduino.ORDER_ATOMIC);
 
-    position = parseInt(position) > 0 ? parseInt(position) - 1 : 0;
+    var position = Blockly.Arduino.valueToCode(block, 'POSITION', Blockly.Arduino.ORDER_ATOMIC);
 
     return '\tsetNeoPixelColor(' + position + ',' + color + ');\n';
 };
