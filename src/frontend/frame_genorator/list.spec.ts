@@ -35,7 +35,10 @@ describe('list generators', () => {
 		'type': 'Number List'
 	};
 
+	let spyGetInputValue: jasmine.Spy;
+
 	beforeEach(() => {
+		spyGetInputValue = spyOn(blockHelper, 'getInputValue');;
 		blocklyMock = {
 			mainWorkspace: {
 				getVariableById: () => { }
@@ -180,14 +183,18 @@ describe('list generators', () => {
 
 			const [frame] = set_number_list_block_block(block, frameLocation, previousFrame);
 
+			spyGetInputValue.withArgs(block, 'POSITION', 0, frame).and.returnValue(1);
+
+
 			const arrayVariable = frame.variables['numberList'];
 
 			expect(arrayVariable.name).toBe('numberList');
 			// It should set it back 1 because everything 0 indexed
 			expect(arrayVariable.value).toEqual([undefined,undefined, 323]);
+			spyGetInputValue.withArgs(block, 'POSITION', 0, frame).and.returnValue(3);
 
 			// Because it's the same position being expected this will work
-			expect(get_number_from_list_block(block, previousFrame)).toBe(323);
+			expect(get_number_from_list_block(block, frame)).toBe(323);
 		});
 
 	});
@@ -207,6 +214,9 @@ describe('list generators', () => {
 
 			const [frame] = set_string_list_block_block(block, frameLocation, previousFrame);
 
+			spyGetInputValue.withArgs(block, 'POSITION', 0, frame).and.returnValue(1);
+
+
 			const arrayVariable = frame.variables['stringList'];
 
 			expect(arrayVariable.name).toBe('stringList');
@@ -214,7 +224,7 @@ describe('list generators', () => {
 			expect(arrayVariable.value).toEqual(['Hello World']);
 
 			// Because it's the same position being expected this will work
-			expect(get_string_from_list_block(block, previousFrame)).toBe('Hello World');
+			expect(get_string_from_list_block(block, frame)).toBe('Hello World');
 
 		});
 
@@ -234,6 +244,8 @@ describe('list generators', () => {
 
 				const [frame] = set_boolean_list_block_block(block, frameLocation, previousFrame);
 
+				spyGetInputValue.withArgs(block, 'POSITION', 0, frame).and.returnValue(1);
+
 				const arrayVariable = frame.variables['boolList'];
 
 				expect(arrayVariable.name).toBe('boolList');
@@ -241,7 +253,7 @@ describe('list generators', () => {
 				expect(arrayVariable.value).toEqual([false]);
 
 				// Because it's the same position being expected this will work
-				expect(get_boolean_from_list_block(block, previousFrame)).toBe(false);
+				expect(get_boolean_from_list_block(block, frame)).toBe(false);
 			});
 		});
 
@@ -259,6 +271,8 @@ describe('list generators', () => {
 
 				const [frame] = set_colour_list_block_block(block, frameLocation, previousFrame);
 
+				spyGetInputValue.withArgs(block, 'POSITION', 0, frame).and.returnValue(1);
+
 				const arrayVariable = frame.variables['colorList'];
 
 				expect(arrayVariable.name).toBe('colorList');
@@ -266,7 +280,7 @@ describe('list generators', () => {
 				expect(arrayVariable.value).toEqual([{red: 32, green: 0, blue: 120}]);
 
 				// Because it's the same position being expected this will work
-				expect(get_colour_from_list_block(block, previousFrame)).toEqual({red: 32, green: 0, blue: 120});
+				expect(get_colour_from_list_block(block, frame)).toEqual({red: 32, green: 0, blue: 120});
 			});
 		});
 
@@ -274,7 +288,6 @@ describe('list generators', () => {
 
 	const mockSetArrayValue = (previousFrame: ArduinoFrame,position: number, defaultValue: any, actualValue: any, variableName: string) => {
 
-		const spyGetInputValue = spyOn(blockHelper, 'getInputValue');
 
 		spyGetInputValue.withArgs(block, 'POSITION', 0, previousFrame)
 			.and.returnValue(position);
