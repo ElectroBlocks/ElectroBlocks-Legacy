@@ -43,7 +43,7 @@ framePlayer.frame$.subscribe((info: {frameNumber: number, frame: ArduinoFrame}) 
 	console.log(new Date());
 });
 
-framePlayer.varaible$.subscribe(variables => {
+framePlayer.variables$.subscribe( variables => {
 	let tbody = '';
 
 

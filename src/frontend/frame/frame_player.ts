@@ -10,7 +10,8 @@ import { Variable } from "./variable";
 
 
 export enum FrameExecutionType {
-	DIRECT, NEXT
+	DIRECT,
+	NEXT
 }
 
 export interface FrameType {
@@ -20,14 +21,14 @@ export interface FrameType {
 
 export class FramePlayer {
 
-	private variableSubject = new BehaviorSubject< { [ key: string ]: Variable }>({});
+	private variableSubject = new BehaviorSubject< { [ key: string ]: Variable }>({ });
 
-	public readonly varaible$ = this.variableSubject.asObservable()
+	public readonly variables$ = this.variableSubject.asObservable()
 									.pipe(
 										share()
 									);
 
-	private frameNumberSubject = new BehaviorSubject(0);
+	private frameNumberSubject = new BehaviorSubject(9);
 
 	public readonly frameNumber$ = this.frameNumberSubject
 										.asObservable()
@@ -65,6 +66,9 @@ export class FramePlayer {
 	 */
 	private delayDivider = 1;
 
+	/**
+	 *  A list of Arduino frames the player has to play
+	 */
 	private frames: ArduinoFrame[] = [];
 
 	public readonly frame$: Observable<{frameNumber: number, frame: ArduinoFrame}> =
@@ -86,7 +90,6 @@ export class FramePlayer {
 					}
 				}),
 				tap(frameInfo => {
-					console.log(this.currentFrame, 'current frame');
 					const block =
 						get_blockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);
 					if (block) {
@@ -118,7 +121,6 @@ export class FramePlayer {
 					}
 				}),
 				tap(frameInfo => {
-					console.log(frameInfo.frame.frameLocation, 'setting frame location to');
 					this.frameLocation = frameInfo.frame.frameLocation;
 				})
 			);
@@ -230,7 +232,7 @@ export class FramePlayer {
 			return;
 		}
 		this.executeOnce = true;
-		this.currentFrame = this.currentFrame == 0 ? 0 : this.currentFrame -1;
+		this.currentFrame = this.currentFrame <= 0 ? 0 : this.currentFrame -1;
 		this.skipToFrame(this.currentFrame);
 	}
 
