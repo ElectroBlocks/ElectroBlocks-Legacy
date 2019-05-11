@@ -126,9 +126,7 @@ export class FramePlayer {
 			);
 
 
-	constructor(
-		private frameExecutor: ExecuteFrameInterface
-	) {}
+	constructor( private frameExecutor: ExecuteFrameInterface ) {}
 
 	public setDelayDivider(divider: number) {
 		this.delayDivider = divider;

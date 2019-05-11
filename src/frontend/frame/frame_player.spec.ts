@@ -1,10 +1,8 @@
 import 'jasmine';
 import { ExecuteDebugFrame, FramePlayer } from "./frame_player";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { Observable } from "rxjs";
 import { EmptyCommand } from "./command";
 import * as blockly from "./block";
-import * as blockHelper from "./blockly_helper";
 import { Block } from "./block";
 import { Blockly } from "./block";
 
@@ -18,8 +16,46 @@ describe( 'player', () => {
 
 	let selectSpy: jasmine.Spy;
 
+	const frames = [
+		ArduinoFrame.makeEmptyFrame('a3234', { location: 'loop', iteration: 1 }),
+		new ArduinoFrame('342343', {
+				'name': {
+					name: 'name',
+					value: 'blue',
+					type: 'String'
+				}
+			},
+			[],
+			new EmptyCommand(),
+			{ location: 'loop', iteration: 1 }
+		),
+		new ArduinoFrame('342343', {
+				'name': {
+					name: 'name',
+					value: 'blue',
+					type: 'String'
+				}
+			},
+			[],
+			new EmptyCommand(),
+			{ location: 'loop', iteration: 2 }
+		),
+		new ArduinoFrame('342343', {
+				'name': {
+					name: 'name',
+					value: 'bill',
+					type: 'String'
+				}
+			},
+			[],
+			new EmptyCommand(),
+			{ location: 'loop', iteration: 2 }
+		),
+	];
+
 	beforeEach(() => {
 		framePlayer = new FramePlayer(new ExecuteDebugFrame());
+		framePlayer.setFrames(frames);
 		jasmine.clock().install();
 
 		blocklyMock = {
@@ -47,59 +83,22 @@ describe( 'player', () => {
 		jasmine.clock().uninstall();
 	});
 
-	describe( 'play state', () => {
 		it( 'should be able to play through a series of frames', () => {
-			const frames = [
-				ArduinoFrame.makeEmptyFrame('a3234', { location: 'loop', iteration: 1 }),
-				new ArduinoFrame('342343', {
-					'name': {
-						name: 'name',
-						value: 'blue',
-						type: 'String'
-						}
-					},
-					[],
-					new EmptyCommand(),
-					{ location: 'loop', iteration: 1 }
-				),
-				new ArduinoFrame('342343', {
-						'name': {
-							name: 'name',
-							value: 'blue',
-							type: 'String'
-						}
-					},
-					[],
-					new EmptyCommand(),
-					{ location: 'loop', iteration: 2 }
-				),
-				new ArduinoFrame('342343', {
-						'name': {
-							name: 'name',
-							value: 'bill',
-							type: 'String'
-						}
-					},
-					[],
-					new EmptyCommand(),
-					{ location: 'loop', iteration: 2 }
-				),
-			];
 
 			const variableInfoOutputted:  Array<{}> = [];
 			const frameActual: Array<{frameNumber: number, frame: ArduinoFrame}> = [];
 			const frameNumberOutput: number[] = [];
-
-			framePlayer.setFrames(frames);
-
 
 			framePlayer.frame$.subscribe(frame => frameActual.push(frame));
 			framePlayer.variables$
 				.subscribe(variable => variableInfoOutputted.push(variable))
 			framePlayer.frameNumber$
 				.subscribe(frameNumber => frameNumberOutput.push(frameNumber))
+			expect(framePlayer.isPlaying()).toBeFalsy();
 
 			framePlayer.play(true);
+			expect(framePlayer.isPlaying()).toBeTruthy();
+			expect(framePlayer.onLastFrame()).toBeFalsy();
 
 			jasmine.clock().tick(3000);
 
@@ -137,46 +136,73 @@ describe( 'player', () => {
 			expect(frames)
 				.toEqual(frameActual.map(frameInfo => frameInfo.frame));
 			expect(selectSpy).toHaveBeenCalledTimes(4);
+			expect(framePlayer.isPlaying()).toBeTruthy();
+			expect(framePlayer.onLastFrame()).toBeTruthy();
 
 		});
 
-		it ('should be able to play through not play if no frames are set', () => {
 
-		});
-
-		it ('should know if the player is playing', () => {
-
-		});
-
-		it ('should know if it\'s on the last frame', () => {
-
-		});
-
-	} );
-
-	describe('forward & backward & skip', () => {
 
 		it ('should be able to move forward if it\s not at the end of the frames set', () => {
 
+			const frameNumbers: number[] = [];
+
+			framePlayer.frameNumber$.subscribe(frameNumber => {
+				frameNumbers.push(frameNumber);
+			});
+
+			framePlayer.frame$.subscribe();
+			framePlayer.skipToFrame(2);
+			framePlayer.next();
+			jasmine.clock().tick(300);
+
+			expect(frameNumbers).toEqual([0, 2, 3]);
 		});
 
 		it ('should not be able to move forward if player is at the end of the set', () => {
+			const frameNumbers: number[] = [];
+
+			framePlayer.frameNumber$.subscribe(frameNumber => {
+				frameNumbers.push(frameNumber);
+			});
+
+			framePlayer.frame$.subscribe();
+			framePlayer.skipToFrame(3);
+			framePlayer.next();
+			jasmine.clock().tick(300);
+
+			expect(frameNumbers).toEqual([0, 3, 3]);
 
 		});
 
-		it ('should be able to move backward if it is not at teh end of the frame set', () => {
+		it ('should be able to move backward if it is not at the end of the frame set', () => {
+			const frameNumbers: number[] = [];
+
+			framePlayer.frameNumber$.subscribe(frameNumber => {
+				frameNumbers.push(frameNumber);
+			});
+
+			framePlayer.frame$.subscribe();
+			framePlayer.skipToFrame(2);
+			framePlayer.previous();
+			jasmine.clock().tick(300);
+
+			expect(frameNumbers).toEqual([0, 2, 1]);
 
 		});
 
 		it ('should not be able to move backward if player is at the beginning of the set', () => {
+			const frameNumbers: number[] = [];
+
+			framePlayer.frameNumber$.subscribe(frameNumber => {
+				frameNumbers.push(frameNumber);
+			});
+
+			framePlayer.frame$.subscribe();
+			framePlayer.previous();
+			jasmine.clock().tick(300);
+
+			expect(frameNumbers).toEqual([0, 0]);
 
 		});
-
-		it ('should be able to skip to another frame in the set', () => {
-
-		});
-
-	} );
-
-
 } );
