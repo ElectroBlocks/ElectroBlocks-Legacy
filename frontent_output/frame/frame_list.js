@@ -4,6 +4,7 @@ const input_output_1 = require("../frame_genorator/input_output");
 const time_1 = require("../frame_genorator/time");
 const variables_1 = require("../frame_genorator/variables");
 const math_1 = require("../frame_genorator/math");
+const message_1 = require("../frame_genorator/message");
 const colour_1 = require("../frame_genorator/colour");
 const list_1 = require("../frame_genorator/list");
 const logic_1 = require("../frame_genorator/logic");
@@ -35,6 +36,7 @@ exports.frameGeneratingBlocks = frameGeneratingBlocks = {
     digital_write_block: input_output_1.digital_write_block,
     analog_write_block: input_output_1.analog_write_block,
     delay_block_block: time_1.delay_block_block,
+    send_message_block: message_1.send_message_block
 };
 exports.valueGeneratingBlocks = valueGeneratingBlocks = {
     variables_get_boolean_block: variables_1.variables_get_boolean_block,

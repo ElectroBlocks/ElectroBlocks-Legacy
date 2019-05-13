@@ -27,6 +27,10 @@ import {
 } from "../frame_genorator/math";
 
 import {
+    send_message_block
+} from '../frame_genorator/message';
+
+import {
     colour_random_block,
     colour_picker_block,
     colour_rgb_block,
@@ -107,6 +111,8 @@ frameGeneratingBlocks = {
     analog_write_block,
 
     delay_block_block,
+
+    send_message_block
 };
 
 valueGeneratingBlocks = {

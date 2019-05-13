@@ -16,7 +16,10 @@ describe('list generators', () => {
         'value': [],
         'type': 'Number List'
     };
+    let spyGetInputValue;
     beforeEach(() => {
+        spyGetInputValue = spyOn(blockHelper, 'getInputValue');
+        ;
         blocklyMock = {
             mainWorkspace: {
                 getVariableById: () => { }
@@ -120,10 +123,12 @@ describe('list generators', () => {
             const [previousFrame] = list_1.create_list_number_block_block(block, frameLocation);
             mockSetArrayValue(previousFrame, 3, 0, 323, 'numberList');
             const [frame] = list_1.set_number_list_block_block(block, frameLocation, previousFrame);
+            spyGetInputValue.withArgs(block, 'POSITION', 0, frame).and.returnValue(1);
             const arrayVariable = frame.variables['numberList'];
             expect(arrayVariable.name).toBe('numberList');
             expect(arrayVariable.value).toEqual([undefined, undefined, 323]);
-            expect(list_1.get_number_from_list_block(block, previousFrame)).toBe(323);
+            spyGetInputValue.withArgs(block, 'POSITION', 0, frame).and.returnValue(3);
+            expect(list_1.get_number_from_list_block(block, frame)).toBe(323);
         });
     });
     describe('set_number_list_block_block', () => {
@@ -136,10 +141,11 @@ describe('list generators', () => {
             const [previousFrame] = list_1.create_list_string_block_block(block, frameLocation);
             mockSetArrayValue(previousFrame, 1, 0, 'Hello World', 'stringList');
             const [frame] = list_1.set_string_list_block_block(block, frameLocation, previousFrame);
+            spyGetInputValue.withArgs(block, 'POSITION', 0, frame).and.returnValue(1);
             const arrayVariable = frame.variables['stringList'];
             expect(arrayVariable.name).toBe('stringList');
             expect(arrayVariable.value).toEqual(['Hello World']);
-            expect(list_1.get_string_from_list_block(block, previousFrame)).toBe('Hello World');
+            expect(list_1.get_string_from_list_block(block, frame)).toBe('Hello World');
         });
         describe('set_boolean_list_block_block', () => {
             it('should set a value to false for a boolean', () => {
@@ -151,10 +157,11 @@ describe('list generators', () => {
                 const [previousFrame] = list_1.create_list_boolean_block_block(block, frameLocation);
                 mockSetArrayValue(previousFrame, 1, 0, false, 'boolList');
                 const [frame] = list_1.set_boolean_list_block_block(block, frameLocation, previousFrame);
+                spyGetInputValue.withArgs(block, 'POSITION', 0, frame).and.returnValue(1);
                 const arrayVariable = frame.variables['boolList'];
                 expect(arrayVariable.name).toBe('boolList');
                 expect(arrayVariable.value).toEqual([false]);
-                expect(list_1.get_boolean_from_list_block(block, previousFrame)).toBe(false);
+                expect(list_1.get_boolean_from_list_block(block, frame)).toBe(false);
             });
         });
         describe('set_colour_list_block_block & get_colour_list_block_block', () => {
@@ -167,15 +174,15 @@ describe('list generators', () => {
                 const [previousFrame] = list_1.create_list_colour_block_block(block, frameLocation);
                 mockSetArrayValue(previousFrame, 1, 0, { red: 32, green: 0, blue: 120 }, 'colorList');
                 const [frame] = list_1.set_colour_list_block_block(block, frameLocation, previousFrame);
+                spyGetInputValue.withArgs(block, 'POSITION', 0, frame).and.returnValue(1);
                 const arrayVariable = frame.variables['colorList'];
                 expect(arrayVariable.name).toBe('colorList');
                 expect(arrayVariable.value).toEqual([{ red: 32, green: 0, blue: 120 }]);
-                expect(list_1.get_colour_from_list_block(block, previousFrame)).toEqual({ red: 32, green: 0, blue: 120 });
+                expect(list_1.get_colour_from_list_block(block, frame)).toEqual({ red: 32, green: 0, blue: 120 });
             });
         });
     });
     const mockSetArrayValue = (previousFrame, position, defaultValue, actualValue, variableName) => {
-        const spyGetInputValue = spyOn(blockHelper, 'getInputValue');
         spyGetInputValue.withArgs(block, 'POSITION', 0, previousFrame)
             .and.returnValue(position);
         spyGetInputValue.withArgs(block, 'VALUE', defaultValue, previousFrame)

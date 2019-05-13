@@ -33,7 +33,7 @@ framePlayer.frame$.subscribe((info) => {
     console.log(`Executing Frame number ${info.frameNumber}.`);
     console.log(new Date());
 });
-framePlayer.varaible$.subscribe(variables => {
+framePlayer.variables$.subscribe(variables => {
     let tbody = '';
     Object.keys(variables).forEach(key => {
         const value = variables[key].type.toString().indexOf('List') === -1 ?

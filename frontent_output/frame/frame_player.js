@@ -15,9 +15,9 @@ class FramePlayer {
     constructor(frameExecutor) {
         this.frameExecutor = frameExecutor;
         this.variableSubject = new rxjs_1.BehaviorSubject({});
-        this.varaible$ = this.variableSubject.asObservable()
+        this.variables$ = this.variableSubject.asObservable()
             .pipe(operators_1.share());
-        this.frameNumberSubject = new rxjs_1.BehaviorSubject(0);
+        this.frameNumberSubject = new rxjs_1.BehaviorSubject(9);
         this.frameNumber$ = this.frameNumberSubject
             .asObservable()
             .pipe(operators_1.share());
@@ -41,7 +41,6 @@ class FramePlayer {
                 this.frameExecutor.executeCommand(frame.nextCommand().command);
             }
         }), operators_1.tap(frameInfo => {
-            console.log(this.currentFrame, 'current frame');
             const block = block_1.get_blockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);
             if (block) {
                 block.select();
@@ -63,7 +62,6 @@ class FramePlayer {
                 this.play();
             }
         }), operators_1.tap(frameInfo => {
-            console.log(frameInfo.frame.frameLocation, 'setting frame location to');
             this.frameLocation = frameInfo.frame.frameLocation;
         }));
     }
@@ -138,7 +136,7 @@ class FramePlayer {
             return;
         }
         this.executeOnce = true;
-        this.currentFrame = this.currentFrame == 0 ? 0 : this.currentFrame - 1;
+        this.currentFrame = this.currentFrame <= 0 ? 0 : this.currentFrame - 1;
         this.skipToFrame(this.currentFrame);
     }
     stop() {
