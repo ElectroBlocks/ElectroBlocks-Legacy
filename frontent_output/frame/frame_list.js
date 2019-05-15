@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const input_output_1 = require("../frame_genorator/input_output");
 const time_1 = require("../frame_genorator/time");
+const servo_1 = require("../frame_genorator/servo");
+const motor_1 = require("../frame_genorator/motor");
 const variables_1 = require("../frame_genorator/variables");
 const math_1 = require("../frame_genorator/math");
 const message_1 = require("../frame_genorator/message");
@@ -36,7 +38,9 @@ exports.frameGeneratingBlocks = frameGeneratingBlocks = {
     digital_write_block: input_output_1.digital_write_block,
     analog_write_block: input_output_1.analog_write_block,
     delay_block_block: time_1.delay_block_block,
-    send_message_block: message_1.send_message_block
+    send_message_block: message_1.send_message_block,
+    servo_move_block: servo_1.servo_move_block,
+    move_motor_block: motor_1.move_motor_block
 };
 exports.valueGeneratingBlocks = valueGeneratingBlocks = {
     variables_get_boolean_block: variables_1.variables_get_boolean_block,

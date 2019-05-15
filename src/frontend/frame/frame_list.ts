@@ -5,6 +5,10 @@ import { digital_write_block, analog_write_block } from "../frame_genorator/inpu
 
 import { delay_block_block } from "../frame_genorator/time";
 
+import { servo_move_block } from "../frame_genorator/servo";
+
+import { move_motor_block } from "../frame_genorator/motor";
+
 import { 
     variables_set_boolean_block,
     variables_set_string_block,
@@ -112,7 +116,11 @@ frameGeneratingBlocks = {
 
     delay_block_block,
 
-    send_message_block
+    send_message_block,
+
+    servo_move_block,
+
+    move_motor_block
 };
 
 valueGeneratingBlocks = {
