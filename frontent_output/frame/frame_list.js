@@ -4,6 +4,7 @@ const input_output_1 = require("../frame_genorator/input_output");
 const time_1 = require("../frame_genorator/time");
 const servo_1 = require("../frame_genorator/servo");
 const motor_1 = require("../frame_genorator/motor");
+const debug_1 = require("../frame_genorator/debug");
 const variables_1 = require("../frame_genorator/variables");
 const math_1 = require("../frame_genorator/math");
 const message_1 = require("../frame_genorator/message");
@@ -40,7 +41,8 @@ exports.frameGeneratingBlocks = frameGeneratingBlocks = {
     delay_block_block: time_1.delay_block_block,
     send_message_block: message_1.send_message_block,
     servo_move_block: servo_1.servo_move_block,
-    move_motor_block: motor_1.move_motor_block
+    move_motor_block: motor_1.move_motor_block,
+    debug_block: debug_1.debug_block
 };
 exports.valueGeneratingBlocks = valueGeneratingBlocks = {
     variables_get_boolean_block: variables_1.variables_get_boolean_block,

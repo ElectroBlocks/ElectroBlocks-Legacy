@@ -16,4 +16,6 @@ export const delay_block_block = (block: Block, frameLocation: FrameLocation, pr
 	const frame = new ArduinoFrame(block.id, copyFrame.variables, copyFrame.components, timeCommand, frameLocation);
 
 	return [frame];
-}
+};
+
+

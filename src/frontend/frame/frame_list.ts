@@ -9,6 +9,8 @@ import { servo_move_block } from "../frame_genorator/servo";
 
 import { move_motor_block } from "../frame_genorator/motor";
 
+import { debug_block } from "../frame_genorator/debug";
+
 import { 
     variables_set_boolean_block,
     variables_set_string_block,
@@ -120,7 +122,9 @@ frameGeneratingBlocks = {
 
     servo_move_block,
 
-    move_motor_block
+    move_motor_block,
+
+    debug_block
 };
 
 valueGeneratingBlocks = {
