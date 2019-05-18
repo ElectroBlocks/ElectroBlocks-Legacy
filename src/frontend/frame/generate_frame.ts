@@ -4,6 +4,8 @@ import { generateFrameForInputStatement } from "./blockly_helper";
 import { get_blockly } from "./block";
 import { inputState } from "./input_state";
 
+
+
 export const generateListOfFrame = (numberOfTimesThroughLoop: number = 1) => {
 
 	inputState.clearBlockCalls();

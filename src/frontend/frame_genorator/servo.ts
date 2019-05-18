@@ -1,6 +1,6 @@
 import { Block } from "../frame/block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { Pin, stringToPin } from "../arduino/pin";
+import { stringToPin } from "../arduino/pin";
 import { Servo } from "../arduino/servo";
 import { getInputValue } from "../frame/blockly_helper";
 import { FrameLocation } from "../frame/frame";
