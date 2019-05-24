@@ -33,7 +33,7 @@ export interface Block {
 	/**
 	 * An array of inputs
 	 */
-	inputList: Connection[],
+	inputList: Input[],
 
 	getInput( inputName: string ): { connection: Connection };
 
@@ -114,6 +114,10 @@ export interface Connection {
 	getSourceBlock(): Block;
 
 
+}
+
+export interface Input extends Connection {
+	fieldRow: Array<{state_: boolean, name: string}|any>
 }
 
 export interface Blockly {
