@@ -11,6 +11,8 @@ import { move_motor_block } from "../frame_genorator/motor";
 
 import { debug_block } from "../frame_genorator/debug";
 
+import { neo_pixel_set_color_block, neo_pixel_setup_block } from "../frame_genorator/neo-pixel";
+
 import { 
     variables_set_boolean_block,
     variables_set_string_block,
@@ -124,7 +126,10 @@ frameGeneratingBlocks = {
 
     move_motor_block,
 
-    debug_block
+    debug_block,
+
+    neo_pixel_set_color_block,
+    neo_pixel_setup_block
 };
 
 valueGeneratingBlocks = {

@@ -5,7 +5,6 @@ import * as blockHelper from "./blockly_helper";
 import * as blockly from "./block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { generateListOfFrame } from "./generate_frame";
-import { FrameLocation } from "./frame";
 
 describe('Generate Frames', () => {
 

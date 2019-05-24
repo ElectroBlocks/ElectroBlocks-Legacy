@@ -34,7 +34,7 @@ class FramePlayer {
             const frame = frameType.frame;
             this.frameNumberSubject.next(this.currentFrame);
             this.variableSubject.next(frameType.frame.variables);
-            if (frameType.type == FrameExecutionType.DIRECT) {
+            if (frameType.type == FrameExecutionType.DIRECT || this.currentFrame === 0) {
                 this.frameExecutor.executeCommand(frame.setupCommandUSB().command);
             }
             if (frame.command.type == command_1.COMMAND_TYPE.USB) {

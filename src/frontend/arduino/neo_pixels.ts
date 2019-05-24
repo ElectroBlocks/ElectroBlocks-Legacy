@@ -18,7 +18,7 @@ export class NeoPixelStrip implements USB, Copy<NeoPixelStrip> {
      */
     public setLed(neoPixel: NeoPixel) {
 
-        let [led] = this.leds.filter(led => led.position == neoPixel.position);
+        let led = this.leds.find(led => led.position == neoPixel.position);
         
         if (led) {
             led.color = neoPixel.color;

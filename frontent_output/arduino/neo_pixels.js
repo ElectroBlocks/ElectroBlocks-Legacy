@@ -9,7 +9,7 @@ class NeoPixelStrip {
         this.leds = new Array();
     }
     setLed(neoPixel) {
-        let [led] = this.leds.filter(led => led.position == neoPixel.position);
+        let led = this.leds.find(led => led.position == neoPixel.position);
         if (led) {
             led.color = neoPixel.color;
             return;

@@ -30,9 +30,10 @@ export const led_matrix_make_draw_block = (block: Block, frameLocation: FrameLoc
                 const column = parseInt(field.name.split(',')[1]);
                 const isOn = field.state_;
 
-                ledMatrixComponent.setLed(new LedInMatrix(isOn, column, row));
+               // ledMatrixComponent.setLed(new LedInMatrix(isOn, column, row));
             });
         });
 
 
+    return [];
 };
