@@ -254,7 +254,7 @@ void nextMove(String command) {
    }
 
    if (typeOfCommand == "L") {
-      printLCDScreen(command);
+      LCDScreenCommand(command);
       return;
    }
 
@@ -331,11 +331,78 @@ void changePinState(String command) {
    }
 }
 
+/**
+ * Example Commands
+ * Clear = M-L-C:0| (Clears the screen)
+ * Print = M-L-P:Hello : World : OK : Works| (Prints to the screen)
+ * Blink = M-L-B:1:3:1| (Blink:row:column:1=blink, 0 = no blink)
+ * Back Light = M-L-L:1| or M-L-L-0|
+ *
+ */
+void LCDScreenCommand(String command) {
+   String lcdCommand = getParseValue(command, '-', 2);
+   String lcdCommandType = getParseValue(lcdCommand, ':', 0);
+   Serial.println("COMMAND TYPE : " + lcdCommandType);
+   if (lcdCommandType == "P") {
+         printLCDScreen(lcdCommand);
+   }
+
+   if (lcdCommandType == "B") { // B = Blink
+        blinkCommandLCD(lcdCommand);
+   }
+
+   if (lcdCommandType == "L") { // L = Back Light
+        backLightLCD(lcdCommand);
+   }
+
+   if (lcdCommandType == "C") { // C = Clear
+      clearLCDScreen();
+   }
+}
+
+/**
+ * Picks a pixel and starts blink
+ * Example Command = B:1:3:1|
+ *
+ * B => Blink
+ * 1 => ROW
+ * 3 => COLUMN
+ * 1 => BLINK if 0 then no blink
+ *
+ */
+void blinkCommandLCD(String command) {
+  LiquidCrystal_I2C * lcd = getLCDObject(selectLCDScreenObject);
+
+     int row = getParseValue(command, ':', 2).toInt();
+     int col = getParseValue(command, ':', 1).toInt();
+     lcd->setCursor(row, col);
+    if (getParseValue(command, ':', 3).toInt() == 1) {
+       lcd->blink();
+    } else {
+       lcd->noBlink();
+    }
+}
+
+
+/**
+ * Turns on and off the back light of lcd screen
+ *
+ * Example Command = L:1| or L:0|
+ */
+void backLightLCD(String command) {
+    LiquidCrystal_I2C * lcd = getLCDObject(selectLCDScreenObject);
+
+     if ( getParseValue(command, ':', 1).toInt() == 1) {
+          lcd->backlight();
+     } else {
+          lcd->noBacklight();
+     }
+}
 
 /**
  * A move command for printing on the lcd screen
  *
- * Example Command M-L-Hello : World : OK : Works
+ * Example Command M-L-P:Hello : World : OK : Works|
  *
  * Means move
  * L means LCD Screen
@@ -346,14 +413,22 @@ void changePinState(String command) {
  *  Works
  */
 void printLCDScreen(String command) {
-   String printCommand = getParseValue(command, '-', 2);
    LiquidCrystal_I2C * lcd = getLCDObject(selectLCDScreenObject);
 
-   for (int row = 0; row < LCD_NUMBER_OF_ROWS; row += 1) {
+   for (int row = 1; row <= LCD_NUMBER_OF_ROWS; row += 1) {
       lcd->setCursor(0, row);
-      lcd->print(getParseValue(printCommand, ':', row));
+      lcd->print(getParseValue(command, ':', row));
    }
 
+}
+
+/**
+ * Clear the lcd screen
+ */
+void clearLCDScreen() {
+     Serial.println("CLEARED SCREEN");
+   LiquidCrystal_I2C * lcd = getLCDObject(selectLCDScreenObject);
+   lcd->clear();
 }
 
 /**
