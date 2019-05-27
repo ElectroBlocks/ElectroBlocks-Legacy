@@ -31,5 +31,19 @@ describe('LCD Screen', () => {
         expect(lcd.setupCommandUSB().command).toBe('L:0x3F:3:5');
         expect(lcd.setupCommandUSB().type).toBe(command_1.COMMAND_TYPE.USB);
     });
+    it('should be able to produce clear command', () => {
+        let lcd = new lcd_screen_1.LCDScreen(lcd_screen_1.LCD_SCREEN_MEMORY_TYPE.OX3F, 3, 5);
+        expect(lcd.clear().command).toBe('M-L-C:0|');
+    });
+    it('should be able to produce the blink command', () => {
+        let lcd = new lcd_screen_1.LCDScreen(lcd_screen_1.LCD_SCREEN_MEMORY_TYPE.OX3F, 3, 5);
+        expect(lcd.blinkCommandLCD(1, 3, true).command).toBe('M-L-B:1:3:1|');
+        expect(lcd.blinkCommandLCD(1, 3, false).command).toBe('M-L-B:1:3:0|');
+    });
+    it('should be able to produce the backlight command', () => {
+        let lcd = new lcd_screen_1.LCDScreen(lcd_screen_1.LCD_SCREEN_MEMORY_TYPE.OX3F, 3, 5);
+        expect(lcd.toggleBackLight(true).command).toBe('M-L-L:1|');
+        expect(lcd.toggleBackLight(false).command).toBe('M-L-L:0|');
+    });
 });
 //# sourceMappingURL=lcd_screen.spec.js.map
