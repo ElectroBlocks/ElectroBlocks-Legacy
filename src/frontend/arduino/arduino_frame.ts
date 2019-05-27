@@ -31,21 +31,6 @@ export class ArduinoFrame implements Frame, USB {
 		return this.command;
 	}
 
-	directFrameCommand(): Command[] {
-		return [ this.setupCommandUSB(), this.usbCommand() ];
-	}
-
-	usbCommand(): Command {
-		const command = this.components.reduce( ( previousValue, component ) => {
-			return previousValue + component.usbCommand().command;
-		}, '' );
-
-		return {
-			command,
-			type: COMMAND_TYPE.USB
-		};
-	}
-
 	setupCommandUSB(): Command {
 		if (this.components.length == 0) {
 			return new EmptyCommand();

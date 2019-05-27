@@ -70,7 +70,7 @@ describe('input output frame generators', () => {
 				analog_write_block(block, {location: 'loop', iteration: 3 }, previousFrame);
 
 			expect(frame.components.length).toBe(1);
-			expect(frame.components[0].usbCommand().command).toBe('M-P-A:1:130|');
+			expect((frame.components[0] as Pin).usbCommand().command).toBe('M-P-A:1:130|');
 		});
 	});
 

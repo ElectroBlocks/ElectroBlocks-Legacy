@@ -18,18 +18,6 @@ class ArduinoFrame {
     nextCommand() {
         return this.command;
     }
-    directFrameCommand() {
-        return [this.setupCommandUSB(), this.usbCommand()];
-    }
-    usbCommand() {
-        const command = this.components.reduce((previousValue, component) => {
-            return previousValue + component.usbCommand().command;
-        }, '');
-        return {
-            command,
-            type: command_1.COMMAND_TYPE.USB
-        };
-    }
     setupCommandUSB() {
         if (this.components.length == 0) {
             return new command_1.EmptyCommand();
