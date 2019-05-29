@@ -11,7 +11,11 @@ import { move_motor_block } from "../frame_genorator/motor";
 
 import { debug_block } from "../frame_genorator/debug";
 
+import { led_matrix_make_draw_block } from "../frame_genorator/led_matrix";
+
 import { neo_pixel_set_color_block, neo_pixel_setup_block } from "../frame_genorator/neo-pixel";
+
+import { lcd_backlight_block, lcd_screen_blink_block, lcd_screen_simple_print_block, lcd_setup_block, lcd_screen_clear_block,  } from "../frame_genorator/lcd_screen";
 
 import { 
     variables_set_boolean_block,
@@ -129,7 +133,15 @@ frameGeneratingBlocks = {
     debug_block,
 
     neo_pixel_set_color_block,
-    neo_pixel_setup_block
+    neo_pixel_setup_block,
+
+    led_matrix_make_draw_block,
+
+    lcd_backlight_block,
+    lcd_screen_blink_block,
+    lcd_screen_simple_print_block,
+    lcd_setup_block,
+    lcd_screen_clear_block
 };
 
 valueGeneratingBlocks = {
