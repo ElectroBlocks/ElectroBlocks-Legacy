@@ -16,13 +16,23 @@ exports.lcd_setup_block = (block, frameLocation, previousFrame) => {
         new arduino_frame_1.ArduinoFrame(block.id, variables, components, new command_1.EmptyCommand(), frameLocation)
     ];
 };
+exports.lcd_screen_print_block = (block, frameLocation, previousFrame) => {
+    const lcdScreen = previousFrame.components.find(component => component instanceof lcd_screen_1.LCDScreen);
+    const row = parseInt(blockly_helper_1.getInputValue(block, 'ROW', 0, previousFrame).toString());
+    const column = parseInt(blockly_helper_1.getInputValue(block, 'COLUMN', 0, previousFrame).toString());
+    const print = blockly_helper_1.getInputValue(block, 'PRINT', '', previousFrame).toString();
+    const command = lcdScreen.print(row, column, print);
+    return [
+        new arduino_frame_1.ArduinoFrame(block.id, previousFrame.variables, previousFrame.components, command, frameLocation)
+    ];
+};
 exports.lcd_screen_simple_print_block = (block, frameLocation, previousFrame) => {
     const lcdScreen = previousFrame.components.find(component => component instanceof lcd_screen_1.LCDScreen);
     const row1 = blockly_helper_1.getInputValue(block, 'ROW_1', '', previousFrame).toString();
     const row2 = blockly_helper_1.getInputValue(block, 'ROW_2', '', previousFrame).toString();
     const row3 = blockly_helper_1.getInputValue(block, 'ROW_3', '', previousFrame).toString();
     const row4 = blockly_helper_1.getInputValue(block, 'ROW_4', '', previousFrame).toString();
-    const printCommand = lcdScreen.print([row1, row2, row3, row4]);
+    const printCommand = lcdScreen.simplePrint([row1, row2, row3, row4]);
     return [
         new arduino_frame_1.ArduinoFrame(block.id, previousFrame.variables, previousFrame.components, printCommand, frameLocation)
     ];

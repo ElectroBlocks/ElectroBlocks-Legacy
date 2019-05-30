@@ -7,18 +7,28 @@ class LCDScreen {
         this.memoryType = memoryType;
         this.rows = rows;
         this.columns = columns;
-    }
-    print(rowsToPrint) {
-        let command = `${usb_1.USB_COMMAND_TYPES.MOVE}-${usb_1.USB_COMMAND_TYPES.LCD}-`;
-        for (let i = 0; i < this.rows; i += 1) {
-            command += this.appendSpace(rowsToPrint[i] || '');
-            command += i < (this.rows - 1) ? ':' : '';
+        this.lcdText = [];
+        for (let i = 0; i < rows; i += 1) {
+            this.lcdText[i] = this.appendSpace('');
         }
-        command += usb_1.USB_COMMAND_TYPES.END_OF_COMMAND;
-        return {
-            command,
-            type: command_1.COMMAND_TYPE.USB
-        };
+    }
+    simplePrint(rowsToPrint) {
+        this.lcdText = this.lcdText.map((text, index) => {
+            return this.appendSpace(rowsToPrint[index] || '');
+        });
+        return this.createPrintCommand();
+    }
+    print(row, col, print) {
+        const stringToPrint = this.lcdText[row].split('');
+        let counter = 0;
+        console.log(stringToPrint.length);
+        for (let i = col; i < col + print.length; i += 1) {
+            stringToPrint[i] = print[counter];
+            counter += 1;
+        }
+        console.log(stringToPrint.length);
+        this.lcdText[row] = stringToPrint.join('');
+        return this.createPrintCommand();
     }
     clear() {
         return {
@@ -56,6 +66,14 @@ class LCDScreen {
     }
     makeCopy() {
         return new LCDScreen(this.memoryType, this.rows, this.columns);
+    }
+    createPrintCommand() {
+        let command = `${usb_1.USB_COMMAND_TYPES.MOVE}-${usb_1.USB_COMMAND_TYPES.LCD}-`;
+        command += this.lcdText.join(':') + usb_1.USB_COMMAND_TYPES.END_OF_COMMAND;
+        return {
+            command,
+            type: command_1.COMMAND_TYPE.USB
+        };
     }
 }
 exports.LCDScreen = LCDScreen;

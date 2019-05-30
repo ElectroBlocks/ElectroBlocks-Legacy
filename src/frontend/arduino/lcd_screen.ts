@@ -1,27 +1,40 @@
 import { Copy } from './copy';
 import { USB, USB_COMMAND_TYPES } from './usb';
 import { Command, COMMAND_TYPE } from "../frame/command";
+import { strict } from 'assert';
 
 export class LCDScreen implements  Copy<LCDScreen>, USB {
 
+    private lcdText: string[] = [];
+
     constructor(public readonly memoryType: LCD_SCREEN_MEMORY_TYPE,
                 public readonly rows: number, 
-                public readonly columns: number) {}
+                public readonly columns: number) {
+                    for (let i = 0; i < rows; i += 1) {
+                        this.lcdText[i] = this.appendSpace('');
+                    }
+                }
 
-    print(rowsToPrint: string[]): Command {
-        let command = `${USB_COMMAND_TYPES.MOVE}-${USB_COMMAND_TYPES.LCD}-`;
 
-        for (let i = 0; i < this.rows; i += 1) {
-            command += this.appendSpace(rowsToPrint[i] || '');
-            command += i < (this.rows - 1) ? ':' : '';
+    simplePrint(rowsToPrint: string[]): Command {
+        this.lcdText = this.lcdText.map((text, index) => {
+            return this.appendSpace(rowsToPrint[index] || '');
+        });
+
+        return this.createPrintCommand();
+    }
+
+    print(row: number, col: number, print: string): Command {
+        const stringToPrint = this.lcdText[row].split('');
+        let counter = 0;
+        console.log(stringToPrint.length);
+        for (let i = col; i < col + print.length; i += 1) {
+            stringToPrint[i] = print[counter];
+            counter += 1;
         }
-
-         command += USB_COMMAND_TYPES.END_OF_COMMAND;
-
-        return {
-            command,
-            type: COMMAND_TYPE.USB
-        };
+        console.log(stringToPrint.length);
+        this.lcdText[row] = stringToPrint.join('');
+        return this.createPrintCommand();
     }
 
     clear(): Command {
@@ -73,6 +86,17 @@ export class LCDScreen implements  Copy<LCDScreen>, USB {
 
     makeCopy() {
         return new LCDScreen(this.memoryType, this.rows, this.columns);
+    }
+
+    private createPrintCommand(): Command {
+        let command = `${USB_COMMAND_TYPES.MOVE}-${USB_COMMAND_TYPES.LCD}-`;
+
+        command += this.lcdText.join(':') + USB_COMMAND_TYPES.END_OF_COMMAND;
+
+        return {
+            command,
+            type: COMMAND_TYPE.USB
+        };
     }
 }
 

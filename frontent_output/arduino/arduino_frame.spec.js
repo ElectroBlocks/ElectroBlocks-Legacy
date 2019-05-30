@@ -12,7 +12,7 @@ describe('Arduino Frame', () => {
     let lcdscreen = new lcd_screen_1.LCDScreen(lcd_screen_1.LCD_SCREEN_MEMORY_TYPE.OX3F, 4, 20);
     let variables = {};
     let simpleFrame = new arduino_frame_1.ArduinoFrame('23423', variables, [pin, servo], servo.usbCommand(), frameLocation);
-    let complexFrame = new arduino_frame_1.ArduinoFrame('23423', variables, [lcdscreen, pin, servo], lcdscreen.print(['hello', 'world']), frameLocation);
+    let complexFrame = new arduino_frame_1.ArduinoFrame('23423', variables, [lcdscreen, pin, servo], lcdscreen.simplePrint(['hello', 'world']), frameLocation);
     it('should use the last used component to create the next command', () => {
         expect(simpleFrame.nextCommand().command).toBe('M-S-A0:30|');
         expect(complexFrame.nextCommand().command).toBe('M-L-hello               :world               :                    :                    |');

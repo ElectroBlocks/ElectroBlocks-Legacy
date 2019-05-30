@@ -75,5 +75,21 @@ describe('LCD Screen', () => {
         const [frame] = lcd_screen_2.lcd_backlight_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
         expect(frame.nextCommand().command).toBe('M-L-L:1|');
     });
+    it('lcd_screen_print_block it should print', () => {
+        blockGetFieldValueSpy.withArgs('MEMORY_TYPE').and.returnValue(lcd_screen_1.LCD_SCREEN_MEMORY_TYPE.OX3F);
+        getInputValueSpy.withArgs(block, 'ROWS', 2, undefined).and.returnValue(4);
+        getInputValueSpy.withArgs(block, 'COLUMNS', 16, undefined).and.returnValue(20);
+        const [previousFrame] = lcd_screen_2.lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
+        getInputValueSpy.withArgs(lcdBlock, 'ROW_1', '', previousFrame).and.returnValue('Hello');
+        getInputValueSpy.withArgs(lcdBlock, 'ROW_2', '', previousFrame).and.returnValue('World');
+        getInputValueSpy.withArgs(lcdBlock, 'ROW_3', '', previousFrame).and.returnValue('');
+        getInputValueSpy.withArgs(lcdBlock, 'ROW_4', '', previousFrame).and.returnValue('');
+        const [frame] = lcd_screen_2.lcd_screen_simple_print_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
+        getInputValueSpy.withArgs(lcdBlock, 'ROW', 0, previousFrame).and.returnValue(0);
+        getInputValueSpy.withArgs(lcdBlock, 'COLUMN', 0, previousFrame).and.returnValue(0);
+        getInputValueSpy.withArgs(lcdBlock, 'PRINT', '', previousFrame).and.returnValue('World');
+        const [simplePrintScreen] = lcd_screen_2.lcd_screen_print_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
+        expect(simplePrintScreen.nextCommand().command).toBe('M-L-World               :World               :                    :                    |');
+    });
 });
 //# sourceMappingURL=lcd_screen.spec.js.map

@@ -13,7 +13,7 @@ describe('Arduino Frame', () => {
     let lcdscreen = new LCDScreen(LCD_SCREEN_MEMORY_TYPE.OX3F, 4, 20);
     let variables = {};
     let simpleFrame = new ArduinoFrame('23423', variables, [pin, servo], servo.usbCommand(), frameLocation);
-    let complexFrame = new ArduinoFrame('23423', variables, [lcdscreen,pin, servo], lcdscreen.print(['hello', 'world']), frameLocation);
+    let complexFrame = new ArduinoFrame('23423', variables, [lcdscreen,pin, servo], lcdscreen.simplePrint(['hello', 'world']), frameLocation);
 
     it ('should use the last used component to create the next command', () => {
 

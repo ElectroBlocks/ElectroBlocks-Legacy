@@ -30,8 +30,17 @@ export const lcd_setup_block = (block: Block, frameLocation: FrameLocation, prev
 };
 
 export const lcd_screen_print_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
-	// TODO COLUMNS / SET CURSOR WILL BE IMMEDIATE THROUGH SPACING
+	
+	const lcdScreen = previousFrame.components.find(component => component instanceof LCDScreen) as LCDScreen;
 
+	const row = parseInt(getInputValue(block, 'ROW', 0, previousFrame).toString());
+	const column = parseInt(getInputValue(block, 'COLUMN', 0, previousFrame).toString());
+	const print = getInputValue(block, 'PRINT', '', previousFrame).toString();
+	const command = lcdScreen.print(row, column, print);
+
+	return [
+		new ArduinoFrame(block.id, previousFrame.variables, previousFrame.components, command, frameLocation)
+	];
 };
 
 export const lcd_screen_simple_print_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
@@ -46,7 +55,7 @@ export const lcd_screen_simple_print_block = (block: Block, frameLocation: Frame
 
 	const row4 = getInputValue(block, 'ROW_4', '', previousFrame).toString();
 
-	const printCommand = lcdScreen.print([row1, row2, row3, row4]);
+	const printCommand = lcdScreen.simplePrint([row1, row2, row3, row4]);
 
 	return [
 		new ArduinoFrame(block.id, previousFrame.variables, previousFrame.components, printCommand, frameLocation)
