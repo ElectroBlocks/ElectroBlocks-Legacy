@@ -17,12 +17,17 @@ export class TimeCommand implements Command {
 	constructor(public readonly command: string) {}
 
 	public type = COMMAND_TYPE.TIME;
+}
 
-
+export class MessageCommand implements  Command{
+	constructor(public readonly command: string) { }
+	readonly type = COMMAND_TYPE.MESSAGE;
 }
 
 export enum COMMAND_TYPE {
 	USB,
 	TIME,
-	EMPTY
+	EMPTY,
+	MESSAGE,
+	BLUETOOTH_MESSAGE
 }

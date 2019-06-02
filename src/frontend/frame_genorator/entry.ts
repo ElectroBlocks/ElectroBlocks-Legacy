@@ -32,6 +32,10 @@ scrubBar.oninput = function() {
 	framePlayer.skipToFrame(parseInt(scrubBar.value));
 };
 
+framePlayer.message$.subscribe(message => {
+	document.getElementById('last-usb-message').innerHTML = message;
+});
+
 framePlayer.frame$.subscribe((info: {frameNumber: number, frame: ArduinoFrame}) => {
 
 	if (!framePlayer.isPlaying()) {

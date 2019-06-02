@@ -18,7 +18,7 @@ const variables_set_number_block = (block: Block, frameLocation: FrameLocation, 
  * If not available it uses 0
  */
 const variables_get_number_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
-   return parseInt(getVariable(block, 0, previousFrame));
+   return parseFloat(getVariable(block, 0, previousFrame));
 };
 
 /**

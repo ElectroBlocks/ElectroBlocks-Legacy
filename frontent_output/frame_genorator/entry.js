@@ -25,6 +25,9 @@ scrubBar.oninput = function () {
     framePlayer.stop();
     framePlayer.skipToFrame(parseInt(scrubBar.value));
 };
+framePlayer.message$.subscribe(message => {
+    document.getElementById('last-usb-message').innerHTML = message;
+});
 framePlayer.frame$.subscribe((info) => {
     if (!framePlayer.isPlaying()) {
         playBtn.firstElementChild.classList.add('fa-play');

@@ -23,6 +23,13 @@ export class FramePlayer {
 
 	private variableSubject = new BehaviorSubject< { [ key: string ]: Variable }>({ });
 
+	private messageSubject = new BehaviorSubject('');
+
+	public readonly message$ = this.messageSubject.asObservable()
+		.pipe(
+			share()
+		);
+
 	public readonly variables$ = this.variableSubject.asObservable()
 									.pipe(
 										share()
@@ -87,6 +94,10 @@ export class FramePlayer {
 
 					if (frame.command.type == COMMAND_TYPE.USB) {
 						this.frameExecutor.executeCommand(frame.nextCommand().command)
+					}
+
+					if (frame.command.type == COMMAND_TYPE.MESSAGE) {
+						this.messageSubject.next((frame.command.command));
 					}
 				}),
 				tap(frameInfo => {

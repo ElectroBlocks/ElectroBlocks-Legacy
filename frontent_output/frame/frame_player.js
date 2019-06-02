@@ -15,6 +15,9 @@ class FramePlayer {
     constructor(frameExecutor) {
         this.frameExecutor = frameExecutor;
         this.variableSubject = new rxjs_1.BehaviorSubject({});
+        this.messageSubject = new rxjs_1.BehaviorSubject('');
+        this.message$ = this.messageSubject.asObservable()
+            .pipe(operators_1.share());
         this.variables$ = this.variableSubject.asObservable()
             .pipe(operators_1.share());
         this.frameNumberSubject = new rxjs_1.BehaviorSubject(9);
@@ -39,6 +42,9 @@ class FramePlayer {
             }
             if (frame.command.type == command_1.COMMAND_TYPE.USB) {
                 this.frameExecutor.executeCommand(frame.nextCommand().command);
+            }
+            if (frame.command.type == command_1.COMMAND_TYPE.MESSAGE) {
+                this.messageSubject.next((frame.command.command));
             }
         }), operators_1.tap(frameInfo => {
             const block = block_1.get_blockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);

@@ -9,7 +9,7 @@ const variables_set_number_block = (block, frameLocation, previousFrame) => {
 };
 exports.variables_set_number_block = variables_set_number_block;
 const variables_get_number_block = (block, previousFrame) => {
-    return parseInt(getVariable(block, 0, previousFrame));
+    return parseFloat(getVariable(block, 0, previousFrame));
 };
 exports.variables_get_number_block = variables_get_number_block;
 const variables_set_colour_block = (block, frameLocation, previousFrame) => {
