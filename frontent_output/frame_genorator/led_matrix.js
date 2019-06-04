@@ -35,8 +35,8 @@ exports.led_matrix_turn_one_on_off_block = (block, frameLocation, previousFrame)
     const ledMatrixComponent = hasLedMatrix(previousFrame) ?
         previousFrame.components.find(component => component instanceof led_matrix_1.LedMatrix) : new led_matrix_1.LedMatrix();
     const isOn = block.getFieldValue('STATE') === 'ON';
-    const row = parseInt(blockly_helper_1.getInputValue(block, 'ROW', 0, previousFrame).toString());
-    const column = parseInt(blockly_helper_1.getInputValue(block, 'COLUMN', 0, previousFrame).toString());
+    const row = parseInt(blockly_helper_1.getInputValue(block, 'ROW', 1, previousFrame).toString()) - 1;
+    const column = parseInt(blockly_helper_1.getInputValue(block, 'COLUMN', 1, previousFrame).toString()) - 1;
     ledMatrixComponent.setLed(new led_matrix_1.LedInMatrix(isOn, column, row));
     const variables = previousFrame ? previousFrame.variables : {};
     const components = hasLedMatrix(previousFrame) ?

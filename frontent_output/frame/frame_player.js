@@ -18,9 +18,12 @@ class FramePlayer {
         this.messageSubject = new rxjs_1.BehaviorSubject('');
         this.message$ = this.messageSubject.asObservable()
             .pipe(operators_1.share());
+        this.bluetoothMessageSubject = new rxjs_1.BehaviorSubject('');
+        this.bluetoothMessage$ = this.bluetoothMessageSubject.asObservable()
+            .pipe(operators_1.share());
         this.variables$ = this.variableSubject.asObservable()
             .pipe(operators_1.share());
-        this.frameNumberSubject = new rxjs_1.BehaviorSubject(9);
+        this.frameNumberSubject = new rxjs_1.BehaviorSubject(1);
         this.frameNumber$ = this.frameNumberSubject
             .asObservable()
             .pipe(operators_1.share());
@@ -45,6 +48,9 @@ class FramePlayer {
             }
             if (frame.command.type == command_1.COMMAND_TYPE.MESSAGE) {
                 this.messageSubject.next((frame.command.command));
+            }
+            if (frame.command.type == command_1.COMMAND_TYPE.BLUETOOTH_MESSAGE) {
+                this.bluetoothMessageSubject.next((frame.command.command));
             }
         }), operators_1.tap(frameInfo => {
             const block = block_1.get_blockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);

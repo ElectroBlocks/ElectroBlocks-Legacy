@@ -1,14 +1,17 @@
 import { Block } from "../frame/block";
 import { FrameLocation } from "../frame/frame";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { EmptyCommand, MessageCommand } from "../frame/command";
+import { BluetoothCommand, MessageCommand } from "../frame/command";
 import { getInputValue } from "../frame/blockly_helper";
 
 export const send_message_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame):ArduinoFrame[] => {
 
+	const isBluetooth = block.type === 'bt_send_message';
+
 	const message = getInputValue(block, 'MESSAGE', '', previousFrame).toString();
 
-	const command = new MessageCommand(message);
+	const command = isBluetooth ? new BluetoothCommand(message) :
+		new MessageCommand(message);
 
 	if (previousFrame) {
 		return [
@@ -21,3 +24,5 @@ export const send_message_block = (block: Block, frameLocation: FrameLocation, p
 			block.id,{}, [], command, frameLocation
 		)];
 };
+
+export const bt_send_message_block = send_message_block;

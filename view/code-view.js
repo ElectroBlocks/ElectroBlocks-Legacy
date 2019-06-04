@@ -20,7 +20,7 @@ function escapeHTML(s) {
  * @param prettyPrintType {string} The file type key for the pretty printer.
  */
 let attemptCodeGeneration = function (code, prettyPrintType) {
-    var content = document.getElementById('arduino-sketch');
+    const content = document.getElementById('arduino-sketch');
     code = escapeHTML(code);
     content.textContent = code;
     if (typeof PR.prettyPrintOne == 'function') {

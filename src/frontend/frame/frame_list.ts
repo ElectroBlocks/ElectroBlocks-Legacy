@@ -11,7 +11,10 @@ import { move_motor_block } from "../frame_genorator/motor";
 
 import { debug_block } from "../frame_genorator/debug";
 
-import { led_matrix_make_draw_block } from "../frame_genorator/led_matrix";
+import { temp_get_temp_block, ir_remote_scan_again_block,     temp_setup_block,
+    ir_remote_setup_block, soil_sensor_setup_block, bluetooth_setup_block,  } from '../frame_genorator/pass_through_block';
+
+import { led_matrix_make_draw_block, led_matrix_turn_one_on_off_block } from "../frame_genorator/led_matrix";
 
 import { neo_pixel_set_color_block, neo_pixel_setup_block } from "../frame_genorator/neo-pixel";
 
@@ -39,7 +42,8 @@ import {
 } from "../frame_genorator/math";
 
 import {
-    send_message_block
+    send_message_block,
+    bt_send_message_block
 } from '../frame_genorator/message';
 
 import {
@@ -125,6 +129,7 @@ frameGeneratingBlocks = {
     delay_block_block,
 
     send_message_block,
+    bt_send_message_block,
 
     servo_move_block,
 
@@ -136,12 +141,20 @@ frameGeneratingBlocks = {
     neo_pixel_setup_block,
 
     led_matrix_make_draw_block,
+    led_matrix_turn_one_on_off_block,
 
     lcd_backlight_block,
     lcd_screen_blink_block,
     lcd_screen_simple_print_block,
     lcd_setup_block,
-    lcd_screen_clear_block
+    lcd_screen_clear_block,
+
+    temp_get_temp_block,
+    ir_remote_scan_again_block,
+    temp_setup_block,
+    ir_remote_setup_block,
+    soil_sensor_setup_block,
+    bluetooth_setup_block
 };
 
 valueGeneratingBlocks = {

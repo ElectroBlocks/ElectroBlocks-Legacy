@@ -5,6 +5,7 @@ const time_1 = require("../frame_genorator/time");
 const servo_1 = require("../frame_genorator/servo");
 const motor_1 = require("../frame_genorator/motor");
 const debug_1 = require("../frame_genorator/debug");
+const pass_through_block_1 = require("../frame_genorator/pass_through_block");
 const led_matrix_1 = require("../frame_genorator/led_matrix");
 const neo_pixel_1 = require("../frame_genorator/neo-pixel");
 const lcd_screen_1 = require("../frame_genorator/lcd_screen");
@@ -43,17 +44,25 @@ exports.frameGeneratingBlocks = frameGeneratingBlocks = {
     analog_write_block: input_output_1.analog_write_block,
     delay_block_block: time_1.delay_block_block,
     send_message_block: message_1.send_message_block,
+    bt_send_message_block: message_1.bt_send_message_block,
     servo_move_block: servo_1.servo_move_block,
     move_motor_block: motor_1.move_motor_block,
     debug_block: debug_1.debug_block,
     neo_pixel_set_color_block: neo_pixel_1.neo_pixel_set_color_block,
     neo_pixel_setup_block: neo_pixel_1.neo_pixel_setup_block,
     led_matrix_make_draw_block: led_matrix_1.led_matrix_make_draw_block,
+    led_matrix_turn_one_on_off_block: led_matrix_1.led_matrix_turn_one_on_off_block,
     lcd_backlight_block: lcd_screen_1.lcd_backlight_block,
     lcd_screen_blink_block: lcd_screen_1.lcd_screen_blink_block,
     lcd_screen_simple_print_block: lcd_screen_1.lcd_screen_simple_print_block,
     lcd_setup_block: lcd_screen_1.lcd_setup_block,
-    lcd_screen_clear_block: lcd_screen_1.lcd_screen_clear_block
+    lcd_screen_clear_block: lcd_screen_1.lcd_screen_clear_block,
+    temp_get_temp_block: pass_through_block_1.temp_get_temp_block,
+    ir_remote_scan_again_block: pass_through_block_1.ir_remote_scan_again_block,
+    temp_setup_block: pass_through_block_1.temp_setup_block,
+    ir_remote_setup_block: pass_through_block_1.ir_remote_setup_block,
+    soil_sensor_setup_block: pass_through_block_1.soil_sensor_setup_block,
+    bluetooth_setup_block: pass_through_block_1.bluetooth_setup_block
 };
 exports.valueGeneratingBlocks = valueGeneratingBlocks = {
     variables_get_boolean_block: variables_1.variables_get_boolean_block,

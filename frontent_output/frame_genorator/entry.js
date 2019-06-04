@@ -26,7 +26,15 @@ scrubBar.oninput = function () {
     framePlayer.skipToFrame(parseInt(scrubBar.value));
 };
 framePlayer.message$.subscribe(message => {
+    console.log('message', message);
+    if (message.length) {
+        document.getElementById('last-usb-message').style.display = 'none';
+        return;
+    }
+    document.getElementById('last-usb-message').style.display = 'block';
     document.getElementById('last-usb-message').innerHTML = message;
+});
+framePlayer.bluetoothMessage$.subscribe(message => {
 });
 framePlayer.frame$.subscribe((info) => {
     if (!framePlayer.isPlaying()) {

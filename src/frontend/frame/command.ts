@@ -24,6 +24,11 @@ export class MessageCommand implements  Command{
 	readonly type = COMMAND_TYPE.MESSAGE;
 }
 
+export class BluetoothCommand implements Command{
+	constructor(public readonly command: string) { }
+	readonly type = COMMAND_TYPE.BLUETOOTH_MESSAGE;
+}
+
 export enum COMMAND_TYPE {
 	USB,
 	TIME,

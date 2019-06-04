@@ -21,6 +21,13 @@ class MessageCommand {
     }
 }
 exports.MessageCommand = MessageCommand;
+class BluetoothCommand {
+    constructor(command) {
+        this.command = command;
+        this.type = COMMAND_TYPE.BLUETOOTH_MESSAGE;
+    }
+}
+exports.BluetoothCommand = BluetoothCommand;
 var COMMAND_TYPE;
 (function (COMMAND_TYPE) {
     COMMAND_TYPE[COMMAND_TYPE["USB"] = 0] = "USB";

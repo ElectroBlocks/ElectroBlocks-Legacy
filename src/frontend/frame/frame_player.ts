@@ -30,12 +30,19 @@ export class FramePlayer {
 			share()
 		);
 
+	private bluetoothMessageSubject = new BehaviorSubject('');
+
+	public readonly bluetoothMessage$ = this.bluetoothMessageSubject.asObservable()
+		.pipe(
+			share()
+		);
+
 	public readonly variables$ = this.variableSubject.asObservable()
 									.pipe(
 										share()
 									);
 
-	private frameNumberSubject = new BehaviorSubject(9);
+	private frameNumberSubject = new BehaviorSubject(1);
 
 	public readonly frameNumber$ = this.frameNumberSubject
 										.asObservable()
@@ -98,6 +105,10 @@ export class FramePlayer {
 
 					if (frame.command.type == COMMAND_TYPE.MESSAGE) {
 						this.messageSubject.next((frame.command.command));
+					}
+
+					if (frame.command.type == COMMAND_TYPE.BLUETOOTH_MESSAGE) {
+						this.bluetoothMessageSubject.next((frame.command.command));
 					}
 				}),
 				tap(frameInfo => {
