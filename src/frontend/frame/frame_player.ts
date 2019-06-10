@@ -1,310 +1,263 @@
+import { ExecuteFrameInterface } from "./frame_execute";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { COMMAND_TYPE } from "./command";
-import { ipcRenderer } from 'electron';
-import { BehaviorSubject, Observable, Subject } from "rxjs";
-import { delayWhen, filter, map, share, tap } from "rxjs/operators";
-import { get_blockly } from "./block";
+import * as  BluebirdPromise   from 'bluebird';
+import { Subject } from "rxjs";
 import { FrameLocation } from "./frame";
-import { timer } from "rxjs/observable/timer";
-import { Variable } from "./variable";
+import {  share } from "rxjs/operators";
+import { FrameOutput } from "./frame_output";
 
-
-export enum FrameExecutionType {
-	DIRECT,
-	NEXT
-}
-
-export interface FrameType {
-	frame: ArduinoFrame;
-	type: FrameExecutionType
-}
-
+/**
+ *
+ */
 export class FramePlayer {
 
-	private variableSubject = new BehaviorSubject< { [ key: string ]: Variable }>({ });
-
-	private messageSubject = new BehaviorSubject('');
-
-	public readonly message$ = this.messageSubject.asObservable()
-		.pipe(
-			share()
-		);
-
-	private bluetoothMessageSubject = new BehaviorSubject('');
-
-	public readonly bluetoothMessage$ = this.bluetoothMessageSubject.asObservable()
-		.pipe(
-			share()
-		);
-
-	public readonly variables$ = this.variableSubject.asObservable()
-									.pipe(
-										share()
-									);
-
-	private frameNumberSubject = new BehaviorSubject(1);
-
-	public readonly frameNumber$ = this.frameNumberSubject
-										.asObservable()
-										.pipe(
-											share()
-										);
-
 	/**
-	 * The location that frame is at
+	 * Used to control the speed. The higher the speed the lower the delay
+	 * The faster the blocks will execute.
 	 */
-	private frameLocation: FrameLocation|undefined = undefined;
+	public speed = 1;
 
 	/**
-	 * The subject that controls the next frame.
+	 * The subject used to pipe change frame events
 	 */
-	private readonly frameSubject = new Subject<FrameType>();
+	private changeFrameSubject = new Subject<FrameOutput>();
 
 	/**
-	 * True if observable should continue to play
+	 * Used to output changed frame events so that ui and other things can be updated.
 	 */
-	private playFrame = false;
+	public readonly changeFrame$ = this.changeFrameSubject
+		.asObservable()
+		.pipe(share());
 
 	/**
-	 * True if it should only execute on frame
+	 * Current location, used to go as close to where the user was if new frames are created.
 	 */
-	private executeOnce = false;
+	private currentFrameLocation: FrameLocation;
 
 	/**
-	 * The current frame in the list that the observable is on
-	 */
-	private currentFrame = 0;
-
-	/**
-	 * The number to the delay by when executing frames
-	 */
-	private delayDivider = 1;
-
-	/**
-	 *  A list of Arduino frames the player has to play
+	 * List of frames for the player to execute
 	 */
 	private frames: ArduinoFrame[] = [];
 
-	public readonly frame$: Observable<{frameNumber: number, frame: ArduinoFrame}> =
-		this.frameSubject
-			.asObservable()
-			.pipe(
-				filter(() => this.executeOnce || this.playFrame),
-				filter(() => this.frames.length > 0),
-				tap(frameType => {
-					const frame = frameType.frame;
-					this.frameNumberSubject.next(this.currentFrame);
-					this.variableSubject.next(frameType.frame.variables);
-					if (frameType.type == FrameExecutionType.DIRECT || this.currentFrame === 0) {
-						this.frameExecutor.executeCommand(frame.setupCommandUSB().command)
-					}
-
-					if (frame.command.type == COMMAND_TYPE.USB) {
-						this.frameExecutor.executeCommand(frame.nextCommand().command)
-					}
-
-					if (frame.command.type == COMMAND_TYPE.MESSAGE) {
-						this.messageSubject.next((frame.command.command));
-					}
-
-					if (frame.command.type == COMMAND_TYPE.BLUETOOTH_MESSAGE) {
-						this.bluetoothMessageSubject.next((frame.command.command));
-					}
-				}),
-				tap(frameInfo => {
-					const block =
-						get_blockly().mainWorkspace.getBlockById(frameInfo.frame.blockId);
-					if (block) {
-						block.select();
-					}
-				}),
-				delayWhen(frameInfo => {
-
-					let time = 400 / this.delayDivider;
-
-					if (frameInfo.frame.command.type === COMMAND_TYPE.TIME) {
-						time= parseInt(frameInfo.frame.command.command);
-					}
-
-					// Max delay is 3 seconds
-					return timer(time > 3000 ? 3000: time);
-				}),
-				tap(() => this.executeOnce = false),
-				map((frame: FrameType) => {
-					return {
-						frameNumber: this.currentFrame,
-						frame: frame.frame
-					}
-				}),
-				tap(() => {
-					if (this.playFrame && this.currentFrame != this.frames.length -1) {
-						this.currentFrame += 1;
-						this.play();
-					}
-				}),
-				tap(frameInfo => {
-					this.frameLocation = frameInfo.frame.frameLocation;
-				})
-			);
-
-
-	constructor( private frameExecutor: ExecuteFrameInterface ) {}
-
-	public setDelayDivider(divider: number) {
-		this.delayDivider = divider;
-	}
+	/**
+	 * Whether or not playing in play mode
+	 */
+	private playing = false;
 
 	/**
-	 * Sets the Arduino Frames for the Player
+	 * The current frame being executed
+	 */
+	private currentFrame = 0;
+
+	constructor(private frameExecutor: ExecuteFrameInterface) { }
+
+	/**
+	 * Sets the list of frames to execute
+	 * 
 	 * @param frames
 	 */
 	public setFrames(frames: ArduinoFrame[]) {
+		this.playing = false;
 		this.frames = frames;
 
-		if (!this.frameLocation || this.frameLocation.location == 'setup') {
-			this.currentFrame = 0;
-			this.frameNumberSubject.next(0);
-			this.previous();
-			return;
+		if (!this.currentFrameLocation) {
+			this.currentFrameLocation = this.frames[0].frameLocation;
 		}
 
-		const iteration = this.frameLocation.iteration;
-		let index = 0;
+		const currentFrame = this.frames
+			.findIndex(frame => frame.frameLocation == this.currentFrameLocation);
 
-		for (let i = 0; i < frames.length; i += 1) {
-			const currentFrame = frames[i];
-
-			if (currentFrame.frameLocation.location !== 'setup' && currentFrame.frameLocation.iteration == iteration) {
-				index = i;
-				break;
-			}
-
-		}
-
-		if (index === 0) {
-			this.currentFrame = 0;
-			this.frameNumberSubject.next(0)
-			this.previous();
-			return;
-		}
-
-
-		this.currentFrame = index -1;
-		this.frameNumberSubject.next(0);
-
-		this.next()
+		this.currentFrame = currentFrame < 0 ? 0 : currentFrame;
 	}
 
+	/**
+	 * Starts playing all the frames
+	 */
+	public async play() {
+		this.playing = true;
+		await this.playNextFrame();
+	}
 
 	/**
-	 * Plays the currentFrame in the list of frames.
+	 * Stops the player from continuing to execute frames
 	 */
-	public play(triggerByUser = false) {
+	public async stop() {
+		this.playing = false;
+	}
 
-		if (triggerByUser && this.currentFrame >= this.frames.length -1) {
+	/**
+	 * Returns true if it's on the last frame
+	 */
+	public isLastFrame() {
+		return this.currentFrame >= this.lastFrameNumber();
+	}
+
+	/**
+	 * Returns true if the player is playing
+	 */
+	public isPlaying() {
+		return this.playing;
+	}
+
+	/**
+	 * Returns the index of the last frame it will play
+	 */
+	public lastFrameNumber() {
+		return this.frames.length - 1
+	}
+
+	/**
+	 * Goes back one frames and stops the playing
+	 */
+	public async previous() {
+		this.currentFrame -= 1;
+		this.currentFrame = this.currentFrame < 0 ? 0 : this.currentFrame;
+		this.playing = false;
+		await this.playNextFrame();
+	}
+
+	/**
+	 * Goes to the next frame and stop playing
+	 */
+	public async next() {
+		this.currentFrame += 1;
+		this.currentFrame = this.currentFrame > this.lastFrameNumber() ?
+				this.lastFrameNumber() : this.currentFrame;
+		this.playing = false;
+		await this.playNextFrame();
+	}
+
+	/**
+	 * Skips to the frame the frame index and stops playing
+	 * 
+	 * @param frameNumber
+	 */
+	public async skipToFrame(frameNumber: number) {
+		this.playing = false;
+		this.currentFrame = frameNumber < 0 ? 0: frameNumber;
+		this.currentFrame = this.currentFrame >= this.lastFrameNumber() ?
+				this.lastFrameNumber() : this.currentFrame;
+
+		await this.executeFrame(true);
+	}
+
+	/**
+	 * A recursive method that will continue to execute all the frames until
+	 * It reaches the last one.
+	 *
+	 * It's recursive because we won't always be starting from 0.
+	 */
+	private async playNextFrame() {
+		await this.executeFrame(this.currentFrame === 0);
+
+		if (this.playing && !this.isLastFrame()) {
+			this.currentFrame += 1;
+			await this.playNextFrame();
+			return;
+		}
+
+		if (this.playing && this.isLastFrame()) {
 			this.currentFrame = 0;
+			this.playing = false;
 		}
+	}
 
-		if (this.frames.length == 0) {
+	/**
+	 * Executes the frames
+	 *
+	 * 1) Determining if the frame exists, so that it can be executed
+	 * 2) Sends a message up to be executed by node -> usb or something else
+	 * 3) Sends another message through the observable
+	 * 4) Delays the next frame by a number of milliseconds.
+	 */
+	private async executeFrame( runSetup: boolean) {
+
+		if (this.canExecuteFrame()) {
+			this.playing = false;
 			return;
 		}
 
-		if (this.currentFrame >= this.frames.length) {
-			this.currentFrame = 0; // Reset back to zero
-		}
+		this.setFrameLocation();
 
-		const frame = this.frames[ this.currentFrame ];
+		this.sendMessage(runSetup);
 
-		if (!frame) {
-			return;
-		}
+		this.sendFrameOutput();
+		
+		await this.delay();
+	}
 
-		this.playFrame = true;
-		this.frameSubject.next( {
-			frame,
-			type: FrameExecutionType.NEXT
+	/**
+	 * Creates a FrameOutput interface object.
+	 * Right now this is used in observers to update the ui
+	 */
+	private sendFrameOutput() {
+		const frame = this.frames[this.currentFrame];
+
+		const usbMessage = frame.command.type == COMMAND_TYPE.MESSAGE ?
+			frame.command.command : '';
+
+		const bluetoothMessage = frame.command.type == COMMAND_TYPE.BLUETOOTH_MESSAGE ?
+			frame.command.command : '';
+
+		this.changeFrameSubject.next( { 
+			frameNumber: this.currentFrame, 
+			usbMessage, 
+			bluetoothMessage, 
+			variables: frame.variables, 
+			frameLocation: frame.frameLocation, 
+			lastFrame: this.isLastFrame(),
+			blockId: frame.blockId 
 		});
 	}
 
-	public isPlaying(): boolean {
-		return this.playFrame;
-	}
-
-	public onLastFrame() {
-		return this.currentFrame == this.frames.length - 1;
-	}
-
-	public next() {
-		if (this.frames.length == 0) {
-			return;
-		}
-
-		this.executeOnce = true;
-		this.currentFrame =
-			this.currentFrame == this.frames.length - 1 ?
-				this.currentFrame : this.currentFrame + 1;
-
-		this.skipToFrame(this.currentFrame);
-	}
-
-	public previous() {
-		if (this.frames.length == 0) {
-			return;
-		}
-		this.executeOnce = true;
-		this.currentFrame = this.currentFrame <= 0 ? 0 : this.currentFrame -1;
-		this.skipToFrame(this.currentFrame);
+	/**
+	 * Sets the location of where block last frame is being executes
+	 * Example We gone through loop block 2 times.
+	 */
+	private setFrameLocation() {
+		this.currentFrameLocation = this.frames[this.currentFrame].frameLocation;
 	}
 
 	/**
-	 * Signals a stop for the frames observable
+	 * Sends the messages up to node / electron or somewhere else.
+	 *
+	 * @param runSetup
 	 */
-	public stop() {
+	private sendMessage(runSetup: boolean) {
 
-		if (this.frames.length == 0) {
-			return;
+		const frame = this.frames[this.currentFrame];
+
+		if (runSetup) {
+			this.frameExecutor.executeCommand( frame.setupCommandUSB().command )
 		}
 
-		this.playFrame = false;
+		if (frame.command.type == COMMAND_TYPE.USB) {
+			this.frameExecutor.executeCommand( frame.nextCommand().command )
+		}
 	}
 
 	/**
-	 * Skips to the frame number
+	 * Delays the going to the next frame
 	 */
-	public skipToFrame(frameNumber: number) {
-		this.executeOnce = true;
-		this.playFrame = false;
-		this.currentFrame = frameNumber;
-		this.frameSubject.next( {
-			frame: this.frames[ this.currentFrame ],
-			type: FrameExecutionType.DIRECT
-		});
+	private async delay() {
+		const command = this.frames[this.currentFrame].command;
+
+		let time = 400 / this.speed;
+
+		if (command.type === COMMAND_TYPE.TIME) {
+			time = parseInt(command.command);
+		}
+
+		await BluebirdPromise.delay(time);
 	}
 
-}
-
-export class ExecuteUSBFrame implements ExecuteFrameInterface {
-
-
-	constructor() {}
-
-	public executeCommand(command: string) {
-		ipcRenderer.send('send:message', command);
+	/**
+	 * Returns true if the frame can be executed.
+	 */
+	private canExecuteFrame() {
+		return this.frames.length == 0 || !this.frames[this.currentFrame];
 	}
-
-
-
 }
 
-export class ExecuteDebugFrame implements ExecuteFrameInterface {
-	executeCommand( command: string ): void {
-		console.log(command, 'USB COMMAND');
-	}
 
-
-}
-
-export interface ExecuteFrameInterface {
-
-	executeCommand(command: string): void;
-}

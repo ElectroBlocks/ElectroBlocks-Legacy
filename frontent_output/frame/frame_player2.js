@@ -9,16 +9,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const command_1 = require("./command");
+const block_1 = require("./block");
 const BluebirdPromise = require("bluebird");
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
-class FramePlayer {
+class FramePlayer2 {
     constructor(frameExecutor) {
         this.frameExecutor = frameExecutor;
-        this.speed = 1;
+        this.delayDivider = 1;
         this.changeFrameSubject = new rxjs_1.Subject();
-        this.changeFrame$ = this.changeFrameSubject
-            .asObservable()
+        this.changeFrame$ = this.changeFrameSubject.asObservable()
             .pipe(operators_1.share());
         this.frames = [];
         this.playing = false;
@@ -96,57 +96,33 @@ class FramePlayer {
     }
     executeFrame(runSetup) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (this.canExecuteFrame()) {
+            if (this.frames.length == 0) {
                 this.playing = false;
                 return;
             }
-            this.setFrameLocation();
-            this.sendMessage(runSetup);
-            this.sendFrameOutput();
-            yield this.delay();
-        });
-    }
-    sendFrameOutput() {
-        const frame = this.frames[this.currentFrame];
-        const usbMessage = frame.command.type == command_1.COMMAND_TYPE.MESSAGE ?
-            frame.command.command : '';
-        const bluetoothMessage = frame.command.type == command_1.COMMAND_TYPE.BLUETOOTH_MESSAGE ?
-            frame.command.command : '';
-        this.changeFrameSubject.next({
-            frameNumber: this.currentFrame,
-            usbMessage,
-            bluetoothMessage,
-            variables: frame.variables,
-            frameLocation: frame.frameLocation,
-            lastFrame: this.isLastFrame(),
-            blockId: frame.blockId
-        });
-    }
-    setFrameLocation() {
-        this.currentFrameLocation = this.frames[this.currentFrame].frameLocation;
-    }
-    sendMessage(runSetup) {
-        const frame = this.frames[this.currentFrame];
-        if (runSetup) {
-            this.frameExecutor.executeCommand(frame.setupCommandUSB().command);
-        }
-        if (frame.command.type == command_1.COMMAND_TYPE.USB) {
-            this.frameExecutor.executeCommand(frame.nextCommand().command);
-        }
-    }
-    delay() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const command = this.frames[this.currentFrame].command;
-            let time = 400 / this.speed;
-            if (command.type === command_1.COMMAND_TYPE.TIME) {
-                time = parseInt(command.command);
+            const frame = this.frames[this.currentFrame];
+            if (runSetup) {
+                this.frameExecutor.executeCommand(frame.setupCommandUSB().command);
+            }
+            if (frame.command.type == command_1.COMMAND_TYPE.USB) {
+                this.frameExecutor.executeCommand(frame.nextCommand().command);
+            }
+            const usbMessage = frame.command.type == command_1.COMMAND_TYPE.MESSAGE ?
+                frame.command.command : '';
+            const bluetoothMessage = frame.command.type == command_1.COMMAND_TYPE.BLUETOOTH_MESSAGE ?
+                frame.command.command : '';
+            this.changeFrameSubject.next({ frameNumber: this.currentFrame, usbMessage, bluetoothMessage, variables: frame.variables, frameLocation: frame.frameLocation, lastFrame: this.isLastFrame() });
+            const block = block_1.get_blockly().mainWorkspace.getBlockById(frame.blockId);
+            if (block) {
+                block.select();
+            }
+            let time = 400 / this.delayDivider;
+            if (frame.command.type === command_1.COMMAND_TYPE.TIME) {
+                time = parseInt(frame.command.command);
             }
             yield BluebirdPromise.delay(time);
         });
     }
-    canExecuteFrame() {
-        return this.frames.length == 0 || !this.frames[this.currentFrame];
-    }
 }
-exports.FramePlayer = FramePlayer;
-//# sourceMappingURL=frame_player.js.map
+exports.FramePlayer2 = FramePlayer2;
+//# sourceMappingURL=frame_player2.js.map
