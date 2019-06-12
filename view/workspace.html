@@ -41,7 +41,7 @@
             /*background-color: #4CAF50 !important;*/
         /*}*/
 
-        #debug-menu {
+        #variable-menu {
             max-height: 250px;
             position: absolute;
             /* bottom: 0; */
@@ -56,16 +56,16 @@
             overflow: hidden;
         }
 
-        #debug-menu .icon-bar #continue-btn {
+        #variable-menu .icon-bar #continue-btn {
             cursor: pointer;
         }
 
-        #debug-menu h2 {
+        #variable-menu h2 {
             display: inline-block;
             margin-left: 30px;
         }
 
-        #debug-menu p {
+        #variable-menu p {
             margin-left: 20px;
         }
 
@@ -199,7 +199,7 @@
     <a id="upload-code-btn" class="disable" ><i id="upload-code-icon" class="fa fa-play"></i></a>
     <a id="serial-monitor" class="disable"><i class="fa fa-commenting"></i></a>
     <a id="debug-btn" href="#"><i class="fa fa-bug"></i></a>
-    <a id="debug-video" href="#"><i class="fa fa-video-camera"></i></a>
+    <a id="debug-video-btn" href="#"><i class="fa fa-video-camera"></i></a>
 </div>
 
 
@@ -633,9 +633,9 @@
         <input id="loop-times" type="number" min="1" max="100" value="3" />
     </div>
 </div>
-<div id="debug-menu" style="display: none;">
+<div id="variable-menu" style="display: none;">
     <div class="icon-bar icon-bar-bottom">
-        <h2>Debug Menu</h2>
+        <h2>Variables</h2>
         <a id="continue-btn"><i class="fa fa-forward"></i></a>
     </div>
     <table id="debug-table">
@@ -650,17 +650,15 @@
 
         </tbody>
     </table>
-        <p>
-            <strong>Arduino To Computer:</strong> <span id="last-usb-message" ></span>
-        </p>
 </div>
+
+
 
 <script type="text/javascript" src="blockly/blockly_compressed.js"></script>
 <script type="text/javascript" src="blockly/blocks_compressed.js"></script>
 <script type="text/javascript" src="blockly/arduino_compressed.js"></script>
 <script type="text/javascript" src="blockly/msg/js/en.js"></script>
 <script type="text/javascript" src="flyout_menus.js"></script>
-
 
 <script src="workspace.js"></script>
 

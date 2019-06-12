@@ -1,4 +1,4 @@
-import { ExecuteFrameInterface } from "./frame_execute";
+import { ExecuteDebugFrame, ExecuteFrameInterface } from "./frame_execute";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { COMMAND_TYPE } from "./command";
 import * as  BluebirdPromise   from 'bluebird';
@@ -114,7 +114,7 @@ export class FramePlayer {
 		this.currentFrame -= 1;
 		this.currentFrame = this.currentFrame < 0 ? 0 : this.currentFrame;
 		this.playing = false;
-		await this.playNextFrame();
+		await this.executeFrame(this.currentFrame == 0);
 	}
 
 	/**
@@ -125,7 +125,7 @@ export class FramePlayer {
 		this.currentFrame = this.currentFrame > this.lastFrameNumber() ?
 				this.lastFrameNumber() : this.currentFrame;
 		this.playing = false;
-		await this.playNextFrame();
+		await this.executeFrame(this.currentFrame == 0);
 	}
 
 	/**
@@ -261,3 +261,4 @@ export class FramePlayer {
 }
 
 
+export const framePlayer = new FramePlayer(new ExecuteDebugFrame());

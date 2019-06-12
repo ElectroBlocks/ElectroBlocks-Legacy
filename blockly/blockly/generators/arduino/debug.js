@@ -4,7 +4,7 @@ goog.provide('Blockly.Arduino.debug');
 
 goog.require('Blockly.Arduino');
 
-var VARIABLE_TYPES = ['double', 'String', 'bool'];
+var VARIABLE_TYPES = ['Number', 'String', 'Boolean'];
 
 Blockly.Arduino['debug'] = function(block) {
 
@@ -47,7 +47,7 @@ function createDebugVariable() {
             debugString +=
                 '\t\tSerial.println("**(|)' + allVariables[i].name + '_|_' + allVariables[i].type + '_|_" +';
 
-            if (allVariables[i].type == 'double') {
+            if (allVariables[i].type === 'double') {
                 debugString += 'double2string(' + allVariables[i].name + ', 5));\n';
                 continue;
             }
@@ -56,13 +56,39 @@ function createDebugVariable() {
             continue;
         }
 
-        debugString += '\t\tSerial.println("**(|)' + allVariables.name + '_|_'
-            +  'An Array of ' + allVariables[i].type + 's size => size('
-            + allVariables.name + ')_|_" +' + 'printArray'  + allVariables[i].type.replace(' ', '') + '(' + allVariables[i].name + ', ' + size + ')); \n';
+
+        debugString += '\t\tSerial.println("**(|)' + allVariables[i].name + '_|_'
+            +  'An Array of ' + allVariables[i].type + 's size => ' + getArrayVariableSize(allVariables[i]) + '_|_" +' + 'printArray'  + allVariables[i].type.replace(' ', '') + '(' + allVariables[i].name + ','
+            + getArrayVariableSize(allVariables[i]) + ')); \n';
 
     }
 
     return debugString;
+}
+
+function getArrayVariableSize(variable) {
+    const variableId = variable.getId();
+    let blockType = '';
+    if (variable.type === 'List String') {
+        blockType = 'create_list_string_block';
+    } else if (variable.type === 'List Number') {
+        blockType = 'create_list_number_block';
+    } else if (variable.type === 'List Boolean') {
+        blockType = 'create_list_boolean_block';
+    } else if (variable.type === 'List Colour') {
+        blockType = 'create_list_colour_block';
+    }
+
+    const block = Blockly.mainWorkspace
+        .getBlocksByType(blockType, true)
+        .find(block => block.getFieldValue('VAR') === variableId);
+
+    if (!block) {
+        return 1;
+    }
+
+    return block.getFieldValue('SIZE');
+
 }
 
 function createPrintArrayFuncInC(type)
@@ -70,10 +96,10 @@ function createPrintArrayFuncInC(type)
     var func ='String printArrayREPLATEWITHTYPE(REPLATEWITHTYPE arr[], int sizeOfArray) {' +
         '\t\tString returnValue = "[";' +
         '\t\tfor (unsigned int i = 0; i < sizeOfArray; i += 1) {\n';
-    if (type.toLowerCase() == 'double') {
+    if (type.toLowerCase() == 'Number') {
         func += '\t\treturnValue +=  double2string(arr[i], 5);\n';
     }
-    else if (type.toLowerCase() == 'bool') {
+    else if (type.toLowerCase() == 'Boolean') {
         func += '\t\treturnValue += arr[i] ? "TRUE" : "False"; \n'
     }
     else {

@@ -8,88 +8,42 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const frame_execute_1 = require("../frame/frame_execute");
-const frame_player_1 = require("../frame/frame_player");
-const generate_frame_1 = require("../frame/generate_frame");
 const block_1 = require("../frame/block");
-const operators_1 = require("rxjs/operators");
-const debugTbody = document.getElementById('debug-tbody');
-const videoDebug = document.getElementById('debug-video');
-const scrubBar = document.getElementById('scrub-bar');
-const sliderContainer = document.getElementById('slide-container');
-const videoContainer = document.getElementById('video-controls-container');
-const inputNumberOfFrames = document.getElementById('loop-times');
+const generate_frame_1 = require("../frame/generate_frame");
+const frame_player_1 = require("../frame/frame_player");
 const debugBtn = document.getElementById('debug-btn');
+const scrubBar = document.getElementById('scrub-bar');
+const videoDebugBtn = document.getElementById('debug-video-btn');
+const loopTimesInput = document.getElementById('loop-times');
+const speedSlider = document.getElementById('speed');
+const videoContainer = document.getElementById('video-controls-container');
+const sliderContainer = document.getElementById('slide-container');
 const continueBtn = document.getElementById('continue-btn');
 const variableMenu = document.getElementById('variable-menu');
-const framePlayer = new frame_player_1.FramePlayer(new frame_execute_1.ExecuteDebugFrame());
 const playBtn = document.getElementById('video-debug-play');
 const backwardBtn = document.getElementById('video-debug-backward');
 const forwardBtn = document.getElementById('video-debug-forward');
-const blocklyDiv = document.getElementById('content-blocks');
-const speedSlider = document.getElementById('speed');
 speedSlider.onchange = () => {
-    framePlayer.speed = parseInt(speedSlider.value);
+    frame_player_1.framePlayer.speed = parseInt(speedSlider.value) || 0;
 };
 scrubBar.oninput = (e) => __awaiter(this, void 0, void 0, function* () {
     playBtn.firstElementChild.classList.add('fa-play');
     playBtn.firstElementChild.classList.remove('fa-stop');
-    yield framePlayer.skipToFrame(parseInt(scrubBar.value));
+    yield frame_player_1.framePlayer.skipToFrame(parseInt(scrubBar.value));
 });
-framePlayer.changeFrame$.pipe(operators_1.map(frameOutput => frameOutput.blockId), operators_1.tap(blockId => {
-    const block = block_1.get_blockly().mainWorkspace.getBlockById(blockId);
-    if (block) {
-        block.select();
-    }
-})).subscribe();
-framePlayer.changeFrame$.pipe(operators_1.filter(frameOutput => frameOutput.lastFrame), operators_1.tap(() => {
-    playBtn.firstElementChild.classList.add('fa-play');
-    playBtn.firstElementChild.classList.remove('fa-stop');
-})).subscribe();
-framePlayer.changeFrame$
-    .pipe(operators_1.map(frameOutput => frameOutput.frameNumber), operators_1.tap(frameNumber => {
-    scrubBar.value = frameNumber.toString();
-}))
-    .subscribe();
-framePlayer.changeFrame$
-    .pipe(operators_1.tap(frameOutput => {
-    if (frameOutput.usbMessage.length > 0) {
-        alert(`Arduino Say: ${frameOutput.usbMessage}`);
-    }
-}), operators_1.tap(frameOutput => {
-    if (frameOutput.bluetoothMessage.length > 0) {
-        alert(`Bluetooth Say: ${frameOutput.bluetoothMessage}`);
-    }
-}))
-    .subscribe();
-framePlayer.changeFrame$.pipe(operators_1.map(frameOutput => frameOutput.variables), operators_1.map(variables => {
-    let tbody = '';
-    Object.keys(variables).forEach(key => {
-        const value = variables[key].type.toString().indexOf('List') === -1 ?
-            variables[key].value : `[${variables[key].value}]`;
-        tbody += '<tr>';
-        tbody += '<td>' + variables[key].name + '</td>';
-        tbody += '<td>' + variables[key].type + '</td>';
-        tbody += '<td>' + value + '</td>';
-        tbody += '</tr>';
-    });
-    return tbody;
-}), operators_1.tap(tbody => {
-    debugTbody.innerHTML = tbody;
-})).subscribe();
-videoDebug.addEventListener('click', () => __awaiter(this, void 0, void 0, function* () {
+videoDebugBtn.addEventListener('click', () => __awaiter(this, void 0, void 0, function* () {
     if (sliderContainer.style.display === 'block') {
         sliderContainer.style.display = 'none';
         videoContainer.style.display = 'none';
-        videoDebug.classList.remove('active');
+        videoDebugBtn.classList.remove('active');
         toggleDebugBlocks(false);
         resizeListener();
         toggleDebugViewer();
         return;
     }
     yield exports.setupVideoPlayer();
-    yield framePlayer.skipToFrame(0);
-    videoDebug.classList.add('active');
+    yield frame_player_1.framePlayer.skipToFrame(0);
+    videoDebugBtn.classList.add('active');
     sliderContainer.style.display = 'block';
     videoContainer.style.display = 'block';
     toggleDebugBlocks(true);
@@ -98,14 +52,17 @@ videoDebug.addEventListener('click', () => __awaiter(this, void 0, void 0, funct
     resizeListener();
 }));
 function resizeListener() {
+    const blocklyDiv = document.getElementById('content-blocks');
     blocklyDiv.style.height =
         (document.getElementsByTagName('body')[0].clientHeight - document.getElementById('top-menu').clientHeight - (videoContainer.clientHeight + sliderContainer.clientHeight)).toString() + "px";
     block_1.get_blockly().svgResize(block_1.get_blockly().mainWorkspace);
 }
-const toggleDebugBlocks = (on) => {
+const toggleDebugBlocks = (showInputDebugBlocks) => {
     const blocks = block_1.get_blockly().mainWorkspace.getAllBlocks();
-    blocks.filter(block => block.hasOwnProperty('defaultDebugValue')).forEach((block) => {
-        if (on) {
+    blocks.filter(block => block
+        .hasOwnProperty('defaultDebugValue'))
+        .forEach((block) => {
+        if (showInputDebugBlocks) {
             block.debugModeOn();
             return;
         }
@@ -113,15 +70,15 @@ const toggleDebugBlocks = (on) => {
     });
 };
 exports.setupVideoPlayer = () => __awaiter(this, void 0, void 0, function* () {
-    yield framePlayer.stop();
-    const frames = generate_frame_1.generateListOfFrame(parseInt(inputNumberOfFrames.value));
+    yield frame_player_1.framePlayer.stop();
+    const frames = generate_frame_1.generateListOfFrame(parseInt(loopTimesInput.value));
     if (frames.length == 0) {
         disablePlayerUI();
         return;
     }
     scrubBar.setAttribute('min', '0');
     scrubBar.setAttribute('max', (frames.length - 1).toString());
-    framePlayer.setFrames(frames);
+    frame_player_1.framePlayer.setFrames(frames);
     enablePlayerUI();
 });
 const disablePlayerUI = () => {
@@ -139,25 +96,25 @@ const enablePlayerUI = () => {
     scrubBar.disabled = false;
 };
 playBtn.addEventListener('click', () => __awaiter(this, void 0, void 0, function* () {
-    if (framePlayer.isPlaying() && !framePlayer.isLastFrame()) {
+    if (frame_player_1.framePlayer.isPlaying() && !frame_player_1.framePlayer.isLastFrame()) {
         playBtn.firstElementChild.classList.add('fa-play');
         playBtn.firstElementChild.classList.remove('fa-stop');
-        yield framePlayer.stop();
+        yield frame_player_1.framePlayer.stop();
         return;
     }
     playBtn.firstElementChild.classList.remove('fa-play');
     playBtn.firstElementChild.classList.add('fa-stop');
-    yield framePlayer.play();
+    yield frame_player_1.framePlayer.play();
 }));
 forwardBtn.addEventListener('click', () => __awaiter(this, void 0, void 0, function* () {
     playBtn.firstElementChild.classList.add('fa-play');
     playBtn.firstElementChild.classList.remove('fa-stop');
-    yield framePlayer.next();
+    yield frame_player_1.framePlayer.next();
 }));
 backwardBtn.addEventListener('click', () => __awaiter(this, void 0, void 0, function* () {
     playBtn.firstElementChild.classList.add('fa-play');
     playBtn.firstElementChild.classList.remove('fa-stop');
-    yield framePlayer.previous();
+    yield frame_player_1.framePlayer.previous();
 }));
 const toggleDebugViewer = () => {
     if (debugBtn.classList.contains('active')) {
@@ -175,10 +132,10 @@ const toggleDebugViewer = () => {
         continueBtn.style.display = 'none';
     }
 };
-inputNumberOfFrames.onchange = () => __awaiter(this, void 0, void 0, function* () {
+loopTimesInput.onchange = () => __awaiter(this, void 0, void 0, function* () {
     yield exports.setupVideoPlayer();
 });
 debugBtn.addEventListener('click', () => {
     toggleDebugViewer();
 });
-//# sourceMappingURL=entry.js.map
+//# sourceMappingURL=player-buttons.listeners.js.map

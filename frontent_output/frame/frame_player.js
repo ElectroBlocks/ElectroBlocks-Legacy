@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const frame_execute_1 = require("./frame_execute");
 const command_1 = require("./command");
 const BluebirdPromise = require("bluebird");
 const rxjs_1 = require("rxjs");
@@ -59,7 +60,7 @@ class FramePlayer {
             this.currentFrame -= 1;
             this.currentFrame = this.currentFrame < 0 ? 0 : this.currentFrame;
             this.playing = false;
-            yield this.playNextFrame();
+            yield this.executeFrame(this.currentFrame == 0);
         });
     }
     next() {
@@ -68,7 +69,7 @@ class FramePlayer {
             this.currentFrame = this.currentFrame > this.lastFrameNumber() ?
                 this.lastFrameNumber() : this.currentFrame;
             this.playing = false;
-            yield this.playNextFrame();
+            yield this.executeFrame(this.currentFrame == 0);
         });
     }
     skipToFrame(frameNumber) {
@@ -149,4 +150,5 @@ class FramePlayer {
     }
 }
 exports.FramePlayer = FramePlayer;
+exports.framePlayer = new FramePlayer(new frame_execute_1.ExecuteDebugFrame());
 //# sourceMappingURL=frame_player.js.map
