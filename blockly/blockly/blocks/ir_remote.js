@@ -6,7 +6,7 @@ goog.require('Blockly');
 Blockly.Blocks['ir_remote_setup'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("Setup Soil Sensor");
+            .appendField("Setup IR Remote");
         this.appendDummyInput()
             .appendField("Analog Pin #")
             .appendField(new Blockly.FieldDropdown(profile.arduino_uno.analog), "PIN");

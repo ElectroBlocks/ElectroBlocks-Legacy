@@ -201,8 +201,8 @@ let menuTemplate = [
     }
 ];
 
-app.on('ready', () => {
-    autoUpdater.checkForUpdatesAndNotify();
+app.on('ready', async () => {
+   await autoUpdater.checkForUpdatesAndNotify();
 
     loadMainWindow();
 });

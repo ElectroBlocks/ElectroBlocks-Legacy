@@ -74,6 +74,7 @@
   },
   "dependencies": {
     "@types/bluebird": "^3.5.27",
+    "@types/electron": "^1.6.10",
     "@types/uuid": "^3.4.4",
     "avrgirl-arduino": "^3.0.0",
     "axios": "0.18.0",
@@ -91,7 +92,11 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/jasmine": "^3.3.9",
+    "@types/node": "^12.0.8",
+    "@types/semver": "^6.0.0",
+    "@types/serialport": "^7.0.3",
     "electron": "^4.0.1",
     "electron-builder": "^20.38.5",
     "jasmine": "^3.3.1",

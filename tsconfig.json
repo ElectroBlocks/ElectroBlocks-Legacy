@@ -6,11 +6,13 @@
         "removeComments": true,
         "preserveConstEnums": true,
         "sourceMap": true,
-        "outDir": "./frontent_output/"
+        "outDir": "./output/"
     },
     "include": [
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "custom-typings/avrgirl-arduino.d.ts"
     ],
     "exclude": [
+        "node_modules"
     ]
 }
