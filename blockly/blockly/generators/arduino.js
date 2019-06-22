@@ -142,8 +142,8 @@ Blockly.Arduino.finish = function(code) {
         '\tint red;\n' +
         '\tint green;\n' +
         '\tint blue;\n' +
-        '};\n' + functionsCode + '\n\n' +
-        '\n' + Blockly.Arduino.variablesInitCode_ + '\n' + code;
+        '};\n' + Blockly.Arduino.variablesInitCode_ + '\n\n' +
+        '\n' + functionsCode + '\n' + code;
 
     // Clean up temporary data.
     delete Blockly.Arduino.definitions_;

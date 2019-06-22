@@ -1,3 +1,15 @@
+export const simpleCode = `
+	void setup() {
+	 
+	}
+	
+	void loop() {
+	 
+	}
+`;
+
+
+export const firmware = `
 #include <Servo.h>
 #include <Wire.h>
 #include <LedControlMS.h>
@@ -535,3 +547,4 @@ void loop() {
 }
 
 
+`;

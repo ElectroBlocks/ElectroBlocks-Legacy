@@ -9,8 +9,7 @@
         "outDir": "./output/"
     },
     "include": [
-        "src/**/*.ts",
-        "custom-typings/avrgirl-arduino.d.ts"
+        "src/**/*.ts"
     ],
     "exclude": [
         "node_modules"

@@ -8,6 +8,7 @@ var VARIABLE_TYPES = ['Number', 'String', 'Boolean'];
 
 Blockly.Arduino['debug'] = function(block) {
 
+    stepSerialBegin();
 
     Blockly.Arduino.functionNames_['double_to_string_debug'] = createDoubleToStringCFunc();
 
@@ -15,13 +16,13 @@ Blockly.Arduino['debug'] = function(block) {
         Blockly.Arduino.functionNames_['print_array_' + VARIABLE_TYPES[i].replace(' ', '')] = createPrintArrayFuncInC(VARIABLE_TYPES[i].replace(' ', '')) + '\n\n';
     }
 
-    var debugFunction  = '\n\nvoid debug(int blockNumber) { \n' +
+    var debugFunction  = '\n\nvoid debug(String blockNumber) { \n' +
         '\t\tString stopDebug = ""; \n';
 
 
     debugFunction += createDebugVariable();
 
-    debugFunction += '\t\tSerial.println("DEBUG_BLOCK_" + String(blockNumber) + " ");\n\n';
+    debugFunction += '\t\tSerial.println("DEBUG_BLOCK_" + blockNumber + " ");\n\n';
 
     debugFunction += '\t\twhile (stopDebug != "s") { \n'  +
         '\t\t\tstopDebug = Serial.readStringUntil(\'|\'); \n' +
@@ -47,7 +48,7 @@ function createDebugVariable() {
             debugString +=
                 '\t\tSerial.println("**(|)' + allVariables[i].name + '_|_' + allVariables[i].type + '_|_" +';
 
-            if (allVariables[i].type === 'double') {
+            if (allVariables[i].type === 'Number') {
                 debugString += 'double2string(' + allVariables[i].name + ', 5));\n';
                 continue;
             }
@@ -93,13 +94,14 @@ function getArrayVariableSize(variable) {
 
 function createPrintArrayFuncInC(type)
 {
+
     var func ='String printArrayREPLATEWITHTYPE(REPLATEWITHTYPE arr[], int sizeOfArray) {' +
         '\t\tString returnValue = "[";' +
         '\t\tfor (unsigned int i = 0; i < sizeOfArray; i += 1) {\n';
-    if (type.toLowerCase() == 'Number') {
+    if (type.toLowerCase() == 'number') {
         func += '\t\treturnValue +=  double2string(arr[i], 5);\n';
     }
-    else if (type.toLowerCase() == 'Boolean') {
+    else if (type.toLowerCase() == 'boolean') {
         func += '\t\treturnValue += arr[i] ? "TRUE" : "False"; \n'
     }
     else {
@@ -114,6 +116,11 @@ function createPrintArrayFuncInC(type)
         '\t\treturn returnValue;\n' +
         '\t}\n';
 
+    if (type === 'Number') {
+        type = 'double';
+    } else if (type === 'Boolean') {
+        type = 'boolean';
+    }
     return func.replace(/REPLATEWITHTYPE/g, type);
 }
 

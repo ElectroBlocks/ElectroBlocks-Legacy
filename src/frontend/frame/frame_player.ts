@@ -76,6 +76,11 @@ export class FramePlayer {
 	 */
 	public async play() {
 		this.playing = true;
+
+		if (this.isLastFrame()) {
+			this.currentFrame = 0;
+		}
+
 		await this.playNextFrame();
 	}
 
@@ -158,7 +163,6 @@ export class FramePlayer {
 		}
 
 		if (this.playing && this.isLastFrame()) {
-			this.currentFrame = 0;
 			this.playing = false;
 		}
 	}

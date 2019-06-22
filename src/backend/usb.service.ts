@@ -4,7 +4,6 @@ import { Observable, Subject } from "rxjs";
 import { interval } from "rxjs/observable/interval";
 import { switchMap, map, share } from "rxjs/operators";
 import Delimiter = SerialPort.parsers.Delimiter;
-import * as util from 'util';
 
 export class UsbService {
 
@@ -33,6 +32,10 @@ export class UsbService {
 
 		const arduinoUsb = await this.getArduinoUsbPort();
 
+		if (!arduinoUsb) {
+			return;
+		}
+
 		this.serialPort = new SerialPort(arduinoUsb.comName.toString(), {
 			baudRate: 9600,
 			autoOpen: true
@@ -43,7 +46,6 @@ export class UsbService {
 		parser.on('data', line => {
 			this.messageSubject.next(line)
 		});
-
 	}
 
 	/**
@@ -52,7 +54,7 @@ export class UsbService {
 	 */
 	public async sendMessage(message: string) {
 		await this.connect();
-		this.serialPort.write(message);
+		this.serialPort.write(message + "|");
 	}
 
 	/**
@@ -62,13 +64,16 @@ export class UsbService {
 		return !this.serialPort || !this.serialPort.isOpen;
 	}
 
-	public async close() {
-		const closePort = util.promisify(this.serialPort.close);
-		const error = await closePort;
+	/**
+	 * Closes the serial port / usb port
+	 */
+	public close() {
 
-		if (error) {
-			throw error;
+		if (!this.serialPort) {
+			return;
 		}
+
+		this.serialPort.close();
 	}
 
 	/**
@@ -76,8 +81,8 @@ export class UsbService {
 	 */
 	public isArduino(port: SerialPort.PortInfo) {
 		if (port.vendorId || port.productId) {
-			return port.vendorId== '2341' || port.productId == '0043' ||
-				port.vendorId== '0x2341' || port.productId == '0x0043';
+			return port.vendorId == '2341' || port.productId == '0043' ||
+				port.vendorId == '0x2341' || port.productId == '0x0043';
 		}
 
 		return false;

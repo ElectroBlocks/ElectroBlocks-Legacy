@@ -21,7 +21,7 @@ Blockly.Arduino['bluetooth_setup'] = function (block) {
 
 
 Blockly.Arduino['bt_receive_message'] = function (block) {
-    return ['blueToothSerial.readStringUntil("|")', Blockly.Arduino.ORDER_ATOMIC];
+    return ['blueToothSerial.readStringUntil(\'|\')', Blockly.Arduino.ORDER_ATOMIC];
 };
 
 Blockly.Arduino['bt_has_message'] = function(block) {

@@ -1,18 +1,17 @@
+const { framePlayer }  = require("../output/frontend/frame/frame_player");
+const { setupVideoPlayer, toggleDebugViewer, toggleDebugBlocks} = require( "../output/frontend/workspace/player-buttons.listeners.js");
+
 /**
  * Dependencies
  */
-
 const electron = require('electron');
 const { remote, ipcRenderer } = electron;
-const {arduinoUSB$, serialDebugOutput$, serialDebugBlockOutput$} = remote.require('./common/serial_port');
-const {uploadCode, setUploadUrl }  = remote.require('./common/upload_code');
-const { NODE_ERROR } = remote.require('./common/constants');
 const prompt = remote.require('electron-prompt');
 const displacejs = require('displacejs');
 const { dialog } = remote;
 
 
-require('../frontent_output/workspace/player-output.subscribers.js');
+require('../output/frontend/workspace/player-output.subscribers');
 
 /**
  * Elements
@@ -25,6 +24,24 @@ const blocklyDiv = document.getElementById('content-blocks');
 const uploadCodeBtn = document.getElementById('upload-code-btn');
 const continueBtn = document.getElementById('continue-btn');
 const uploadCodeIcon = document.getElementById('upload-code-icon');
+const videoDebugIcon = document.getElementById('video-debug-icon');
+
+/**
+ * Button that triggers video edit mode
+ */
+const videoDebugBtn = document.getElementById( 'debug-video-btn' );
+
+
+/**
+ * Containers
+ */
+const videoContainer = document.getElementById( 'video-controls-container' );
+
+
+const sliderContainer = document.getElementById( 'slide-container' );
+
+
+
 
 displacejs(variableMenu);
 /**
@@ -59,6 +76,9 @@ setTimeout(() => {
     Blockly.mainWorkspace.addChangeListener((event) => {
         ipcRenderer.send('display:code', Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace));
     });
+
+    resizeListener();
+
 }, 100);
 
 
@@ -67,57 +87,34 @@ setTimeout(() => {
  */
 document.addEventListener('DOMContentLoaded', () => {
 
+    ipcRenderer.send('check:usb');
+
     window.addEventListener('resize', resizeListener, false);
 
     require('./blockly');
 
-    resizeListener();
 });
 
 
-uploadCodeBtn.addEventListener('click', () => {
 
-    if (uploadingCode || uploadCodeBtn.classList.contains('disable')) {
+ipcRenderer.on('upload:complete', (event, hasError, message) => {
+
+    console.log(hasError, message);
+    uploadingCode = false;
+    uploadCodeIcon.classList.add('fa-play');
+    uploadCodeIcon.classList.remove('fa-spinner');
+    uploadCodeIcon.classList.remove('fa-spin');
+    uploadCodeBtn.classList.remove('disable');
+
+    if (!hasError) {
+        alert('Your code has been uploaded.');
         return;
     }
 
-    if (!navigator.onLine) {
-        alert('Please connect to the internet and try again.');
-        return;
-    }
-
-    uploadingCode = true;
-    uploadCodeIcon.classList.remove('fa-play');
-    uploadCodeIcon.classList.add('fa-spinner');
-    uploadCodeIcon.classList.add('fa-spin');
-    uploadCodeBtn.classList.add('disable');
-    uploadCode(Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace))
-        .do(() => debugTableData = {})
-        .take(1)
-        .subscribe(err => {
-            uploadCodeIcon.classList.add('fa-play');
-            uploadCodeIcon.classList.remove('fa-spinner');
-            uploadCodeIcon.classList.remove('fa-spin');
-            uploadCodeBtn.classList.remove('disable');
-            uploadingCode = false;
-
-            if (err) {
-                alert('Error uploading your code :(');
-                return;
-            }
-
-            alert('Your code has been uploaded.');
-        }, err => console.log(err, 'error'), () => console.log('finished'));
-
+    console.log('error message', message);
+    alert('Error uploading your code :(');
 
 });
-
-continueBtn.addEventListener('click', () => {
-   ipcRenderer.send('debug:continue');
-   clearDebugBlocks();
-});
-
-
 
 ipcRenderer.on('close:serial-monitor', () => {
     serialMonitorBtn.classList.remove('active');
@@ -150,8 +147,9 @@ ipcRenderer.on('menu:new', () => {
     Blockly.mainWorkspace.centerOnBlock(Blockly.mainWorkspace.getAllBlocks()[0].id);
 });
 
-ipcRenderer.on(NODE_ERROR, (message) => {
-    alert(message);
+ipcRenderer.on('node:error', (message, data) => {
+    console.log(message, data);
+    alert('There was an error');
 });
 
 ipcRenderer.on('open:file', (event, content) => {
@@ -167,50 +165,24 @@ ipcRenderer.on('menu:changeUploadUrl', () => {
     prompt({
         title: 'Change Blockly Upload Url',
         type: 'input'
-    }).then(value => {
-        if (value) {
-            setUploadUrl(value);
+    }).then(url => {
+        if (url) {
+            ipcRenderer.send('upload:change_url', url);
         }
     });
 });
 
-/**
- * Observables
- */
-serialMonitorBtn.addEventListener('click', () => {
-    if (serialMonitorBtn.classList.contains('disable')) {
-        return;
-    }
-    ipcRenderer.send('open:serial-monitor');
-    serialMonitorBtn.classList.add('active');
+ipcRenderer.on('debug:message', (event, content) => {
+    console.log(content, 'debug message');
+    debugTableData[content.name] = {type: content.type, value: content.value};
+    redrawDebugTable();
 });
 
-
-serialDebugOutput$
-    .do(parts => debugTableData[parts[0]] = {type: parts[1], value: parts[2]})
-    .subscribe(() => redrawDebugTable());
-
-
-arduinoUSB$
-    .subscribe(usb => {
-        if (usb) {
-            arduinoConnected.classList.add('active');
-            arduinoConnected.setAttribute('title', 'Arduino Connected');
-            serialMonitorBtn.classList.remove('disable');
-            uploadCodeBtn.classList.remove('disable');
-        } else {
-            arduinoConnected.classList.remove('active');
-            arduinoConnected.setAttribute('title', 'Arduino Not Connected');
-            serialMonitorBtn.classList.add('disable');
-            uploadCodeBtn.classList.add('disable');
-        }
-    });
-
-serialDebugBlockOutput$.subscribe(blockNumber => {
+ipcRenderer.on('debug:block', (event, blockId) => {
     const blocks = Blockly.mainWorkspace.getAllBlocks();
 
     for (let i = 0; i < blocks.length; i += 1) {
-        if (blocks[i].id === blockNumber) {
+        if (blocks[i].id === blockId) {
             blocks[i].setColour("#000000");
             blocks[i].select();
             continue;
@@ -222,6 +194,111 @@ serialDebugBlockOutput$.subscribe(blockNumber => {
     }
 });
 
+ipcRenderer.on('arduino:usb', (event, hasUsb) => {
+    if (hasUsb) {
+        arduinoConnected.classList.add('active');
+        arduinoConnected.setAttribute('title', 'Arduino Connected');
+        serialMonitorBtn.classList.remove('disable');
+        uploadCodeBtn.classList.remove('disable');
+        serialMonitorBtn.classList.add('active');
+        uploadCodeBtn.classList.add('active');
+
+    } else {
+        arduinoConnected.classList.remove('active');
+        arduinoConnected.setAttribute('title', 'Arduino Not Connected');
+        serialMonitorBtn.classList.add('disable');
+        uploadCodeBtn.classList.add('disable');
+        serialMonitorBtn.classList.remove('active');
+        uploadCodeBtn.classList.remove('active');
+
+    }
+});
+
+
+ipcRenderer.on('video:debug', async (event, turnOnDebugMode) => {
+
+    uploadingCode = false;
+
+    uploadCodeBtn.classList.remove('disable');
+    videoDebugBtn.classList.remove('disable');
+    videoDebugIcon.classList.add('fa-film');
+    videoDebugIcon.classList.remove('fa-spinner');
+    videoDebugIcon.classList.remove('fa-spin');
+
+
+    if (!turnOnDebugMode) {
+        sliderContainer.style.display = 'none';
+        videoContainer.style.display = 'none';
+        videoDebugBtn.classList.remove( 'active' );
+        toggleDebugBlocks( false );
+        resizeListener();
+        toggleDebugViewer();
+        document.getElementById( 'content-blocks' ).style.height = 'inherit';
+
+        return;
+    }
+
+    await setupVideoPlayer();
+    await framePlayer.skipToFrame(0);
+    videoDebugBtn.classList.add( 'active' );
+    sliderContainer.style.display = 'block';
+    videoContainer.style.display = 'block';
+    toggleDebugBlocks( true );
+    document.getElementById( 'content-blocks' ).style.height = '600px';
+    toggleDebugViewer();
+    resizeListener();
+
+});
+
+videoDebugBtn.addEventListener( 'click',  () => {
+
+    uploadingCode = true;
+
+    uploadCodeBtn.classList.add('disable');
+    videoDebugBtn.classList.add('disable');
+    videoDebugIcon.classList.remove('fa-film');
+    videoDebugIcon.classList.add('fa-spinner');
+    videoDebugIcon.classList.add('fa-spin');
+
+
+    ipcRenderer.send('video:debug-mode', sliderContainer.style.display !== 'block')
+});
+
+
+uploadCodeBtn.addEventListener('click', () => {
+
+    if (uploadingCode || uploadCodeBtn.classList.contains('disable')) {
+        return;
+    }
+
+    if (!navigator.onLine) {
+        alert('Please connect to the internet and try again.');
+        return;
+    }
+
+    uploadingCode = true;
+    uploadCodeIcon.classList.remove('fa-play');
+    uploadCodeIcon.classList.add('fa-spinner');
+    uploadCodeIcon.classList.add('fa-spin');
+    uploadCodeBtn.classList.add('disable');
+
+    ipcRenderer.send('upload:code',
+        Blockly.Arduino.workspaceToCode(Blockly.mainWorkspace));
+
+});
+
+continueBtn.addEventListener('click', () => {
+    ipcRenderer.send('debug:continue');
+    clearDebugBlocks();
+});
+
+serialMonitorBtn.addEventListener('click', () => {
+    if (serialMonitorBtn.classList.contains('disable')) {
+        return;
+    }
+    ipcRenderer.send('open:serial-monitor');
+    serialMonitorBtn.classList.add('active');
+});
 
 /**
  * This redraws the debug table
@@ -241,14 +318,17 @@ function redrawDebugTable() {
 
 
 /**
- * Controls the resizing
+ * Controls the resizing block area
  */
 function resizeListener() {
-    blocklyDiv.style.height =
-        (document.getElementsByTagName('body')[0].clientHeight - document.getElementById('top-menu').clientHeight - variableMenu.clientHeight).toString() + "px";
-    Blockly.svgResize(Blockly.mainWorkspace);
-}
+    const blocklyDiv = document.getElementById( 'content-blocks' );
 
+    blocklyDiv.style.height =
+        (document.getElementsByTagName( 'body' )[ 0 ].clientHeight - document.getElementById( 'top-menu' ).clientHeight - (videoContainer.clientHeight + sliderContainer.clientHeight)).toString() + "px";
+
+    console.log(blocklyDiv.style.height, 'block height');
+    Blockly.svgResize(Blockly.mainWorkspace)
+}
 
 /**
  * This goes through all the debug blocks and clears them out

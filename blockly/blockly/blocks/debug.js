@@ -15,7 +15,7 @@ Blockly.Blocks['debug'] = {
             .appendField(new Blockly.FieldImage("images/debug.jpg", 100, 100, "*"));
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setColour(345);
+        this.setColour(330);
         this.setTooltip("");
         this.setHelpUrl("");
     }

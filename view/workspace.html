@@ -196,10 +196,10 @@
 
 <div class="icon-bar" id="top-menu">
     <span id="arduino-connected" title="Arduino Connected" class="active"><i class="fa fa-plug"></i></span>
-    <a id="upload-code-btn" class="disable" ><i id="upload-code-icon" class="fa fa-play"></i></a>
-    <a id="serial-monitor" class="disable"><i class="fa fa-commenting"></i></a>
-    <a id="debug-btn" href="#"><i class="fa fa-bug"></i></a>
-    <a id="debug-video-btn" href="#"><i class="fa fa-video-camera"></i></a>
+    <a title="Upload Code" id="upload-code-btn" class="disable" ><i id="upload-code-icon" class="fa fa-upload"></i></a>
+    <a title="Message Arduino" id="serial-monitor" class="disable"><i class="fa fa-commenting"></i></a>
+    <a title="Toggle Debug Menu" id="debug-btn" href="#"><i class="fa fa-bug"></i></a>
+    <a title="Video Debug Mode" id="debug-video-btn" href="#"><i id="video-debug-icon" class="fa fa-film"></i></a>
 </div>
 
 
@@ -381,7 +381,8 @@
 
     </category>
     <category name="Functions" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
-    <category name="Debug Values" colour="330" >
+    <category name="Debug" colour="330" >
+        <block type="debug"></block>
         <block type="debug_boolean"></block>
         <block type="debug_text"></block>
         <block type="debug_number"></block>
@@ -458,7 +459,6 @@
             </value>
         </block>
         <block type="time_seconds"></block>
-        <block type="debug"></block>
     </category>
 
 
@@ -621,8 +621,9 @@
     <input type="range" min="1" max="100" value="0" class="slider" id="scrub-bar">
 </div>
 <div id="video-controls-container" class="icon-bar">
-    <a id="video-debug-play" class="disable" href="#"><i class="fa fa-play"></i></a>
     <a id="video-debug-backward" class="disable" href="#"><i class="fa fa-backward"></i></a>
+    <a id="video-debug-play" class="disable" href="#"><i class="fa fa-play"></i></a>
+
     <a id="video-debug-forward" class="disable" href="#"><i class="fa fa-forward"></i></a>
     <div class="menu-section">
         <label for="speed">Speed: </label>

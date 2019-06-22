@@ -1,6 +1,8 @@
 const toolbox = document.getElementById('toolbox');
 const { setupVideoPlayer } =
-    require('../frontent_output/workspace/player-buttons.listeners.js');
+    require('../output/frontend/workspace/player-buttons.listeners');
+
+
 
 /**
  * List of key value block type => setup block required
@@ -74,6 +76,8 @@ Blockly.inject(document.getElementById('content-blocks'),
         media: './media/',
         toolbox: toolbox
     });
+
+
 
 setTimeout(() => {
     let xml = '<xml><block type="arduino_start" deletable="false" movable="true"></block></xml>';

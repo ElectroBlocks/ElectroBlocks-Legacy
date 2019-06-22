@@ -1,11 +1,10 @@
-import AvrgirlArduino from 'avrgirl-arduino';
-import * as util from "util";
+const AvrgirlArduino = require('avrgirl-arduino');
 import * as fs from "fs";
 import * as path from "path";
 import { UsbService } from "./usb.service";
 import axios from 'axios';
 
-class UploadService {
+export class UploadService {
 
 	public static readonly ARDUINO_FILE = path.join('/', 'tmp', 'Arduino.cpp.hex');
 
@@ -17,11 +16,13 @@ class UploadService {
 
 	constructor(private usbService: UsbService ) { }
 
+	/**
+	 * Uploads the code to arduino
+	 * Code is compiled on an external server
+	 */
 	public async uploadCode(code: string) {
-		const [arduinoUsb] = await Promise.all([
-			this.usbService.getArduinoUsbPort(),
-			this.usbService.close()
-		]);
+		this.usbService.close();
+		const arduinoUsb = await this.usbService.getArduinoUsbPort();
 
 		const response = await axios.post<string>(this.url, code, {
 			headers: {'Content-Type': 'text/plain'}
@@ -32,11 +33,13 @@ class UploadService {
 		await this.usbService.connect();
 	}
 
-	private setUrl(url: string) {
+	public setUploadUrl(url: string) {
 		this.url = url;
 	}
 
-
+	/**
+	 * Uploads the code to the Arduino
+	 */
 	private async flashArduino(portName: string) {
 		const avrgirlArduino = new AvrgirlArduino({
 			port: portName,
@@ -44,10 +47,23 @@ class UploadService {
 			board: 'uno'
 		});
 
-		const uploadCode = util.promisify(avrgirlArduino.flash);
-		await uploadCode(UploadService.ARDUINO_FILE);
+		await new Promise((res, rej) => {
+			avrgirlArduino.flash(UploadService.ARDUINO_FILE, (err: Error) => {
+				if (err) {
+					rej(err);
+					return;
+				}
+
+				res(undefined);
+			});
+
+		});
+
 	}
 
+	/**
+	 * Creates the hex file to upload to the Arduino
+	 */
 	private createCodeFile(code: string) {
 		if (!fs.existsSync(UploadService.ARDUINO_TEMP_FOLDER)) {
 			fs.mkdirSync(UploadService.ARDUINO_TEMP_FOLDER);
@@ -57,6 +73,7 @@ class UploadService {
 			fs.unlinkSync(UploadService.ARDUINO_FILE);
 		}
 
+		console.log(code, 'to file');
 		fs.writeFileSync(UploadService.ARDUINO_FILE, code);
 	}
 }

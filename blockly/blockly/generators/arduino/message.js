@@ -10,7 +10,7 @@ function stepSerialBegin() {
 
 Blockly.Arduino['receive_message'] = function (block) {
     stepSerialBegin();
-    return ['Serial.readStringUntil(' + '_*_' + ')', Blockly.Arduino.ORDER_ATOMIC];
+    return ['Serial.readStringUntil(\'' + '|' + '\')', Blockly.Arduino.ORDER_ATOMIC];
 };
 
 Blockly.Arduino['has_message'] = function(block) {

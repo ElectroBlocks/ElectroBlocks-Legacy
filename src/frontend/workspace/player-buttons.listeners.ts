@@ -3,6 +3,7 @@ import { generateListOfFrame } from "../frame/generate_frame";
 
 import { framePlayer } from "../frame/frame_player";
 
+
 /**
  * Button that toggles the variable debug
  */
@@ -13,10 +14,6 @@ const debugBtn = document.getElementById( 'debug-btn' );
  */
 const scrubBar = document.getElementById( 'scrub-bar' ) as HTMLInputElement;
 
-/**
- * Button that triggers video edit mode
- */
-const videoDebugBtn = document.getElementById( 'debug-video-btn' );
 
 /**
  * This input controls the number of times the loop is executed
@@ -28,11 +25,8 @@ const loopTimesInput = document.getElementById( 'loop-times' ) as HTMLInputEleme
  */
 const speedSlider = document.getElementById( 'speed' ) as HTMLInputElement;
 
-/**
- * Containers
- */
-const videoContainer = document.getElementById( 'video-controls-container' );
-const sliderContainer = document.getElementById( 'slide-container' );
+
+
 
 
 /**
@@ -60,47 +54,14 @@ scrubBar.oninput =  async ( e ) => {
 	await framePlayer.skipToFrame(parseInt(scrubBar.value));
 };
 
-videoDebugBtn.addEventListener( 'click', async () => {
 
-	if (sliderContainer.style.display === 'block') {
-		sliderContainer.style.display = 'none';
-		videoContainer.style.display = 'none';
-		videoDebugBtn.classList.remove( 'active' );
-		toggleDebugBlocks( false );
-		resizeListener();
-		toggleDebugViewer();
 
-		return;
-	}
-
-	await setupVideoPlayer();
-	await framePlayer.skipToFrame(0);
-	videoDebugBtn.classList.add( 'active' );
-	sliderContainer.style.display = 'block';
-	videoContainer.style.display = 'block';
-	toggleDebugBlocks( true );
-	document.getElementById( 'content-blocks' ).style.height = '600px';
-	toggleDebugViewer();
-	resizeListener();
-
-} );
-
-/**
- * Controls the resizing block area
- */
-function resizeListener() {
-	const blocklyDiv = document.getElementById( 'content-blocks' );
-
-	blocklyDiv.style.height =
-		(document.getElementsByTagName( 'body' )[ 0 ].clientHeight - document.getElementById( 'top-menu' ).clientHeight - (videoContainer.clientHeight + sliderContainer.clientHeight)).toString() + "px";
-	get_blockly().svgResize( get_blockly().mainWorkspace );
-}
 
 
 /**
  * This controls whether the input debug blocks are shown
  */
-const toggleDebugBlocks = ( showInputDebugBlocks: boolean ) => {
+export const toggleDebugBlocks = ( showInputDebugBlocks: boolean ) => {
 	const blocks = get_blockly().mainWorkspace.getAllBlocks();
 
 	blocks.filter( block => block
@@ -135,7 +96,6 @@ const disablePlayerUI = () => {
 	playBtn.classList.add( 'disable' );
 	forwardBtn.classList.add( 'disable' );
 	backwardBtn.classList.add( 'disable' );
-	videoContainer.classList.add( 'disable' );
 	scrubBar.disabled = true;
 };
 
@@ -144,7 +104,6 @@ const enablePlayerUI = () => {
 	playBtn.classList.remove( 'disable' );
 	forwardBtn.classList.remove( 'disable' );
 	backwardBtn.classList.remove( 'disable' );
-	videoContainer.classList.remove( 'disable' );
 	scrubBar.disabled = false;
 };
 
@@ -173,7 +132,7 @@ backwardBtn.addEventListener( 'click', async () => {
 	await framePlayer.previous();
 } );
 
-const toggleDebugViewer = () => {
+export const toggleDebugViewer = () => {
 	if (debugBtn.classList.contains( 'active' )) {
 		debugBtn.classList.remove( 'active' );
 		variableMenu.style.display = 'none';
@@ -182,7 +141,8 @@ const toggleDebugViewer = () => {
 		variableMenu.style.display = 'inline';
 	}
 
-	if (document.getElementById( 'video-controls-container' ).style.display === 'none') {
+
+	if (getComputedStyle(document.getElementById('video-controls-container')).display === 'none') {
 		continueBtn.style.display = 'inline-block';
 	} else {
 		continueBtn.style.display = 'none';

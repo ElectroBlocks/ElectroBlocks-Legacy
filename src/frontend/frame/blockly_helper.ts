@@ -37,7 +37,7 @@ import { inputState } from "./input_state";
         // would come from the input of sensor or pin attached to the Arduino.
         // Because to calculate the final frame by using the actual input the input is fake
         // and comes from input_statement input block.
-        if (block.defaultDebugValue) {
+        if (block['defaultDebugValue'] !== undefined) {
             return inputState.addBlockCall(block.id).value;
         }
 
