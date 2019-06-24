@@ -19,7 +19,7 @@ Blockly.Blocks['ir_remote_setup'] = {
 Blockly.Blocks['ir_remote_has_code_receive'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("Is receiving code?")
+            .appendField("Receiving IR Remote code?")
             .appendField(new Blockly.FieldImage("images/sensing.jpg", 25, 25, "*"));
         this.setOutput(true, "Boolean");
         this.setColour(195);
@@ -27,7 +27,7 @@ Blockly.Blocks['ir_remote_has_code_receive'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')
@@ -54,7 +54,7 @@ Blockly.Blocks['ir_remote_has_code_receive'] = {
 Blockly.Blocks['ir_remote_get_code'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("Get code received from IR Remote.")
+            .appendField("message from IR Remote.")
             .appendField(new Blockly.FieldImage("images/ir_sensor.jpg", 25, 25, "*"));
         this.setOutput(true, "String");
         this.setColour(195);
@@ -62,7 +62,7 @@ Blockly.Blocks['ir_remote_get_code'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')

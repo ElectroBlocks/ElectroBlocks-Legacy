@@ -16,6 +16,7 @@ describe('Color Blocks', () => {
 
 	let getFieldValueSpy: jasmine.Spy;
 
+
 	beforeEach(() => {
 		previousFrame =
 			new ArduinoFrame( 'block_id', {}, [], new EmptyCommand(), frameLocation );
@@ -37,7 +38,7 @@ describe('Color Blocks', () => {
 
 			getFieldValueSpy.withArgs('COLOUR').and.returnValue('#1751AA');
 
-			expect(colour_picker_block(block)).toEqual({
+			expect(colour_picker_block(block, frameLocation)).toEqual({
 				red: 23,
 				green: 81,
 				blue: 170
@@ -51,7 +52,7 @@ describe('Color Blocks', () => {
 
 		it('should create a random colour value', () => {
 
-			const color = colour_random_block(block);
+			const color = colour_random_block(block, frameLocation);
 
 			expect(color.green).toBeLessThanOrEqual(255);
 			expect(color.green).toBeGreaterThanOrEqual(0);
@@ -69,13 +70,13 @@ describe('Color Blocks', () => {
 	describe('colour_rgb_block', () => {
 
 		it('should get the rgb number values and parse into an object', () => {
-			getInputValueSpy.withArgs(block,'RED', 0, undefined).and.returnValue(90);
+			getInputValueSpy.withArgs(block,'RED', 0, frameLocation, undefined).and.returnValue(90);
 
-			getInputValueSpy.withArgs(block,'BLUE', 0, undefined).and.returnValue(0);
+			getInputValueSpy.withArgs(block,'BLUE', 0, frameLocation, undefined).and.returnValue(0);
 
-			getInputValueSpy.withArgs(block,'GREEN', 0, undefined).and.returnValue(150);
+			getInputValueSpy.withArgs(block,'GREEN', 0, frameLocation, undefined).and.returnValue(150);
 
-			const color = colour_rgb_block(block);
+			const color = colour_rgb_block(block, frameLocation);
 
 			expect(color.red).toBe(90);
 			expect(color.green).toBe(150);

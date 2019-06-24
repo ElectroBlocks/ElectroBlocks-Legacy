@@ -41,7 +41,7 @@ export const generateListOfFrame = (numberOfTimesThroughLoop: number = 1) => {
 
 	for (let i = 0; i < numberOfTimesThroughLoop; i += 1) {
 
-
+		console.log({ location: 'loop', iteration: i }, 'frame location');
 
 		let loopFrames = generateFrameForInputStatement(
 			arduinoBlock,

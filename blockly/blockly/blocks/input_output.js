@@ -32,7 +32,7 @@ Blockly.Blocks['is_button_pressed'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')
@@ -65,7 +65,7 @@ Blockly.Blocks['digital_read'] = {
             .appendField(new Blockly.FieldImage("images/digital_read.png", 30, 30, "*"));
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')
@@ -126,7 +126,7 @@ Blockly.Blocks['analog_read'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')
@@ -190,7 +190,7 @@ Blockly.Blocks['ultra_sonic_sensor_distance'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')

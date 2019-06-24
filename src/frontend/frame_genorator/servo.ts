@@ -15,6 +15,7 @@ export const servo_move_block = (block: Block, frameLocation: FrameLocation, pre
 		block,
 		'DEGREE',
 		0,
+		frameLocation,
 		previousFrame).toString());
 
 	let components: USB[] = previousFrame ? previousFrame.components : [];

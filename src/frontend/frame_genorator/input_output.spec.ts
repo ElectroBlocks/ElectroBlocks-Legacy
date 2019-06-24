@@ -58,16 +58,17 @@ describe('input output frame generators', () => {
 
 		it ('should not generate another component but replace the old one if it exists', () => {
 
+			const frameLocation = {location: 'loop', iteration: 3 };
 			getFieldValueSpy.withArgs('PIN').and.returnValue('1');
 
 			const previousFrame = new ArduinoFrame('asdf', {'hello': {
 					name: 'hello', type: 'String', value: 'Hello'
 				}}, [new Pin(ARDUINO_UNO_PINS.PIN_1, PIN_TYPE.ANALOG, 30)], new EmptyCommand(), { location: 'loop', iteration: 0 });
 
-			getInputValueSpy.withArgs(block, 'WRITE_VALUE', 0, previousFrame).and.returnValue(130);
+			getInputValueSpy.withArgs(block, 'WRITE_VALUE', 0, frameLocation,  previousFrame).and.returnValue(130);
 
 			const [frame] =
-				analog_write_block(block, {location: 'loop', iteration: 3 }, previousFrame);
+				analog_write_block(block, frameLocation, previousFrame);
 
 			expect(frame.components.length).toBe(1);
 			expect((frame.components[0] as Pin).usbCommand().command).toBe('M-P-A:1:130|');

@@ -17,5 +17,5 @@ ipcRenderer.on('usb:message', (event, message) => {
 
 serialSubmitForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    ipcRenderer.send('send:message', serialWriteInputBox.value);
+    ipcRenderer.send('send:message', serialWriteInputBox.value + '|');
 });

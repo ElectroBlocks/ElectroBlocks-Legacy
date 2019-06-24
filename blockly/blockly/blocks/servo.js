@@ -56,7 +56,7 @@ Blockly.Blocks['servo_read_degrees'] = {
         this.setOutput(true, 'Number');
         this.setTooltip('return that degree with the last servo move.');
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')

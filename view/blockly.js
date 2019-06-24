@@ -44,12 +44,12 @@ const standAloneBlocks = [
 ];
 
 const toggleDisableChildBlocks = (parentBlock, disable) => {
-    parentBlock.childBlocks_.forEach(block => {
-        block.setDisabled(disable);
-        if (block.childBlocks_) {
-            toggleDisableChildBlocks(block, disable);
-        }
-    });
+    parentBlock.setDisabled(disable);
+    let nextBlock = parentBlock.getNextBlock();
+    while(nextBlock) {
+        nextBlock.setDisabled(disable);
+        nextBlock = nextBlock.getNextBlock();
+    }
 };
 
 const disableBlockForNotHavingRequiredSetupBlock = (blocks, testBlock) => {
@@ -129,7 +129,7 @@ Blockly.mainWorkspace.addChangeListener(function (event) {
 
             // Means that the block is required to be inside a loop
             // We know this because it's not a stand alone block
-            if (block.getRootBlock().id === block.id) {
+            if (!standAloneBlocks.includes(block.getRootBlock().type)) {
                 block.setDisabled(true);
                 toggleDisableChildBlocks(block, true);
                 return;

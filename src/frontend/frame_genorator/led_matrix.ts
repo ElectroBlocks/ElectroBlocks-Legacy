@@ -55,8 +55,8 @@ export const led_matrix_turn_one_on_off_block = (block: Block, frameLocation: Fr
 		previousFrame.components.find( component => component instanceof LedMatrix ) as LedMatrix : new LedMatrix();
 
 	const isOn = block.getFieldValue('STATE') === 'ON';
-	const row = parseInt(getInputValue(block, 'ROW', 1, previousFrame).toString()) - 1;
-	const column = parseInt(getInputValue(block, 'COLUMN', 1, previousFrame).toString()) - 1;
+	const row = parseInt(getInputValue(block, 'ROW', 1, frameLocation,previousFrame).toString()) - 1;
+	const column = parseInt(getInputValue(block, 'COLUMN', 1, frameLocation, previousFrame).toString()) - 1;
 
 
 

@@ -10,10 +10,10 @@ import { FrameLocation } from "../frame/frame";
  * over the index variable.
  */
 const controls_repeat_ext_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
-	const loopFrame = previousFrame ? previousFrame.makeCopy(block.id) :
+	const loopFrame = previousFrame ? previousFrame.makeCopy(block.id, frameLocation) :
 		ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
-	const times = getInputValue(block, 'TIMES', 1, previousFrame);
+	const times = getInputValue(block, 'TIMES', 1, frameLocation,previousFrame);
 
 	if (times <= 0) {
 		return [loopFrame];
@@ -44,9 +44,9 @@ const controls_repeat_ext_block = (block: Block, frameLocation: FrameLocation, p
 const controls_for_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
 
 
-	const start = parseInt(getInputValue(block, 'FROM', 1, previousFrame).toString());
+	const start = parseInt(getInputValue(block, 'FROM', 1, frameLocation, previousFrame).toString());
 
-	const to = parseInt(getInputValue(block, 'TO', 1, previousFrame).toString());
+	const to = parseInt(getInputValue(block, 'TO', 1, frameLocation, previousFrame).toString());
 
 	let by = Math.abs(
 		parseInt(
@@ -54,6 +54,7 @@ const controls_for_block = (block: Block, frameLocation: FrameLocation, previous
 				block,
 				'BY',
 				1,
+				frameLocation,
 				previousFrame
 			).toString()
 		)

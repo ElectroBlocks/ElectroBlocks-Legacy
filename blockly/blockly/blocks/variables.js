@@ -44,7 +44,7 @@ Blockly.Constants.Variables.HUE = 330;
 Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     {
         "type": "variables_get_number",
-        "message0": "Get number stored in the variable named %1",
+        "message0": "= number stored variable %1",
         "args0": [
             {
                 "type": "field_variable",
@@ -61,7 +61,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     },
     {
         "type": "variables_set_number",
-        "message0": "This variable named %1 will store this number %2",
+        "message0": "Number variable named %1 = %2",
         "args0": [
             {
                 "type": "field_variable",
@@ -85,7 +85,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     },
     {
         "type": "variables_get_colour",
-        "message0": "Get color stored in the variable named %1",
+        "message0": "= color stored variable %1",
         "args0": [
             {
                 "type": "field_variable",
@@ -102,7 +102,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     },
     {
         "type": "variables_set_colour",
-        "message0": "This variable named %1 will store this color %2",
+        "message0": "Color variable named %1 = %2",
         "args0": [
             {
                 "type": "field_variable",
@@ -126,7 +126,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     },
     {
         "type": "variables_get_string",
-        "message0": "Get text stored in the variable named %1",
+        "message0": "= text stored variable %1",
         "args0": [
             {
                 "type": "field_variable",
@@ -144,7 +144,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     },
     {
         "type": "variables_set_string",
-        "message0": "This variable named %1 will store this text %2",
+        "message0": "Text variable named %1 = %2",
         "args0": [
             {
                 "type": "field_variable",
@@ -167,7 +167,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     },
     {
         "type": "variables_get_boolean",
-        "message0": "Get boolean stored in the variable named %1",
+        "message0": "= boolean stored variable %1",
         "args0": [
             {
                 "type": "field_variable",
@@ -185,7 +185,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     },
     {
         "type": "variables_set_boolean",
-        "message0": "This variable named %1 will store this boolean %2",
+        "message0": "Boolean variable named %1 = %2",
         "args0": [
             {
                 "type": "field_variable",

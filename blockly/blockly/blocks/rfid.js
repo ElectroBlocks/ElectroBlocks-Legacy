@@ -14,7 +14,7 @@ Blockly.Blocks['rfid_scan'] = {
         this.setTooltip("");
         this.setHelpUrl("");
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')
@@ -40,7 +40,7 @@ Blockly.Blocks['rfid_scan'] = {
 Blockly.Blocks['rfid_tag'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("RFID Tag Number")
+            .appendField("RFID Number")
             .appendField(new Blockly.FieldImage("images/rfid.jpg", 25, 25, "*"));
         this.setOutput(true, "String");
         this.setColour(60);
@@ -48,7 +48,7 @@ Blockly.Blocks['rfid_tag'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')
@@ -74,7 +74,7 @@ Blockly.Blocks['rfid_tag'] = {
 Blockly.Blocks['rfid_card'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("RFID Tag Card Number")
+            .appendField("RFID Card Number")
             .appendField(new Blockly.FieldImage("images/rfid.jpg", 25, 25, "*"));
         this.setOutput(true, "String");
         this.setColour(60);
@@ -82,7 +82,7 @@ Blockly.Blocks['rfid_card'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')

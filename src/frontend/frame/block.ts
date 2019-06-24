@@ -69,7 +69,7 @@ export interface Block {
 	 * Sets the color of the block to a hex color
 	 * @param hexColor
 	 */
-	setColour( hexColor: string ): void;
+	setColour( hexColor: string|number ): void;
 
 	/**
 	 * Highlights the block

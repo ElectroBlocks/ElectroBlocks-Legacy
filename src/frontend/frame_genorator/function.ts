@@ -12,7 +12,7 @@ export const procedures_callnoreturn_block = (block: Block, frameLocation: Frame
 	let functionDefinitionBlock = findFunctionDefinitionBlock(procedureCall);
 
 	let callBlockFrame = previousFrame ?
-		previousFrame.makeCopy(block.id) :
+		previousFrame.makeCopy(block.id, frameLocation) :
 		ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
 	frames.push(callBlockFrame);
@@ -33,6 +33,7 @@ export const procedures_callnoreturn_block = (block: Block, frameLocation: Frame
 			block,
 			'ARG' + i,
 			getVariableDefaultType(variableModels[i].type),
+			frameLocation,
 			previousFrame,
 		);
 

@@ -60,10 +60,10 @@ describe( 'functions', () => {
 			spyOn( blockly, 'get_blockly' ).and.returnValue( blocklyMock );
 
 			const getInputValueSpy = spyOn( blockHelper, 'getInputValue' );
-			getInputValueSpy.withArgs( functionCallBlock, 'ARG0', 0 , undefined )
+			getInputValueSpy.withArgs( functionCallBlock, 'ARG0', 0 , frameLocation, undefined )
 				.and.returnValue( 34 );
 
-			getInputValueSpy.withArgs( functionCallBlock, 'ARG1', '', undefined )
+			getInputValueSpy.withArgs( functionCallBlock, 'ARG1', '', frameLocation, undefined )
 				.and.returnValue( 'Hello World' );
 
 			spyOn( blockHelper, 'generateFrameForInputStatement' )

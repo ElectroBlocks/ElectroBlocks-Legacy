@@ -4,8 +4,9 @@
 import { Block } from "../frame/block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { getInputValue } from "../frame/blockly_helper";
+import { FrameLocation } from "../frame/frame";
 
-const text_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
+const text_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) =>  {
 	return block.getFieldValue('TEXT');
 };
 
@@ -13,7 +14,7 @@ const text_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
 /**
  * Combines all the string attached to the join text block together
  */
-const text_join_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
+const text_join_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) =>  {
 	let inputLength = block.inputList.length;
 	let returnString = '';
 
@@ -22,6 +23,7 @@ const text_join_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
 			block,
 			'ADD' + i,
 			'',
+			frameLocation,
 			previousFrame
 		);
 	}
@@ -32,11 +34,12 @@ const text_join_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
 /**
  * This gets the text length from a string or string variable
  */
-const text_length_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
+const text_length_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) =>  {
 	return getInputValue(
 		block,
 		'VALUE',
 		'',
+		frameLocation,
 		previousFrame
 	).toString().length;
 };
@@ -44,11 +47,12 @@ const text_length_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
 /**
  * Returns true if the string input is empty
  */
-const text_isEmpty_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
+const text_isEmpty_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) =>  {
 	return getInputValue(
 		block,
 		'VALUE',
 		'',
+		frameLocation,
 		previousFrame
 	).toString().length == 0;
 };
@@ -56,11 +60,12 @@ const text_isEmpty_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
 /**
  * Takes a number and converts to a string.
  */
-const number_to_string_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
+const number_to_string_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) =>  {
 	let number = getInputValue(
 		block,
 		'NUMBER',
 		0,
+		frameLocation,
 		previousFrame
 	).toString();
 
@@ -72,12 +77,13 @@ const number_to_string_block = (block: Block, previousFrame?: ArduinoFrame) =>  
 /**
  * Turns a string into an array and get section of it if available
  */
-const parse_string_block_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
+const parse_string_block_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) =>  {
 
 	const text = getInputValue(
 		block,
 		'VALUE',
 		'',
+		frameLocation,
 		previousFrame
 	).toString();
 
@@ -88,6 +94,7 @@ const parse_string_block_block = (block: Block, previousFrame?: ArduinoFrame) =>
 		block,
 		'POSITION',
 		0,
+		frameLocation,
 		previousFrame
 	).toString();
 
@@ -104,16 +111,15 @@ const parse_string_block_block = (block: Block, previousFrame?: ArduinoFrame) =>
 /**
  * Upper Cases or Lowers Cases Text
  *
- * @param block
- * @param previousFrame
  */
-const text_changeCase_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
+const text_changeCase_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) =>  {
 	const op = block.getFieldValue('CASE');
 
 	const string = getInputValue(
 		block,
 		'TEXT',
 		'',
+		frameLocation,
 		previousFrame
 	).toString();
 

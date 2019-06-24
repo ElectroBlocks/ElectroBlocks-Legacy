@@ -6,10 +6,10 @@ import { FrameLocation } from "../frame/frame";
 
 
 export const delay_block_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
-	const copyFrame = previousFrame ? previousFrame.makeCopy(block.id) :
+	const copyFrame = previousFrame ? previousFrame.makeCopy(block.id, frameLocation) :
 		ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
-	const time = getInputValue(block, 'DELAY',1, previousFrame).toString();
+	const time = getInputValue(block, 'DELAY',1, frameLocation,previousFrame).toString();
 
 	const timeCommand = new TimeCommand((parseFloat(time) * 1000).toFixed(0).toString());
 

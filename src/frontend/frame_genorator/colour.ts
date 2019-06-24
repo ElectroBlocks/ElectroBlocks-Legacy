@@ -3,11 +3,12 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
 import { Block } from "../frame/block";
 import { getInputValue } from "../frame/blockly_helper";
 import { getRandomInt } from "./math";
+import { FrameLocation } from "../frame/frame";
 
 /**
  * 
  */
-const colour_picker_block = (block: Block, previousFrame?: ArduinoFrame) : Color => {
+const colour_picker_block = (block: Block,frameLocation: FrameLocation, previousFrame?: ArduinoFrame) : Color => {
 	let value = block.getFieldValue('COLOUR');
 
 	return hexToRgb(value)
@@ -20,7 +21,7 @@ const colour_picker_block = (block: Block, previousFrame?: ArduinoFrame) : Color
  * @param previousFrame
  * @return {{r: *, g: *, b: *}}
  */
-const colour_random_block = (block: Block, previousFrame?: ArduinoFrame): Color =>  {
+const colour_random_block = (block: Block,frameLocation: FrameLocation, previousFrame?: ArduinoFrame): Color =>  {
 
 	return { red: getRandomInt(0, 255), green : getRandomInt(0, 255), blue: getRandomInt(0, 255) };
 }
@@ -32,12 +33,13 @@ const colour_random_block = (block: Block, previousFrame?: ArduinoFrame): Color 
  * @param previousFrame
  * @return {{r: Number, g: Number, b: Number}}
  */
-const colour_rgb_block = (block: Block, previousFrame?: ArduinoFrame) : Color =>  {
+const colour_rgb_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) : Color =>  {
 
 	const red = getInputValue(
 		block,
 		'RED',
 		0,
+		frameLocation,
 		previousFrame
 	).toString();
 
@@ -45,6 +47,7 @@ const colour_rgb_block = (block: Block, previousFrame?: ArduinoFrame) : Color =>
 		block,
 		'GREEN',
 		0,
+		frameLocation,
 		previousFrame
 	).toString();
 
@@ -52,6 +55,7 @@ const colour_rgb_block = (block: Block, previousFrame?: ArduinoFrame) : Color =>
 		block,
 		'BLUE',
 		0,
+		frameLocation,
 		previousFrame
 	).toString();
 

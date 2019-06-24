@@ -43,14 +43,14 @@ describe('logic', () => {
 		it ('should return true it\'s set to TRUE', () => {
 			blockSpy.withArgs('BOOL').and.returnValue('TRUE');
 
-			expect(logic_boolean_block(block)).toBeTruthy();
+			expect(logic_boolean_block(block, frameLocation)).toBeTruthy();
 		});
 
 
 		it ('should return false it\'s set to FALSE', () => {
 			blockSpy.withArgs('BOOL').and.returnValue('FALSE');
 
-			expect(logic_boolean_block(block)).toBeFalsy();
+			expect(logic_boolean_block(block, frameLocation)).toBeFalsy();
 
 		});
 	});
@@ -58,67 +58,67 @@ describe('logic', () => {
 	describe('logic_compare_block', () => {
 		it ('should return true for EQ if both sides are the same', () => {
 			blockSpy.withArgs('OP').and.returnValue('EQ');
-			getInputValueSpy.withArgs(block,'A', true, undefined).and.returnValue(3);
-			getInputValueSpy.withArgs(block,'B', false, undefined).and.returnValue(3);
+			getInputValueSpy.withArgs(block,'A', true, frameLocation, undefined).and.returnValue(3);
+			getInputValueSpy.withArgs(block,'B', false, frameLocation, undefined).and.returnValue(3);
 
-			expect(logic_compare_block(block)).toBeTruthy();
+			expect(logic_compare_block(block, frameLocation)).toBeTruthy();
 		});
 
 		it ('should return false for EQ if both sides are not the same', () => {
 			blockSpy.withArgs('OP').and.returnValue('EQ');
-			getInputValueSpy.withArgs(block,'A', true, undefined).and.returnValue(3);
-			getInputValueSpy.withArgs(block,'B', false, undefined).and.returnValue(4);
+			getInputValueSpy.withArgs(block,'A', true, frameLocation, undefined).and.returnValue(3);
+			getInputValueSpy.withArgs(block,'B', false, frameLocation, undefined).and.returnValue(4);
 
-			expect(logic_compare_block(block)).toBeFalsy();
+			expect(logic_compare_block(block, frameLocation)).toBeFalsy();
 		});
 
 		it('should return true if both sides are not equal and using NEQ operator', () => {
 			blockSpy.withArgs('OP').and.returnValue('NEQ');
-			getInputValueSpy.withArgs(block,'A', true, undefined).and.returnValue(3);
-			getInputValueSpy.withArgs(block,'B', false, undefined).and.returnValue(4);
+			getInputValueSpy.withArgs(block,'A', true, frameLocation, undefined).and.returnValue(3);
+			getInputValueSpy.withArgs(block,'B', false, frameLocation, undefined).and.returnValue(4);
 
-			expect(logic_compare_block(block)).toBeTruthy();
+			expect(logic_compare_block(block, frameLocation)).toBeTruthy();
 
 		});
 
 		it('should return true if side A is less than side B using LT', () => {
 			blockSpy.withArgs('OP').and.returnValue('LT');
-			getInputValueSpy.withArgs(block,'A', true, undefined).and.returnValue(3);
-			getInputValueSpy.withArgs(block,'B', false, undefined).and.returnValue(4);
+			getInputValueSpy.withArgs(block,'A', true, frameLocation, undefined).and.returnValue(3);
+			getInputValueSpy.withArgs(block,'B', false, frameLocation, undefined).and.returnValue(4);
 
-			expect(logic_compare_block(block)).toBeTruthy();
+			expect(logic_compare_block(block, frameLocation)).toBeTruthy();
 
 		});
 
 		it('should return true if side A and side B are equal using LTE', () => {
 			blockSpy.withArgs('OP').and.returnValue('LTE');
-			getInputValueSpy.withArgs(block,'A', true, undefined).and.returnValue(4);
-			getInputValueSpy.withArgs(block,'B', false, undefined).and.returnValue(4);
+			getInputValueSpy.withArgs(block,'A', true, frameLocation, undefined).and.returnValue(4);
+			getInputValueSpy.withArgs(block,'B', false, frameLocation, undefined).and.returnValue(4);
 
-			expect(logic_compare_block(block)).toBeTruthy();
+			expect(logic_compare_block(block, frameLocation)).toBeTruthy();
 
 		});
 
 		it('should return true if side A is greater than side B using GT', () => {
 			blockSpy.withArgs('OP').and.returnValue('GT');
-			getInputValueSpy.withArgs(block,'A', true, undefined).and.returnValue(4);
-			getInputValueSpy.withArgs(block,'B', false, undefined).and.returnValue(2);
+			getInputValueSpy.withArgs(block,'A', true, frameLocation, undefined).and.returnValue(4);
+			getInputValueSpy.withArgs(block,'B', false, frameLocation, undefined).and.returnValue(2);
 
-			expect(logic_compare_block(block)).toBeTruthy();
+			expect(logic_compare_block(block, frameLocation)).toBeTruthy();
 		});
 
 		it('should return true if side A is greater than side B using GTE', () => {
 			blockSpy.withArgs('OP').and.returnValue('GTE');
-			getInputValueSpy.withArgs(block,'A', true, undefined).and.returnValue(4);
-			getInputValueSpy.withArgs(block,'B', false, undefined).and.returnValue(2);
+			getInputValueSpy.withArgs(block,'A', true, frameLocation, undefined).and.returnValue(4);
+			getInputValueSpy.withArgs(block,'B', false, frameLocation, undefined).and.returnValue(2);
 
-			expect(logic_compare_block(block)).toBeTruthy();
+			expect(logic_compare_block(block, frameLocation)).toBeTruthy();
 		});
 	});
 
 	describe('control_if_block', () => {
 		it ('should generate frames that are inside do statement if the if blocks are true', () => {
-			getInputValueSpy.withArgs(block, 'IF0', true, undefined)
+			getInputValueSpy.withArgs(block, 'IF0', true, frameLocation, undefined)
 				.and.returnValue(true);
 
 			generateFrameForInputStatementSpy.withArgs(
@@ -139,7 +139,7 @@ describe('logic', () => {
 		});
 
 		it ('should return with on frame if if blocks are false', () => {
-			getInputValueSpy.withArgs(block, 'IF0', true, undefined)
+			getInputValueSpy.withArgs(block, 'IF0', true, frameLocation, undefined)
 				.and.returnValue(false);
 
 			expect(generateFrameForInputStatementSpy).not.toHaveBeenCalledWith();
@@ -156,7 +156,7 @@ describe('logic', () => {
 	describe('controls_ifelse_block', () => {
 
 		it ('should execute blocks in else if false is connected', () => {
-			getInputValueSpy.withArgs(block, 'IF0', true, undefined)
+			getInputValueSpy.withArgs(block, 'IF0', true, frameLocation, undefined)
 				.and.returnValue(false);
 
 			generateFrameForInputStatementSpy.withArgs(
@@ -180,16 +180,16 @@ describe('logic', () => {
 	describe('logic_negate_block', () => {
 
 		it ('should turn true to false', () => {
-			getInputValueSpy.withArgs(block,'BOOL', true, undefined).and.returnValue(false);
+			getInputValueSpy.withArgs(block,'BOOL', true,frameLocation, undefined).and.returnValue(false);
 
-			expect(logic_negate_block(block)).toBeTruthy();
+			expect(logic_negate_block(block, frameLocation)).toBeTruthy();
 
 		});
 
 		it ('should turn true to false', () => {
-			getInputValueSpy.withArgs(block,'BOOL', true, undefined).and.returnValue(true);
+			getInputValueSpy.withArgs(block,'BOOL', true,frameLocation, undefined).and.returnValue(true);
 
-			expect(logic_negate_block(block)).toBeFalsy();
+			expect(logic_negate_block(block, frameLocation)).toBeFalsy();
 
 		});
 	});

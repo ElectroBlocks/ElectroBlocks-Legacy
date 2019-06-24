@@ -28,7 +28,7 @@ Blockly.Blocks['temp_get_temp'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')
@@ -63,7 +63,7 @@ Blockly.Blocks['temp_get_humidity'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')

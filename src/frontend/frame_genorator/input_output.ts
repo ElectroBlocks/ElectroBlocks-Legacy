@@ -18,6 +18,7 @@ export const analog_write_block = (block: Block, frameLocation: FrameLocation, p
 		block,
 		'WRITE_VALUE',
 		0,
+		frameLocation,
 		previousFrame) as string
 	);
 

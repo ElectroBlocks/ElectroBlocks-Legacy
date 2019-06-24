@@ -31,7 +31,7 @@ describe('Neo Pixel', () => {
 
 	it ('should setup the neo pixel component', () => {
 
-		getInputValueSpy.withArgs(setupBlock, 'NUMBER_LEDS', 30, undefined).and.returnValue(30);
+		getInputValueSpy.withArgs(setupBlock, 'NUMBER_LEDS', 30,{ location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(30);
 
 		getFieldValueSetupBlock.withArgs('PIN').and.returnValue('A0');
 
@@ -45,31 +45,31 @@ describe('Neo Pixel', () => {
 	});
 
 	it ('should be able to set neo pixel colors on the strip', () => {
-		getInputValueSpy.withArgs(setupBlock, 'NUMBER_LEDS', 30, undefined).and.returnValue(30);
+		getInputValueSpy.withArgs(setupBlock, 'NUMBER_LEDS', 30,{ location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(30);
 
 		getFieldValueSetupBlock.withArgs('PIN').and.returnValue('A0');
 
 		const [previousFrame] = neo_pixel_setup_block(setupBlock, { location: 'pre-setup', iteration: 0 });
 
-		getInputValueSpy.withArgs(colorBlock, 'COLOR', { red: 33, green: 0, blue: 0 }, previousFrame).and.returnValue({ red: 140, green: 0, blue: 0 });
+		getInputValueSpy.withArgs(colorBlock, 'COLOR', { red: 33, green: 0, blue: 0 }, {iteration: 0, location: 'loop'}, previousFrame).and.returnValue({ red: 140, green: 0, blue: 0 });
 
-		getInputValueSpy.withArgs(colorBlock, 'POSITION', 1, previousFrame).and.returnValue(20);
+		getInputValueSpy.withArgs(colorBlock, 'POSITION', 1, {iteration: 0, location: 'loop'}, previousFrame).and.returnValue(20);
 
 		const [frame1] = neo_pixel_set_color_block(colorBlock, {iteration: 0, location: 'loop'}, previousFrame);
 
 		expect(frame1.nextCommand().command).toBe('M-N-140:0:0:20|');
 
-		getInputValueSpy.withArgs(colorBlock, 'COLOR', { red: 33, green: 0, blue: 0 }, frame1).and.returnValue({ red: 0, green: 140, blue: 0 });
+		getInputValueSpy.withArgs(colorBlock, 'COLOR', { red: 33, green: 0, blue: 0 }, {iteration: 0, location: 'loop'}, frame1).and.returnValue({ red: 0, green: 140, blue: 0 });
 
-		getInputValueSpy.withArgs(colorBlock, 'POSITION', 1, frame1).and.returnValue(30);
+		getInputValueSpy.withArgs(colorBlock, 'POSITION', 1, {iteration: 0, location: 'loop'}, frame1).and.returnValue(30);
 
 		const [frame2] = neo_pixel_set_color_block(colorBlock, {iteration: 0, location: 'loop'}, frame1);
 
 		expect(frame2.nextCommand().command).toBe('M-N-140:0:0:20|M-N-0:140:0:30|');
 
-		getInputValueSpy.withArgs(colorBlock, 'COLOR', { red: 33, green: 0, blue: 0 }, frame2).and.returnValue({ red: 0, green: 0, blue: 140 });
+		getInputValueSpy.withArgs(colorBlock, 'COLOR', { red: 33, green: 0, blue: 0 }, {iteration: 0, location: 'loop'}, frame2).and.returnValue({ red: 0, green: 0, blue: 140 });
 
-		getInputValueSpy.withArgs(colorBlock, 'POSITION', 1, frame2).and.returnValue(20);
+		getInputValueSpy.withArgs(colorBlock, 'POSITION', 1, {iteration: 0, location: 'loop'}, frame2).and.returnValue(20);
 
 		const [frame3] = neo_pixel_set_color_block(colorBlock, {iteration: 0, location: 'loop'}, frame2);
 

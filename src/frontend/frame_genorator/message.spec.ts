@@ -38,7 +38,7 @@ describe('message', () => {
 
 	it ('should use the previous frame if available', () => {
 
-		getInputValueSpy.withArgs(usbblock, 'MESSAGE', '', previousFrame).and.returnValue('Hello World');
+		getInputValueSpy.withArgs(usbblock, 'MESSAGE', '',{ location: 'loop', iteration: 1 }, previousFrame).and.returnValue('Hello World');
 
 		const frames = send_message_block(usbblock, { location: 'loop', iteration: 1 }, previousFrame);
 
@@ -52,7 +52,7 @@ describe('message', () => {
 
 	it ('should to an empty command frame if previous frame not available', () => {
 
-		getInputValueSpy.withArgs(usbblock, 'MESSAGE', '', undefined).and.returnValue('People Cool');
+		getInputValueSpy.withArgs(usbblock, 'MESSAGE', '',{ location: 'loop', iteration: 1 }, undefined).and.returnValue('People Cool');
 
 		const frames = send_message_block(usbblock, { location: 'loop', iteration: 1 });
 
@@ -65,7 +65,7 @@ describe('message', () => {
 	});
 
 	it ('should be able to do bluetooth block as well', () => {
-		getInputValueSpy.withArgs(bluetoothSendMessageBlock, 'MESSAGE', '', undefined).and.returnValue('Blue Cool');
+		getInputValueSpy.withArgs(bluetoothSendMessageBlock, 'MESSAGE', '',{ location: 'loop', iteration: 1 }, undefined).and.returnValue('Blue Cool');
 
 		const [frame] = send_message_block(bluetoothSendMessageBlock, { location: 'loop', iteration: 1 });
 

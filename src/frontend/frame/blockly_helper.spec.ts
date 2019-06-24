@@ -9,6 +9,7 @@ import { inputState } from "./input_state";
 
 describe('generateFrameForInputStatement', () => {
 
+	const frameLocation = { location: 'loop', iteration: 0 };
 
 	it ('should generate a list of frames from a input that contains blocks', () => {
 
@@ -76,7 +77,7 @@ describe('generateFrameForInputStatement', () => {
 
 	it('should get the input value from a block', () => {
 
-		valueGeneratingBlocks['number_block'] = (block: Block, previousFrame?: Frame) => 4;
+		valueGeneratingBlocks['number_block'] = (block: Block, frameLocation: FrameLocation, previousFrame?: Frame) => 4;
 
 		const targetBlockContainingValue: Block|any = {
 			type: 'number'
@@ -97,12 +98,12 @@ describe('generateFrameForInputStatement', () => {
 			}
 		};
 
-		expect(getInputValue(parentBlock, 'VALUE', 0)).toBe(4);
+		expect(getInputValue(parentBlock, 'VALUE', 0,frameLocation)).toBe(4);
 	});
 
 	it('should get the value from the inputState class for debug blcoks', () => {
 
-		spyOn(inputState, 'addBlockCall').withArgs('block_id').and.returnValue({'value': 'awesome'});
+		spyOn(inputState, 'addBlockCall').withArgs('block_id', frameLocation).and.returnValue({'value': 'awesome'});
 
 		const targetBlockContainingValue: Block|any = {
 			defaultDebugValue: true,
@@ -124,7 +125,7 @@ describe('generateFrameForInputStatement', () => {
 			}
 		};
 
-		expect(getInputValue(parentBlock, 'VALUE', 0)).toBe('awesome');
+		expect(getInputValue(parentBlock, 'VALUE', 0, frameLocation)).toBe('awesome');
 	});
 
 	it('should use default value if no blocks are attached', () => {
@@ -144,7 +145,7 @@ describe('generateFrameForInputStatement', () => {
 			}
 		};
 
-		expect(getInputValue(parentBlock, 'VALUE', 0)).toBe(0);
+		expect(getInputValue(parentBlock, 'VALUE', 0,frameLocation )).toBe(0);
 	});
 
 

@@ -95,7 +95,7 @@ import {
     parse_string_block_block
 } from  '../frame_genorator/text';
 
-let valueGeneratingBlocks: { [key: string] : (block: Block, previousFrame?: Frame) =>  number|string|boolean|Color|Array<number|string|boolean|Color> };
+let valueGeneratingBlocks: { [key: string] : (block: Block, frameLocation: FrameLocation,  previousFrame?: Frame) =>  number|string|boolean|Color|Array<number|string|boolean|Color> };
 
 let frameGeneratingBlocks: { [key: string] : (block: Block, frameLocation: FrameLocation, previousFrame?: Frame) =>  Frame[] };
 
@@ -191,7 +191,6 @@ valueGeneratingBlocks = {
     text_length_block,
     number_to_string_block,
     parse_string_block_block,
-
 };
 
 export {

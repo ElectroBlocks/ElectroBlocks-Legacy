@@ -25,7 +25,7 @@ describe('time', () => {
 	describe('delay_block_block', () => {
 
 		it ('should create a delay command in frame', () => {
-			getInputValueSpy.withArgs( block, 'DELAY', 1, undefined )
+			getInputValueSpy.withArgs( block, 'DELAY', 1, frameLocation, undefined )
 				.and.returnValue( 2.432343 );
 
 			const [ frame ] = delay_block_block( block, frameLocation );

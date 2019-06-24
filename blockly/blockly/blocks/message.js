@@ -16,7 +16,7 @@ Blockly.Blocks['receive_message'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')
@@ -42,7 +42,7 @@ Blockly.Blocks['receive_message'] = {
 Blockly.Blocks['has_message'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("Is Arduino receiving a message from the computer?")
+            .appendField("Is Arduino receiving a message?")
             .appendField(new Blockly.FieldImage("images/receiving_message.png", 15, 15, "*"));
         this.setOutput(true, "Boolean");
         this.setColour(30);
@@ -50,7 +50,7 @@ Blockly.Blocks['has_message'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')
@@ -78,7 +78,7 @@ Blockly.Blocks['has_message'] = {
 Blockly.defineBlocksWithJsonArray([
     {
         "type": "send_message",
-        "message0": "Arduino send message to computer %1 %2",
+        "message0": "Arduino send message %1 %2",
         "args0": [
             {
                 "type": "field_image",

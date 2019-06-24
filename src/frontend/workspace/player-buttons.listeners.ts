@@ -72,6 +72,7 @@ export const toggleDebugBlocks = ( showInputDebugBlocks: boolean ) => {
 				return;
 			}
 
+			block.debugModeOn(); // This has to be done for some weird reason
 			block.debugModeOff();
 	} );
 };
@@ -87,8 +88,7 @@ export const setupVideoPlayer = async () => {
 
 	scrubBar.setAttribute( 'min', '0' );
 	scrubBar.setAttribute( 'max', (frames.length - 1).toString() );
-	framePlayer.setFrames( frames );
-
+	await framePlayer.setFrames( frames );
 	enablePlayerUI();
 };
 

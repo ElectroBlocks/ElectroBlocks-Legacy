@@ -45,7 +45,7 @@ describe('Variables Frame Generators', () => {
 				.and.returnValue('variable_id');
 
 			spyOn(blockHelperFunctions, 'getInputValue')
-				.withArgs(block, 'VALUE', defaultValue, jasmine.any(ArduinoFrame))
+				.withArgs(block, 'VALUE', defaultValue, frameLocation, jasmine.any(ArduinoFrame))
 				.and.returnValue(value);
 
 			spyOn(blocklyMock.mainWorkspace, 'getVariableById')
@@ -186,7 +186,7 @@ describe('Variables Frame Generators', () => {
 
 			mockGetVariable('Colour', 'variable_name');
 
-			expect(variables_get_colour_block(block, previousFrame))
+			expect(variables_get_colour_block(block,frameLocation, previousFrame))
 				.toEqual({red: 30, green: 30, blue: 20});
 
 		});
@@ -211,7 +211,7 @@ describe('Variables Frame Generators', () => {
 
 			mockGetVariable('colour', 'variable_name');
 
-			expect(variables_get_number_block(block, previousFrame)).toBe(33);
+			expect(variables_get_number_block(block, frameLocation, previousFrame)).toBe(33);
 		});
 	});
 
@@ -233,7 +233,7 @@ describe('Variables Frame Generators', () => {
 
 			mockGetVariable('colour', 'variable_name');
 
-			expect(variables_get_string_block(block, previousFrame))
+			expect(variables_get_string_block(block, frameLocation, previousFrame))
 				.toBe('Hello World');
 
 		});
@@ -257,7 +257,7 @@ describe('Variables Frame Generators', () => {
 
 			mockGetVariable('Boolean', 'variable_name');
 
-			expect(variables_get_string_block(block, previousFrame)).toBe(false);
+			expect(variables_get_string_block(block, frameLocation, previousFrame)).toBe(false);
 		});
 	});
 

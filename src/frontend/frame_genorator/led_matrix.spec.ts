@@ -57,8 +57,8 @@ describe('led matrix', () => {
 		const getFieldValueSimpleBlockSpy = spyOn(simpleBlock, 'getFieldValue');
 		const getInputValueSpy = spyOn(blockHelper, 'getInputValue');
 
-		getInputValueSpy.withArgs(simpleBlock, 'ROW', 1, frame).and.returnValue(1);
-		getInputValueSpy.withArgs(simpleBlock, 'COLUMN', 1, frame).and.returnValue(1);
+		getInputValueSpy.withArgs(simpleBlock, 'ROW', 1,{ iteration: 1, location: 'loop' },  frame).and.returnValue(1);
+		getInputValueSpy.withArgs(simpleBlock, 'COLUMN', 1,{ iteration: 1, location: 'loop' }, frame).and.returnValue(1);
 		getFieldValueSimpleBlockSpy.withArgs('STATE').and.returnValue('OFF');
 
 		 const [frame2] = led_matrix_turn_one_on_off_block(simpleBlock, { iteration: 1, location: 'loop' }, frame);

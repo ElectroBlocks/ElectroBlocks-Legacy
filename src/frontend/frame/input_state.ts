@@ -1,5 +1,6 @@
 import { DebugValueBlock, get_blockly } from "./block";
 import { blocksInsideInput } from "./blockly_helper";
+import { FrameLocation } from "./frame";
 
 
 class InputState {
@@ -12,26 +13,40 @@ class InputState {
 	/**
 	 * Adds a block call to the list of block calls and returns the block
 	 */
-	public addBlockCall(blockId: string): BlockCall {
+	public addBlockCall(blockId: string, frameLocation: FrameLocation): BlockCall {
 
 		if (!this.blockCalls[blockId]) {
 			this.blockCalls[blockId] = [];
 		}
 
-		const callNumber = this.blockCalls[blockId] ?
-			this.blockCalls[blockId].length : 0;
+		const callNumber = this.blockCalls[blockId].length + 1;
 
 		const value = getBlockValue(blockId, callNumber);
 
 		const blockCall = {
 			blockId,
 			callNumber,
-			value
+			value,
+			frameLocation
 		};
 
 		this.blockCalls[blockId].push(blockCall);
 
 		return blockCall;
+	}
+
+	/**
+	 * Gets the current call number for the block
+	 *
+	 *
+	 * @param blockId
+	 * @param frameLocation
+	 */
+	callNumber(blockId: string, frameLocation: FrameLocation): number {
+		const blockCalls = this.blockCalls[blockId];
+		const callInfo = blockCalls.find(callInfo => callInfo.frameLocation == frameLocation);
+
+		return callInfo ? callInfo.callNumber : 1;
 	}
 
 	/**
@@ -53,17 +68,11 @@ const getBlockValue = (blockId: string, callNumber: number) => {
 
 	const debugBlocks = blocksInsideInput(block, 'FRAME_VALUES') as DebugValueBlock[];
 
-	if (debugBlocks.length == 0) {
+	if (debugBlocks.length == 0 || !debugBlocks[callNumber - 1]) {
 		return defaultValue;
 	}
 
-	if (debugBlocks[callNumber]) {
-		return debugBlocks[callNumber].getFrameValue();
-	}
-
-	const newCallNumber = callNumber % debugBlocks.length;
-
-	return debugBlocks[newCallNumber].getFrameValue();
+	return debugBlocks[callNumber - 1].getFrameValue();
 };
 
 export interface BlockCall {
@@ -73,6 +82,8 @@ export interface BlockCall {
 	callNumber: number;
 
 	value: any;
+
+	frameLocation: FrameLocation;
 }
 
 const inputState = new InputState();

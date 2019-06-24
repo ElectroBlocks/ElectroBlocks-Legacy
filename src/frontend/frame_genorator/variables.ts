@@ -17,7 +17,7 @@ const variables_set_number_block = (block: Block, frameLocation: FrameLocation, 
  * Returns the number in the variable,
  * If not available it uses 0
  */
-const variables_get_number_block = (block: Block, previousFrame?: ArduinoFrame) =>  {
+const variables_get_number_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) =>  {
    return parseFloat(getVariable(block, 0, previousFrame));
 };
 
@@ -32,7 +32,7 @@ const variables_set_colour_block = (block: Block, frameLocation: FrameLocation, 
 /**
  * Returns the colour in the variable, if not available it used 0 for the rgb values as the default
  */
-const variables_get_colour_block = (block: Block, previousFrame?: ArduinoFrame) => {
+const variables_get_colour_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
     return getVariable(block, {red: 0, green: 0, blue: 0}, previousFrame);
 };
 
@@ -48,7 +48,7 @@ const variables_set_string_block = (block: Block, frameLocation: FrameLocation, 
  * Returns the colour in the variable,
  * If not available it uses ''
  */
-const variables_get_string_block = (block: Block, previousFrame?: ArduinoFrame) => {
+const variables_get_string_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
     return getVariable(block, '', previousFrame);
 };
 
@@ -64,7 +64,7 @@ const variables_set_boolean_block = (block: Block, frameLocation: FrameLocation,
  * Returns the colour in the variable,
  * If not available it uses true
  */
-const variables_get_boolean_block = (block: Block, previousFrame?: ArduinoFrame) => {
+const variables_get_boolean_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
     return getVariable(block, true, previousFrame);
 };
 
@@ -106,7 +106,7 @@ const setVariable = (block: Block, type: string, defaultValue: any, frameLocatio
     let variableName = getVariableName(block);
 
     
-    let value = getInputValue(block, 'VALUE', defaultValue, previousFrame);
+    let value = getInputValue(block, 'VALUE', defaultValue, frameLocation, previousFrame);
 
     // If the type of variable is boolean we want it to be able to return false
     if (!isBooleanVariableReturningValue(type, value)) {

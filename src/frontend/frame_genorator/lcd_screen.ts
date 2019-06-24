@@ -11,10 +11,10 @@ export const lcd_setup_block = (block: Block, frameLocation: FrameLocation, prev
 	const memoryType = block.getFieldValue('MEMORY_TYPE') as LCD_SCREEN_MEMORY_TYPE;
 
 	const rows = parseInt(
-		getInputValue(block, 'ROWS', 2, previousFrame) as string);
+		getInputValue(block, 'ROWS', 2, frameLocation, previousFrame) as string);
 
 	const columns = parseInt(
-		getInputValue(block, 'COLUMNS', 16, previousFrame) as string);
+		getInputValue(block, 'COLUMNS', 16, frameLocation, previousFrame) as string);
 
 	const lcdComponent = new LCDScreen(memoryType, rows, columns);
 
@@ -33,9 +33,9 @@ export const lcd_screen_print_block = (block: Block, frameLocation: FrameLocatio
 	
 	const lcdScreen = previousFrame.components.find(component => component instanceof LCDScreen) as LCDScreen;
 
-	const row = parseInt(getInputValue(block, 'ROW', 0, previousFrame).toString());
-	const column = parseInt(getInputValue(block, 'COLUMN', 0, previousFrame).toString());
-	const print = getInputValue(block, 'PRINT', '', previousFrame).toString();
+	const row = parseInt(getInputValue(block, 'ROW', 0, frameLocation, previousFrame).toString());
+	const column = parseInt(getInputValue(block, 'COLUMN', 0, frameLocation, previousFrame).toString());
+	const print = getInputValue(block, 'PRINT', '', frameLocation, previousFrame).toString();
 	const command = lcdScreen.print(row, column, print);
 
 	return [
@@ -47,13 +47,17 @@ export const lcd_screen_simple_print_block = (block: Block, frameLocation: Frame
 
 	const lcdScreen = previousFrame.components.find(component => component instanceof LCDScreen) as LCDScreen;
 
-	const row1 = getInputValue(block, 'ROW_1', '', previousFrame).toString();
+	const row1 = getInputValue(block, 'ROW_1', '',
+		frameLocation,previousFrame).toString();
 
-	const row2 = getInputValue(block, 'ROW_2', '', previousFrame).toString();
+	const row2 = getInputValue(block, 'ROW_2', '',
+		frameLocation,previousFrame).toString();
 
-	const row3 = getInputValue(block, 'ROW_3', '', previousFrame).toString();
+	const row3 = getInputValue(block, 'ROW_3', '',
+		frameLocation,previousFrame).toString();
 
-	const row4 = getInputValue(block, 'ROW_4', '', previousFrame).toString();
+	const row4 = getInputValue(block, 'ROW_4', '',
+		frameLocation,previousFrame).toString();
 
 	const printCommand = lcdScreen.simplePrint([row1, row2, row3, row4]);
 
@@ -78,9 +82,9 @@ export const lcd_screen_blink_block = (block: Block, frameLocation: FrameLocatio
 
 	const lcdScreen = previousFrame.components.find(component => component instanceof LCDScreen) as LCDScreen;
 
-	const row =  parseInt(getInputValue(block, 'ROW', 0, previousFrame).toString());
+	const row =  parseInt(getInputValue(block, 'ROW', 0, frameLocation, previousFrame).toString());
 
-	const column = parseInt(getInputValue(block, 'COLUMN', 0, previousFrame).toString());
+	const column = parseInt(getInputValue(block, 'COLUMN', 0, frameLocation, previousFrame).toString());
 
 	const isOn = block.getFieldValue('NAME') == 'BLINK';
 

@@ -1,4 +1,4 @@
-import { ExecuteDebugFrame, ExecuteFrameInterface } from "./frame_execute";
+import { ExecuteDebugFrame, ExecuteFrameInterface, ExecuteUSBFrame } from "./frame_execute";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { COMMAND_TYPE } from "./command";
 import * as  BluebirdPromise   from 'bluebird';
@@ -8,7 +8,7 @@ import {  share } from "rxjs/operators";
 import { FrameOutput } from "./frame_output";
 
 /**
- *
+ * Frame player that executes the frame
  */
 export class FramePlayer {
 
@@ -29,11 +29,6 @@ export class FramePlayer {
 	public readonly changeFrame$ = this.changeFrameSubject
 		.asObservable()
 		.pipe(share());
-
-	/**
-	 * Current location, used to go as close to where the user was if new frames are created.
-	 */
-	private currentFrameLocation: FrameLocation;
 
 	/**
 	 * List of frames for the player to execute
@@ -57,18 +52,10 @@ export class FramePlayer {
 	 * 
 	 * @param frames
 	 */
-	public setFrames(frames: ArduinoFrame[]) {
+	public async setFrames(frames: ArduinoFrame[]) {
 		this.playing = false;
 		this.frames = frames;
-
-		if (!this.currentFrameLocation) {
-			this.currentFrameLocation = this.frames[0].frameLocation;
-		}
-
-		const currentFrame = this.frames
-			.findIndex(frame => frame.frameLocation == this.currentFrameLocation);
-
-		this.currentFrame = currentFrame < 0 ? 0 : currentFrame;
+		await this.skipToFrame(0);
 	}
 
 	/**
@@ -182,8 +169,6 @@ export class FramePlayer {
 			return;
 		}
 
-		this.setFrameLocation();
-
 		this.sendMessage(runSetup);
 
 		this.sendFrameOutput();
@@ -215,13 +200,6 @@ export class FramePlayer {
 		});
 	}
 
-	/**
-	 * Sets the location of where block last frame is being executes
-	 * Example We gone through loop block 2 times.
-	 */
-	private setFrameLocation() {
-		this.currentFrameLocation = this.frames[this.currentFrame].frameLocation;
-	}
 
 	/**
 	 * Sends the messages up to node / electron or somewhere else.
@@ -265,4 +243,4 @@ export class FramePlayer {
 }
 
 
-export const framePlayer = new FramePlayer(new ExecuteDebugFrame());
+export const framePlayer = new FramePlayer(new ExecuteUSBFrame());

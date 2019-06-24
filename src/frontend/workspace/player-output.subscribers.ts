@@ -1,7 +1,9 @@
-import {  get_blockly } from "../frame/block";
+import { DebugValueBlock, get_blockly } from "../frame/block";
 import { map, tap, filter } from "rxjs/operators";
 
 import { framePlayer } from "../frame/frame_player";
+import { inputState } from "../frame/input_state";
+import { blocksInsideInput } from "../frame/blockly_helper";
 
 const debugTbody = document.getElementById( 'debug-tbody' );
 const playBtn = document.getElementById( 'video-debug-play' ) as HTMLLinkElement;
@@ -18,12 +20,43 @@ framePlayer.changeFrame$.pipe(
 	})
 ).subscribe();
 
-framePlayer.changeFrame$.pipe(
-	filter(frameOutput => frameOutput.lastFrame),
-	tap(() => {
-		playBtn.firstElementChild.classList.add( 'fa-play' );
-		playBtn.firstElementChild.classList.remove( 'fa-stop' );
-	})
+framePlayer.changeFrame$
+	.pipe(
+		map(frameOutput => frameOutput.frameLocation),
+		tap(frameLocation => {
+			get_blockly().mainWorkspace.getAllBlocks()
+				.filter(block => block.defaultDebugValue !== undefined )
+				.forEach(block => {
+					const callNumber = inputState.callNumber(block.id, frameLocation);
+
+					const debugBlocks =
+						blocksInsideInput(block, 'FRAME_VALUES') as DebugValueBlock[];
+
+					debugBlocks.forEach(block => {
+						block.setColour(330);
+					});
+
+					if (!debugBlocks[callNumber - 1]) {
+						return;
+					}
+
+					console.log(callNumber, 'current call number');
+
+					debugBlocks[callNumber - 1].setColour('#aa0b3e');
+
+
+				})
+		})
+	)
+	.subscribe();
+
+framePlayer.changeFrame$
+	.pipe(
+		filter(frameOutput => frameOutput.lastFrame),
+		tap(() => {
+			playBtn.firstElementChild.classList.add( 'fa-play' );
+			playBtn.firstElementChild.classList.remove( 'fa-stop' );
+		})
 ).subscribe();
 
 framePlayer.changeFrame$

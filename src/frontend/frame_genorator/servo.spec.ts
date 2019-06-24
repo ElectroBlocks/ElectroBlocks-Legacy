@@ -37,12 +37,12 @@ describe('servo block frame', () => {
 
 	it ('should not duplicate servos', () => {
 		getFieldValueSpyBlock1.withArgs('PIN').and.returnValue(4);
-		getInputValueSpy.withArgs(block1, 'DEGREE', 0, undefined).and.returnValue(30);
+		getInputValueSpy.withArgs(block1, 'DEGREE', 0, { location: 'loop', iteration: 1 }, undefined).and.returnValue(30);
 
 		const [arduinoFrame] = servo_move_block(block1, { location: 'loop', iteration: 1 });
 
 		getFieldValueSpyBlock2.withArgs('PIN').and.returnValue(4);
-		getInputValueSpy.withArgs(block2, 'DEGREE', 0, arduinoFrame).and.returnValue(120);
+		getInputValueSpy.withArgs(block2, 'DEGREE', 0, { location: 'loop', iteration: 1 }, arduinoFrame).and.returnValue(120);
 
 		const [lastArduinoFrame] = servo_move_block(block2, { location: 'loop', iteration: 1 }, arduinoFrame);
 
@@ -52,12 +52,12 @@ describe('servo block frame', () => {
 
 	it ('should generate 2 servos components if the pins are different', () =>{
 		getFieldValueSpyBlock1.withArgs('PIN').and.returnValue(4);
-		getInputValueSpy.withArgs(block1, 'DEGREE', 0, undefined).and.returnValue(30);
+		getInputValueSpy.withArgs(block1, 'DEGREE', 0, { location: 'loop', iteration: 1 }, undefined).and.returnValue(30);
 
 		const [arduinoFrame] = servo_move_block(block1, { location: 'loop', iteration: 1 });
 
 		getFieldValueSpyBlock2.withArgs('PIN').and.returnValue(6);
-		getInputValueSpy.withArgs(block2, 'DEGREE', 0, arduinoFrame).and.returnValue(120);
+		getInputValueSpy.withArgs(block2, 'DEGREE', 0, { location: 'loop', iteration: 1 }, arduinoFrame).and.returnValue(120);
 
 		const [lastArduinoFrame] = servo_move_block(block2, { location: 'loop', iteration: 1 }, arduinoFrame);
 

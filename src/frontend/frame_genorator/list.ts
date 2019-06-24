@@ -42,23 +42,23 @@ const set_colour_list_block_block = (block: Block, frameLocation: FrameLocation,
 	return setArrayValue(block,  'Colour', frameLocation, previousFrame);
 };
 
-const get_number_from_list_block = (block: Block, previousFrame?: ArduinoFrame): number|undefined => {
-	return getArrayValue(block,  0, 'Number', previousFrame);
+const get_number_from_list_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): number|undefined => {
+	return getArrayValue(block,  0, 'Number', frameLocation, previousFrame);
 };
 
-const get_string_from_list_block = (block: Block, previousFrame?: ArduinoFrame): string|undefined => {
-	return getArrayValue(block,  '', 'String', previousFrame);
+const get_string_from_list_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): string|undefined => {
+	return getArrayValue(block,  '', 'String',frameLocation, previousFrame);
 };
 
-const get_boolean_from_list_block = (block: Block, previousFrame?: ArduinoFrame): boolean|undefined => {
-	return getArrayValue(block,  true, 'Boolean', previousFrame);
+const get_boolean_from_list_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): boolean|undefined => {
+	return getArrayValue(block,  true, 'Boolean',frameLocation, previousFrame);
 };
 
-const get_colour_from_list_block = (block: Block, previousFrame?: ArduinoFrame): Color|undefined => {
-	return getArrayValue(block,  {red: 255, green: 0, blue: 0}, 'Colour', previousFrame);
+const get_colour_from_list_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): Color|undefined => {
+	return getArrayValue(block,  {red: 255, green: 0, blue: 0}, 'Colour',frameLocation, previousFrame);
 };
 
-const getArrayValue = (block: Block, defaultValue: any, type: string, previousFrame?: ArduinoFrame) => {
+const getArrayValue = (block: Block, defaultValue: any, type: string,frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
 	let variableName = getVariableName(block);
 
 	let position = parseInt(
@@ -66,6 +66,7 @@ const getArrayValue = (block: Block, defaultValue: any, type: string, previousFr
 			block,
 			'POSITION',
 			0,
+			frameLocation,
 			previousFrame
 		).toString()
 	);
@@ -84,7 +85,7 @@ const getArrayValue = (block: Block, defaultValue: any, type: string, previousFr
 
 const setArrayValue = (block: Block, type: string, frameLocation: FrameLocation,  previousFrame?: ArduinoFrame) => {
 	const frame = previousFrame ?
-		previousFrame.makeCopy(block.id) :
+		previousFrame.makeCopy(block.id, frameLocation) :
 		ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
 	let position = parseInt(
@@ -92,6 +93,7 @@ const setArrayValue = (block: Block, type: string, frameLocation: FrameLocation,
 			block,
 			'POSITION',
 			0,
+			frameLocation,
 			previousFrame
 		).toString()
 	);
@@ -102,6 +104,7 @@ const setArrayValue = (block: Block, type: string, frameLocation: FrameLocation,
 		block,
 		'VALUE',
 		0,
+		frameLocation,
 		previousFrame
 	);
 

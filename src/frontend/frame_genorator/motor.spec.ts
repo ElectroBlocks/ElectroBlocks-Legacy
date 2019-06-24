@@ -37,14 +37,14 @@ describe('motor', () => {
 
 	it ('should not duplicate motor', () => {
 		getFieldValueSpyBlock1.withArgs('DIRECTION').and.returnValue('FORWARD');
-		getInputValueSpy.withArgs(block1, 'MOTOR', 1, undefined).and.returnValue(1);
-		getInputValueSpy.withArgs(block1, 'SPEED', 10, undefined).and.returnValue(40);
+		getInputValueSpy.withArgs(block1, 'MOTOR', 1, { location: 'loop', iteration: 1 }, undefined).and.returnValue(1);
+		getInputValueSpy.withArgs(block1, 'SPEED', 10,{ location: 'loop', iteration: 1 }, undefined).and.returnValue(40);
 
 		const [arduinoFrame] = move_motor_block(block1, { location: 'loop', iteration: 1 });
 
 		getFieldValueSpyBlock2.withArgs('DIRECTION').and.returnValue('BACKWARD');
-		getInputValueSpy.withArgs(block2, 'MOTOR', 1, arduinoFrame).and.returnValue(1);
-		getInputValueSpy.withArgs(block2, 'SPEED', 10, arduinoFrame).and.returnValue(140);
+		getInputValueSpy.withArgs(block2, 'MOTOR', 1,{ location: 'loop', iteration: 1 }, arduinoFrame).and.returnValue(1);
+		getInputValueSpy.withArgs(block2, 'SPEED', 10,{ location: 'loop', iteration: 1 }, arduinoFrame).and.returnValue(140);
 
 		const [lastArduinoFrame] = move_motor_block(block2, { location: 'loop', iteration: 1 }, arduinoFrame);
 
@@ -54,14 +54,14 @@ describe('motor', () => {
 
 	it ('should not have 2 motors if the motors are different numbers', () => {
 		getFieldValueSpyBlock1.withArgs('DIRECTION').and.returnValue('FORWARD');
-		getInputValueSpy.withArgs(block1, 'MOTOR', 1, undefined).and.returnValue(2);
-		getInputValueSpy.withArgs(block1, 'SPEED', 10, undefined).and.returnValue(40);
+		getInputValueSpy.withArgs(block1, 'MOTOR', 1,{ location: 'loop', iteration: 1 }, undefined).and.returnValue(2);
+		getInputValueSpy.withArgs(block1, 'SPEED', 10,{ location: 'loop', iteration: 1 }, undefined).and.returnValue(40);
 
 		const [arduinoFrame] = move_motor_block(block1, { location: 'loop', iteration: 1 });
 
 		getFieldValueSpyBlock2.withArgs('DIRECTION').and.returnValue('BACKWARD');
-		getInputValueSpy.withArgs(block2, 'MOTOR', 1, arduinoFrame).and.returnValue(6);
-		getInputValueSpy.withArgs(block2, 'SPEED', 10, arduinoFrame).and.returnValue(140);
+		getInputValueSpy.withArgs(block2, 'MOTOR', 1, { location: 'loop', iteration: 1 }, arduinoFrame).and.returnValue(6);
+		getInputValueSpy.withArgs(block2, 'SPEED', 10, { location: 'loop', iteration: 1 }, arduinoFrame).and.returnValue(140);
 
 		const [lastArduinoFrame] = move_motor_block(block2, { location: 'loop', iteration: 1 }, arduinoFrame);
 

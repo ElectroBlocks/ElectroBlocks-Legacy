@@ -12,6 +12,8 @@ describe('InputState', () => {
 
 	let debugBlocks: any[]|DebugValueBlock[] = [];
 
+	const frameLocation = { iteration: 1, location: 'loop' };
+
 	beforeEach(() => {
 		inputState.clearBlockCalls();
 
@@ -40,7 +42,7 @@ describe('InputState', () => {
 
 		block.defaultDebugValue = true;
 
-		expect(inputState.addBlockCall('block_id')).toBeTruthy();
+		expect(inputState.addBlockCall('block_id', frameLocation)).toBeTruthy();
 	});
 
 	it ('should use frame value block associated with the call number', () => {
@@ -56,27 +58,8 @@ describe('InputState', () => {
 				return 'Red'
 			}
 		} as any);
-		expect(inputState.addBlockCall('block_id').value).toBe('Blue');
-		expect(inputState.addBlockCall('block_id').value).toBe('Red');
+		expect(inputState.addBlockCall('block_id', frameLocation).value).toBe('Blue');
+		expect(inputState.addBlockCall('block_id', frameLocation).value).toBe('Red');
 	});
 
-	it ('should loop back around if there is not a block associated with call number', () => {
-		debugBlocks.push({
-			getFrameValue(){
-				return 'Blue'
-			}
-		} as any);
-
-		debugBlocks.push({
-			getFrameValue(){
-				return 'Red'
-			}
-		} as any);
-
-		expect(inputState.addBlockCall('block_id').value).toBe('Blue');
-		expect(inputState.addBlockCall('block_id').value).toBe('Red');
-		expect(inputState.addBlockCall('block_id').value).toBe('Blue');
-		expect(inputState.addBlockCall('block_id').value).toBe('Red');
-
-	});
 });

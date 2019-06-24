@@ -59,9 +59,9 @@ export class ArduinoFrame implements Frame, USB {
 
 	}
 
-	makeCopy( blockId: string ): ArduinoFrame {
+	makeCopy( blockId: string, frameLocation: FrameLocation ): ArduinoFrame {
 		return new ArduinoFrame(
-			blockId, this.variables, this.components, this.command, this.frameLocation
+			blockId, this.variables, this.components, this.command, frameLocation
 		);
 	}
 }

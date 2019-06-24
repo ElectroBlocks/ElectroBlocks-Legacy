@@ -8,7 +8,7 @@ export const send_message_block = (block: Block, frameLocation: FrameLocation, p
 
 	const isBluetooth = block.type === 'bt_send_message';
 
-	const message = getInputValue(block, 'MESSAGE', '', previousFrame).toString();
+	const message = getInputValue(block, 'MESSAGE', '',frameLocation, previousFrame).toString();
 
 	const command = isBluetooth ? new BluetoothCommand(message) :
 		new MessageCommand(message);

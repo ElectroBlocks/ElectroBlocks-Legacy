@@ -50,11 +50,22 @@ displacejs(variableMenu);
 let debugTableData = {};
 
 /**
- * Returns true if uploading code
+ *  true if uploading code
  * @type {boolean}
  */
 let uploadingCode = false;
 
+/**
+ *  true if the usb is connect
+ * @type {boolean}
+ */
+let usbConnected = false;
+
+/**
+ * True if debug video mode is on
+ * @type {boolean}
+ */
+let debugVideoMode = false;
 
 /**
  * Replaces the blockly prompt with something that will work with electron.
@@ -154,7 +165,10 @@ ipcRenderer.on('node:error', (message, data) => {
 
 ipcRenderer.on('open:file', (event, content) => {
     Blockly.mainWorkspace.clear();
-    Blockly.Xml.domToWorkspace(Blockly.mainWorkspace, Blockly.Xml.textToDom(content));
+    Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(content), Blockly.mainWorkspace);
+
+    toggleDebugBlocks( debugVideoMode );
+
 });
 
 ipcRenderer.on('get:code', () => {
@@ -194,23 +208,27 @@ ipcRenderer.on('debug:block', (event, blockId) => {
     }
 });
 
-ipcRenderer.on('arduino:usb', (event, hasUsb) => {
-    if (hasUsb) {
+ipcRenderer.on('arduino:usb', (event, isConnected) => {
+    usbConnected = isConnected;
+    if (isConnected) {
         arduinoConnected.classList.add('active');
         arduinoConnected.setAttribute('title', 'Arduino Connected');
-        serialMonitorBtn.classList.remove('disable');
+
         uploadCodeBtn.classList.remove('disable');
-        serialMonitorBtn.classList.add('active');
         uploadCodeBtn.classList.add('active');
+
+        serialMonitorBtn.classList.remove('disable');
+
 
     } else {
         arduinoConnected.classList.remove('active');
-        arduinoConnected.setAttribute('title', 'Arduino Not Connected');
-        serialMonitorBtn.classList.add('disable');
-        uploadCodeBtn.classList.add('disable');
-        serialMonitorBtn.classList.remove('active');
-        uploadCodeBtn.classList.remove('active');
+        arduinoConnected
+            .setAttribute('title', 'Arduino Not Connected');
 
+        serialMonitorBtn.classList.add('disable');
+
+        uploadCodeBtn.classList.add('disable');
+        uploadCodeBtn.classList.remove('active');
     }
 });
 
@@ -218,6 +236,7 @@ ipcRenderer.on('arduino:usb', (event, hasUsb) => {
 ipcRenderer.on('video:debug', async (event, turnOnDebugMode) => {
 
     uploadingCode = false;
+    debugVideoMode = turnOnDebugMode;
 
     uploadCodeBtn.classList.remove('disable');
     videoDebugBtn.classList.remove('disable');
@@ -252,6 +271,15 @@ ipcRenderer.on('video:debug', async (event, turnOnDebugMode) => {
 
 videoDebugBtn.addEventListener( 'click',  () => {
 
+    if (!usbConnected) {
+        ipcRenderer.send('video:debug-mode', sliderContainer.style.display !== 'block');
+        return;
+    }
+
+    if (uploadingCode) {
+        return;
+    }
+
     uploadingCode = true;
 
     uploadCodeBtn.classList.add('disable');
@@ -261,7 +289,6 @@ videoDebugBtn.addEventListener( 'click',  () => {
     videoDebugIcon.classList.add('fa-spin');
 
 
-    ipcRenderer.send('video:debug-mode', sliderContainer.style.display !== 'block')
 });
 
 

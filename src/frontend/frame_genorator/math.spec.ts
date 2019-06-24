@@ -52,27 +52,27 @@ describe('Math', () => {
 		};
 
 		getInputValueSpy
-			.withArgs(block, 'A', 1, undefined)
+			.withArgs(block, 'A', 1,frameLocation, undefined)
 			.and.callFake(() => aValue);
 
 		getInputValueSpy
-			.withArgs(block, 'B', 1, undefined)
+			.withArgs(block, 'B', 1,frameLocation, undefined)
 			.and.callFake(() => bValue);
 
 		getInputValueSpy
-			.withArgs(block, 'A', 1, previousFrame)
+			.withArgs(block, 'A', 1,frameLocation, previousFrame)
 			.and.callFake(() => aValue);
 
 		getInputValueSpy
-			.withArgs(block, 'B', 1, previousFrame)
+			.withArgs(block, 'B', 1,frameLocation, previousFrame)
 			.and.callFake(() => bValue);
 
 		getInputValueSpy
-			.withArgs(block, 'NUM', 1, previousFrame)
+			.withArgs(block, 'NUM', 1, frameLocation, previousFrame)
 			.and.callFake(() => numValue);
 
 		getInputValueSpy
-			.withArgs(block, 'NUM', 1, undefined)
+			.withArgs(block, 'NUM', 1,frameLocation, undefined)
 			.and.callFake(() => numValue);
 
 
@@ -83,7 +83,7 @@ describe('Math', () => {
 
 		numValue = '3'; // this has to be a string to test
 
-		expect(math_number_block(block)).toBe(3);
+		expect(math_number_block(block, frameLocation)).toBe(3);
 	});
 
 	describe('math_arithmetic_block', () => {
@@ -93,7 +93,7 @@ describe('Math', () => {
 			aValue = 30;
 			bValue = 22;
 
-			expect(math_arithmetic_block(block)).toBe(52);
+			expect(math_arithmetic_block(block, frameLocation)).toBe(52);
 		});
 
 		it ('should be able to minus 2 number', () => {
@@ -102,7 +102,7 @@ describe('Math', () => {
 
 			mathOperation = 'MINUS';
 
-			expect(math_arithmetic_block(block)).toBe(-10);
+			expect(math_arithmetic_block(block, frameLocation)).toBe(-10);
 		});
 
 		it ('should be able to multiply 2 number', () => {
@@ -111,7 +111,7 @@ describe('Math', () => {
 
 			mathOperation = 'MULTIPLY';
 
-			expect(math_arithmetic_block(block)).toBe(12);
+			expect(math_arithmetic_block(block, frameLocation)).toBe(12);
 
 		});
 
@@ -122,7 +122,7 @@ describe('Math', () => {
 
 			mathOperation = 'DIVIDE';
 
-			expect(math_arithmetic_block(block)).toBe(2);
+			expect(math_arithmetic_block(block, frameLocation)).toBe(2);
 
 		});
 
@@ -132,7 +132,7 @@ describe('Math', () => {
 			bValue = 3;
 			mathOperation = 'POWER';
 
-			expect(math_arithmetic_block(block, previousFrame)).toBe(8);
+			expect(math_arithmetic_block(block, frameLocation, previousFrame)).toBe(8);
 
 		});
 	});
@@ -142,21 +142,21 @@ describe('Math', () => {
 			mathOperation = 'ROUNDUP';
 			numValue = 33.32;
 
-			expect(math_round_block(block, previousFrame)).toBe(34);
+			expect(math_round_block(block, frameLocation, previousFrame)).toBe(34);
 		});
 
 		it('should be able to round down', () => {
 			mathOperation = 'ROUNDDOWN';
 			numValue = 33.22;
 
-			expect(math_round_block(block)).toBe(33);
+			expect(math_round_block(block, frameLocation)).toBe(33);
 		});
 
 		it('should be able to round', () => {
 			mathOperation = 'ROUND';
 			numValue = 33.22;
 
-			expect(math_round_block(block, previousFrame)).toBe(33);
+			expect(math_round_block(block, frameLocation, previousFrame)).toBe(33);
 		});
 	});
 
@@ -164,14 +164,14 @@ describe('Math', () => {
 		it ('should be able to get remainder', () => {
 
 			getInputValueSpy
-				.withArgs(block, 'DIVIDEND', 1, previousFrame)
+				.withArgs(block, 'DIVIDEND', 1, frameLocation, previousFrame)
 				.and.callFake(() => 40);
 
 			getInputValueSpy
-				.withArgs(block, 'DIVISOR', 1, previousFrame)
+				.withArgs(block, 'DIVISOR', 1, frameLocation, previousFrame)
 				.and.callFake(() => 30);
 
-			expect(math_modulo_block(block, previousFrame)).toBe(10);
+			expect(math_modulo_block(block, frameLocation, previousFrame)).toBe(10);
 
 		});
 	});
@@ -180,18 +180,18 @@ describe('Math', () => {
 
 		it ('should be able to get a random number', () => {
 			getInputValueSpy
-				.withArgs(block, 'FROM', 1, previousFrame)
+				.withArgs(block, 'FROM', 1, frameLocation, previousFrame)
 				.and.returnValue(0);
 
 			getInputValueSpy
-				.withArgs(block, 'TO', 10, previousFrame)
-				.and.returnValue(10000)
+				.withArgs(block, 'TO', 10, frameLocation, previousFrame)
+				.and.returnValue(10000);
 
-			let randomNumber = math_random_int_block(block, previousFrame);
+			let randomNumber = math_random_int_block(block, frameLocation, previousFrame);
 
 			expect(randomNumber >= 0 && randomNumber <= 100000).toBeTruthy();
 
-			let randomNumber2 = math_random_int_block(block, previousFrame);
+			let randomNumber2 = math_random_int_block(block, frameLocation, previousFrame);
 
 			expect(randomNumber).not.toEqual(randomNumber2);
 		});
@@ -201,10 +201,10 @@ describe('Math', () => {
 	describe('string_to_number_block', () => {
 		it('should a  string into a number', () => {
 			getInputValueSpy
-				.withArgs(block, 'VALUE', 0, previousFrame)
+				.withArgs(block, 'VALUE', 0, frameLocation, previousFrame)
 				.and.returnValue(332);
 
-			const number = string_to_number_block(block, previousFrame);
+			const number = string_to_number_block(block, frameLocation, previousFrame);
 
 			expect(number).toBe('332');
 		});

@@ -6,7 +6,7 @@ goog.require('Blockly');
 Blockly.Blocks['debug_boolean'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("True / False Value")
+            .appendField("Debug Boolean")
             .appendField(new Blockly.FieldDropdown([["true","TRUE"], ["false","FALSE"]]), "FRAME_VALUE");
         this.setPreviousStatement(true, "BOOL_FRAME");
         this.setNextStatement(true, "BOOL_FRAME");
@@ -23,8 +23,8 @@ Blockly.Blocks['debug_boolean'] = {
 Blockly.Blocks['debug_text'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("Text Value")
-            .appendField(new Blockly.FieldTextInput("Say Something :)"), "FRAME_VALUE");
+            .appendField("Debug Text")
+            .appendField(new Blockly.FieldTextInput("Video Debug Text"), "FRAME_VALUE");
         this.setPreviousStatement(true, "TEXT_FRAME");
         this.setNextStatement(true, "TEXT_FRAME");
         this.setColour(330);
@@ -42,7 +42,7 @@ Blockly.Blocks['debug_text'] = {
 Blockly.Blocks['debug_number'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("Number Value")
+            .appendField("Debug Number")
             .appendField(new Blockly.FieldNumber(0, 0), "FRAME_VALUE");
         this.setPreviousStatement(true, "NUMBER_FRAME");
         this.setNextStatement(true, "NUMBER_FRAME");

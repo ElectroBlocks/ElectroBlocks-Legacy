@@ -22,7 +22,7 @@ Blockly.Blocks['bluetooth_setup'] = {
 Blockly.defineBlocksWithJsonArray([
     {
         "type": "bt_receive_message",
-        "message0": "Bluetooth get message from computer/phone %1",
+        "message0": "Bluetooth get message %1",
         "args0": [
             {
                 "type": "field_image",
@@ -39,7 +39,7 @@ Blockly.defineBlocksWithJsonArray([
     },
     {
         "type": "bt_has_message",
-        "message0": "Is Bluetooth receiving a message? %1",
+        "message0": "Bluetooth receiving a message? %1",
         "args0": [
             {
                 "type": "field_image",
@@ -56,7 +56,7 @@ Blockly.defineBlocksWithJsonArray([
     },
     {
         "type": "bt_send_message",
-        "message0": "Bluetooth send message to computer/phone %1 %2",
+        "message0": "Bluetooth send message %1 %2",
         "args0": [
             {
                 "type": "field_image",

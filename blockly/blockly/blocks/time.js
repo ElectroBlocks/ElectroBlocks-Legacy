@@ -12,7 +12,7 @@ goog.require('Blockly');
 Blockly.Blocks['time_seconds'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("Number of seconds code has been running.")
+            .appendField("Time arduino been running?")
             .appendField(new Blockly.FieldImage("images/time.png", 45, 45, "*"));
         this.setOutput(true, "Number");
         this.setColour(345);
@@ -20,7 +20,7 @@ Blockly.Blocks['time_seconds'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')

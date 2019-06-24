@@ -20,7 +20,7 @@ Blockly.Blocks['soil_sensor_setup'] = {
 Blockly.Blocks['soil_humidity_value'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("What is the humidity?")
+            .appendField("Soil Humidity")
             .appendField(new Blockly.FieldImage("images/humidity_value.png", 45, 45, "*"));
         this.setOutput(true, "Number");
         this.setColour(150);
@@ -28,7 +28,7 @@ Blockly.Blocks['soil_humidity_value'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')
@@ -55,7 +55,7 @@ Blockly.Blocks['soil_humidity_value'] = {
 Blockly.Blocks['soil_humidity_percentage'] = {
     init: function() {
         this.appendDummyInput()
-            .appendField("What is the soils humidity percentage?")
+            .appendField("Soil humidity percentage?")
             .appendField(new Blockly.FieldImage("images/humidity_percentage.jpg", 45, 45, "*"));
         this.setOutput(true, "Number");
         this.setColour(150);
@@ -63,7 +63,7 @@ Blockly.Blocks['soil_humidity_percentage'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')
@@ -98,7 +98,7 @@ Blockly.Blocks['soil_is_raining'] = {
         this.setHelpUrl("");
 
         this.appendDummyInput()
-            .appendField('Debug Mode Values')
+            .appendField('Fake Input Data')
             .setVisible(false);
 
         this.appendStatementInput('FRAME_VALUES')

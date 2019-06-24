@@ -121,7 +121,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     },
     {
         "type": "number_to_string",
-        "message0": "Number of decimals displayed %1 %2 Number to String %3",
+        "message0": "Decimal places displayed %1 %2 Number to String %3",
         "args0": [
             {
                 "type": "field_number",

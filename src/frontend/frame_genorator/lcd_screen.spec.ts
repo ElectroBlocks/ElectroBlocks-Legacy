@@ -46,9 +46,9 @@ describe('LCD Screen', () => {
 
 		blockGetFieldValueSpy.withArgs('MEMORY_TYPE').and.returnValue(LCD_SCREEN_MEMORY_TYPE.OX3F);
 
-		getInputValueSpy.withArgs(block, 'ROWS', 2, undefined).and.returnValue(4);
+		getInputValueSpy.withArgs(block, 'ROWS', 2, { location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(4);
 
-		getInputValueSpy.withArgs(block, 'COLUMNS', 16, undefined).and.returnValue(20);
+		getInputValueSpy.withArgs(block, 'COLUMNS', 16, { location: 'pre-setup', iteration: 0 },  undefined).and.returnValue(20);
 
 		const [frame] =
 			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
@@ -64,21 +64,21 @@ describe('LCD Screen', () => {
 
 		blockGetFieldValueSpy.withArgs('MEMORY_TYPE').and.returnValue(LCD_SCREEN_MEMORY_TYPE.OX3F);
 
-		getInputValueSpy.withArgs(block, 'ROWS', 2, undefined).and.returnValue(4);
+		getInputValueSpy.withArgs(block, 'ROWS', 2,{ location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(4);
 
-		getInputValueSpy.withArgs(block, 'COLUMNS', 16, undefined).and.returnValue(20);
+		getInputValueSpy.withArgs(block, 'COLUMNS', 16,{ location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(20);
 
 		const [previousFrame] =
 			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
 
-		getInputValueSpy.withArgs(lcdBlock, 'ROW_1', '', previousFrame).and.returnValue('Hello');
+		getInputValueSpy.withArgs(lcdBlock, 'ROW_1', '', { location: 'loop', iteration: 2 }, previousFrame).and.returnValue('Hello');
 
 
-		getInputValueSpy.withArgs(lcdBlock, 'ROW_2', '', previousFrame).and.returnValue('World');
+		getInputValueSpy.withArgs(lcdBlock, 'ROW_2', '',{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue('World');
 
-		getInputValueSpy.withArgs(lcdBlock, 'ROW_3', '', previousFrame).and.returnValue('');
+		getInputValueSpy.withArgs(lcdBlock, 'ROW_3', '',{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue('');
 
-		getInputValueSpy.withArgs(lcdBlock, 'ROW_4', '', previousFrame).and.returnValue('');
+		getInputValueSpy.withArgs(lcdBlock, 'ROW_4', '',{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue('');
 
 
 		const [frame] = lcd_screen_simple_print_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
@@ -90,9 +90,9 @@ describe('LCD Screen', () => {
 		blockGetFieldValueSpy.withArgs('MEMORY_TYPE')
 			.and.returnValue(LCD_SCREEN_MEMORY_TYPE.OX3F);
 
-		getInputValueSpy.withArgs(block, 'ROWS', 2, undefined).and.returnValue(4);
+		getInputValueSpy.withArgs(block, 'ROWS', 2,{ location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(4);
 
-		getInputValueSpy.withArgs(block, 'COLUMNS', 16, undefined).and.returnValue(20);
+		getInputValueSpy.withArgs(block, 'COLUMNS', 16, { location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(20);
 
 		const [previousFrame] =
 			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
@@ -106,16 +106,16 @@ describe('LCD Screen', () => {
 
 		blockGetFieldValueSpy.withArgs('MEMORY_TYPE').and.returnValue(LCD_SCREEN_MEMORY_TYPE.OX3F);
 
-		getInputValueSpy.withArgs(block, 'ROWS', 2, undefined).and.returnValue(4);
+		getInputValueSpy.withArgs(block, 'ROWS', 2, { location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(4);
 
-		getInputValueSpy.withArgs(block, 'COLUMNS', 16, undefined).and.returnValue(20);
+		getInputValueSpy.withArgs(block, 'COLUMNS', 16,{ location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(20);
 
 		const [previousFrame] =
 			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
 
-		getInputValueSpy.withArgs(lcdBlock, 'ROW', 0, previousFrame).and.returnValue(3);
+		getInputValueSpy.withArgs(lcdBlock, 'ROW', 0, { location: 'loop', iteration: 2 }, previousFrame).and.returnValue(3);
 
-		getInputValueSpy.withArgs(lcdBlock, 'COLUMN', 0, previousFrame).and.returnValue(12);
+		getInputValueSpy.withArgs(lcdBlock, 'COLUMN', 0, { location: 'loop', iteration: 2 }, previousFrame).and.returnValue(12);
 
 		lcdBlockGetFieldValueSpy.withArgs('NAME').and.returnValue('BLINK');
 
@@ -128,9 +128,9 @@ describe('LCD Screen', () => {
 
 		blockGetFieldValueSpy.withArgs('MEMORY_TYPE').and.returnValue(LCD_SCREEN_MEMORY_TYPE.OX3F);
 
-		getInputValueSpy.withArgs(block, 'ROWS', 2, undefined).and.returnValue(4);
+		getInputValueSpy.withArgs(block, 'ROWS', 2, { location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(4);
 
-		getInputValueSpy.withArgs(block, 'COLUMNS', 16, undefined).and.returnValue(20);
+		getInputValueSpy.withArgs(block, 'COLUMNS', 16, { location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(20);
 
 		const [previousFrame] =
 			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
@@ -146,29 +146,29 @@ describe('LCD Screen', () => {
 	it ('lcd_screen_print_block it should print', () => {
 		blockGetFieldValueSpy.withArgs('MEMORY_TYPE').and.returnValue(LCD_SCREEN_MEMORY_TYPE.OX3F);
 
-		getInputValueSpy.withArgs(block, 'ROWS', 2, undefined).and.returnValue(4);
+		getInputValueSpy.withArgs(block, 'ROWS', 2, { location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(4);
 
-		getInputValueSpy.withArgs(block, 'COLUMNS', 16, undefined).and.returnValue(20);
+		getInputValueSpy.withArgs(block, 'COLUMNS', 16, { location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(20);
 
 		const [previousFrame] =
 			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
 		
-		getInputValueSpy.withArgs(lcdBlock, 'ROW_1', '', previousFrame).and.returnValue('Hello');
+		getInputValueSpy.withArgs(lcdBlock, 'ROW_1', '',{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue('Hello');
 
-		getInputValueSpy.withArgs(lcdBlock, 'ROW_2', '', previousFrame).and.returnValue('World');
+		getInputValueSpy.withArgs(lcdBlock, 'ROW_2', '',{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue('World');
 
-		getInputValueSpy.withArgs(lcdBlock, 'ROW_3', '', previousFrame).and.returnValue('');
+		getInputValueSpy.withArgs(lcdBlock, 'ROW_3', '',{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue('');
 
-		getInputValueSpy.withArgs(lcdBlock, 'ROW_4', '', previousFrame).and.returnValue('');
+		getInputValueSpy.withArgs(lcdBlock, 'ROW_4', '',{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue('');
 	
 
 		const [frame] = lcd_screen_simple_print_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
 
-		getInputValueSpy.withArgs(lcdBlock, 'ROW', 0, previousFrame).and.returnValue(0);
+		getInputValueSpy.withArgs(lcdBlock, 'ROW', 0, { location: 'loop', iteration: 2 }, previousFrame).and.returnValue(0);
 
-		getInputValueSpy.withArgs(lcdBlock, 'COLUMN', 0, previousFrame).and.returnValue(0);
+		getInputValueSpy.withArgs(lcdBlock, 'COLUMN',  0,{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue(0);
 
-		getInputValueSpy.withArgs(lcdBlock, 'PRINT', '', previousFrame).and.returnValue('World');
+		getInputValueSpy.withArgs(lcdBlock, 'PRINT', '', { location: 'loop', iteration: 2 }, previousFrame).and.returnValue('World');
 
 		const [simplePrintScreen] = lcd_screen_print_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
 	

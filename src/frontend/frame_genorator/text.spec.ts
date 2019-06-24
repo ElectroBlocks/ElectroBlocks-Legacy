@@ -18,6 +18,8 @@ describe('text', () => {
 
 	let getInputValueSpy: jasmine.Spy;
 
+	const frameLocation = { location: 'loop', iteration: 3 };
+
 	let generateFrameForInputStatementSpy: jasmine.Spy;
 
 	let getVariableNameSpy: jasmine.Spy;
@@ -43,7 +45,7 @@ describe('text', () => {
 
 			blockSpy.withArgs('TEXT').and.returnValue('HELLO WORLD');
 
-			expect(text_block(block)).toBe('HELLO WORLD');
+			expect(text_block(block, frameLocation)).toBe('HELLO WORLD');
 		});
 	});
 
@@ -53,18 +55,18 @@ describe('text', () => {
 			block.inputList = [1,2,3];
 
 			getInputValueSpy
-				.withArgs(block,'ADD0', '', undefined)
+				.withArgs(block,'ADD0', '', frameLocation, undefined)
 				.and.returnValue('HELLO');
 
 			getInputValueSpy
-				.withArgs(block,'ADD1', '', undefined)
+				.withArgs(block,'ADD1', '',frameLocation, undefined)
 				.and.returnValue(' ');
 
 			getInputValueSpy
-				.withArgs(block,'ADD2', '', undefined)
+				.withArgs(block,'ADD2', '', frameLocation, undefined)
 				.and.returnValue('WORLD!');
 
-			expect(text_join_block(block)).toBe('HELLO WORLD!');
+			expect(text_join_block(block, frameLocation)).toBe('HELLO WORLD!');
 		});
 
 	});
@@ -74,20 +76,20 @@ describe('text', () => {
 		it('should change to upper case', () => {
 			blockSpy.withArgs('CASE').and.returnValue('UPPERCASE');
 			getInputValueSpy
-				.withArgs(block,'TEXT', '', undefined)
+				.withArgs(block,'TEXT', '',frameLocation, undefined)
 				.and.returnValue('world!');
 
-			expect(text_changeCase_block(block)).toBe('WORLD!');
+			expect(text_changeCase_block(block, frameLocation)).toBe('WORLD!');
 
 		});
 
 		it('should change to lower case', () => {
 			blockSpy.withArgs('CASE').and.returnValue('lowercase');
 			getInputValueSpy
-				.withArgs(block,'TEXT', '', undefined)
+				.withArgs(block,'TEXT', '',frameLocation, undefined)
 				.and.returnValue('WORLD!');
 
-			expect(text_changeCase_block(block)).toBe('world!');
+			expect(text_changeCase_block(block, frameLocation)).toBe('world!');
 
 		});
 
@@ -97,19 +99,19 @@ describe('text', () => {
 
 		it('should return true for empty text', () => {
 			getInputValueSpy
-				.withArgs(block,'VALUE', '', undefined)
+				.withArgs(block,'VALUE', '',frameLocation, undefined)
 				.and.returnValue('');
 
-			expect(text_isEmpty_block(block)).toBeTruthy();
+			expect(text_isEmpty_block(block, frameLocation)).toBeTruthy();
 
 		});
 
 		it('should return false for regular text', () => {
 			getInputValueSpy
-				.withArgs(block,'VALUE', '', undefined)
+				.withArgs(block,'VALUE', '',frameLocation, undefined)
 				.and.returnValue('HELLO');
 
-			expect(text_isEmpty_block(block)).toBeFalsy();
+			expect(text_isEmpty_block(block, frameLocation)).toBeFalsy();
 
 		});
 
@@ -121,44 +123,44 @@ describe('text', () => {
 			blockSpy.withArgs('PRECISION').and.returnValue('2');
 
 			getInputValueSpy
-				.withArgs(block, 'NUMBER', 0, undefined)
+				.withArgs(block, 'NUMBER', 0,frameLocation, undefined)
 				.and.returnValue(3.23343);
 
-			expect(number_to_string_block(block)).toBe('3.23');
+			expect(number_to_string_block(block, frameLocation)).toBe('3.23');
 		});
 	});
 
 	describe('parse_string_block_block', () => {
 		it('should take position 3 and change it to 2 position in the string list', () => {
 			getInputValueSpy
-				.withArgs(block, 'VALUE', '', undefined)
+				.withArgs(block, 'VALUE', '',frameLocation, undefined)
 				.and.returnValue('blue,red,yellow');
 
 			blockSpy.withArgs('DELIMITER').and.returnValue(',');
 
 
 			getInputValueSpy
-				.withArgs(block, 'POSITION', 0, undefined)
+				.withArgs(block, 'POSITION', 0, frameLocation, undefined)
 				.and.returnValue(3);
 
 
-			expect(parse_string_block_block(block)).toBe('yellow');
+			expect(parse_string_block_block(block, frameLocation)).toBe('yellow');
 		});
 
 		it('it should take the 0 value and return the right value', () => {
 			getInputValueSpy
-				.withArgs(block, 'VALUE', '', undefined)
+				.withArgs(block, 'VALUE', '', frameLocation, undefined)
 				.and.returnValue('blue,red,yellow');
 
 			blockSpy.withArgs('DELIMITER').and.returnValue(',');
 
 
 			getInputValueSpy
-				.withArgs(block, 'POSITION', 0, undefined)
+				.withArgs(block, 'POSITION', 0,frameLocation, undefined)
 				.and.returnValue(0);
 
 
-			expect(parse_string_block_block(block)).toBe('blue');
+			expect(parse_string_block_block(block, frameLocation)).toBe('blue');
 
 		});
 	});

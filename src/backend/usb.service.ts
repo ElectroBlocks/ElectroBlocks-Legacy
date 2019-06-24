@@ -27,13 +27,13 @@ export class UsbService {
 	 */
 	public async connect() {
 		if (!this.isClosed()) {
-			return;
+			return true;
 		}
 
 		const arduinoUsb = await this.getArduinoUsbPort();
 
 		if (!arduinoUsb) {
-			return;
+			return false;
 		}
 
 		this.serialPort = new SerialPort(arduinoUsb.comName.toString(), {
@@ -46,6 +46,8 @@ export class UsbService {
 		parser.on('data', line => {
 			this.messageSubject.next(line)
 		});
+
+		return true;
 	}
 
 	/**
@@ -53,8 +55,10 @@ export class UsbService {
 	 * @param message
 	 */
 	public async sendMessage(message: string) {
-		await this.connect();
-		this.serialPort.write(message + "|");
+		const isConnected = await this.connect();
+		if (isConnected) {
+			this.serialPort.write(message);
+		}
 	}
 
 	/**

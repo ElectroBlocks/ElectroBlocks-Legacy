@@ -17,6 +17,7 @@ export const neo_pixel_setup_block = (block: Block, frameLocation: FrameLocation
 		block,
 		'NUMBER_LEDS',
 		30,
+		frameLocation,
 		previousFrame).toString());
 
 	const neoPixelStrip = new NeoPixelStrip(stringToPin(pin), numberOfPixels);
@@ -38,12 +39,14 @@ export const neo_pixel_set_color_block = (block: Block, frameLocation: FrameLoca
 		block,
 		'COLOR',
 		{ red: 33, green: 0, blue: 0 },
+		frameLocation,
 		previousFrame) as Color;
 	
 	const position = parseInt(getInputValue(
 		block,
 		'POSITION',
 		1,
+		frameLocation,
 		previousFrame).toString());
 
 	const neoPixelStrip = previousFrame.components.find(usb => usb instanceof NeoPixelStrip) as NeoPixelStrip;

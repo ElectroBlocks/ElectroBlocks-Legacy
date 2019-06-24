@@ -7,7 +7,7 @@ import { USB } from "../arduino/usb";
 
 export const move_motor_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) : ArduinoFrame[] => {
 
-	let motorNumber = parseInt(getInputValue(block, 'MOTOR', 1, previousFrame).toString());
+	let motorNumber = parseInt(getInputValue(block, 'MOTOR', 1, frameLocation, previousFrame).toString());
 
 	if (motorNumber < 0 || motorNumber > 4) {
 		motorNumber = 1;
@@ -15,7 +15,7 @@ export const move_motor_block = (block: Block, frameLocation: FrameLocation, pre
 
 	const direction = block.getFieldValue('DIRECTION') as MOTOR_DIRECTION;
 
-	const speed = parseInt(getInputValue(block, 'SPEED', 10, previousFrame).toString());
+	const speed = parseInt(getInputValue(block, 'SPEED', 10, frameLocation, previousFrame).toString());
 
 	let components: USB[] = previousFrame ? previousFrame.components : [];
 

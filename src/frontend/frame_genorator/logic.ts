@@ -7,20 +7,21 @@ import { Frame, FrameLocation } from "../frame/frame";
 /**
  * Returns true or false based on the drop down of the block.
  */
-const logic_boolean_block = (block: Block, previousFrame?: ArduinoFrame) => {
+const logic_boolean_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
 	return block.getFieldValue('BOOL') == 'TRUE';
 };
 
 /**
  * Compares the value of the 2 blocks and returns true or false
  */
-const logic_compare_block = (block: Block, previousFrame?: ArduinoFrame) => {
+const logic_compare_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
 	let op = block.getFieldValue('OP');
 
 	let aValue = getInputValue(
 		block,
 		'A',
 		true,
+		frameLocation,
 		previousFrame
 	);
 
@@ -28,6 +29,7 @@ const logic_compare_block = (block: Block, previousFrame?: ArduinoFrame) => {
 		block,
 		'B',
 		false,
+		frameLocation,
 		previousFrame
 	);
 
@@ -66,13 +68,14 @@ const controls_ifelse_block = (block: Block, frameLocation: FrameLocation, previ
 /**
  * Compares to booleans with a logic operator and returns true or false
  */
-const logic_operation_block = (block: Block, previousFrame?: ArduinoFrame): boolean => {
+const logic_operation_block = (block: Block,frameLocation: FrameLocation, previousFrame?: ArduinoFrame): boolean => {
 	const op = block.getFieldValue('OP');
 
 	const aValue = getInputValue(
 		block,
 		'A',
 		true,
+		frameLocation,
 		previousFrame
 	) as boolean;
 
@@ -80,6 +83,7 @@ const logic_operation_block = (block: Block, previousFrame?: ArduinoFrame): bool
 		block,
 		'B',
 		false,
+		frameLocation,
 		previousFrame
 	) as boolean;
 
@@ -96,11 +100,12 @@ const logic_operation_block = (block: Block, previousFrame?: ArduinoFrame): bool
 /**
  * Returns the invert boolean value turns true to false and false to true.
  */
-const logic_negate_block = (block: Block, previousFrame?: ArduinoFrame) => {
+const logic_negate_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
 	let valueToInvert = getInputValue(
 		block,
 		'BOOL',
 		 true,
+		frameLocation,
 		previousFrame
 	);
 
@@ -113,13 +118,14 @@ const logic_negate_block = (block: Block, previousFrame?: ArduinoFrame) => {
 const generateIfElseFrames = (block: Block, hasElse: boolean, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) =>  {
 
 	let ifFrame = previousFrame ?
-		previousFrame.makeCopy(block.id) :
+		previousFrame.makeCopy(block.id, frameLocation) :
 		ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
 	let executeBlocksInsideIf = getInputValue(
 		block,
 		'IF0',
 		true,
+		frameLocation,
 		previousFrame
 	) as boolean;
 
