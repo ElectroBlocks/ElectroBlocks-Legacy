@@ -1,6 +1,7 @@
-import { LCD_SCREEN_MEMORY_TYPE, LCDScreen } from './lcd_screen';
+import {  LCDScreen } from './lcd_screen';
 import 'jasmine';
 import { COMMAND_TYPE } from "../frame/command";
+import { LCD_SCREEN_MEMORY_TYPE } from "./state/lcd_screen.state";
 
 describe('LCD Screen', () => {
     
@@ -36,19 +37,19 @@ describe('LCD Screen', () => {
         expect(lcd.simplePrint(['1 ', 'Blue'])).toEqual(lcd2.simplePrint(['1 ', 'Blue']));
     });
 
-    it('should be able do a setup command', () => {
+    it('should be able do a setup arduino.command', () => {
         let lcd = new LCDScreen(LCD_SCREEN_MEMORY_TYPE.OX3F, 3, 5);
 
         expect(lcd.setupCommandUSB().command).toBe('L:0x3F:3:5');
         expect(lcd.setupCommandUSB().type).toBe(COMMAND_TYPE.USB);
     });
 
-    it('should be able to produce clear command', () => {
+    it('should be able to produce clear arduino.command', () => {
         let lcd = new LCDScreen(LCD_SCREEN_MEMORY_TYPE.OX3F, 3, 5);
         expect(lcd.clear().command).toBe('M-L-C:0|');
     });
 
-    it ('should be able to produce the blink command', () => {
+    it ('should be able to produce the blink arduino.command', () => {
         let lcd = new LCDScreen(LCD_SCREEN_MEMORY_TYPE.OX3F, 3, 5);
 
         expect(lcd.blinkCommandLCD(1, 3, true).command).toBe('M-L-B:1:3:1|');
@@ -56,7 +57,7 @@ describe('LCD Screen', () => {
 
     });
 
-    it ('should be able to produce the backlight command', () => {
+    it ('should be able to produce the backlight arduino.command', () => {
         let lcd = new LCDScreen(LCD_SCREEN_MEMORY_TYPE.OX3F, 3, 5);
 
         expect(lcd.toggleBackLight(true).command).toBe('M-L-L:1|');

@@ -12,7 +12,7 @@ const colour_picker_block = (block: Block,frameLocation: FrameLocation, previous
 	let value = block.getFieldValue('COLOUR');
 
 	return hexToRgb(value)
-}
+};
 
 /**
  * Returns a random colour object
@@ -24,7 +24,7 @@ const colour_picker_block = (block: Block,frameLocation: FrameLocation, previous
 const colour_random_block = (block: Block,frameLocation: FrameLocation, previousFrame?: ArduinoFrame): Color =>  {
 
 	return { red: getRandomInt(0, 255), green : getRandomInt(0, 255), blue: getRandomInt(0, 255) };
-}
+};
 
 /**
  * Returns a colour object
@@ -61,7 +61,7 @@ const colour_rgb_block = (block: Block, frameLocation: FrameLocation, previousFr
 
 	return { red: parseInt(red), green : parseInt(green), blue: parseInt(blue) };
 
-}
+};
 
 /**
  * Converts a #332323 hex string to rgb colour object
@@ -76,13 +76,13 @@ const hexToRgb = (hex: string) =>  {
 		green: parseInt(result[2], 16),
 		blue: parseInt(result[3], 16)
 	} : null;
-}
+};
 
 class Color {
 	red: number;
 	green: number;
 	blue: number;
-}
+};
 
 export  {
 	colour_rgb_block,

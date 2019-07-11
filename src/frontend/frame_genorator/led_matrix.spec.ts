@@ -2,6 +2,7 @@ import 'jasmine';
 import { Block } from "../frame/block";
 import { led_matrix_make_draw_block, led_matrix_turn_one_on_off_block } from "./led_matrix";
 import * as blockHelper from "../frame/blockly_helper";
+import { LedMatrixState } from "../arduino/state/led_matrix.state";
 
 describe('led matrix', () => {
 
@@ -43,16 +44,17 @@ describe('led matrix', () => {
 
 	it ('should be able to draw a pattern with the big block and then set one led with individual block', () => {
 
-		let command = '';
-		for (let i = 0; i < 8; i += 1) {
-			for (let j = 0; j < 8; j += 1) {
-				command += `M-LC-${i}:${j}:${i % 2 == 0 ? 'ON' : 'OFF' }|`;
-			}
-		}
 
 		const [frame] = led_matrix_make_draw_block(bigBlock, { iteration: 1, location: 'loop' });
 
-		expect(frame.nextCommand().command).toBe(command);
+		const ledMatrixState1 = frame.state.components.find(component => component instanceof  LedMatrixState) as LedMatrixState;
+
+		for (let i = 0; i < 8; i += 1) {
+			for (let j = 0; j < 8; j += 1) {
+				const led = ledMatrixState1.leds.find(led => led.row == i && led.col == j);
+				expect(led.isOn).toBe(i % 2 == 0);
+			}
+		}
 
 		const getFieldValueSimpleBlockSpy = spyOn(simpleBlock, 'getFieldValue');
 		const getInputValueSpy = spyOn(blockHelper, 'getInputValue');
@@ -62,13 +64,22 @@ describe('led matrix', () => {
 		getFieldValueSimpleBlockSpy.withArgs('STATE').and.returnValue('OFF');
 
 		 const [frame2] = led_matrix_turn_one_on_off_block(simpleBlock, { iteration: 1, location: 'loop' }, frame);
+		const ledMatrixState2 = frame2.state.components.find(component => component instanceof  LedMatrixState) as LedMatrixState;
 
-		const tinyCommands =  command.split('|');
-		tinyCommands[0] = 'M-LC-0:0:OFF';
 
-		command = tinyCommands.join('|');
+		for (let i = 0; i < 8; i += 1) {
+			for (let j = 0; j < 8; j += 1) {
 
-		expect(frame2.nextCommand().command).toBe(command);
+				const led = ledMatrixState2.leds.find(led => led.row == i && led.col == j);
+
+				if (i == 0 && j == 0) {
+					expect(led.isOn).toBeFalsy(); // This is the change we are testing
+					continue;
+				}
+
+				expect(led.isOn).toBe(i % 2 == 0);
+			}
+		}
 	});
 
 });

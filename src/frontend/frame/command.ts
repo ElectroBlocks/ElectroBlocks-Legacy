@@ -2,7 +2,7 @@ export interface Command {
 
 	readonly type: COMMAND_TYPE;
 
-	readonly command: string;
+	readonly command?: string;
 }
 
 export class EmptyCommand implements Command{
@@ -10,6 +10,11 @@ export class EmptyCommand implements Command{
 	public readonly command = '';
 	type = COMMAND_TYPE.EMPTY;
 
+}
+
+export class VirtualCircuitCommand implements Command{
+
+	constructor(public readonly type: COMMAND_TYPE) {}
 }
 
 export class TimeCommand implements Command {
@@ -34,5 +39,6 @@ export enum COMMAND_TYPE {
 	TIME,
 	EMPTY,
 	MESSAGE,
-	BLUETOOTH_MESSAGE
+	BLUETOOTH_MESSAGE,
+	ELECTRONIC_COMPONENT
 }

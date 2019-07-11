@@ -1,16 +1,13 @@
 import { Block } from "../frame/block";
 import { FrameLocation } from "../frame/frame";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { EmptyCommand } from "../frame/command";
+import { ArduinoState } from "../arduino/state/arduino.state";
 
 export const debug_block = (block: Block,
                             frameLocation: FrameLocation,
                             previousFrame?: ArduinoFrame):ArduinoFrame[] => {
 
-	const components = previousFrame ? previousFrame.components : [];
-	const variables = previousFrame? previousFrame.variables : {};
-	const command = new EmptyCommand();
+	const state = previousFrame ? previousFrame.copyState() :  ArduinoState.makeEmptyState();
 
-
-	return [ new ArduinoFrame(block.id, variables, components, command, frameLocation) ];
+	return [ new ArduinoFrame(block.id, state, frameLocation) ];
 };

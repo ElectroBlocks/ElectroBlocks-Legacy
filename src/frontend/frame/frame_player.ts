@@ -1,11 +1,10 @@
-import { ExecuteDebugFrame, ExecuteFrameInterface, ExecuteUSBFrame } from "./frame_execute";
+import { ExecuteFrameInterface, ExecuteUSBFrame, ExecuteVirtualCircuitFrame } from "./frame_execute";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { COMMAND_TYPE } from "./command";
 import * as  BluebirdPromise   from 'bluebird';
 import { Subject } from "rxjs";
-import { FrameLocation } from "./frame";
 import {  share } from "rxjs/operators";
 import { FrameOutput } from "./frame_output";
+import { virtualCircuitFactory } from "../virtual-circuit/factory/virtual-circuit.factory";
 
 /**
  * Frame player that executes the frame
@@ -169,7 +168,7 @@ export class FramePlayer {
 			return;
 		}
 
-		this.sendMessage(runSetup);
+		await this.sendMessage(runSetup);
 
 		this.sendFrameOutput();
 		
@@ -183,20 +182,12 @@ export class FramePlayer {
 	private sendFrameOutput() {
 		const frame = this.frames[this.currentFrame];
 
-		const usbMessage = frame.command.type == COMMAND_TYPE.MESSAGE ?
-			frame.command.command : '';
-
-		const bluetoothMessage = frame.command.type == COMMAND_TYPE.BLUETOOTH_MESSAGE ?
-			frame.command.command : '';
-
-		this.changeFrameSubject.next( { 
-			frameNumber: this.currentFrame, 
-			usbMessage, 
-			bluetoothMessage, 
-			variables: frame.variables, 
-			frameLocation: frame.frameLocation, 
-			lastFrame: this.isLastFrame(),
-			blockId: frame.blockId 
+		this.changeFrameSubject.next( {
+			state: frame.state,
+			blockId: frame.blockId,
+			lastFrame: this.currentFrame == this.lastFrameNumber(),
+			frameLocation: frame.frameLocation,
+			frameNumber: this.currentFrame
 		});
 	}
 
@@ -206,32 +197,22 @@ export class FramePlayer {
 	 *
 	 * @param runSetup
 	 */
-	private sendMessage(runSetup: boolean) {
+	private async sendMessage(runSetup: boolean) {
 
 		const frame = this.frames[this.currentFrame];
 
-		if (runSetup) {
-			this.frameExecutor.executeCommand( frame.setupCommandUSB().command )
-		}
-
-		if (frame.command.type == COMMAND_TYPE.USB) {
-			this.frameExecutor.executeCommand( frame.nextCommand().command )
-		}
+		await this.frameExecutor.executeCommand( frame.state, this.frames[this.lastFrameNumber()].state, runSetup );
 	}
 
 	/**
 	 * Delays the going to the next frame
 	 */
 	private async delay() {
-		const command = this.frames[this.currentFrame].command;
+		const delay = this.frames[this.currentFrame].state.delay;
 
 		let time = 400 / this.speed;
 
-		if (command.type === COMMAND_TYPE.TIME) {
-			time = parseInt(command.command);
-		}
-
-		await BluebirdPromise.delay(time);
+		await BluebirdPromise.delay(time + delay);
 	}
 
 	/**
@@ -243,4 +224,4 @@ export class FramePlayer {
 }
 
 
-export const framePlayer = new FramePlayer(new ExecuteUSBFrame());
+export const framePlayer = new FramePlayer(new ExecuteVirtualCircuitFrame(virtualCircuitFactory()));

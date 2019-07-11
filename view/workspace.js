@@ -288,7 +288,7 @@ videoDebugBtn.addEventListener( 'click',  () => {
     videoDebugIcon.classList.add('fa-spinner');
     videoDebugIcon.classList.add('fa-spin');
 
-
+    ipcRenderer.send('video:debug-mode', sliderContainer.style.display !== 'block');
 });
 
 
@@ -352,6 +352,12 @@ function resizeListener() {
 
     blocklyDiv.style.height =
         (document.getElementsByTagName( 'body' )[ 0 ].clientHeight - document.getElementById( 'top-menu' ).clientHeight - (videoContainer.clientHeight + sliderContainer.clientHeight)).toString() + "px";
+
+    document.getElementById('virtual-circuit').style.height = blocklyDiv.style.height;
+
+    if (window.panZoom) {
+        window.panZoom.resize();
+    }
 
     console.log(blocklyDiv.style.height, 'block height');
     Blockly.svgResize(Blockly.mainWorkspace)

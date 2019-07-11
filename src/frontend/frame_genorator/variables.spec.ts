@@ -12,7 +12,7 @@ import {
 	variables_set_string_block
 } from "./variables";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { EmptyCommand } from "../frame/command";
+import { ArduinoState } from "../arduino/state/arduino.state";
 
 describe('Variables Frame Generators', () => {
 
@@ -84,9 +84,9 @@ describe('Variables Frame Generators', () => {
 			let [frame] = variables_set_number_block(block, frameLocation);
 
 			expect(frame.blockId).toBe(block.id);
-			expect(frame.variables['variable_name'].name).toBe('variable_name');
-			expect(frame.variables['variable_name'].value).toBe(32);
-			expect(frame.variables['variable_name'].type).toBe('Number');
+			expect(frame.state.variables['variable_name'].name).toBe('variable_name');
+			expect(frame.state.variables['variable_name'].value).toBe(32);
+			expect(frame.state.variables['variable_name'].type).toBe('Number');
 		});
 	});
 
@@ -103,9 +103,9 @@ describe('Variables Frame Generators', () => {
 			let [frame] = variables_set_string_block(block, frameLocation);
 
 			expect(frame.blockId).toBe(block.id);
-			expect(frame.variables['variable_name'].name).toBe('variable_name');
-			expect(frame.variables['variable_name'].value).toBe('Hello World');
-			expect(frame.variables['variable_name'].type).toBe('String');
+			expect(frame.state.variables['variable_name'].name).toBe('variable_name');
+			expect(frame.state.variables['variable_name'].value).toBe('Hello World');
+			expect(frame.state.variables['variable_name'].type).toBe('String');
 		});
 	});
 
@@ -122,9 +122,9 @@ describe('Variables Frame Generators', () => {
 			let [frame] = variables_set_boolean_block(block, frameLocation);
 
 			expect(frame.blockId).toBe(block.id);
-			expect(frame.variables['variable_name'].name).toBe('variable_name');
-			expect(frame.variables['variable_name'].value).toBe(true);
-			expect(frame.variables['variable_name'].type).toBe('Boolean');
+			expect(frame.state.variables['variable_name'].name).toBe('variable_name');
+			expect(frame.state.variables['variable_name'].value).toBe(true);
+			expect(frame.state.variables['variable_name'].type).toBe('Boolean');
 		});
 	});
 
@@ -141,9 +141,9 @@ describe('Variables Frame Generators', () => {
 			let [frame] = variables_set_boolean_block(block, frameLocation);
 
 			expect(frame.blockId).toBe(block.id);
-			expect(frame.variables['variable_name'].name).toBe('variable_name');
-			expect(frame.variables['variable_name'].value).toBe(false);
-			expect(frame.variables['variable_name'].type).toBe('Boolean');
+			expect(frame.state.variables['variable_name'].name).toBe('variable_name');
+			expect(frame.state.variables['variable_name'].value).toBe(false);
+			expect(frame.state.variables['variable_name'].type).toBe('Boolean');
 		});
 	});
 
@@ -160,27 +160,27 @@ describe('Variables Frame Generators', () => {
 			let [frame] = variables_set_colour_block(block, frameLocation);
 
 			expect(frame.blockId).toBe(block.id);
-			expect(frame.variables['variable_name'].name).toBe('variable_name');
-			expect(frame.variables['variable_name'].value)
+			expect(frame.state.variables['variable_name'].name).toBe('variable_name');
+			expect(frame.state.variables['variable_name'].value)
 				.toEqual({red: 20, green: 0, blue: 30});
-			expect(frame.variables['variable_name'].type).toBe('Colour');
+			expect(frame.state.variables['variable_name'].type).toBe('Colour');
 		});
 	});
 
 
 	describe('variables_get_colour_block', () => {
 		it('get the color variable from the previous frame', () => {
+			const state = new ArduinoState([], {'variable_name':
+					{
+						name: 'variable_name',
+						type: 'Colour',
+						value: {red: 30, green: 30, blue: 20}
+					}
+			});
+
 			let previousFrame = new ArduinoFrame(
 				'block_id',
-				{'variable_name':
-						{
-							name: 'variable_name',
-							type: 'Colour',
-							value: {red: 30, green: 30, blue: 20}
-						}
-				},
-				[],
-				new EmptyCommand(),
+				state,
 				frameLocation
 			);
 
@@ -195,17 +195,18 @@ describe('Variables Frame Generators', () => {
 
 	describe('variables_get_number_block', () => {
 		it('get the number variable from the previous frame', () => {
+			const state = new ArduinoState([], {'variable_name':
+					{
+						name: 'variable_name',
+						type: 'Number',
+						value: 33
+					}
+			});
+
+
 			let previousFrame = new ArduinoFrame(
 				'block_id',
-				{'variable_name':
-						{
-							name: 'variable_name',
-							type: 'Number',
-							value: 33
-						}
-				},
-				[],
-				new EmptyCommand(),
+				state,
 				frameLocation
 			);
 
@@ -217,19 +218,16 @@ describe('Variables Frame Generators', () => {
 
 	describe('variables_get_string_block', () => {
 		it('get the string variable from the previous frame', () => {
-			let previousFrame = new ArduinoFrame(
-				'block_id',
-				{'variable_name':
-						{
-							name: 'variable_name',
-							type: 'String',
-							value: 'Hello World'
-						}
-				},
-				[],
-				new EmptyCommand(),
-				frameLocation
-			);
+			
+			const state = new ArduinoState([], {'variable_name':
+					{
+						name: 'variable_name',
+						type: 'String',
+						value: 'Hello World'
+					}
+			});
+			
+			let previousFrame = new ArduinoFrame('block_id', state, frameLocation );
 
 			mockGetVariable('colour', 'variable_name');
 
@@ -241,17 +239,18 @@ describe('Variables Frame Generators', () => {
 
 	describe('variables_get_string_block', () => {
 		it('get the boolean variable from the previous frame', () => {
+
+			const state = new ArduinoState([], {'variable_name':
+					{
+						name: 'variable_name',
+						type: 'Boolean',
+						value: false
+					}
+			});
+			
 			let previousFrame = new ArduinoFrame(
 				'block_id',
-				{'variable_name':
-						{
-							name: 'variable_name',
-							type: 'Boolean',
-							value: false
-						}
-				},
-				[],
-				new EmptyCommand(),
+				state,
 				frameLocation
 			);
 
@@ -273,10 +272,10 @@ describe('Variables Frame Generators', () => {
 			let [frame] = variables_set_colour_block(block,frameLocation);
 
 			expect(frame.blockId).toBe(block.id);
-			expect(frame.variables['variable_name'].name).toBe('variable_name');
-			expect(frame.variables['variable_name'].value)
+			expect(frame.state.variables['variable_name'].name).toBe('variable_name');
+			expect(frame.state.variables['variable_name'].value)
 				.toEqual({red: 0, green:0, blue: 0 });
-			expect(frame.variables['variable_name'].type).toBe('Colour');
+			expect(frame.state.variables['variable_name'].type).toBe('Colour');
 		});
 	});
 

@@ -1,7 +1,8 @@
+const { virtualCircuitFactory } = require("../output/frontend/virtual-circuit/factory/virtual-circuit.factory");
+
 const toolbox = document.getElementById('toolbox');
 const { setupVideoPlayer } =
     require('../output/frontend/workspace/player-buttons.listeners');
-
 
 
 /**
@@ -74,14 +75,17 @@ Blockly.inject(document.getElementById('content-blocks'),
             snap: true
         },
         media: './media/',
-        toolbox: toolbox
+        toolbox: toolbox,
     });
 
 
-
-setTimeout(() => {
+setTimeout(async () => {
     let xml = '<xml><block type="arduino_start" deletable="false" movable="true"></block></xml>';
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), Blockly.mainWorkspace);
+
+    Blockly.mainWorkspace.getParentSvg().id = 'main-workspace-svg';
+
+    window.vs = virtualCircuitFactory();
 });
 
 Blockly.mainWorkspace.addChangeListener(function (event) {

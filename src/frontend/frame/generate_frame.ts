@@ -54,5 +54,7 @@ export const generateListOfFrame = (numberOfTimesThroughLoop: number = 1) => {
 
 	}
 
+	console.log(frames, 'frames');
+
 	return frames;
 };

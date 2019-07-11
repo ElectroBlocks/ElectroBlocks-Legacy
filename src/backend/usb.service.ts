@@ -37,7 +37,7 @@ export class UsbService {
 		}
 
 		this.serialPort = new SerialPort(arduinoUsb.comName.toString(), {
-			baudRate: 9600,
+			baudRate: 115200,
 			autoOpen: true
 		});
 

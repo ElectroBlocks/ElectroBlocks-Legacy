@@ -2,6 +2,8 @@ import 'jasmine';
 import { Block } from "../frame/block";
 import * as blockHelper from "../frame/blockly_helper";
 import { move_motor_block } from "./motor";
+import { MotorState } from "../arduino/state/motor.state";
+import { MOTOR_DIRECTION } from "../arduino/motor";
 
 describe('motor', () => {
 
@@ -48,8 +50,12 @@ describe('motor', () => {
 
 		const [lastArduinoFrame] = move_motor_block(block2, { location: 'loop', iteration: 1 }, arduinoFrame);
 
-		expect(lastArduinoFrame.components.length).toBe(1);
-		expect(lastArduinoFrame.command.command).toBe('M-MT-1:BACKWARD:140|');
+		expect(lastArduinoFrame.state.components.length).toBe(1);
+
+		const motorState = lastArduinoFrame.state.components[0] as MotorState;
+		expect(motorState.motorNumber).toBe(1);
+		expect(motorState.direction).toBe(MOTOR_DIRECTION.BACKWARD);;
+		expect(motorState.speed).toBe(140)
 	});
 
 	it ('should not have 2 motors if the motors are different numbers', () => {
@@ -65,8 +71,18 @@ describe('motor', () => {
 
 		const [lastArduinoFrame] = move_motor_block(block2, { location: 'loop', iteration: 1 }, arduinoFrame);
 
-		expect(lastArduinoFrame.components.length).toBe(2);
-		expect(lastArduinoFrame.command.command).toBe('M-MT-1:BACKWARD:140|');
+		const motorState1 = lastArduinoFrame.state.components[0] as MotorState;
+		const motorState2 = lastArduinoFrame.state.components[0] as MotorState;
+
+		expect(lastArduinoFrame.state.components.length).toBe(1);
+		expect(motorState1.speed).toBe(40);
+		expect(motorState1.motorNumber).toBe(2);
+		expect(motorState1.direction).toBe(MOTOR_DIRECTION.FORWARD);
+
+		expect(motorState2.speed).toBe(140);
+		expect(motorState2.motorNumber).toBe(6);
+		expect(motorState2.direction).toBe(MOTOR_DIRECTION.BACKWARD);
+
 	});
 
 

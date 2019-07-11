@@ -49,6 +49,7 @@ export enum ARDUINO_UNO_PINS {
     PIN_6 = '6',
     PIN_7 = '7',
     PIN_8 = '8',
+    PIN_9 = '9',
     PIN_10 = '10',
     PIN_11 = '11',
     PIN_12 = '12',

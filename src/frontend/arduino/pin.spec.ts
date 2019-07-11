@@ -3,7 +3,7 @@ import 'jasmine';
 import { COMMAND_TYPE, EmptyCommand } from "../frame/command";
 
 describe('Pin Test', () => {
-    it('should generate the correct command.', () => {
+    it('should generate the correct arduino.command.', () => {
         let pin = new Pin(ARDUINO_UNO_PINS.PIN_12, PIN_TYPE.DIGITAL, Pin.HIGH);
 
         expect(pin.usbCommand().command).toBe('M-P-D:12:1|');
@@ -47,7 +47,7 @@ describe('Pin Test', () => {
         expect(pin.usbCommand()).toEqual(pin2.usbCommand());
     });
 
-    it ('setup command should return nothing', () => {
+    it ('setup arduino.command should return nothing', () => {
         let pin = new Pin(ARDUINO_UNO_PINS.PIN_A0, PIN_TYPE.ANALOG, -120);
 
         expect(pin.setupCommandUSB()).toEqual(new EmptyCommand());

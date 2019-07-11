@@ -22,7 +22,7 @@ describe('Led Matrix', () => {
             expect(led.usbOnOff()).toBe('ON');
         });
 
-        it('should be able to create move command', () => {
+        it('should be able to create move arduino.command', () => {
             let led = new LedInMatrix(true, 3, 4);
             expect(led.usbCommand().command).toBe('M-LC-4:3:ON|');
             expect(led.usbCommand().type).toBe(COMMAND_TYPE.USB);
@@ -32,7 +32,7 @@ describe('Led Matrix', () => {
             expect(led.usbCommand().type).toBe(COMMAND_TYPE.USB);
         });
 
-        it ('setup command should return nothing', () => {
+        it ('setup arduino.command should return nothing', () => {
             let led = new LedInMatrix(true, 3, 4);
     
             expect(led.setupCommandUSB()).toEqual(new EmptyCommand());
@@ -69,7 +69,7 @@ describe('Led Matrix', () => {
 
         });
 
-        it ('should be able to make the setup command', () => {
+        it ('should be able to make the setup arduino.command', () => {
             let matrix = new LedMatrix();
             expect(matrix.setupCommandUSB().command).toBe('LC');
             expect(matrix.setupCommandUSB().type).toBe(COMMAND_TYPE.USB);

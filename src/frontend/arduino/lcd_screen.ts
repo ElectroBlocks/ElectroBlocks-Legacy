@@ -1,7 +1,7 @@
 import { Copy } from './copy';
 import { USB, USB_COMMAND_TYPES } from './usb';
 import { Command, COMMAND_TYPE } from "../frame/command";
-import { strict } from 'assert';
+import { LCD_SCREEN_MEMORY_TYPE } from "./state/lcd_screen.state";
 
 export class LCDScreen implements  Copy<LCDScreen>, USB {
 
@@ -14,6 +14,7 @@ export class LCDScreen implements  Copy<LCDScreen>, USB {
                         this.lcdText[i] = this.appendSpace('');
                     }
                 }
+
 
 
     simplePrint(rowsToPrint: string[]): Command {
@@ -72,7 +73,6 @@ export class LCDScreen implements  Copy<LCDScreen>, USB {
         };
     }
 
-
     appendSpace(printString: string): string {
 
         let spacesToPrint = this.columns - printString.length;
@@ -83,6 +83,7 @@ export class LCDScreen implements  Copy<LCDScreen>, USB {
 
         return printString;
     }
+
 
     makeCopy() {
         return new LCDScreen(this.memoryType, this.rows, this.columns);
@@ -101,7 +102,4 @@ export class LCDScreen implements  Copy<LCDScreen>, USB {
 }
 
 
-export enum LCD_SCREEN_MEMORY_TYPE {
-    'OX3F' = '0x3F',
-    '0X27' = '0x27'
- }
+

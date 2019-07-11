@@ -62,7 +62,7 @@ AppController = function() {
   this.selectedTab = AppController.BLOCK_FACTORY;
 };
 
-// Constant values representing the three tabs in the controller.
+// Constant values representing the three tabs in the component.
 AppController.BLOCK_FACTORY = 'BLOCK_FACTORY';
 AppController.WORKSPACE_FACTORY = 'WORKSPACE_FACTORY';
 AppController.EXPORTER = 'EXPORTER';
@@ -105,7 +105,7 @@ AppController.prototype.importBlockLibraryFromFile = function() {
       var blockLibStorage = new BlockLibraryStorage(
           self.blockLibraryName, blockXmlTextMap);
 
-      // Update block library controller with the new block library
+      // Update block library component with the new block library
       // storage.
       self.blockLibraryController.setBlockLibraryStorage(blockLibStorage);
       // Update the block library dropdown.

@@ -3,7 +3,8 @@ import { Command, EmptyCommand } from "../frame/command";
 
 
 export class EmptyComponent implements USB {
-    
+
+
     usbCommand(): Command {
         return new EmptyCommand();
     }  

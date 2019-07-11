@@ -24,14 +24,13 @@ describe('time', () => {
 	});
 	describe('delay_block_block', () => {
 
-		it ('should create a delay command in frame', () => {
+		it ('should create a delay arduino.command in frame', () => {
 			getInputValueSpy.withArgs( block, 'DELAY', 1, frameLocation, undefined )
 				.and.returnValue( 2.432343 );
 
 			const [ frame ] = delay_block_block( block, frameLocation );
 
-			expect( frame.command instanceof TimeCommand ).toBeTruthy();
-			expect( frame.command.command ).toBe( "2432" );
+			expect( frame.state.delay ).toBe( 2.432343 * 1000 );
 		});
 	});
 

@@ -1,9 +1,12 @@
 import 'jasmine';
 import { Block } from "../frame/block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { COMMAND_TYPE, EmptyCommand } from "../frame/command";
 import { send_message_block } from "./message";
 import * as blockHelperFunctions from "../frame/blockly_helper";
+import { ArduinoState } from "../arduino/state/arduino.state";
+import { BluetoothState } from "../arduino/state/bluetooth.state";
+import { ARDUINO_UNO_PINS } from "../arduino/pin";
+import { ActionType } from "../frame/action.type";
 
 describe('message', () => {
 
@@ -19,16 +22,15 @@ describe('message', () => {
 
 	let getInputValueSpy:  jasmine.Spy;
 
-
-	const previousFrame = new ArduinoFrame('block1', {
+	const state = new ArduinoState([new BluetoothState(ARDUINO_UNO_PINS.PIN_6, ARDUINO_UNO_PINS.PIN_7)], {
 		fred: {
 			name: 'fred',
 			type: 'String',
 			value: 'blue'
 		},
-	},
-		[],
-		new EmptyCommand(),
+	});
+
+	const previousFrame = new ArduinoFrame('block1', state,
 		{ location: 'loop', iteration: 1 }
 	);
 
@@ -45,12 +47,12 @@ describe('message', () => {
 		expect(frames.length).toBe(1);
 		const [frame] = frames;
 
-		expect(frame.variables['fred'].value).toBe('blue');
-		expect(frame.nextCommand().command).toBe('Hello World');
-		expect(frame.nextCommand().type).toBe(COMMAND_TYPE.MESSAGE);
+		expect(frame.state.variables['fred'].value).toBe('blue');
+		expect(frame.state.sendMessage).toBe('Hello World');
+		expect(frame.actionType).toBe(ActionType.ARDUINO_SEND_MESSAGE);
 	});
 
-	it ('should to an empty command frame if previous frame not available', () => {
+	it ('should to an empty arduino.command frame if previous frame not available', () => {
 
 		getInputValueSpy.withArgs(usbblock, 'MESSAGE', '',{ location: 'loop', iteration: 1 }, undefined).and.returnValue('People Cool');
 
@@ -59,9 +61,9 @@ describe('message', () => {
 		expect(frames.length).toBe(1);
 		const [frame] = frames;
 
-		expect(frame.variables).toEqual({});
-		expect(frame.nextCommand().command).toBe('People Cool');
-
+		expect(frame.state.variables).toEqual({});
+		expect(frame.state.sendMessage).toBe('People Cool');
+		expect(frame.actionType).toBe(ActionType.ARDUINO_SEND_MESSAGE);
 	});
 
 	it ('should be able to do bluetooth block as well', () => {
@@ -69,8 +71,8 @@ describe('message', () => {
 
 		const [frame] = send_message_block(bluetoothSendMessageBlock, { location: 'loop', iteration: 1 });
 
-		expect(frame.nextCommand().type).toBe(COMMAND_TYPE.BLUETOOTH_MESSAGE);
-		expect(frame.nextCommand().command).toBe('Blue Cool');
+		expect((frame.state.components[0] as BluetoothState).sendMessage).toBe('Blue Cool');
+		expect(frame.actionType).toBe(ActionType.BLUE_TOOTH_SEND_MESSAGE);
 
 	})
 

@@ -19,7 +19,7 @@
  */
 
 /**
- * @fileoverview Contains the controller code for workspace factory. Depends
+ * @fileoverview Contains the component code for workspace factory. Depends
  * on the model and view objects (created as internal variables) and interacts
  * with previewWorkspace and toolboxWorkspace (internal references stored to
  * both). Also depends on standard_categories.js for standard Blockly

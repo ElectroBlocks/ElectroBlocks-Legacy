@@ -2,16 +2,17 @@ import { Block } from "../frame/block";
 import { FrameLocation } from "../frame/frame";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { getInputValue } from "../frame/blockly_helper";
-import { USB } from "../arduino/usb";
 import { stringToPin } from "../arduino/pin";
-import { NeoPixelStrip, NeoPixel } from "../arduino/neo_pixels";
-import { EmptyCommand } from "../frame/command";
 import { Color } from "./colour";
+import { NeoPixelStripState } from "../arduino/state/neo_pixel_strip.state";
+import { ActionType } from "../frame/action.type";
 
 
 export const neo_pixel_setup_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) : ArduinoFrame[] => {
 
-	const pin = block.getFieldValue('PIN').toString();
+	const state = previousFrame.copyState();
+
+	const pin = stringToPin(block.getFieldValue('PIN').toString());
 
 	const numberOfPixels = parseInt(getInputValue(
 		block,
@@ -20,15 +21,17 @@ export const neo_pixel_setup_block = (block: Block, frameLocation: FrameLocation
 		frameLocation,
 		previousFrame).toString());
 
-	const neoPixelStrip = new NeoPixelStrip(stringToPin(pin), numberOfPixels);
+	const leds: Array<{ position: number, color: Color }>  = [];
 
+	for (let i = 1; i <= numberOfPixels; i += 1) {
+		leds.push({ position: i, color: { red: 0, green: 0, blue: 0 } });
+	}
 
-	const variables = previousFrame ? previousFrame.variables : {};
+	const neoPixelState = new NeoPixelStripState(numberOfPixels, pin, leds);
 
-	const components: USB[] = previousFrame ? previousFrame.components : [];
-	components.push(neoPixelStrip);
+	state.components.push(neoPixelState);
 
-	return [new ArduinoFrame(block.id, variables, components, new EmptyCommand(), frameLocation)]
+	return [new ArduinoFrame(block.id, state, frameLocation, ActionType.EMPTY)];
 
 };
 
@@ -49,11 +52,16 @@ export const neo_pixel_set_color_block = (block: Block, frameLocation: FrameLoca
 		frameLocation,
 		previousFrame).toString());
 
-	const neoPixelStrip = previousFrame.components.find(usb => usb instanceof NeoPixelStrip) as NeoPixelStrip;
+	const state = previousFrame.copyState();
 
-	neoPixelStrip.setLed(new NeoPixel(color, position));
+
+	const neoPixelState = state.components.find(c => c instanceof NeoPixelStripState) as NeoPixelStripState;
+
+	const index =  neoPixelState.neoPixels.findIndex(pixel =>  pixel.position == position);
+
+	neoPixelState.neoPixels[index].color = color;
 
 	return [
-		new ArduinoFrame(block.id, previousFrame.variables, previousFrame.components, neoPixelStrip.usbCommand(), frameLocation)
+		new ArduinoFrame(block.id,state, frameLocation, ActionType.NEO_PIXEL_LIGHT_UP)
 	];
 };

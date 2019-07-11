@@ -6,6 +6,7 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
 import { generateFrameForInputStatement, getInputValue } from "./blockly_helper";
 import { EmptyCommand } from "./command";
 import { inputState } from "./input_state";
+import { ArduinoState } from "../arduino/state/arduino.state";
 
 describe('generateFrameForInputStatement', () => {
 
@@ -14,13 +15,13 @@ describe('generateFrameForInputStatement', () => {
 	it ('should generate a list of frames from a input that contains blocks', () => {
 
 		frameGeneratingBlocks['fake_generate_block'] = (block: Block, frameLocation: FrameLocation, previousFrame?: Frame): Frame[] => {
-			return [new ArduinoFrame('block_id', {}, [], new EmptyCommand(),frameLocation )];
+			return [new ArduinoFrame('block_id', ArduinoState.makeEmptyState(),frameLocation )];
 		};
 
 		frameGeneratingBlocks['fake_generate_2_block'] = (block: Block, frameLocation: FrameLocation, previousFrame?: Frame): Frame[] => {
 			return [
-				new ArduinoFrame('block_id', {}, [], new EmptyCommand(), frameLocation),
-				new ArduinoFrame('block_id', {}, [], new EmptyCommand(), frameLocation),
+				new ArduinoFrame('block_id', ArduinoState.makeEmptyState(), frameLocation),
+				new ArduinoFrame('block_id', ArduinoState.makeEmptyState(), frameLocation),
 			];
 		};
 

@@ -364,7 +364,7 @@ Blockly.Xml.textToDom = function(text) {
   // This function only accepts <xml> documents.
   if (!doc || !doc.documentElement ||
       doc.documentElement.nodeName.toLowerCase() != 'xml') {
-    // Whatever we got back from the parser is not the expected structure.
+    // Whatever we got back from the factory is not the expected structure.
     throw TypeError('Blockly.Xml.textToDom expected an <xml> document.');
   }
   return doc.documentElement;

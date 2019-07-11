@@ -76,13 +76,13 @@ describe( 'functions', () => {
 
 			const definitionFrameBlock = frames[1];
 			// Testing that values get assigned to the definition block
-			expect(definitionFrameBlock.variables['var1'].type).toBe('Number');
-			expect(definitionFrameBlock.variables['var1'].name).toBe('var1');
-			expect(definitionFrameBlock.variables['var1'].value).toBe(34);
+			expect(definitionFrameBlock.state.variables['var1'].type).toBe('Number');
+			expect(definitionFrameBlock.state.variables['var1'].name).toBe('var1');
+			expect(definitionFrameBlock.state.variables['var1'].value).toBe(34);
 
-			expect(definitionFrameBlock.variables['var2'].value).toBe('Hello World');
-			expect(definitionFrameBlock.variables['var2'].name).toBe('var2');
-			expect(definitionFrameBlock.variables['var2'].type).toBe('String');
+			expect(definitionFrameBlock.state.variables['var2'].value).toBe('Hello World');
+			expect(definitionFrameBlock.state.variables['var2'].name).toBe('var2');
+			expect(definitionFrameBlock.state.variables['var2'].type).toBe('String');
 		} );
 	} );
 } );

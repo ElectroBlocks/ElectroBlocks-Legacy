@@ -7,7 +7,7 @@ import { autoUpdater } from "electron-updater";
 import log from 'electron-log';
 import { UsbService } from "./usb.service";
 import { UploadService } from "./upload.service";
-import { distinctUntilChanged, filter, map } from "rxjs/operators";
+import { distinctUntilChanged, filter, map, tap } from "rxjs/operators";
 import { firmware, simpleCode } from "../arduino.code";
 
 
@@ -212,6 +212,16 @@ app.on( 'ready', async () => {
 	}
 } );
 
+usbService.message$.pipe(
+	tap(message => {
+		console.log(message.toString(), 'usb message');
+	}),
+	filter(message => message.toString().indexOf('|******COMPLETE*****|') > 0),
+	tap(() => {
+		mainWindow.webContents.send('complete:video_debug:arduino.command');
+	})
+).subscribe();
+
 usbService.message$
 	.pipe(
 		filter( data =>
@@ -302,6 +312,10 @@ ipcMain.on( 'open:serial-monitor', () => {
 		mainWindow.webContents.send( 'close:serial-monitor' );
 	} );
 } );
+
+ipcMain.on('send:video_debug:arduino.command', async (e: any, command: string) => {
+	await usbService.sendMessage(command);
+});
 
 ipcMain.on( 'get:code', () => mainWindow.webContents.send( 'get:code' ) );
 

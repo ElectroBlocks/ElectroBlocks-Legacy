@@ -38,7 +38,7 @@ WorkspaceFactoryInit = {};
 
 /**
  * Initialization for workspace factory tab.
- * @param {!FactoryController} controller The controller for the workspace
+ * @param {!FactoryController} controller The component for the workspace
  *    factory tab.
  */
 WorkspaceFactoryInit.initWorkspaceFactory = function(controller) {
@@ -59,7 +59,7 @@ WorkspaceFactoryInit.initWorkspaceFactory = function(controller) {
 
 /**
  * Initialize the color picker in workspace factory.
- * @param {!FactoryController} controller The controller for the workspace
+ * @param {!FactoryController} controller The component for the workspace
  *    factory tab.
  * @private
  */
@@ -154,7 +154,7 @@ WorkspaceFactoryInit.hsvToHex_ = function(h, s, v) {
 
 /**
  * Assign click handlers for workspace factory.
- * @param {!FactoryController} controller The controller for the workspace
+ * @param {!FactoryController} controller The component for the workspace
  *    factory tab.
  * @private
  */
@@ -357,7 +357,7 @@ WorkspaceFactoryInit.assignWorkspaceFactoryClickHandlers_ =
 
 /**
  * Add event listeners for workspace factory.
- * @param {!FactoryController} controller The controller for the workspace
+ * @param {!FactoryController} controller The component for the workspace
  *    factory tab.
  * @private
  */
@@ -558,7 +558,7 @@ WorkspaceFactoryInit.displayRemoveShadow_ = function(show) {
 
 /**
  * Add listeners for workspace factory options input elements.
- * @param {!FactoryController} controller The controller for the workspace
+ * @param {!FactoryController} controller The component for the workspace
  *    factory tab.
  * @private
  */

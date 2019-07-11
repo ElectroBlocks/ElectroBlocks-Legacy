@@ -1,67 +1,37 @@
 import { Frame, FrameLocation } from '../frame/frame';
-import { Variable } from '../frame/variable';
-import { USB, USB_COMMAND_TYPES } from './usb';
-import { Command, COMMAND_TYPE, EmptyCommand } from "../frame/command";
 import { v4 } from 'uuid';
+import { ArduinoState } from "./state/arduino.state";
+import { ActionType } from "../frame/action.type";
+import * as _ from "lodash";
 
-export class ArduinoFrame implements Frame, USB {
+export class ArduinoFrame implements Frame {
 
 	/**
-	 * The id of the fram
+	 * The id of the frame
 	 */
 	 private uuid: string;
 
 	constructor(
 		public readonly blockId: string,
-		public readonly variables: { [ key: string ]: Variable },
-		public readonly components: Array<USB>,
-		public readonly command: Command,
-		public readonly frameLocation: FrameLocation) {
-
-		 this.uuid = v4();
+		public readonly state: ArduinoState,
+		public readonly frameLocation: FrameLocation,
+		public readonly actionType = ActionType.EMPTY) {
+		this.uuid = v4();
 	}
 
 	public static makeEmptyFrame( blockId: string, frameLocation: FrameLocation ) {
 		return new ArduinoFrame(
-			blockId, {}, [], new EmptyCommand(), frameLocation
+			blockId, new ArduinoState([], {}, false), frameLocation
 		);
 	}
 
-	nextCommand(): Command {
-		return this.command;
+	copyState(): ArduinoState {
+		return this.state.copyState();
 	}
 
-	setupCommandUSB(): Command {
-		if (this.components.length == 0) {
-			return new EmptyCommand();
-		}
-
-		let endOfSetup = this.components
-			.filter( component => component.setupCommandUSB().type == COMMAND_TYPE.USB )
-			.reduce( ( previousValue, component ) => {
-				return previousValue + '-' + component.setupCommandUSB().command;
-			}, '' );
-
-		if (endOfSetup == '') {
-			return new EmptyCommand();
-		}
-
-		let numberOfThingSetup = this.components
-			.filter( component => component.setupCommandUSB().type == COMMAND_TYPE.USB)
-			.length;
-
-		const command = `${USB_COMMAND_TYPES.SETUP}-${numberOfThingSetup}${endOfSetup}${USB_COMMAND_TYPES.END_OF_COMMAND}`;
-
-		return {
-			type: COMMAND_TYPE.USB,
-			command
-		};
-
-	}
-
-	makeCopy( blockId: string, frameLocation: FrameLocation ): ArduinoFrame {
+	makeCopy( blockId: string, frameLocation: FrameLocation ): Frame {
 		return new ArduinoFrame(
-			blockId, this.variables, this.components, this.command, frameLocation
+			blockId, this.copyState(), _.cloneDeep(frameLocation), this.actionType
 		);
 	}
 }

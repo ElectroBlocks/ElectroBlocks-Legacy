@@ -333,7 +333,7 @@ Blockly.Generator.prototype.addReservedWords = function(words) {
  * This is used as a placeholder in functions defined using
  * Blockly.Generator.provideFunction_.  It must not be legal code that could
  * legitimately appear in a function definition (or comment), and it must
- * not confuse the regular expression parser.
+ * not confuse the regular expression factory.
  * @type {string}
  * @private
  */

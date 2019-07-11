@@ -8,6 +8,7 @@ import { getInputValue } from "../frame/blockly_helper";
 import { Color } from "./colour";
 import { EmptyCommand } from "../frame/command";
 import { FrameLocation } from "../frame/frame";
+import { ArduinoState } from "../arduino/state/arduino.state";
 
 
 const create_list_number_block_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
@@ -73,7 +74,7 @@ const getArrayValue = (block: Block, defaultValue: any, type: string,frameLocati
 
 	position = position > 0 ? position - 1 : 0;
 
-	let array = previousFrame.variables[variableName].value;
+	let array = previousFrame.state.variables[variableName].value;
 
 	if (type === 'Boolean' && array[position] === false) {
 		return false;
@@ -85,7 +86,7 @@ const getArrayValue = (block: Block, defaultValue: any, type: string,frameLocati
 
 const setArrayValue = (block: Block, type: string, frameLocation: FrameLocation,  previousFrame?: ArduinoFrame) => {
 	const frame = previousFrame ?
-		previousFrame.makeCopy(block.id, frameLocation) :
+		previousFrame.makeCopy(block.id, frameLocation) as ArduinoFrame :
 		ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
 	let position = parseInt(
@@ -108,15 +109,14 @@ const setArrayValue = (block: Block, type: string, frameLocation: FrameLocation,
 		previousFrame
 	);
 
-	const variables = JSON.parse(JSON.stringify(frame.variables));
+	const { variables } = frame.state;
 
 	const variableName = getVariableName(block);
 
 	variables[variableName].value[position] = parseArrayInsertValue(value, type);
 
-	const newFrame = new ArduinoFrame(frame.blockId, variables, frame.components, frame.command, frame.frameLocation);
 
-	return [newFrame];
+	return [frame];
 };
 
 const parseArrayInsertValue = (value: any, type: string) => {
@@ -134,9 +134,11 @@ const parseArrayInsertValue = (value: any, type: string) => {
 
 const createArrayType = (block: Block, type: string, frameLocation: FrameLocation,  previousFrame?: ArduinoFrame) =>  {
 
+	const state = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState();
+
 	const variableName = getVariableName(block);
 
-	let variables = previousFrame ? previousFrame.variables : {};
+	const { variables } = state;
 
 	variables[variableName] =
 		{
@@ -145,9 +147,8 @@ const createArrayType = (block: Block, type: string, frameLocation: FrameLocatio
 			name: variableName
 		};
 
-	const components = previousFrame ? previousFrame.components : [];
 
-	const frame = new ArduinoFrame(block.id, variables, components, new EmptyCommand(), frameLocation);
+	const frame = new ArduinoFrame(block.id, state, frameLocation);
 
 	return [frame];
 };

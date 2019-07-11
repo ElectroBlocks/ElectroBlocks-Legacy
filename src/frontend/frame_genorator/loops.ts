@@ -4,13 +4,17 @@ import { generateFrameForInputStatement, getInputValue } from "../frame/blockly_
 import { getVariableName } from "./variables";
 import { Block } from "../frame/block";
 import { FrameLocation } from "../frame/frame";
+import { EmptyCommand } from "../frame/command";
+import { ArduinoState } from "../arduino/state/arduino.state";
+import { ActionType } from "../frame/action.type";
 
 /**
  * Generates a simple loop block where the user does not have control
  * over the index variable.
  */
 const controls_repeat_ext_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
-	const loopFrame = previousFrame ? previousFrame.makeCopy(block.id, frameLocation) :
+
+	const loopFrame = previousFrame ? previousFrame.makeCopy(block.id, frameLocation) as ArduinoFrame :
 		ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
 	const times = getInputValue(block, 'TIMES', 1, frameLocation,previousFrame);
@@ -107,9 +111,8 @@ const checkLoop = (index: number, to:number, isPositive: boolean) => {
 
 const generateLoopFrame = (indexValue: number, block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): ArduinoFrame  => {
 
-	const startFrame = previousFrame ? previousFrame : ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
-
-	const variables = startFrame.variables;
+	const state = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState()
+	const { variables } = state;
 
 	const indexVariableName = getVariableName(block);
 
@@ -122,10 +125,9 @@ const generateLoopFrame = (indexValue: number, block: Block, frameLocation: Fram
 
 	return new ArduinoFrame(
 		block.id,
-		variables,
-		startFrame.components,
-		startFrame.command,
-		frameLocation
+		state,
+		frameLocation,
+		ActionType.EMPTY
 	);
 
 };

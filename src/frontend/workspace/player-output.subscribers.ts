@@ -4,6 +4,7 @@ import { map, tap, filter } from "rxjs/operators";
 import { framePlayer } from "../frame/frame_player";
 import { inputState } from "../frame/input_state";
 import { blocksInsideInput } from "../frame/blockly_helper";
+import { BluetoothState } from "../arduino/state/bluetooth.state";
 
 const debugTbody = document.getElementById( 'debug-tbody' );
 const playBtn = document.getElementById( 'video-debug-play' ) as HTMLLinkElement;
@@ -69,14 +70,18 @@ framePlayer.changeFrame$
 framePlayer.changeFrame$
 	.pipe(
 		tap( frameOutput => {
-			if (frameOutput.usbMessage.length > 0) {
-				alert(`Arduino Say: ${frameOutput.usbMessage}`);
+			if (frameOutput.state.sendMessage.length > 0) {
+				alert(`Arduino Say: ${frameOutput.state.sendMessage}`);
 			}
 		}),
 		tap(frameOutput => {
-			if (frameOutput.bluetoothMessage.length > 0) {
-				alert(`Bluetooth Say: ${frameOutput.bluetoothMessage}`);
+			const bluetoothState = frameOutput.state.components.find(state => state instanceof BluetoothState);
+
+			if (bluetoothState instanceof BluetoothState && bluetoothState.sendMessage.length > 0) {
+				alert(`Bluetooth Say: ${bluetoothState.sendMessage}`);
+
 			}
+
 		})
 	)
 	.subscribe();
@@ -84,7 +89,7 @@ framePlayer.changeFrame$
 
 
 framePlayer.changeFrame$.pipe(
-	map( frameOutput => frameOutput.variables ),
+	map( frameOutput => frameOutput.state.variables ),
 	map( variables => {
 		let tbody = '';
 		Object.keys( variables ).forEach( key => {

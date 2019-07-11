@@ -1,13 +1,16 @@
 import 'jasmine';
 import { Block } from "../frame/block";
 import * as blockHelper from "../frame/blockly_helper";
-import { LCD_SCREEN_MEMORY_TYPE, LCDScreen } from "../arduino/lcd_screen";
 import {
-	lcd_screen_simple_print_block,
-	lcd_setup_block,
+	lcd_backlight_block,
+	lcd_screen_blink_block,
 	lcd_screen_clear_block,
-	lcd_screen_blink_block, lcd_backlight_block, lcd_screen_print_block
+	lcd_screen_print_block,
+	lcd_screen_simple_print_block,
+	lcd_setup_block
 } from "./lcd_screen";
+import { LCD_SCREEN_MEMORY_TYPE, LCDScreenState } from "../arduino/state/lcd_screen.state";
+import { ActionType } from "../frame/action.type";
 
 describe('LCD Screen', () => {
 
@@ -53,11 +56,15 @@ describe('LCD Screen', () => {
 		const [frame] =
 			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
 
-		const [lcdScreen] = frame.components;
+		const lcdScreenState  = frame.state.components[0] as LCDScreenState;
 
-		expect(lcdScreen instanceof LCDScreen).toBeTruthy();
+		expect(lcdScreenState instanceof LCDScreenState).toBeTruthy();
 
-		expect(frame.setupCommandUSB().command).toBe('S-1-L:0x3F:4:20|');
+		expect(lcdScreenState.rows).toBe(4);
+		expect(lcdScreenState.columns).toBe(20);
+		expect(lcdScreenState.memoryType).toBe(LCD_SCREEN_MEMORY_TYPE.OX3F);
+
+		expect(frame.actionType).toBe(ActionType.EMPTY);
 	});
 
 	it ('lcd_screen_simple_print_block should print ', () => {
@@ -83,7 +90,13 @@ describe('LCD Screen', () => {
 
 		const [frame] = lcd_screen_simple_print_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
 
-		expect(frame.nextCommand().command).toBe('M-L-Hello               :World               :                    :                    |');
+		const lcdScreenState = frame.state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
+
+		expect(lcdScreenState.rowsOfText[0]).toBe('Hello               ');
+		expect(lcdScreenState.rowsOfText[1]).toBe('World               ');
+		expect(lcdScreenState.rowsOfText[2]).toBe('                    ');
+		expect(lcdScreenState.rowsOfText[3]).toBe('                    ');
+		expect(frame.actionType).toBe(ActionType.LCD_SCREEN_PRINT);
 	});
 
 	it ('should be able to clear the screen', () => {
@@ -99,7 +112,12 @@ describe('LCD Screen', () => {
 
 		const [frame] = lcd_screen_clear_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
 
-		expect(frame.nextCommand().command).toBe('M-L-C:0|');
+		expect(frame.actionType).toBe(ActionType.LCD_SCREEN_CLEAR);
+		const lcdScreenState = frame.state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
+		expect(lcdScreenState.rowsOfText[0]).toBe('                    ');
+		expect(lcdScreenState.rowsOfText[1]).toBe('                    ');
+		expect(lcdScreenState.rowsOfText[2]).toBe('                    ');
+		expect(lcdScreenState.rowsOfText[3]).toBe('                    ');
 	});
 
 	it ('should be able to make square on the led blink', () => {
@@ -121,7 +139,12 @@ describe('LCD Screen', () => {
 
 		const [frame] = lcd_screen_blink_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
 
-		expect(frame.nextCommand().command).toBe('M-L-B:3:12:1|')
+		expect(frame.actionType).toBe(ActionType.LCD_SCREEN_BLINK);
+
+		const lcdScreenState = frame.state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
+		expect(lcdScreenState.blink.column).toBe(12);
+		expect(lcdScreenState.blink.row).toBe(3);
+		expect(lcdScreenState.blink.blinking).toBeTruthy();
 	});
 
 	it ('should be able to turn on off the lcd screen back light', () => {
@@ -139,8 +162,11 @@ describe('LCD Screen', () => {
 
 		const [frame] = lcd_backlight_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
 
+		expect(frame.actionType).toBe(ActionType.LCD_SCREEN_BACK_LIGHT);
 
-		expect(frame.nextCommand().command).toBe('M-L-L:1|');
+		const lcdScreenState = frame.state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
+
+		expect(lcdScreenState.backLightOn).toBeTruthy();
 	});
 
 	it ('lcd_screen_print_block it should print', () => {
@@ -170,8 +196,15 @@ describe('LCD Screen', () => {
 
 		getInputValueSpy.withArgs(lcdBlock, 'PRINT', '', { location: 'loop', iteration: 2 }, previousFrame).and.returnValue('World');
 
-		const [simplePrintScreen] = lcd_screen_print_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
-	
-		expect(simplePrintScreen.nextCommand().command).toBe('M-L-World               :World               :                    :                    |');
+		const [simplePrintScreenFrame] = lcd_screen_print_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
+
+		const lcdScreenState = simplePrintScreenFrame.state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
+
+		expect(lcdScreenState.rowsOfText[0]).toBe('World               ');
+		expect(lcdScreenState.rowsOfText[1]).toBe('World               ');
+		expect(lcdScreenState.rowsOfText[2]).toBe('                    ');
+		expect(lcdScreenState.rowsOfText[3]).toBe('                    ');
+
+		expect(simplePrintScreenFrame.actionType).toBe(ActionType.LCD_SCREEN_PRINT);
 	});
 });

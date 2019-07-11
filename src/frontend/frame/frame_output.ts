@@ -1,11 +1,9 @@
-import { Variable } from "./variable";
 import { FrameLocation } from "./frame";
+import { ArduinoState } from "../arduino/state/arduino.state";
 
 export interface FrameOutput {
 	frameNumber: number,
-	usbMessage: string,
-	bluetoothMessage: string,
-	variables: { [key: string]: Variable },
+	state: ArduinoState,
 	frameLocation: FrameLocation,
 	lastFrame: boolean,
 	blockId: string

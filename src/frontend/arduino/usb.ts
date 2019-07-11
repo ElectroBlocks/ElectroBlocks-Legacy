@@ -3,7 +3,7 @@ import { Command } from "../frame/command";
 export interface USB {
 
     /**
-     * This will only do the component part of the command.
+     * This will only do the component part of the arduino.command.
      */
     setupCommandUSB(): Command;
 

@@ -20,6 +20,8 @@ import { ARDUINO_UNO_PINS, Pin, PIN_TYPE } from "../arduino/pin";
 import * as blockHelper from "../frame/blockly_helper";
 import * as variableHelper from '../frame_genorator/variables';
 import { EmptyCommand } from "../frame/command";
+import { ArduinoState } from "../arduino/state/arduino.state";
+import { PinState } from "../arduino/state/pin.state";
 
 describe('list generators', () => {
 
@@ -74,24 +76,22 @@ describe('list generators', () => {
 
 			const [frame] = create_list_number_block_block(block, frameLocation);
 
-			expect(frame.variables['numberList'].value).toEqual([]);
-			expect(frame.variables['numberList'].name).toBe('numberList');
-			expect(frame.variables['numberList'].type).toBe('Number List');
+			expect(frame.state.variables['numberList'].value).toEqual([]);
+			expect(frame.state.variables['numberList'].name).toBe('numberList');
+			expect(frame.state.variables['numberList'].type).toBe('Number List');
 		});
 
 		it ('should copy over variables and components', () => {
 
-			const pinComponent = new Pin(ARDUINO_UNO_PINS.PIN_1, PIN_TYPE.DIGITAL, 1);
+			const pinComponent = new PinState(ARDUINO_UNO_PINS.PIN_1, PIN_TYPE.DIGITAL, 1);
 
-			const previousFrame = new ArduinoFrame('block23', {
-				'bill': {
+			const state = new ArduinoState([pinComponent], {'bill': {
 					type: 'Number',
 					name: 'bill',
 					value: 32
-				}},
-				[pinComponent],
-				new EmptyCommand(),
-				{location: 'loop', iteration: 0}
+				}}, false);
+
+			const previousFrame = new ArduinoFrame('block23', state,{location: 'loop', iteration: 0}
 			);
 
 			fakeVariable = {
@@ -102,15 +102,15 @@ describe('list generators', () => {
 
 			const [frame] = create_list_number_block_block(block,frameLocation, previousFrame);
 
-			expect(frame.variables['numberList'].value).toEqual([]);
-			expect(frame.variables['numberList'].name).toBe('numberList');
-			expect(frame.variables['numberList'].type).toBe('Number List');
+			expect(frame.state.variables['numberList'].value).toEqual([]);
+			expect(frame.state.variables['numberList'].name).toBe('numberList');
+			expect(frame.state.variables['numberList'].type).toBe('Number List');
 
-			expect(frame.variables['bill'].type).toBe('Number');
-			expect(frame.variables['bill'].value).toBe(32);
-			expect(frame.variables['bill'].name).toBe('bill');
+			expect(frame.state.variables['bill'].type).toBe('Number');
+			expect(frame.state.variables['bill'].value).toBe(32);
+			expect(frame.state.variables['bill'].name).toBe('bill');
 
-			expect(frame.components[0]).toBe(pinComponent);
+			expect(frame.state.components[0]).toBe(pinComponent);
 		});
 	});
 
@@ -125,9 +125,9 @@ describe('list generators', () => {
 
 			const [frame] = create_list_string_block_block(block, frameLocation);
 
-			expect(frame.variables['stringList'].value).toEqual([]);
-			expect(frame.variables['stringList'].name).toBe('stringList');
-			expect(frame.variables['stringList'].type).toBe('String List');
+			expect(frame.state.variables['stringList'].value).toEqual([]);
+			expect(frame.state.variables['stringList'].name).toBe('stringList');
+			expect(frame.state.variables['stringList'].type).toBe('String List');
 		});
 
 	});
@@ -143,9 +143,9 @@ describe('list generators', () => {
 
 			const [frame] = create_list_boolean_block_block(block, frameLocation);
 
-			expect(frame.variables['booleanList'].value).toEqual([]);
-			expect(frame.variables['booleanList'].name).toBe('booleanList');
-			expect(frame.variables['booleanList'].type).toBe('Boolean List');
+			expect(frame.state.variables['booleanList'].value).toEqual([]);
+			expect(frame.state.variables['booleanList'].name).toBe('booleanList');
+			expect(frame.state.variables['booleanList'].type).toBe('Boolean List');
 		});
 
 	});
@@ -161,9 +161,9 @@ describe('list generators', () => {
 
 			const [frame] = create_list_colour_block_block(block, frameLocation);
 
-			expect(frame.variables['color_list'].value).toEqual([]);
-			expect(frame.variables['color_list'].name).toBe('color_list');
-			expect(frame.variables['color_list'].type).toBe('Colour List');
+			expect(frame.state.variables['color_list'].value).toEqual([]);
+			expect(frame.state.variables['color_list'].name).toBe('color_list');
+			expect(frame.state.variables['color_list'].type).toBe('Colour List');
 		});
 
 	});
@@ -186,7 +186,7 @@ describe('list generators', () => {
 			spyGetInputValue.withArgs(block, 'POSITION', 0, frameLocation, frame).and.returnValue(1);
 
 
-			const arrayVariable = frame.variables['numberList'];
+			const arrayVariable = frame.state.variables['numberList'];
 
 			expect(arrayVariable.name).toBe('numberList');
 			// It should set it back 1 because everything 0 indexed
@@ -217,7 +217,7 @@ describe('list generators', () => {
 			spyGetInputValue.withArgs(block, 'POSITION', 0, frameLocation, frame).and.returnValue(1);
 
 
-			const arrayVariable = frame.variables['stringList'];
+			const arrayVariable = frame.state.variables['stringList'];
 
 			expect(arrayVariable.name).toBe('stringList');
 			// It should set it back 1 because everything 0 indexed
@@ -246,7 +246,7 @@ describe('list generators', () => {
 
 				spyGetInputValue.withArgs(block, 'POSITION', 0, frameLocation, frame).and.returnValue(1);
 
-				const arrayVariable = frame.variables['boolList'];
+				const arrayVariable = frame.state.variables['boolList'];
 
 				expect(arrayVariable.name).toBe('boolList');
 				// It should set it back 1 because everything 0 indexed
@@ -273,7 +273,7 @@ describe('list generators', () => {
 
 				spyGetInputValue.withArgs(block, 'POSITION', 0, frameLocation, frame).and.returnValue(1);
 
-				const arrayVariable = frame.variables['colorList'];
+				const arrayVariable = frame.state.variables['colorList'];
 
 				expect(arrayVariable.name).toBe('colorList');
 				// It should set it back 1 because everything 0 indexed

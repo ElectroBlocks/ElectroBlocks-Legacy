@@ -33,7 +33,7 @@ FAILURE_COUNT=0
 
 run_test_command () {
   local test_id=$1  # The id to use for folds and similar. No spaces.
-  local command=$2  # The command to run.
+  local command=$2  # The arduino.command to run.
 
   echo "======================================="
   echo "== $test_id"

@@ -10,6 +10,7 @@ export const simpleCode = `
 
 
 export const firmware = `
+
 #include <Servo.h>
 #include <Wire.h>
 #include <LedControlMS.h>
@@ -53,6 +54,11 @@ AF_DCMotor motor_4(4);
 LedControl * lc;
 
 /**
+ * True if the led matrix has been initialized
+ */
+boolean ledMatrixHasBeenSetup = false;
+
+/**
  * Neo Pixel Object used to set color in the neo pixel
  */
 Adafruit_NeoPixel NeoPixels = Adafruit_NeoPixel(60, A0, NEO_GRB + NEO_KHZ800);
@@ -66,7 +72,7 @@ Servo servo;
 /**
  * This stores the commands / usb messages sent to the arduino.
  */
-String command = "";
+String commands = "";
 
 /**
  * Restarts the Arduino
@@ -189,7 +195,10 @@ void setupLCDScreen(String objectSetup) {
 void setupLEDMatrix()
 {
   Serial.println("STARTING LED MATRIX");
-  lc = new LedControl(12,11,10,1);
+  if (!ledMatrixHasBeenSetup) {
+      lc  = new LedControl(12,11,10,1);
+      ledMatrixHasBeenSetup = true;
+  }
   lc->shutdown(0,false);
   lc->setIntensity(0,8);
   lc->clearDisplay(0);
@@ -508,25 +517,13 @@ void setup() {
 
   delay(100);
 
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   Serial.println("STARTING ARDUINO");
 
 }
 
-void loop() {
-
-  if (Serial.available() == 0 && command.indexOf("|") == -1) {
-     return;
-  }
-
-  while (Serial.available() != 0) {
-     command += Serial.readString();
-  }
-
-  command = command.substring(0, command.length() - 1);
-
-
+void processCommand(String command) {
   String commandType = getParseValue(command, '-', 0);
 
   Serial.println(command);
@@ -543,8 +540,37 @@ void loop() {
       nextMove(command);
   }
 
-  command = "";
 }
 
+void loop() {
+
+
+  commands = Serial.readStringUntil('*');
+  
+  int index = 0;
+  String currentCommand = getParseValue(commands, '|', index);
+
+  while(currentCommand.length() > 0) {
+      Serial.println("Current Command => " +currentCommand);
+      int pipeIndex = currentCommand.indexOf('|');
+      if (pipeIndex >= 0) {
+         currentCommand = currentCommand.substring(0, pipeIndex); 
+      }
+      processCommand(currentCommand);
+      index += 1;
+      currentCommand = getParseValue(commands, '|', index);
+  }
+
+  if (commands.length() > 0) {
+     Serial.println("FULL COMMAND : " + commands);
+     commands = "";
+     delay(10);
+     Serial.println("");
+     Serial.println("                 |******COMPLETE*****|                   ");
+     Serial.println("");
+     delay(10);
+  }
+
+}
 
 `;

@@ -1,8 +1,11 @@
 import { Block } from "../frame/block";
 import { FrameLocation } from "../frame/frame";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { BluetoothCommand, MessageCommand } from "../frame/command";
 import { getInputValue } from "../frame/blockly_helper";
+import { ArduinoState } from "../arduino/state/arduino.state";
+import { BluetoothState } from "../arduino/state/bluetooth.state";
+import { ElectricAttachmentComponentState } from "../arduino/state/electric.state";
+import { ActionType } from "../frame/action.type";
 
 export const send_message_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame):ArduinoFrame[] => {
 
@@ -10,18 +13,27 @@ export const send_message_block = (block: Block, frameLocation: FrameLocation, p
 
 	const message = getInputValue(block, 'MESSAGE', '',frameLocation, previousFrame).toString();
 
-	const command = isBluetooth ? new BluetoothCommand(message) :
-		new MessageCommand(message);
+	const state = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState();
 
-	if (previousFrame) {
+	if (isBluetooth) {
+
+		const bluetooth = state.components.find(c => c instanceof BluetoothState) as BluetoothState;
+
+		const componentIndex = state.components.findIndex(c => c instanceof BluetoothState);
+
+
+		state.components[componentIndex] = new BluetoothState(bluetooth.rxPin, bluetooth.txPin, '', message);
+
 		return [
-			new ArduinoFrame(block.id, previousFrame.variables, previousFrame.components, command, frameLocation)
+			new ArduinoFrame(block.id, state, frameLocation, ActionType.LCD_SCREEN_PRINT)
 		];
 	}
 
+	const updatedState = new ArduinoState(state.components, state.variables, false, message);
+
 	return [
 		new ArduinoFrame(
-			block.id,{}, [], command, frameLocation
+			block.id,updatedState, frameLocation
 		)];
 };
 

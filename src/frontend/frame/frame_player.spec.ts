@@ -2,20 +2,20 @@ import 'jasmine';
 import { FramePlayer } from "./frame_player";
 import { ExecuteSilentFrame } from "./frame_execute";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { EmptyCommand } from "./command";
 import * as  BluebirdPromise   from 'bluebird';
 import { filter, tap } from "rxjs/operators";
+import { ArduinoState } from "../arduino/state/arduino.state";
 
 describe('Frame Player', () => {
 
 
-	const frames = [new ArduinoFrame('b1', {}, [], new EmptyCommand(), {
+	const frames = [new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
 		location: 'setup', iteration: 0
 	}),
-		new ArduinoFrame('b1', {}, [], new EmptyCommand(), {
+		new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
 			location: 'loop', iteration: 0
 		}),
-		new ArduinoFrame('b1', {}, [], new EmptyCommand(), {
+		new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
 			location: 'loop', iteration: 1
 		})];
 
@@ -40,19 +40,19 @@ describe('Frame Player', () => {
 
 		const framePlayer = new FramePlayer(new ExecuteSilentFrame());
 
-		const frame1 = new ArduinoFrame('b1', {}, [], new EmptyCommand(), {
+		const frame1 = new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
 		location: 'pre-setup', iteration: 0
 	});
 
 	await framePlayer.setFrames([
 		frame1,
-		new ArduinoFrame('b1', {}, [], new EmptyCommand(), {
+		new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
 			location: 'setup', iteration: 0
 		}),
-		new ArduinoFrame('b1', {}, [], new EmptyCommand(), {
+		new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
 			location: 'loop', iteration: 0
 		}),
-		new ArduinoFrame('b1', {}, [], new EmptyCommand(), {
+		new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
 			location: 'loop', iteration: 1
 		}),
 	]);

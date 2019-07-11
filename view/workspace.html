@@ -190,6 +190,18 @@
             display: inline;
         }
 
+        #container {
+            display: flex;
+        }
+
+        #content-blocks {
+            flex-grow: 8;
+        }
+
+        #virtual-circuit {
+            flex-grow: 5;
+        }
+
     </style>
 </head>
 <body>
@@ -202,13 +214,14 @@
     <a title="Video Debug Mode" id="debug-video-btn" href="#"><i id="video-debug-icon" class="fa fa-film"></i></a>
 </div>
 
+<div id="container">
+    <div id="content-blocks">
 
-<div id="content-blocks">
+    </div>
 
-</div>
+    <div id="virtual-circuit">
 
-<div id="arduino-sketch">
-
+    </div>
 </div>
 
 <xml id="toolbox" style="display: none">

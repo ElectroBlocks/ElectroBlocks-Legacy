@@ -3,7 +3,7 @@ import { USB, USB_COMMAND_TYPES } from './usb';
 import { ARDUINO_UNO_PINS } from './pin';
 import { Command, COMMAND_TYPE, EmptyCommand } from "../frame/command";
 
-export class Servo implements USB, Copy<Servo>{
+export class Servo implements USB, Copy<Servo> {
     
     constructor(public readonly pin: ARDUINO_UNO_PINS, public readonly angle: number) {}
 

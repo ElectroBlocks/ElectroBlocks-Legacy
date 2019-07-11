@@ -7,7 +7,7 @@ describe('Neo Pixel', () => {
 
     describe('NeoPixel', () =>  {
 
-        it('should make usb command', () => {
+        it('should make usb arduino.command', () => {
             let neoPixel = new NeoPixel({red: 23, green: 34, blue: 44}, 4);
 
             expect(neoPixel.usbCommand().command).toBe('M-N-23:34:44:4|');
@@ -69,7 +69,7 @@ describe('Neo Pixel', () => {
 
         });
 
-        it ('should create a simple setup command', () => {
+        it ('should create a simple setup arduino.command', () => {
             let neoPixelStrip = new NeoPixelStrip(ARDUINO_UNO_PINS.PIN_A0,30);
 
             expect(neoPixelStrip.setupCommandUSB().command).toBe('N:A0:30');

@@ -2,8 +2,11 @@ import { Block } from "../frame/block";
 import { FrameLocation } from "../frame/frame";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { getInputValue } from "../frame/blockly_helper";
-import { Motor, MOTOR_DIRECTION } from "../arduino/motor";
-import { USB } from "../arduino/usb";
+import { MOTOR_DIRECTION } from "../arduino/motor";
+import { BluetoothState } from "../arduino/state/bluetooth.state";
+import { ArduinoState } from "../arduino/state/arduino.state";
+import { MotorState } from "../arduino/state/motor.state";
+import { ActionType } from "../frame/action.type";
 
 export const move_motor_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) : ArduinoFrame[] => {
 
@@ -17,16 +20,18 @@ export const move_motor_block = (block: Block, frameLocation: FrameLocation, pre
 
 	const speed = parseInt(getInputValue(block, 'SPEED', 10, frameLocation, previousFrame).toString());
 
-	let components: USB[] = previousFrame ? previousFrame.components : [];
+	const state = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState();
 
-	components = components.filter(component =>
-		!(component instanceof Motor && component.motorNumber == motorNumber));
+	const motor = state.components.find(c => c instanceof MotorState) as BluetoothState;
 
-	const motor = new Motor(motorNumber as 1|2|3|4, direction, speed);
+	const motorIndex = state.components.findIndex(c => c instanceof BluetoothState);
 
-	components.push(motor);
+	if (motor) {
+		state.components[motorIndex] = new MotorState(motorNumber, speed, direction);
+	} else {
+		state.components.push(new MotorState(motorNumber, speed, direction));
+	}
 
-	const variables = previousFrame ? previousFrame.variables : {};
 
-	return [new ArduinoFrame(block.id, variables, components, motor.usbCommand(), frameLocation)]
+	return [new ArduinoFrame(block.id, state, frameLocation, ActionType.MOTOR_MOVE)]
 };

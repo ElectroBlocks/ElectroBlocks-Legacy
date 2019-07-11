@@ -2,6 +2,8 @@ import 'jasmine';
 import { Block } from "../frame/block";
 import * as blockHelper from "../frame/blockly_helper";
 import { servo_move_block } from "./servo";
+import { ServoState } from "../arduino/state/servo.state";
+import { ARDUINO_UNO_PINS, stringToPin } from "../arduino/pin";
 
 describe('servo block frame', () => {
 
@@ -46,8 +48,14 @@ describe('servo block frame', () => {
 
 		const [lastArduinoFrame] = servo_move_block(block2, { location: 'loop', iteration: 1 }, arduinoFrame);
 
-		expect(lastArduinoFrame.components.length).toBe(1);
-		expect(lastArduinoFrame.command.command).toBe('M-S-4:120|');
+
+		const servoState = lastArduinoFrame.state.components
+			.filter(servo => servo instanceof ServoState)
+			.find((servo: ServoState) => servo.pin == stringToPin('4')) as ServoState;
+
+		expect(lastArduinoFrame.state.components.length).toBe(1);
+		expect(servoState.pin).toBe(ARDUINO_UNO_PINS.PIN_4);
+		expect(servoState.degree).toBe(120);
 	});
 
 	it ('should generate 2 servos components if the pins are different', () =>{
@@ -61,8 +69,24 @@ describe('servo block frame', () => {
 
 		const [lastArduinoFrame] = servo_move_block(block2, { location: 'loop', iteration: 1 }, arduinoFrame);
 
-		expect(lastArduinoFrame.components.length).toBe(2);
-		expect(lastArduinoFrame.command.command).toBe('M-S-6:120|');
+		expect(lastArduinoFrame.state.components.length).toBe(2);
+
+		const servoState1 = lastArduinoFrame.state.components
+			.filter(servo => servo instanceof ServoState)
+			.find((servo: ServoState) => servo.pin == stringToPin('4')) as ServoState;
+
+		const servoState2 = lastArduinoFrame.state.components
+			.filter(servo => servo instanceof ServoState)
+			.find((servo: ServoState) => servo.pin == stringToPin('6')) as ServoState;
+
+
+		expect(servoState1.pin).toBe(ARDUINO_UNO_PINS.PIN_4);
+		expect(servoState1.degree).toBe(30);
+
+
+		expect(servoState2.pin).toBe(ARDUINO_UNO_PINS.PIN_6);
+		expect(servoState2.degree).toBe(120);
+
 
 	});
 

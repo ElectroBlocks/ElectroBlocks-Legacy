@@ -12,6 +12,7 @@ import {
 import * as blockHelperFunctions from '../frame/blockly_helper';
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { EmptyCommand } from "../frame/command";
+import { ArduinoState } from "../arduino/state/arduino.state";
 
 
 describe('Math', () => {
@@ -33,7 +34,7 @@ describe('Math', () => {
 
 	beforeEach(() => {
 		previousFrame =
-			new ArduinoFrame('block_id', {}, [], new EmptyCommand(), frameLocation);
+			new ArduinoFrame('block_id', ArduinoState.makeEmptyState(), frameLocation);
 
 		getInputValueSpy =  spyOn(blockHelperFunctions, 'getInputValue');
 

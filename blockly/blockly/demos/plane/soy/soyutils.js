@@ -762,7 +762,7 @@ goog.soy.data.SanitizedContentKind = {
    * effects.
    * <p>
    * The content should not contain unescaped quotes, newlines, or anything else
-   * that would cause parsing to fail or to cause a JS parser to finish the
+   * that would cause parsing to fail or to cause a JS factory to finish the
    * string its parsing inside the content.
    * <p>
    * The content must also not end inside an escape sequence ; no partial octal
@@ -2040,7 +2040,7 @@ soy.$$escapeHtmlRcdata = function(value) {
  * @private
  */
 soy.$$HTML5_VOID_ELEMENTS_ = new RegExp(
-    '^<(?:area|base|br|col|command|embed|hr|img|input' +
+    '^<(?:area|base|br|col|arduino.command|embed|hr|img|input' +
     '|keygen|link|meta|param|source|track|wbr)\\b');
 
 

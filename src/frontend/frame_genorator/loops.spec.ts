@@ -45,7 +45,7 @@ describe('loops', () => {
 
 			generateFrameForInputStatementSpy.withArgs(block, 'DO',frameLocation, jasmine.any(ArduinoFrame)).and.returnValue([ArduinoFrame.makeEmptyFrame('block1', frameLocation), ArduinoFrame.makeEmptyFrame('block2', frameLocation)]);
 
-			const frames = controls_repeat_ext_block(block, frameLocation);
+			const frames = controls_repeat_ext_block(block, frameLocation) as ArduinoFrame[];
 
 			expect(frames.length).toBe(6);
 
@@ -86,39 +86,39 @@ describe('loops', () => {
 			generateFrameForInputStatementSpy.withArgs(block, 'DO',frameLocation, jasmine.any(ArduinoFrame))
 				.and.callFake((block: Block, inputStatement: string, frameLocation: FrameLocation, previousFrame: ArduinoFrame): ArduinoFrame[] => {
 
-					return [ previousFrame.makeCopy('block1', frameLocation), previousFrame.makeCopy('block2', frameLocation) ];
+					return [ previousFrame.makeCopy('block1', frameLocation) as ArduinoFrame, previousFrame.makeCopy('block2', frameLocation) as ArduinoFrame ];
 			});
 
 			const frames = controls_for_block(block, frameLocation) as ArduinoFrame[];
 
 			expect(frames.length).toBe(9);
 
-			expect(frames[0].variables['indexVariable'].value).toBe(1);
+			expect(frames[0].state.variables['indexVariable'].value).toBe(1);
 			expect(frames[0].blockId).toBe('loop_block');
 
-			expect(frames[1].variables['indexVariable'].value).toBe(1);
+			expect(frames[1].state.variables['indexVariable'].value).toBe(1);
 			expect(frames[1].blockId).toBe('block1');
 
-			expect(frames[2].variables['indexVariable'].value).toBe(1);
+			expect(frames[2].state.variables['indexVariable'].value).toBe(1);
 			expect(frames[2].blockId).toBe('block2');
 
 
-			expect(frames[3].variables['indexVariable'].value).toBe(2);
+			expect(frames[3].state.variables['indexVariable'].value).toBe(2);
 			expect(frames[3].blockId).toBe('loop_block');
 
-			expect(frames[4].variables['indexVariable'].value).toBe(2);
+			expect(frames[4].state.variables['indexVariable'].value).toBe(2);
 			expect(frames[4].blockId).toBe('block1');
 
-			expect(frames[5].variables['indexVariable'].value).toBe(2);
+			expect(frames[5].state.variables['indexVariable'].value).toBe(2);
 			expect(frames[5].blockId).toBe('block2');
 
-			expect(frames[6].variables['indexVariable'].value).toBe(3);
+			expect(frames[6].state.variables['indexVariable'].value).toBe(3);
 			expect(frames[6].blockId).toBe('loop_block');
 
-			expect(frames[7].variables['indexVariable'].value).toBe(3);
+			expect(frames[7].state.variables['indexVariable'].value).toBe(3);
 			expect(frames[7].blockId).toBe('block1');
 
-			expect(frames[8].variables['indexVariable'].value).toBe(3);
+			expect(frames[8].state.variables['indexVariable'].value).toBe(3);
 			expect(frames[8].blockId).toBe('block2');
 
 		});
@@ -138,39 +138,39 @@ describe('loops', () => {
 			generateFrameForInputStatementSpy.withArgs(block, 'DO',frameLocation, jasmine.any(ArduinoFrame))
 				.and.callFake((block: Block, inputStatement: string, frameLocation : FrameLocation,  previousFrame: ArduinoFrame): ArduinoFrame[] => {
 
-				return [ previousFrame.makeCopy('block1', frameLocation), previousFrame.makeCopy('block2', frameLocation) ];
+				return [ previousFrame.makeCopy('block1', frameLocation) as ArduinoFrame, previousFrame.makeCopy('block2', frameLocation) as ArduinoFrame ];
 			});
 
 			const frames = controls_for_block(block, frameLocation) as ArduinoFrame[];
 
 			expect(frames.length).toBe(9);
 
-			expect(frames[0].variables['indexVariable'].value).toBe(3);
+			expect(frames[0].state.variables['indexVariable'].value).toBe(3);
 			expect(frames[0].blockId).toBe('loop_block');
 
-			expect(frames[1].variables['indexVariable'].value).toBe(3);
+			expect(frames[1].state.variables['indexVariable'].value).toBe(3);
 			expect(frames[1].blockId).toBe('block1');
 
-			expect(frames[2].variables['indexVariable'].value).toBe(3);
+			expect(frames[2].state.variables['indexVariable'].value).toBe(3);
 			expect(frames[2].blockId).toBe('block2');
 
 
-			expect(frames[3].variables['indexVariable'].value).toBe(2);
+			expect(frames[3].state.variables['indexVariable'].value).toBe(2);
 			expect(frames[3].blockId).toBe('loop_block');
 
-			expect(frames[4].variables['indexVariable'].value).toBe(2);
+			expect(frames[4].state.variables['indexVariable'].value).toBe(2);
 			expect(frames[4].blockId).toBe('block1');
 
-			expect(frames[5].variables['indexVariable'].value).toBe(2);
+			expect(frames[5].state.variables['indexVariable'].value).toBe(2);
 			expect(frames[5].blockId).toBe('block2');
 
-			expect(frames[6].variables['indexVariable'].value).toBe(1);
+			expect(frames[6].state.variables['indexVariable'].value).toBe(1);
 			expect(frames[6].blockId).toBe('loop_block');
 
-			expect(frames[7].variables['indexVariable'].value).toBe(1);
+			expect(frames[7].state.variables['indexVariable'].value).toBe(1);
 			expect(frames[7].blockId).toBe('block1');
 
-			expect(frames[8].variables['indexVariable'].value).toBe(1);
+			expect(frames[8].state.variables['indexVariable'].value).toBe(1);
 			expect(frames[8].blockId).toBe('block2');
 
 		});
@@ -191,39 +191,39 @@ describe('loops', () => {
 				.withArgs(block, 'DO',frameLocation, jasmine.any(ArduinoFrame))
 				.and.callFake((block: Block, inputStatement: string, frameLocation : FrameLocation,  previousFrame: ArduinoFrame): ArduinoFrame[] => {
 
-				return [ previousFrame.makeCopy('block1', frameLocation), previousFrame.makeCopy('block2', frameLocation) ];
+				return [ previousFrame.makeCopy('block1', frameLocation) as ArduinoFrame, previousFrame.makeCopy('block2', frameLocation) as ArduinoFrame ];
 			});
 
 			const frames = controls_for_block(block, frameLocation) as ArduinoFrame[];
 
 			expect(frames.length).toBe(9);
 
-			expect(frames[0].variables['indexVariable'].value).toBe(1);
+			expect(frames[0].state.variables['indexVariable'].value).toBe(1);
 			expect(frames[0].blockId).toBe('loop_block');
 
-			expect(frames[1].variables['indexVariable'].value).toBe(1);
+			expect(frames[1].state.variables['indexVariable'].value).toBe(1);
 			expect(frames[1].blockId).toBe('block1');
 
-			expect(frames[2].variables['indexVariable'].value).toBe(1);
+			expect(frames[2].state.variables['indexVariable'].value).toBe(1);
 			expect(frames[2].blockId).toBe('block2');
 
 
-			expect(frames[3].variables['indexVariable'].value).toBe(3);
+			expect(frames[3].state.variables['indexVariable'].value).toBe(3);
 			expect(frames[3].blockId).toBe('loop_block');
 
-			expect(frames[4].variables['indexVariable'].value).toBe(3);
+			expect(frames[4].state.variables['indexVariable'].value).toBe(3);
 			expect(frames[4].blockId).toBe('block1');
 
-			expect(frames[5].variables['indexVariable'].value).toBe(3);
+			expect(frames[5].state.variables['indexVariable'].value).toBe(3);
 			expect(frames[5].blockId).toBe('block2');
 
-			expect(frames[6].variables['indexVariable'].value).toBe(5);
+			expect(frames[6].state.variables['indexVariable'].value).toBe(5);
 			expect(frames[6].blockId).toBe('loop_block');
 
-			expect(frames[7].variables['indexVariable'].value).toBe(5);
+			expect(frames[7].state.variables['indexVariable'].value).toBe(5);
 			expect(frames[7].blockId).toBe('block1');
 
-			expect(frames[8].variables['indexVariable'].value).toBe(5);
+			expect(frames[8].state.variables['indexVariable'].value).toBe(5);
 			expect(frames[8].blockId).toBe('block2');
 
 		});

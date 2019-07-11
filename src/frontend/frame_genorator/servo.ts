@@ -1,13 +1,16 @@
 import { Block } from "../frame/block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { stringToPin } from "../arduino/pin";
-import { Servo } from "../arduino/servo";
 import { getInputValue } from "../frame/blockly_helper";
 import { FrameLocation } from "../frame/frame";
-import { USB } from "../arduino/usb";
+import { ArduinoState } from "../arduino/state/arduino.state";
+import { ServoState } from "../arduino/state/servo.state";
+import { ActionType } from "../frame/action.type";
 
 
 export const servo_move_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) : ArduinoFrame[] => {
+
+	const state = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState();
 
 	const pin = block.getFieldValue('PIN').toString();
 
@@ -18,16 +21,19 @@ export const servo_move_block = (block: Block, frameLocation: FrameLocation, pre
 		frameLocation,
 		previousFrame).toString());
 
-	let components: USB[] = previousFrame ? previousFrame.components : [];
+	const servoState = state.components.find(component =>
+		component instanceof ServoState && component.pin == stringToPin(pin));
 
-	components = components.filter(component =>
-		!(component instanceof Servo && component.pin == stringToPin(pin)));
+	if (servoState instanceof ServoState) {
 
-	const servo = new Servo(stringToPin(pin), angle);
+		const index = state.components.indexOf(servoState);
 
-	components.push(servo);
+		state.components[index] = new ServoState(angle, stringToPin(pin));
 
-	const variables = previousFrame ? previousFrame.variables : {};
+	} else {
+		state.components.push(new ServoState(angle, stringToPin(pin)));
+	}
 
-	return [new ArduinoFrame(block.id, variables, components, servo.usbCommand(), frameLocation)]
+
+	return [new ArduinoFrame(block.id, state, frameLocation, ActionType.SERVO_MOVE)]
 };

@@ -2,6 +2,8 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
 import { Block } from "../frame/block";
 import { generateFrameForInputStatement, getInputValue } from "../frame/blockly_helper";
 import { Frame, FrameLocation } from "../frame/frame";
+import { EmptyCommand } from "../frame/command";
+import { ArduinoState } from "../arduino/state/arduino.state";
 
 
 /**
@@ -117,9 +119,9 @@ const logic_negate_block = (block: Block, frameLocation: FrameLocation, previous
  */
 const generateIfElseFrames = (block: Block, hasElse: boolean, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) =>  {
 
-	let ifFrame = previousFrame ?
-		previousFrame.makeCopy(block.id, frameLocation) :
-		ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
+	const state = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState();
+
+	let ifFrame = new ArduinoFrame(block.id, state, frameLocation);
 
 	let executeBlocksInsideIf = getInputValue(
 		block,

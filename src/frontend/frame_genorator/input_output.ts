@@ -1,8 +1,11 @@
 import { Block } from "../frame/block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { Pin, PIN_TYPE, stringToPin } from "../arduino/pin";
+import { PIN_TYPE, stringToPin } from "../arduino/pin";
 import { FrameLocation } from "../frame/frame";
 import { getInputValue } from "../frame/blockly_helper";
+import { PinState } from "../arduino/state/pin.state";
+import { ArduinoState } from "../arduino/state/arduino.state";
+import { ActionType } from "../frame/action.type";
 
 export const digital_write_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
 
@@ -27,16 +30,19 @@ export const analog_write_block = (block: Block, frameLocation: FrameLocation, p
 };
 
 const generatePinFrame = (block: Block, frameLocation: FrameLocation, pin: string, state: number, pinType: PIN_TYPE,  previousFrame?: ArduinoFrame) => {
-	let components = previousFrame ? previousFrame.components : [];
+	const arduinoState = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState();
 
-	components = components.filter(component =>
-		!(component instanceof Pin && component.pinNumber == stringToPin(pin)));
+	const pinState = arduinoState.components.find(component =>
+		component instanceof PinState && component.pin == stringToPin(pin));
 
-	const pinComponent = new Pin(stringToPin(pin), pinType, state);
+	if (pinState instanceof PinState) {
+		const index = arduinoState.components.indexOf(pinState);
+		arduinoState.components[index] = new PinState(stringToPin(pin), pinType, state);
+	} else {
+		arduinoState.components.push(new PinState(stringToPin(pin), pinType, state));
+	}
 
-	components.push(pinComponent);
+	const actionType = pinType == PIN_TYPE.ANALOG ? ActionType.ANALOG_PIN_WRITE  : ActionType.DIGITAL_PIN_WRITE;
 
-	const variables = previousFrame ?  previousFrame.variables: {};
-
-	return [new ArduinoFrame(block.id, variables, components, pinComponent.usbCommand(), frameLocation)];
+	return [new ArduinoFrame(block.id, arduinoState, frameLocation, actionType)];
 };

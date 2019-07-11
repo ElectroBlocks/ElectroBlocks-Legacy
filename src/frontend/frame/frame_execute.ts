@@ -1,4 +1,5 @@
-import { ipcRenderer } from "electron";
+import { ArduinoState } from "../arduino/state/arduino.state";
+import { VirtualCircuit } from "../virtual-circuit/virtual-circuit";
 
 export class ExecuteUSBFrame implements ExecuteFrameInterface {
 
@@ -6,24 +7,38 @@ export class ExecuteUSBFrame implements ExecuteFrameInterface {
 	constructor() {
 	}
 
-	public executeCommand( command: string ) {
-		ipcRenderer.send( 'send:message', command );
+	public executeCommand(state: ArduinoState, finalState: ArduinoState, runSetup: boolean ) {
+		// TODO HOOK UP STATE TO COMMAND
+		return Promise.resolve(true);
 	}
 
 
 }
 
+export class ExecuteVirtualCircuitFrame implements ExecuteFrameInterface {
+
+	constructor(private virtualCircuit: VirtualCircuit) {}
+
+	async executeCommand( state: ArduinoState, finalState: ArduinoState, runSetup: boolean ): Promise<boolean> {
+		this.virtualCircuit.matchFinalState(finalState);
+		this.virtualCircuit.matchState(state);
+		return true;
+	}
+}
+
+
 export class ExecuteDebugFrame implements ExecuteFrameInterface {
-	executeCommand( command: string ): void {
-		console.log( command, 'USB COMMAND' );
+	public executeCommand( state: ArduinoState, finalState: ArduinoState, runSetup: boolean ) {
+		console.log( state, 'USB COMMAND' );
+		return Promise.resolve(true);
 	}
 
 
 }
 
 export class ExecuteSilentFrame implements ExecuteFrameInterface {
-	executeCommand( command: string ): void {
-
+	public executeCommand( state: ArduinoState, finalState: ArduinoState, runSetup: boolean ) {
+		return Promise.resolve(true);
 	}
 
 
@@ -32,5 +47,5 @@ export class ExecuteSilentFrame implements ExecuteFrameInterface {
 
 export interface ExecuteFrameInterface {
 
-	executeCommand( command: string ): void;
+	executeCommand( state: ArduinoState, finalState: ArduinoState, runSetup: boolean ): Promise<boolean>;
 }

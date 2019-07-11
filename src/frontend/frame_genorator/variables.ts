@@ -1,8 +1,9 @@
 import { ArduinoFrame } from '../arduino/arduino_frame';
 import { Block, get_blockly } from '../frame/block';
 import { getInputValue } from '../frame/blockly_helper';
-import { EmptyCommand } from "../frame/command";
 import { FrameLocation } from "../frame/frame";
+import { ArduinoState } from "../arduino/state/arduino.state";
+import { ActionType } from "../frame/action.type";
 
 
 /**
@@ -82,11 +83,11 @@ const getVariable = (block: Block,  defaultValue: any, previousFrame?: ArduinoFr
         return defaultValue;
     }
 
-    if (!previousFrame.variables[variableName]) {
+    if (!previousFrame.state.variables[variableName]) {
         return defaultValue;
     }
 
-    let value = previousFrame.variables[variableName].value;
+    let value = previousFrame.state.variables[variableName].value;
 
     if (isBooleanVariableReturningValue(getVariableType(block), value)) {
         return value;
@@ -100,8 +101,8 @@ const getVariable = (block: Block,  defaultValue: any, previousFrame?: ArduinoFr
  * The default value is used if no value for the variable can be found
  */
 const setVariable = (block: Block, type: string, defaultValue: any, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
-    
-    previousFrame = previousFrame || ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
+
+    const state = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState();
 
     let variableName = getVariableName(block);
 
@@ -113,15 +114,14 @@ const setVariable = (block: Block, type: string, defaultValue: any, frameLocatio
         value = value || defaultValue;
     }
 
-    let variableList = JSON.parse(JSON.stringify(previousFrame.variables));
-    variableList[variableName] = {
+    state.variables[variableName] = {
         name: variableName,
         type,
         value
     };
 
 
-    return [new ArduinoFrame(block.id, variableList, previousFrame.components, new EmptyCommand(), frameLocation)];
+    return [new ArduinoFrame(block.id, state, frameLocation, ActionType.EMPTY)];
 };
 
 /**

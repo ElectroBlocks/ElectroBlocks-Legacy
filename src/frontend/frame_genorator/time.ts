@@ -1,8 +1,9 @@
 import { Block } from "../frame/block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { getInputValue } from "../frame/blockly_helper";
-import { TimeCommand } from "../frame/command";
 import { FrameLocation } from "../frame/frame";
+import { ArduinoState } from "../arduino/state/arduino.state";
+import { ActionType } from "../frame/action.type";
 
 
 export const delay_block_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
@@ -11,9 +12,11 @@ export const delay_block_block = (block: Block, frameLocation: FrameLocation, pr
 
 	const time = getInputValue(block, 'DELAY',1, frameLocation,previousFrame).toString();
 
-	const timeCommand = new TimeCommand((parseFloat(time) * 1000).toFixed(0).toString());
+	const state = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState();
 
-	const frame = new ArduinoFrame(block.id, copyFrame.variables, copyFrame.components, timeCommand, frameLocation);
+	const updatedState = new ArduinoState(state.components, state.variables, false, '', parseFloat(time) * 1000);
+
+	const frame = new ArduinoFrame(block.id, updatedState, frameLocation, ActionType.DELAY);
 
 	return [frame];
 };

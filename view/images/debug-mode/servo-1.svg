@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="110.88" height="284.39" viewBox="0 0 110.88 284.39">
+  <title>servo-1</title>
+  <g id="base">
+    <g>
+      <rect x="0.5" y="33.89" width="80" height="219" style="fill: #2a90ff"/>
+      <path d="M110,36V254H31V36h79m1-1H30V255h81V35Z" transform="translate(-30 -1.61)"/>
+    </g>
+    <path d="M119.5,43.5" transform="translate(-30 -1.61)" style="fill: #c69c6d;stroke: #000;stroke-miterlimit: 10"/>
+  </g>
+  <g id="spinning_part" data-name="spinning part">
+    <rect id="black_fill" x="32.5" y="124.89" width="25" height="27" style="stroke: #000;stroke-miterlimit: 10"/>
+    <path id="moving_part" d="M140.35,141.8c-.4-7.21-5.39-13.31-11.85-13.94l-60.88-8.21c-7.33,2.38-12.61,10.2-13,19.16-.42,9.38,4.61,18,12.18,20.71L128,158.28C135.35,157.61,140.81,149.92,140.35,141.8Zm-66.49,9.07c-5.22-.18-9.28-5.21-9.07-11.23s4.62-10.74,9.84-10.56,9.28,5.21,9.07,11.22S79.08,151.05,73.86,150.87Z" transform="translate(-30 -1.61)" style="fill: #fbb03b;stroke: #000;stroke-miterlimit: 10"/>
+    <path id="CenterOfCicle" d="M75.5,139.5" transform="translate(-30 -1.61)" style="fill: #fbb03b;stroke: #000;stroke-miterlimit: 10"/>
+  </g>
+  <g id="wires">
+    <rect id="DATA_BOX" x="65.5" y="252.89" width="10.33" height="31" style="fill: orange;stroke: #000;stroke-miterlimit: 10"/>
+    <text transform="translate(68.46 259.75) rotate(88.43)" style="font-size: 7.026000022888184px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">D<tspan x="5.2" y="0" style="letter-spacing: -0.02487968786372746em">a</tspan><tspan x="9.2" y="0">ta</tspan></text>
+    <rect id="_5V_BOX" data-name="5V_BOX" x="37.5" y="252.89" width="10.33" height="31" style="fill: #ff422a;stroke: #000;stroke-miterlimit: 10"/>
+    <text transform="translate(39.46 263.75) rotate(88.43)" style="font-size: 7.026000022888184px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">5V</text>
+    <polygon id="GND_BOX" points="10.5 252.89 10.5 283.89 15.67 283.89 20.83 283.89 20.83 252.89 10.5 252.89" style="fill: #d6ad65;stroke: #000;stroke-miterlimit: 10"/>
+    <text id="GND_TEXT" transform="translate(12.46 258.75) rotate(88.43)" style="font-size: 7.026000022888184px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">GND</text>
+  </g>
+  <g id="Angle_Layer" data-name="Angle Layer">
+    <text id="servo_name" transform="translate(6.99 15.55) scale(0.97 1)" style="font-size: 18px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">Se<tspan x="22.7" y="0" style="letter-spacing: -0.013203776489128367em">rv</tspan><tspan x="39.87" y="0">o 3 </tspan></text>
+    <text id="servo_degree" transform="translate(22.61 32.55) scale(0.97 1)" style="font-size: 18px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">150˚</text>
+  </g>
+</svg>
