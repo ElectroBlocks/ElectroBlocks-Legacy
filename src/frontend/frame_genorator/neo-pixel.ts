@@ -6,11 +6,12 @@ import { stringToPin } from "../arduino/pin";
 import { Color } from "./colour";
 import { NeoPixelStripState } from "../arduino/state/neo_pixel_strip.state";
 import { ActionType } from "../frame/action.type";
+import { ArduinoState } from "../arduino/state/arduino.state";
 
 
 export const neo_pixel_setup_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) : ArduinoFrame[] => {
 
-	const state = previousFrame.copyState();
+	const state = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState();
 
 	const pin = stringToPin(block.getFieldValue('PIN').toString());
 
@@ -54,12 +55,14 @@ export const neo_pixel_set_color_block = (block: Block, frameLocation: FrameLoca
 
 	const state = previousFrame.copyState();
 
-
 	const neoPixelState = state.components.find(c => c instanceof NeoPixelStripState) as NeoPixelStripState;
 
 	const index =  neoPixelState.neoPixels.findIndex(pixel =>  pixel.position == position);
 
-	neoPixelState.neoPixels[index].color = color;
+	if (neoPixelState.neoPixels[index]) {
+		neoPixelState.neoPixels[index].color = color;
+	}
+
 
 	return [
 		new ArduinoFrame(block.id,state, frameLocation, ActionType.NEO_PIXEL_LIGHT_UP)

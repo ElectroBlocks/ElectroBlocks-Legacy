@@ -5,6 +5,8 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
 import * as  BluebirdPromise   from 'bluebird';
 import { filter, tap } from "rxjs/operators";
 import { ArduinoState } from "../arduino/state/arduino.state";
+require('jsdom-global')();
+
 
 describe('Frame Player', () => {
 
@@ -18,6 +20,7 @@ describe('Frame Player', () => {
 		new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
 			location: 'loop', iteration: 1
 		})];
+
 
 	beforeEach(() => {
 

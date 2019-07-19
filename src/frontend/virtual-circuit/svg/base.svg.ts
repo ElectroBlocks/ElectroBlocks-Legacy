@@ -1,10 +1,13 @@
 import { Parent } from "svg.js";
-import { ArduinoState } from "../../arduino/state/arduino.state";
-import { ElectricAttachmentComponentState } from "../../arduino/state/electric.state";
+import { ARDUINO_BREADBOARD_WIRES } from "./arduino.svg";
+import { ARDUINO_UNO_PINS } from "../../arduino/pin";
 
 
 export abstract class BaseSvg {
-	public readonly svg: Parent;
+
+	protected arduinoPins: ARDUINO_UNO_PINS[] = [];
+
+	constructor(public readonly svg: Parent) { }
 
 	move(x: number, y: number) {
 		this.svg.move(x, y);
@@ -22,12 +25,7 @@ export abstract class BaseSvg {
 		this.svg.remove();
 	}
 
-	public abstract matchState(state: ArduinoState): void;
-
-	public abstract shouldExist(state: ArduinoState): boolean;
-
-	public abstract isComponent(component: ElectricAttachmentComponentState): boolean;
-
-	public abstract destroy(): void;
-
+	getArduinoPins() {
+		return this.arduinoPins;
+	}
 }

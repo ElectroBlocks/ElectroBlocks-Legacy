@@ -20,7 +20,7 @@
     "dist-linux": "build --linux",
     "publish-linux": "build  --linux -p always",
     "postinstall": "electron-builder install-app-deps",
-    "test": "ts-node node_modules/jasmine/bin/jasmine \"**/*.spec.ts\""
+    "test": "NODE_ENV=unit_test ts-node node_modules/jasmine/bin/jasmine \"**/*.spec.ts\""
   },
   "build": {
     "appId": "electroblocks.codingwithnoah.org",
@@ -107,6 +107,8 @@
     "electron": "^4.0.1",
     "electron-builder": "^20.38.5",
     "jasmine": "^3.3.1",
+    "jsdom": "^15.1.1",
+    "jsdom-global": "^3.0.2",
     "ts-node": "^8.0.2",
     "typescript": "^3.3.3333"
   }

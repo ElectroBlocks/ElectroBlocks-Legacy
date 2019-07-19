@@ -1,7 +1,7 @@
 import { DebugValueBlock, get_blockly } from "../frame/block";
 import { map, tap, filter } from "rxjs/operators";
 
-import { framePlayer } from "../frame/frame_player";
+import { framePlayer } from "../frame/frame_player.factory";
 import { inputState } from "../frame/input_state";
 import { blocksInsideInput } from "../frame/blockly_helper";
 import { BluetoothState } from "../arduino/state/bluetooth.state";

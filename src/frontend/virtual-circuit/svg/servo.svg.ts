@@ -1,18 +1,20 @@
-import { Parent, Element } from "svg.js";
+import { Parent, Text } from "svg.js";
 import { ARDUINO_UNO_PINS } from "../../arduino/pin";
-import { BaseSvg } from "./base.svg";
 import { ArduinoState } from "../../arduino/state/arduino.state";
 import { ServoState } from "../../arduino/state/servo.state";
 import { ElectricAttachmentComponentState } from "../../arduino/state/electric.state";
+import { ComponentSvg } from "./component.svg";
+import { virtualCircuitPin } from "./arduino.svg";
 
-export class ServoSvg extends BaseSvg {
+export class ServoSvg extends ComponentSvg {
 
 	private degree = 0;
 
 	private rotateBoundBox = this.svg.select("#CenterOfCicle").first().bbox();
 
-	constructor(public readonly svg: Parent, public readonly pin: ARDUINO_UNO_PINS, public wires: Element[]) {
-		super();
+	constructor(public readonly svg: Parent, public readonly pin: ARDUINO_UNO_PINS) {
+		super(svg);
+		this.arduinoPins.push(this.pin);
 	}
 
 	public matchState( state: ArduinoState ): void {
@@ -23,7 +25,7 @@ export class ServoSvg extends BaseSvg {
 		if (servoState) {
 			this.degree = servoState.degree;
 			this.rotate();
-			this.updateAngleText();
+			this.updateText();
 		}
 	}
 
@@ -47,27 +49,40 @@ export class ServoSvg extends BaseSvg {
 			.rotate(this.degree * -1, this.rotateBoundBox.x, this.rotateBoundBox.y);
 	}
 
-	public updateAngleText() {
-		this.svg
-			.select('#servo_name')
-			.first()
-			.node
-			.textContent = `Servo ${this.pin}`;
+	public updateText() {
 
-		this.svg
-			.select('#servo_degree')
-			.first()
-			.node
-			.textContent = `${this.degree}˚`;
+		this.updateNameText();
+
+		this.updateAngleText();
+
 	}
 
-	destroy(): void {
-		this.wires.forEach(wire => {
-			wire.remove();
-		});
+	updateAngleText() {
+		const degreeText = this.svg.select('#servo_degree').first() as Text;
 
+		degreeText.node.textContent = `${this.degree}˚`;
+
+		degreeText.x((79 - degreeText.length()) / 2);
+
+	}
+
+	updateNameText() {
+		const servoName = this.svg.select('#servo_name').first() as Text;
+
+		servoName.node.textContent = `Servo ${this.pin.toString()}`;
+
+		servoName.x((79 - servoName.length()) / 2);
+	}
+
+	remove(): void {
 		this.svg.remove();
+
+		this.wires.forEach(wire => {
+			wire.destroyWire()
+		});
 	}
+
+
 }
 
 

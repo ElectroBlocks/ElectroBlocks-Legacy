@@ -1,14 +1,9 @@
 import { Parent } from "svg.js";
 import { BaseSvg } from "./base.svg";
 import { ArduinoState } from "../../arduino/state/arduino.state";
-import { ElectricAttachmentComponentState } from "../../arduino/state/electric.state";
 import { ARDUINO_UNO_PINS } from "../../arduino/pin";
 
 export class ArduinoSvg extends BaseSvg {
-
-	constructor(public readonly svg: Parent) {
-		super();
-	}
 
 	public matchState( state: ArduinoState ): void {
 		if (state.rxLedOn) {
@@ -116,18 +111,6 @@ export class ArduinoSvg extends BaseSvg {
 			.show();
 
 		return this;
-	}
-
-	destroy(): void {
-		throw Error('This should never be called');
-	}
-
-	isComponent( component: ElectricAttachmentComponentState): boolean {
-		return false;
-	}
-
-	shouldExist( state: ArduinoState ): boolean {
-		return false;
 	}
 
 

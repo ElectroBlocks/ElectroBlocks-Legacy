@@ -67,7 +67,7 @@ const controls_for_block = (block: Block, frameLocation: FrameLocation, previous
 
 	let loopFrame = generateLoopFrame(start, block, frameLocation, previousFrame);
 
-	let frames =  generateFrameForInputStatement(
+	let frames =  <ArduinoFrame[]>generateFrameForInputStatement(
 		block,
 		'DO',
 		frameLocation,
@@ -85,11 +85,11 @@ const controls_for_block = (block: Block, frameLocation: FrameLocation, previous
 	let index = start + by;
 
 	while(checkLoop(index, to, to > start))  {
-		let nextLoopFrame = generateLoopFrame(index, block,frameLocation, previousFrame)
+		let nextLoopFrame = generateLoopFrame(index, block,frameLocation, frames[frames.length - 1]);
 		frames.push(nextLoopFrame); // so that it copies the value and not the reference
 		frames = frames
 			.concat(
-				generateFrameForInputStatement(
+				<ArduinoFrame[]>generateFrameForInputStatement(
 					block, 'DO', frameLocation, nextLoopFrame)
 			);
 		index += by;

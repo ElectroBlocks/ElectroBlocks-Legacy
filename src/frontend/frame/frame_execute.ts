@@ -1,5 +1,5 @@
 import { ArduinoState } from "../arduino/state/arduino.state";
-import { VirtualCircuit } from "../virtual-circuit/virtual-circuit";
+import { VirtualCircuit } from "../virtual-circuit/svg/virtual-circuit";
 
 export class ExecuteUSBFrame implements ExecuteFrameInterface {
 

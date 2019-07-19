@@ -1,7 +1,7 @@
 import { Block, get_blockly } from "../frame/block";
 import { generateListOfFrame } from "../frame/generate_frame";
 
-import { framePlayer } from "../frame/frame_player";
+import { framePlayer } from "../frame/frame_player.factory";
 
 
 /**

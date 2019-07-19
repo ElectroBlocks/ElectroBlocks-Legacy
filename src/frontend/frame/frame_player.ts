@@ -1,4 +1,9 @@
-import { ExecuteFrameInterface, ExecuteUSBFrame, ExecuteVirtualCircuitFrame } from "./frame_execute";
+import {
+	ExecuteFrameInterface,
+	ExecuteSilentFrame,
+	ExecuteUSBFrame,
+	ExecuteVirtualCircuitFrame
+} from "./frame_execute";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import * as  BluebirdPromise   from 'bluebird';
 import { Subject } from "rxjs";
@@ -223,5 +228,3 @@ export class FramePlayer {
 	}
 }
 
-
-export const framePlayer = new FramePlayer(new ExecuteVirtualCircuitFrame(virtualCircuitFactory()));

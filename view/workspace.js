@@ -1,4 +1,4 @@
-const { framePlayer }  = require("../output/frontend/frame/frame_player");
+const { framePlayer }  = require("../output/frontend/frame/frame_player.factory");
 const { setupVideoPlayer, toggleDebugViewer, toggleDebugBlocks} = require( "../output/frontend/workspace/player-buttons.listeners.js");
 
 /**
