@@ -1,0 +1,20 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="174" height="103.8" viewBox="0 0 174 103.8">
+  <title>resistor</title>
+  <g id="base">
+    <rect x="37" y="53.8" width="100" height="50" style="fill: #efd49e"/>
+  </g>
+  <g id="WIRE_2">
+    <line y1="78.55" x2="37" y2="78.55" style="fill: none;stroke: #000;stroke-miterlimit: 10"/>
+  </g>
+  <g id="WIRE_1">
+    <line x1="137" y1="79.3" x2="174" y2="79.3" style="fill: none;stroke: #000;stroke-miterlimit: 10"/>
+  </g>
+  <line id="BAND_4" x1="56" y1="53.8" x2="56" y2="103.8" style="fill: #c1272d;stroke: #93581c;stroke-miterlimit: 10;stroke-width: 4px"/>
+  <line id="BAND_3" x1="96" y1="53.8" x2="96" y2="103.8" style="fill: #c1272d;stroke: #93581c;stroke-miterlimit: 10;stroke-width: 4px"/>
+  <line id="BAND_2" x1="118" y1="53.8" x2="118" y2="103.8" style="fill: #c1272d;stroke: #ffff4d;stroke-miterlimit: 10;stroke-width: 4px"/>
+  <line id="BAND_1" x1="76" y1="53.8" x2="76" y2="103.8" style="fill: #c1272d;stroke: #1d9135;stroke-miterlimit: 10;stroke-width: 4px"/>
+  <g id="outline">
+    <path d="M149,67v48H51V67h98m1-1H50v50H150V66Z" transform="translate(-13 -12.2)"/>
+  </g>
+  <text transform="translate(16.41 31.1)" style="font-size: 36px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold"><tspan style="letter-spacing: -0.02490234375em">R</tspan><tspan x="25" y="0">esistor</tspan></text>
+</svg>

@@ -1,7 +1,7 @@
 import { Parent } from "svg.js";
 import { BaseSvg } from "./base.svg";
 import { ArduinoState } from "../../arduino/state/arduino.state";
-import { ARDUINO_UNO_PINS } from "../../arduino/pin";
+import { ARDUINO_UNO_PINS } from "../../arduino/arduino_frame";
 
 export class ArduinoSvg extends BaseSvg {
 

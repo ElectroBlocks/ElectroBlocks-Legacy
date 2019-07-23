@@ -1,10 +1,9 @@
 import { Parent, Text } from "svg.js";
-import { ARDUINO_UNO_PINS } from "../../arduino/pin";
 import { ArduinoState } from "../../arduino/state/arduino.state";
 import { ServoState } from "../../arduino/state/servo.state";
 import { ElectricAttachmentComponentState } from "../../arduino/state/electric.state";
 import { ComponentSvg } from "./component.svg";
-import { virtualCircuitPin } from "./arduino.svg";
+import { ARDUINO_UNO_PINS } from "../../arduino/arduino_frame";
 
 export class ServoSvg extends ComponentSvg {
 

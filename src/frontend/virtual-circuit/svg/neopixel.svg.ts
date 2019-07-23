@@ -3,9 +3,9 @@ import { ArduinoState } from "../../arduino/state/arduino.state";
 import { ElectricAttachmentComponentState } from "../../arduino/state/electric.state";
 import { NeoPixelStripState } from "../../arduino/state/neo_pixel_strip.state";
 import { Parent } from "svg.js";
-import { ARDUINO_UNO_PINS } from "../../arduino/pin";
 import { Color } from "../../frame_genorator/colour";
 import { virtualCircuitPin } from "./arduino.svg";
+import { ARDUINO_UNO_PINS } from "../../arduino/arduino_frame";
 
 
 export class NeopixelSvg extends ComponentSvg {

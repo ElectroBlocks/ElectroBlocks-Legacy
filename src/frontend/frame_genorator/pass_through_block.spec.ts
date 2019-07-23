@@ -7,7 +7,13 @@ import { ArduinoState } from "../arduino/state/arduino.state";
 
 describe('pass through frame generator', () => {
 
-	const previousFrame = new ArduinoFrame('block1', ArduinoState.makeEmptyState(),
+	const previousFrame = new ArduinoFrame('block1', new ArduinoState([], {
+		'fred': {
+			value: 'blue',
+			type: 'String',
+			name: 'fred'
+		}
+		}),
 		{ location: 'loop', iteration: 1 }
 	);
 

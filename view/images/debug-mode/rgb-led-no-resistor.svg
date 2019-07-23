@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="355.79" height="424.51" viewBox="0 0 355.79 424.51">
+  <defs>
+    <radialGradient id="radial-gradient" cx="285.89" cy="153.27" r="157.72" gradientTransform="translate(423.02 420.46) rotate(-135) scale(1 0.6)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="0.07" stop-color="#dbf1fa"/>
+      <stop offset="0.18" stop-color="#acdef4"/>
+      <stop offset="0.29" stop-color="#84cfee"/>
+      <stop offset="0.4" stop-color="#63c2ea"/>
+      <stop offset="0.52" stop-color="#49b8e6"/>
+      <stop offset="0.64" stop-color="#37b1e4"/>
+      <stop offset="0.76" stop-color="#2cace2"/>
+      <stop offset="0.9" stop-color="#29abe2"/>
+    </radialGradient>
+  </defs>
+  <title>rgb-led-no-resistor</title>
+  <g id="LED">
+    <g id="LED-2" data-name="LED">
+      <path d="M109.5,289.79V115.25A98.62,98.62,0,0,1,208,16.75H363.79a98.62,98.62,0,0,1,98.5,98.5V289.79Z" transform="translate(-108 -15.25)" style="fill: url(#radial-gradient)"/>
+      <path d="M363.79,18.25a97.11,97.11,0,0,1,97,97v173H111v-173a97.1,97.1,0,0,1,97-97H363.79m0-3H208a100,100,0,0,0-100,100v176H463.79v-176a100,100,0,0,0-100-100Z" transform="translate(-108 -15.25)"/>
+    </g>
+    <g id="RED_WIRE">
+      <line x1="61.34" y1="276.48" x2="61.34" y2="424.51" style="fill: none;stroke: #ed1c24;stroke-miterlimit: 10;stroke-width: 3px"/>
+      <line x1="61.34" y1="276.48" x2="61.34" y2="424.51" style="fill: #585858"/>
+    </g>
+    <g id="GND_WIRE">
+      <line x1="139.04" y1="276.48" x2="139.04" y2="424.51" style="fill: none;stroke: #000;stroke-miterlimit: 10;stroke-width: 3px"/>
+    </g>
+    <g id="BLUE_WIRE">
+      <line x1="294.45" y1="274.51" x2="294.45" y2="422.54" style="fill: none;stroke: blue;stroke-miterlimit: 10;stroke-width: 3px"/>
+    </g>
+    <g id="GREEN_WIRE">
+      <line x1="216.74" y1="276.48" x2="216.74" y2="424.51" style="fill: none;stroke: lime;stroke-miterlimit: 10;stroke-width: 3px"/>
+    </g>
+  </g>
+  <g id="TEXT">
+    <text transform="translate(53.64 341.82) rotate(-90) scale(0.92 1)" style="font-size: 30px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">RED</text>
+    <text transform="translate(129.64 346.4) rotate(-90) scale(0.92 1)" style="font-size: 30px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">GND</text>
+    <text transform="translate(205.64 382.75) rotate(-90) scale(0.92 1)" style="font-size: 30px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">GREEN</text>
+    <text transform="translate(284.64 357.7) rotate(-90) scale(0.92 1)" style="font-size: 30px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">B<tspan x="21.58" y="0" style="letter-spacing: -0.04981394579363634em">L</tspan><tspan x="38.2" y="0">UE</tspan></text>
+  </g>
+</svg>

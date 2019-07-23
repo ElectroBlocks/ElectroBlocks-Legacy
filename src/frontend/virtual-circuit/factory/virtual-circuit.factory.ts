@@ -44,17 +44,4 @@ export const virtualCircuitFactory = () => {
 	return virtualCircuit;
 };
 
-// const loadTempNeoPixel = (baseSVG: svgjs.Doc) => {
-// 	const neoPixelString = fs.readFileSync( path.join( __dirname, '..', '..', '..', '..', 'view', 'images', 'debug-mode', 'led_light_strip.svg' ) ).toString();
-//
-// 	(window as any).neopixel = new NeopixelSvg(
-// 		baseSVG.svg( neoPixelString ).children().pop() as Parent,
-// 		20,
-// 		ARDUINO_UNO_PINS.PIN_A0
-// 	);
-//
-// 	(window as any).neopixel.move(10, 10);
-//
-// };
-
 

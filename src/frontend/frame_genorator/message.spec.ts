@@ -67,9 +67,12 @@ describe('message', () => {
 	});
 
 	it ('should be able to do bluetooth block as well', () => {
-		getInputValueSpy.withArgs(bluetoothSendMessageBlock, 'MESSAGE', '',{ location: 'loop', iteration: 1 }, undefined).and.returnValue('Blue Cool');
 
-		const [frame] = send_message_block(bluetoothSendMessageBlock, { location: 'loop', iteration: 1 });
+		const previousFrame = new ArduinoFrame('block_is', new ArduinoState([ new BluetoothState(ARDUINO_UNO_PINS.PIN_7, ARDUINO_UNO_PINS.PIN_9) ], {}), { iteration: 0, location: 'loop' });
+
+		getInputValueSpy.withArgs(bluetoothSendMessageBlock, 'MESSAGE', '',{ location: 'loop', iteration: 1 }, previousFrame).and.returnValue('Blue Cool');
+
+		const [frame] = send_message_block(bluetoothSendMessageBlock, { location: 'loop', iteration: 1 }, previousFrame);
 
 		expect((frame.state.components[0] as BluetoothState).sendMessage).toBe('Blue Cool');
 		expect(frame.actionType).toBe(ActionType.BLUE_TOOTH_SEND_MESSAGE);

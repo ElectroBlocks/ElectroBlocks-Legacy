@@ -76,7 +76,7 @@ describe('input output frame generators', () => {
 		it ('should not generate another component but replace the old one if it exists', () => {
 
 			const frameLocation = {location: 'loop', iteration: 3 };
-			getFieldValueSpy.withArgs('PIN').and.returnValue('1');
+			getFieldValueSpy.withArgs('PIN').and.returnValue('A0');
 
 			const state = new ArduinoState([new PinState(ARDUINO_UNO_PINS.PIN_A0, PIN_TYPE.ANALOG, 30)], {'hello': {
 					name: 'hello', type: 'String', value: 'Hello'

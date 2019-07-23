@@ -61,7 +61,7 @@ export const lcd_screen_print_block = (block: Block, frameLocation: FrameLocatio
 
 
 	return [
-		new ArduinoFrame(block.id, state, frameLocation)
+		new ArduinoFrame(block.id, state, frameLocation, ActionType.LCD_SCREEN_PRINT)
 	];
 };
 
@@ -109,7 +109,7 @@ export const lcd_screen_clear_block = (block: Block, frameLocation: FrameLocatio
 
 
 	return [
-		new ArduinoFrame(block.id, state, frameLocation)
+		new ArduinoFrame(block.id, state, frameLocation, ActionType.LCD_SCREEN_CLEAR)
 	];
 };
 

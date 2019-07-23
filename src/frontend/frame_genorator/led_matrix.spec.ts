@@ -17,9 +17,9 @@ describe('led matrix', () => {
 		},
 	];
 
-	for (let i = 0; i < 8; i += 1) {
+	for (let i = 1; i <= 8; i += 1) {
 		const fieldRow = [];
-		for (let j = 0; j < 8; j += 1) {
+		for (let j = 1; j <= 8; j += 1) {
 			fieldRow.push({
 				name: `${i},${j}`,
 				state_: i % 2 === 0
@@ -49,8 +49,8 @@ describe('led matrix', () => {
 
 		const ledMatrixState1 = frame.state.components.find(component => component instanceof  LedMatrixState) as LedMatrixState;
 
-		for (let i = 0; i < 8; i += 1) {
-			for (let j = 0; j < 8; j += 1) {
+		for (let i = 1; i <= 8; i += 1) {
+			for (let j = 1; j <= 8; j += 1) {
 				const led = ledMatrixState1.leds.find(led => led.row == i && led.col == j);
 				expect(led.isOn).toBe(i % 2 == 0);
 			}
@@ -67,12 +67,12 @@ describe('led matrix', () => {
 		const ledMatrixState2 = frame2.state.components.find(component => component instanceof  LedMatrixState) as LedMatrixState;
 
 
-		for (let i = 0; i < 8; i += 1) {
-			for (let j = 0; j < 8; j += 1) {
+		for (let i = 1; i <= 8; i += 1) {
+			for (let j = 1; j <= 8; j += 1) {
 
 				const led = ledMatrixState2.leds.find(led => led.row == i && led.col == j);
 
-				if (i == 0 && j == 0) {
+				if (i == 1 && j == 1) {
 					expect(led.isOn).toBeFalsy(); // This is the change we are testing
 					continue;
 				}

@@ -190,13 +190,13 @@ describe('LCD Screen', () => {
 
 		const [frame] = lcd_screen_simple_print_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
 
-		getInputValueSpy.withArgs(lcdBlock, 'ROW', 0, { location: 'loop', iteration: 2 }, previousFrame).and.returnValue(0);
+		getInputValueSpy.withArgs(lcdBlock, 'ROW', 0, { location: 'loop', iteration: 2 }, frame).and.returnValue(0);
 
-		getInputValueSpy.withArgs(lcdBlock, 'COLUMN',  0,{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue(0);
+		getInputValueSpy.withArgs(lcdBlock, 'COLUMN',  0,{ location: 'loop', iteration: 2 }, frame).and.returnValue(0);
 
-		getInputValueSpy.withArgs(lcdBlock, 'PRINT', '', { location: 'loop', iteration: 2 }, previousFrame).and.returnValue('World');
+		getInputValueSpy.withArgs(lcdBlock, 'PRINT', '', { location: 'loop', iteration: 2 }, frame).and.returnValue('World');
 
-		const [simplePrintScreenFrame] = lcd_screen_print_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
+		const [simplePrintScreenFrame] = lcd_screen_print_block(lcdBlock, { location: 'loop', iteration: 2 }, frame);
 
 		const lcdScreenState = simplePrintScreenFrame.state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
 

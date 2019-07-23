@@ -1,6 +1,5 @@
 import { Parent } from "svg.js";
-import { ARDUINO_BREADBOARD_WIRES } from "./arduino.svg";
-import { ARDUINO_UNO_PINS } from "../../arduino/pin";
+import { ARDUINO_UNO_PINS } from "../../arduino/arduino_frame";
 
 
 export abstract class BaseSvg {

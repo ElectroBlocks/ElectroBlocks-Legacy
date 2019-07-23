@@ -38,14 +38,14 @@ describe('Variables Frame Generators', () => {
 	});
 
 	const mockSetVariable =
-		(type: string, variableName: string, defaultValue: any, value: any) => {
+		(type: string, variableName: string, defaultValue: any, value: any, previousFrame: ArduinoFrame = undefined) => {
 			spyOn(blockly, 'get_blockly').and.returnValue(blocklyMock);
 
 			spyOn(block, 'getFieldValue').withArgs('VAR')
 				.and.returnValue('variable_id');
 
 			spyOn(blockHelperFunctions, 'getInputValue')
-				.withArgs(block, 'VALUE', defaultValue, frameLocation, jasmine.any(ArduinoFrame))
+				.withArgs(block, 'VALUE', defaultValue, frameLocation, previousFrame)
 				.and.returnValue(value);
 
 			spyOn(blocklyMock.mainWorkspace, 'getVariableById')

@@ -3,12 +3,9 @@ import * as fs from "fs";
 import * as path from "path";
 import { ServoSvg } from "../svg/servo.svg";
 import { ServoState } from "../../arduino/state/servo.state";
-import { connectionToBreadboard, virtualCircuitPin } from "../svg/arduino.svg";
+import {  virtualCircuitPin } from "../svg/arduino.svg";
 import { VirtualCircuit } from "../svg/virtual-circuit";
-import { createBreadboardWire, createGroundWire, createPowerWire, Wire } from "../svg/wire";
-import { takeNextBottomBreadboardHole } from "../svg/next-wire.state";
-import { ComponentSvg } from "../svg/component.svg";
-import { ARDUINO_UNO_PINS } from "../../arduino/pin";
+import { createBreadboardWire, createGroundWire, createPowerWire } from "../svg/wire";
 
 export const servoFactory = (virtualCircuit: VirtualCircuit,
                              componentState: ServoState) => {

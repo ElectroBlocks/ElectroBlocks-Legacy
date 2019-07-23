@@ -22,9 +22,9 @@ export const move_motor_block = (block: Block, frameLocation: FrameLocation, pre
 
 	const state = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState();
 
-	const motor = state.components.find(c => c instanceof MotorState) as BluetoothState;
+	const motor = state.components.find(c => c instanceof MotorState && c.motorNumber == motorNumber) as MotorState;
 
-	const motorIndex = state.components.findIndex(c => c instanceof BluetoothState);
+	const motorIndex = state.components.findIndex(c => c instanceof MotorState && c.motorNumber == motorNumber);
 
 	if (motor) {
 		state.components[motorIndex] = new MotorState(motorNumber, speed, direction);

@@ -1,0 +1,24 @@
+<svg id="Container" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="39.73" height="49.68" viewBox="0 0 39.73 49.68">
+  <defs>
+    <radialGradient id="radial-gradient" cx="25" cy="19.5" r="18.22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#39b54a"/>
+    </radialGradient>
+  </defs>
+  <title>led</title>
+  <g id="POWER">
+    <line x1="11.53" y1="35" x2="11.53" y2="46" style="fill: none;stroke: #000;stroke-miterlimit: 10;stroke-width: 2px"/>
+  </g>
+  <g id="GND">
+    <line x1="28.2" y1="35" x2="28.2" y2="46" style="fill: none;stroke: #000;stroke-miterlimit: 10;stroke-width: 2px"/>
+  </g>
+  <g id="ON" style="opacity: 0.8">
+    <path d="M5.64,36.5V21.86a19.37,19.37,0,0,1,38.73,0V36.5Z" transform="translate(-5.14 -2)" style="fill: url(#radial-gradient)"/>
+    <path d="M25,3A18.88,18.88,0,0,1,43.86,21.86V36H6.14V21.86A18.88,18.88,0,0,1,25,3m0-1h0A19.86,19.86,0,0,0,5.14,21.86V37H44.86V21.86A19.86,19.86,0,0,0,25,2Z" transform="translate(-5.14 -2)" style="fill: #fff"/>
+  </g>
+  <g id="light_liner">
+    <path d="M25,3A18.88,18.88,0,0,1,43.86,21.86V36H6.14V21.86A18.88,18.88,0,0,1,25,3m0-1h0A19.86,19.86,0,0,0,5.14,21.86V37H44.86V21.86A19.86,19.86,0,0,0,25,2Z" transform="translate(-5.14 -2)"/>
+  </g>
+  <text transform="translate(2.33 43.89)" style="font-size: 12px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">+</text>
+  <text transform="translate(32.33 45.89)" style="font-size: 18px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">-</text>
+</svg>

@@ -5,8 +5,8 @@ import * as path from "path";
 import { Element, Parent } from "svg.js";
 import { MatrixSvg } from "../svg/matrix.svg";
 import { virtualCircuitPin } from "../svg/arduino.svg";
-import { ARDUINO_UNO_PINS } from "../../arduino/pin";
 import { createBreadboardWire, createGroundWire, createPowerWire } from "../svg/wire";
+import { ARDUINO_UNO_PINS } from "../../arduino/arduino_frame";
 
 export const matrixFactory = (virtualCircuit: VirtualCircuit,
                               componentState: LedMatrixState) => {

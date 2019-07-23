@@ -4,7 +4,6 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
 import { getInputValue } from "../frame/blockly_helper";
 import { ArduinoState } from "../arduino/state/arduino.state";
 import { BluetoothState } from "../arduino/state/bluetooth.state";
-import { ElectricAttachmentComponentState } from "../arduino/state/electric.state";
 import { ActionType } from "../frame/action.type";
 
 export const send_message_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame):ArduinoFrame[] => {
@@ -25,7 +24,7 @@ export const send_message_block = (block: Block, frameLocation: FrameLocation, p
 		state.components[componentIndex] = new BluetoothState(bluetooth.rxPin, bluetooth.txPin, '', message);
 
 		return [
-			new ArduinoFrame(block.id, state, frameLocation, ActionType.LCD_SCREEN_PRINT)
+			new ArduinoFrame(block.id, state, frameLocation, ActionType.BLUE_TOOTH_SEND_MESSAGE)
 		];
 	}
 
@@ -33,7 +32,8 @@ export const send_message_block = (block: Block, frameLocation: FrameLocation, p
 
 	return [
 		new ArduinoFrame(
-			block.id,updatedState, frameLocation
+			block.id,updatedState, frameLocation,
+			ActionType.ARDUINO_SEND_MESSAGE
 		)];
 };
 

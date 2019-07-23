@@ -2,8 +2,8 @@ import { ComponentSvg } from "./component.svg";
 import { ElectricAttachmentComponentState } from "../../arduino/state/electric.state";
 import { ArduinoState } from "../../arduino/state/arduino.state";
 import { Circle, Parent } from "svg.js";
-import { ARDUINO_UNO_PINS } from "../../arduino/pin";
 import { LedMatrixState } from "../../arduino/state/led_matrix.state";
+import { ARDUINO_UNO_PINS } from "../../arduino/arduino_frame";
 
 
 export class MatrixSvg extends ComponentSvg {

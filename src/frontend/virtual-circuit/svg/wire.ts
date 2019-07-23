@@ -2,9 +2,8 @@ import { Element } from "svg.js";
 import { returnBottomHole, takeNextBottomBreadboardHole } from "./next-wire.state";
 import { VirtualCircuit } from "./virtual-circuit";
 import { ComponentSvg } from "./component.svg";
-import { ARDUINO_UNO_PINS } from "../../arduino/pin";
 import { connectionToBreadboard } from "./arduino.svg";
-import { ServoSvg } from "./servo.svg";
+import { ARDUINO_UNO_PINS } from "../../arduino/arduino_frame";
 
 
 export class Wire {

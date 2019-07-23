@@ -110,7 +110,7 @@ describe('list generators', () => {
 			expect(frame.state.variables['bill'].value).toBe(32);
 			expect(frame.state.variables['bill'].name).toBe('bill');
 
-			expect(frame.state.components[0]).toBe(pinComponent);
+			expect(frame.state.components[0]).toEqual(pinComponent);
 		});
 	});
 
