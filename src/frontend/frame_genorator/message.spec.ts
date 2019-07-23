@@ -1,11 +1,10 @@
 import 'jasmine';
 import { Block } from "../frame/block";
-import { ArduinoFrame } from "../arduino/arduino_frame";
+import { ARDUINO_UNO_PINS, ArduinoFrame } from "../arduino/arduino_frame";
 import { send_message_block } from "./message";
 import * as blockHelperFunctions from "../frame/blockly_helper";
 import { ArduinoState } from "../arduino/state/arduino.state";
 import { BluetoothState } from "../arduino/state/bluetooth.state";
-import { ARDUINO_UNO_PINS } from "../arduino/pin";
 import { ActionType } from "../frame/action.type";
 
 describe('message', () => {

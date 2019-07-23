@@ -15,8 +15,8 @@ import {
 import * as blockly from "../frame/block";
 import { Block, Blockly } from "../frame/block";
 import { Variable } from "../frame/variable";
-import { ArduinoFrame } from "../arduino/arduino_frame";
-import { ARDUINO_UNO_PINS, Pin, PIN_TYPE } from "../arduino/pin";
+import { ARDUINO_UNO_PINS, ArduinoFrame } from "../arduino/arduino_frame";
+import {  PIN_TYPE } from "../arduino/state/pin.state";
 import * as blockHelper from "../frame/blockly_helper";
 import * as variableHelper from '../frame_genorator/variables';
 import { EmptyCommand } from "../frame/command";

@@ -1,6 +1,6 @@
 import { ElectricAttachmentComponentState, ElectricComponentState } from "./electric.state";
 import { Color } from "../../frame_genorator/colour";
-import { ARDUINO_UNO_PINS } from "../pin";
+import { ARDUINO_UNO_PINS } from "../arduino_frame";
 import { ElectricComponentType } from "./electric.component.type";
 
 

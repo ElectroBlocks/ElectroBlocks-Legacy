@@ -1,6 +1,6 @@
 import { ElectricAttachmentComponentState } from "./electric.state";
 import { ElectricComponentType } from "./electric.component.type";
-import { ARDUINO_UNO_PINS, PIN_TYPE } from "../pin";
+import { ARDUINO_UNO_PINS } from "../arduino_frame";
 
 
 export class PinState extends ElectricAttachmentComponentState {
@@ -18,3 +18,8 @@ export class PinState extends ElectricAttachmentComponentState {
 	}
 
 }
+
+export enum PIN_TYPE { DIGITAL = 'D', ANALOG = 'A' };
+
+
+

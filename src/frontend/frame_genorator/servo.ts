@@ -1,11 +1,11 @@
 import { Block } from "../frame/block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { stringToPin } from "../arduino/pin";
 import { getInputValue } from "../frame/blockly_helper";
 import { FrameLocation } from "../frame/frame";
 import { ArduinoState } from "../arduino/state/arduino.state";
 import { ServoState } from "../arduino/state/servo.state";
 import { ActionType } from "../frame/action.type";
+import { stringToPin } from "../arduino/arduino_frame";
 
 
 export const servo_move_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) : ArduinoFrame[] => {

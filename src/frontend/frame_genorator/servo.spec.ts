@@ -3,7 +3,7 @@ import { Block } from "../frame/block";
 import * as blockHelper from "../frame/blockly_helper";
 import { servo_move_block } from "./servo";
 import { ServoState } from "../arduino/state/servo.state";
-import { ARDUINO_UNO_PINS, stringToPin } from "../arduino/pin";
+import { ARDUINO_UNO_PINS, stringToPin } from "../arduino/arduino_frame";
 
 describe('servo block frame', () => {
 

@@ -2,9 +2,9 @@ import 'jasmine';
 import { neo_pixel_set_color_block, neo_pixel_setup_block } from "./neo-pixel";
 import { Block } from "../frame/block";
 import * as blockHelperFunctions from "../frame/blockly_helper";
-import { ARDUINO_UNO_PINS } from "../arduino/pin";
 import { NeoPixelStripState } from "../arduino/state/neo_pixel_strip.state";
 import { ActionType } from "../frame/action.type";
+import { ARDUINO_UNO_PINS } from "../arduino/arduino_frame";
 
 describe('Neo Pixel', () => {
 

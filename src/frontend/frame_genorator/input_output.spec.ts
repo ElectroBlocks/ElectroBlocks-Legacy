@@ -3,10 +3,10 @@ import { Block } from "../frame/block";
 import { analog_write_block, digital_write_block } from "./input_output";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { inputState } from "../frame/input_state";
-import { ARDUINO_UNO_PINS, PIN_TYPE } from "../arduino/pin";
+import { ARDUINO_UNO_PINS } from "../arduino/arduino_frame";
 import * as blockHelper from "../frame/blockly_helper";
 import { ArduinoState } from "../arduino/state/arduino.state";
-import { PinState } from "../arduino/state/pin.state";
+import { PIN_TYPE, PinState } from "../arduino/state/pin.state";
 
 describe('input output frame generators', () => {
 

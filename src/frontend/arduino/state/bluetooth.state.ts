@@ -1,5 +1,5 @@
 import { ElectricAttachmentComponentState } from "./electric.state";
-import { ARDUINO_UNO_PINS } from "../pin";
+import { ARDUINO_UNO_PINS } from "../arduino_frame";
 import { ElectricComponentType } from "./electric.component.type";
 
 export class BluetoothState implements ElectricAttachmentComponentState {

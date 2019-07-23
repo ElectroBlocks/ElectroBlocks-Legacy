@@ -1,5 +1,5 @@
 import { ElectricComponentType } from "./electric.component.type";
-import { ARDUINO_UNO_PINS } from "../pin";
+import { ARDUINO_UNO_PINS } from "../arduino_frame";
 import * as _ from "lodash";
 
 export interface ElectricComponentState {

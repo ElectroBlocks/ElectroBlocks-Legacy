@@ -2,11 +2,11 @@ import { Block } from "../frame/block";
 import { FrameLocation } from "../frame/frame";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { getInputValue } from "../frame/blockly_helper";
-import { stringToPin } from "../arduino/pin";
 import { Color } from "./colour";
 import { NeoPixelStripState } from "../arduino/state/neo_pixel_strip.state";
 import { ActionType } from "../frame/action.type";
 import { ArduinoState } from "../arduino/state/arduino.state";
+import { stringToPin } from "../arduino/arduino_frame";
 
 
 export const neo_pixel_setup_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) : ArduinoFrame[] => {

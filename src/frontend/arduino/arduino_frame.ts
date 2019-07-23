@@ -36,6 +36,12 @@ export class ArduinoFrame implements Frame {
 	}
 }
 
+export const stringToPin = (pin: string): ARDUINO_UNO_PINS => {
+	const pinKey = "PIN_" + pin.toString();
+
+	return (<any>ARDUINO_UNO_PINS)[pinKey];
+};
+
 export enum ARDUINO_UNO_PINS {
 	PIN_1 = '1',
 	PIN_2 = '2',
