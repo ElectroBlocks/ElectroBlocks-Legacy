@@ -1,12 +1,11 @@
 import 'jasmine';
 import { Block } from "../frame/block";
 import { analog_write_block, digital_write_block } from "./input_output";
-import { ArduinoFrame } from "../arduino/arduino_frame";
+import { ARDUINO_UNO_PINS, ArduinoFrame } from "../arduino/arduino_frame";
 import { inputState } from "../frame/input_state";
-import { ARDUINO_UNO_PINS } from "../arduino/arduino_frame";
 import * as blockHelper from "../frame/blockly_helper";
 import { ArduinoState } from "../arduino/state/arduino.state";
-import { PIN_TYPE, PinState } from "../arduino/state/pin.state";
+import { PIN_TYPE, PinPicture, PinState } from "../arduino/state/pin.state";
 
 describe('input output frame generators', () => {
 
@@ -78,7 +77,7 @@ describe('input output frame generators', () => {
 			const frameLocation = {location: 'loop', iteration: 3 };
 			getFieldValueSpy.withArgs('PIN').and.returnValue('A0');
 
-			const state = new ArduinoState([new PinState(ARDUINO_UNO_PINS.PIN_A0, PIN_TYPE.ANALOG, 30)], {'hello': {
+			const state = new ArduinoState([new PinState(ARDUINO_UNO_PINS.PIN_A0, PIN_TYPE.ANALOG, 30, PinPicture.GENERIC)], {'hello': {
 					name: 'hello', type: 'String', value: 'Hello'
 				}}, false);
 

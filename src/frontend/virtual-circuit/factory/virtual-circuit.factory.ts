@@ -21,10 +21,7 @@ export const virtualCircuitFactory = () => {
 
 	const nodes = baseSVG.group();
 
-	console.log(nodes, 'nodes');
-
-
-	const arduinoBreadboardString = fs.readFileSync( path.join( __dirname, '..', '..', '..', '..', 'view', 'images', 'debug-mode', 'arduino-breadboard-wired.svg' ) ).toString();
+	const arduinoBreadboardString = fs.readFileSync( path.join( __dirname, '..', '..', '..', '..', 'view', 'images', 'debug-mode', 'arduino-breadboard-wired-1.svg' ) ).toString();
 
 	const arduino = new ArduinoSvg( baseSVG.svg( arduinoBreadboardString ).children().pop() as Parent );
 

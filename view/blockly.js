@@ -1,9 +1,11 @@
+
 const { virtualCircuitFactory } = require("../output/frontend/virtual-circuit/factory/virtual-circuit.factory");
 
 const toolbox = document.getElementById('toolbox');
 const { setupVideoPlayer } =
     require('../output/frontend/workspace/player-buttons.listeners');
-
+const { framePlayer } =  require("../output/frontend/frame/frame_player.factory");
+const _ = require('lodash');
 
 /**
  * List of key value block type => setup block required
@@ -25,7 +27,8 @@ const blocksThatRequireSetup = {
     'ir_remote_scan_again': 'ir_remote_setup',
     'temp_read_temp_humidity': 'temp_setup',
     'temp_get_temp': 'temp_setup',
-    'temp_get_humidity': 'temp_setup'
+    'temp_get_humidity': 'temp_setup',
+    'set_color_led': 'setup_led_color'
 };
 
 const standAloneBlocks = [
@@ -41,7 +44,8 @@ const standAloneBlocks = [
     'soil_sensor_setup',
     'ir_remote_setup',
     'temp_setup',
-    'bluetooth_setup'
+    'bluetooth_setup',
+    'setup_led_color'
 ];
 
 const toggleDisableChildBlocks = (parentBlock, disable) => {
@@ -88,7 +92,13 @@ setTimeout(async () => {
     window.vs = virtualCircuitFactory();
 });
 
+console.log('here here');
+
+
+
+
 Blockly.mainWorkspace.addChangeListener(function (event) {
+
 
     if (event.element === 'disabled') {
         return;
@@ -145,10 +155,11 @@ Blockly.mainWorkspace.addChangeListener(function (event) {
 
         });
 
+
     if ((event.type === Blockly.Events.MOVE ||
         event.type === Blockly.Events.CREATE ||
         event.type === Blockly.Events.BLOCK_CHANGE) && isVideoModeOn) {
-        setupVideoPlayer();
+        setupVideoPlayer(event);
     }
 
     if ((event.element === 'mutatorOpen' && !event.newValue) ||

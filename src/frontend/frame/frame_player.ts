@@ -1,15 +1,12 @@
 import {
 	ExecuteFrameInterface,
-	ExecuteSilentFrame,
-	ExecuteUSBFrame,
-	ExecuteVirtualCircuitFrame
 } from "./frame_execute";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import * as  BluebirdPromise   from 'bluebird';
 import { Subject } from "rxjs";
 import {  share } from "rxjs/operators";
 import { FrameOutput } from "./frame_output";
-import { virtualCircuitFactory } from "../virtual-circuit/factory/virtual-circuit.factory";
+import * as _ from "lodash";
 
 /**
  * Frame player that executes the frame
@@ -52,14 +49,84 @@ export class FramePlayer {
 	constructor(private frameExecutor: ExecuteFrameInterface) { }
 
 	/**
+	 * Fix FrameLocation Problem
+	 *  What about loops increase or decrease or if setup blocks get removed.
+	 *  Move all this logic out of player into
+	 *
 	 * Sets the list of frames to execute
 	 * 
 	 * @param frames
+	 * @param startingIndex
 	 */
-	public async setFrames(frames: ArduinoFrame[]) {
+	public async setFrames(frames: ArduinoFrame[], startingIndex = 0) {
 		this.playing = false;
 		this.frames = frames;
-		await this.skipToFrame(0);
+		await this.skipToFrame(startingIndex);
+
+
+		// if (_.isEqual(this.frames, frames)) {
+		// 	return;
+		// }
+		//
+		// if (this.currentFrame == 0 || this.currentFrame == 1) {
+		// 	await this.resetPlayerFrame(frames, 0);
+		// 	return;
+		// }
+		//
+		// const currentFrameLocation = this.frames[this.currentFrame].frameLocation;
+		// let startingBlockId = this.getStartingBlockId(frames, potentialChangeBlockId);
+		//
+		// if (_.isEmpty(startingBlockId)) {
+		// 	let startingIndex = frames.findIndex(frame =>
+		// 		_.isEqual(currentFrameLocation, frame.frameLocation)
+		// 	);
+		// 	await this.resetPlayerFrame(frames, startingIndex || 0);
+		// 	return;
+		// }
+		//
+		//
+		// const startingIndex = frames.findIndex(frame =>
+		// 		_.isEqual(currentFrameLocation, frame.frameLocation) && frame.blockId == startingBlockId
+		// 	);
+		//
+		//
+		// await this.resetPlayerFrame(frames, startingIndex || 0)
+	}
+
+	/**
+	 * Gets a list of starting frames
+	 *
+	 * @param frames
+	 * @param potentialStartingBlockId
+	 */
+	private getStartingBlockId(frames: ArduinoFrame[], potentialStartingBlockId: string = null): string {
+		if (frames.find((frame: ArduinoFrame) =>
+			frame.blockId === this.frames[this.currentFrame].blockId) !== undefined) {
+			return this.frames[this.currentFrame].blockId;
+		}
+
+		if (_.isEmpty(potentialStartingBlockId)) {
+			return undefined;
+		}
+
+		if (frames.find((frame: ArduinoFrame) =>
+			frame.blockId === potentialStartingBlockId) !== undefined) {
+			return potentialStartingBlockId;
+		}
+
+		return undefined;
+	}
+
+	/**
+	 * Gets all the frames
+	 */
+	public getFrames() {
+		return this.frames;
+	}
+
+	public getCurrentFrame() {
+
+		return this.frames[this.currentFrame];
 	}
 
 	/**
@@ -168,7 +235,7 @@ export class FramePlayer {
 	 */
 	private async executeFrame( runSetup: boolean) {
 
-		if (this.canExecuteFrame()) {
+		if (!this.canExecuteFrame()) {
 			this.playing = false;
 			return;
 		}
@@ -206,7 +273,7 @@ export class FramePlayer {
 
 		const frame = this.frames[this.currentFrame];
 
-		await this.frameExecutor.executeCommand( frame.state, this.frames[this.lastFrameNumber()].state, runSetup );
+		await this.frameExecutor.executeFrame( frame.state, this.frames[this.lastFrameNumber()].state, runSetup );
 	}
 
 	/**
@@ -224,7 +291,7 @@ export class FramePlayer {
 	 * Returns true if the frame can be executed.
 	 */
 	private canExecuteFrame() {
-		return this.frames.length == 0 || !this.frames[this.currentFrame];
+		return this.frames.length > 0 && this.frames[this.currentFrame] !== undefined;
 	}
 }
 

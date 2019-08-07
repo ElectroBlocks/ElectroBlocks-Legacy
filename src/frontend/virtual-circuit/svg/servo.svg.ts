@@ -72,16 +72,6 @@ export class ServoSvg extends ComponentSvg {
 
 		servoName.x((79 - servoName.length()) / 2);
 	}
-
-	remove(): void {
-		this.svg.remove();
-
-		this.wires.forEach(wire => {
-			wire.destroyWire()
-		});
-	}
-
-
 }
 
 

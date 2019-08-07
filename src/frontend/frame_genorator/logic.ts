@@ -2,7 +2,6 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
 import { Block } from "../frame/block";
 import { generateFrameForInputStatement, getInputValue } from "../frame/blockly_helper";
 import { Frame, FrameLocation } from "../frame/frame";
-import { EmptyCommand } from "../frame/command";
 import { ArduinoState } from "../arduino/state/arduino.state";
 
 

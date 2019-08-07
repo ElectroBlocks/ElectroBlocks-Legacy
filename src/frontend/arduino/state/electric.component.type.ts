@@ -7,5 +7,6 @@ export enum ElectricComponentType {
 	MOTOR = 'MOTOR',
 	PIN = 'PIN',
 	ARDUINO = 'ARDUINO',
-	BLUE_TOOTH = 'BLUE_TOOTH'
+	BLUE_TOOTH = 'BLUE_TOOTH',
+	LED_COLOR = 'LED_COLOR'
 }

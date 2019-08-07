@@ -4,7 +4,6 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
 import { getInputValue } from "../frame/blockly_helper";
 import { LedMatrixState } from "../arduino/state/led_matrix.state";
 import { ArduinoState } from "../arduino/state/arduino.state";
-import { ActionType } from "../frame/action.type";
 
 
 const hasLedMatrix = ( previousFrame?: ArduinoFrame ) => {
@@ -31,13 +30,29 @@ export const led_matrix_make_draw_block = ( block: Block, frameLocation: FrameLo
 		.filter( input => input.fieldRow.length > 1 ) // filters out the non matrix row
 		.forEach( input => {
 			input.fieldRow.forEach( ( field: { name: string, state_: boolean } ) => {
+
+				console.log(field.name);
 				const row = parseInt( field.name.split( ',' )[ 0 ] );
 				const column = parseInt( field.name.split( ',' )[ 1 ] );
 				const isOn = field.state_;
 
-				ledMatrixComponent.leds.push( { row, col: column, isOn });
+				const ledIndex = ledMatrixComponent.leds.findIndex(led => {
+					return led.row == row && led.col == column;
+				});
+
+				if (ledIndex == -1 ) {
+					ledMatrixComponent.leds.push( { row, col: column, isOn });
+					return;
+				}
+
+				if (ledIndex !== -1) {
+					ledMatrixComponent.leds[ledIndex].isOn = isOn;
+				}
+
 			} );
 		} );
+
+	console.log(ledMatrixComponent.leds);
 
 	if (!state.components.includes(ledMatrixComponent)) {
 		state.components.push(ledMatrixComponent);
@@ -47,8 +62,7 @@ export const led_matrix_make_draw_block = ( block: Block, frameLocation: FrameLo
 		new ArduinoFrame(
 			block.id,
 			state,
-			frameLocation,
-			ActionType.LED_MATRIX_DRAW
+			frameLocation
 		)
 	];
 };
@@ -74,7 +88,7 @@ export const led_matrix_turn_one_on_off_block = (block: Block, frameLocation: Fr
 
 	const index = ledMatrixComponent.leds.findIndex(led => led.col == column && led.row == row);
 
-	if (!index || index == -1) {
+	if (index == -1) {
 		ledMatrixComponent.leds.push({ row, col: column, isOn });
 	} else {
 		ledMatrixComponent.leds[index].isOn = isOn;
@@ -84,8 +98,7 @@ export const led_matrix_turn_one_on_off_block = (block: Block, frameLocation: Fr
 		new ArduinoFrame(
 			block.id,
 			state,
-			frameLocation,
-			ActionType.LED_MATRIX_DRAW
+			frameLocation
 		)
 	];
 };

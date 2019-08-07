@@ -1,24 +1,65 @@
+import { ARDUINO_UNO_PINS } from "../../arduino/arduino_frame";
+import { connectionToBreadboard } from "./arduino.svg";
 
-const bottomBreadBoardHoles: Array<{status: 'available'|'taken', position: number }> = [];
+const bottomBreadBoardHoles: Array<{ status: 'available' | 'taken', position: number }> = [];
 
 
-for (let i = 4; i <= 61; i += 3) {
-	bottomBreadBoardHoles.push({status: 'available', position: i});
+const skipHolesList = [ 6, 9, 13, 18, 22, 27, 31, 37, 41, 46, 51, 54, 58, 61, 56, 50, 44, 38, 32, 26, 20, 14, 8 ];
+
+for (let i = 4; i <= 61; i += 1) {
+	if (skipHolesList.includes( i )) {
+		continue;
+	}
+	bottomBreadBoardHoles.push( { status: 'available', position: i } );
 }
 
 export const takeNextBottomBreadboardHole = () => {
-	const hole = bottomBreadBoardHoles.find(({ status }) => status == 'available');
+	const hole = bottomBreadBoardHoles
+		.sort((holeA, holeB) => holeA.position > holeB.position ? 1 : -1)
+		.find( ( { status } ) => status == 'available' );
 
 	hole.status = 'taken';
 
 	return hole.position;
 };
 
-export const returnBottomHole = (position: number) => {
+export const takeClosestBottomBreadboardHole = ( pin: ARDUINO_UNO_PINS, direction: 'right' | 'left' ) => {
+	const pinNumber = parseInt(
+		connectionToBreadboard( pin )
+			.replace( 'pin', '' )
+			.replace( 'C', '' )
+	);
 
-	const index = bottomBreadBoardHoles.findIndex(hole => hole.position == position);
+	let sortedWholes = bottomBreadBoardHoles
+		.sort( ( a, b ) => {
+			return Math.abs( a.position - pinNumber ) - Math.abs( b.position - pinNumber );
+		} )
+		.filter( hole => direction == "right" ? hole.position > pinNumber : hole.position < pinNumber );
 
-	bottomBreadBoardHoles[index].status = 'available';
+	if (sortedWholes.length == 0) {
+		let sortedWholes = bottomBreadBoardHoles
+			.sort( ( a, b ) => {
+				return Math.abs( a.position - pinNumber ) - Math.abs( b.position - pinNumber );
+			} );
+
+		const selectedHole = sortedWholes.find( hole => hole.status == 'available' );
+
+		selectedHole.status = 'taken';
+		return selectedHole.position;
+	}
+
+	const selectedHole = sortedWholes.find( hole => hole.status == 'available' );
+
+	selectedHole.status = 'taken';
+	return selectedHole.position;
+
+};
+
+export const returnBottomHole = ( position: number ) => {
+
+	const index = bottomBreadBoardHoles.findIndex( hole => hole.position == position );
+
+	bottomBreadBoardHoles[ index ].status = 'available';
 };
 
 

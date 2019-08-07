@@ -5,8 +5,7 @@ import { Block } from "../frame/block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { getVariableName } from "./variables";
 import { getInputValue } from "../frame/blockly_helper";
-import { Color } from "./colour";
-import { EmptyCommand } from "../frame/command";
+import { Color } from "./color";
 import { FrameLocation } from "../frame/frame";
 import { ArduinoState } from "../arduino/state/arduino.state";
 

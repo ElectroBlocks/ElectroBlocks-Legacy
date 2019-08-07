@@ -1,6 +1,14 @@
 import { Frame, FrameLocation } from './frame';
 import { Block } from './block';
 
+import { Color } from "../frame_genorator/color";
+
+import {
+    colour_picker_block,
+    colour_random_block,
+    colour_rgb_block,
+} from '../frame_genorator/color_blocks';
+
 import { digital_write_block, analog_write_block } from "../frame_genorator/input_output";
 
 import { delay_block_block } from "../frame_genorator/time";
@@ -8,6 +16,8 @@ import { delay_block_block } from "../frame_genorator/time";
 import { servo_move_block } from "../frame_genorator/servo";
 
 import { move_motor_block } from "../frame_genorator/motor";
+
+import { led_switch_block, led_fade_block } from '../frame_genorator/led';
 
 import { debug_block } from "../frame_genorator/debug";
 
@@ -47,13 +57,6 @@ import {
 } from '../frame_genorator/message';
 
 import {
-    colour_random_block,
-    colour_picker_block,
-    colour_rgb_block,
-    Color
-} from '../frame_genorator/colour';
-
-import {
     get_colour_from_list_block,
     get_boolean_from_list_block,
     get_number_from_list_block,
@@ -68,6 +71,11 @@ import {
     create_list_string_block_block
 
 } from '../frame_genorator/list';
+
+import {
+    set_color_led_block,
+    setup_led_color_block
+} from '../frame_genorator/led_color'
 
 import {
     logic_boolean_block,
@@ -143,6 +151,9 @@ frameGeneratingBlocks = {
     led_matrix_make_draw_block,
     led_matrix_turn_one_on_off_block,
 
+    led_switch_block,
+    led_fade_block,
+
     lcd_backlight_block,
     lcd_screen_blink_block,
     lcd_screen_simple_print_block,
@@ -154,7 +165,10 @@ frameGeneratingBlocks = {
     temp_setup_block,
     ir_remote_setup_block,
     soil_sensor_setup_block,
-    bluetooth_setup_block
+    bluetooth_setup_block,
+
+    set_color_led_block,
+    setup_led_color_block
 };
 
 valueGeneratingBlocks = {

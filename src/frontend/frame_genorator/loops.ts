@@ -4,9 +4,7 @@ import { generateFrameForInputStatement, getInputValue } from "../frame/blockly_
 import { getVariableName } from "./variables";
 import { Block } from "../frame/block";
 import { FrameLocation } from "../frame/frame";
-import { EmptyCommand } from "../frame/command";
 import { ArduinoState } from "../arduino/state/arduino.state";
-import { ActionType } from "../frame/action.type";
 
 /**
  * Generates a simple loop block where the user does not have control
@@ -126,8 +124,7 @@ const generateLoopFrame = (indexValue: number, block: Block, frameLocation: Fram
 	return new ArduinoFrame(
 		block.id,
 		state,
-		frameLocation,
-		ActionType.EMPTY
+		frameLocation
 	);
 
 };

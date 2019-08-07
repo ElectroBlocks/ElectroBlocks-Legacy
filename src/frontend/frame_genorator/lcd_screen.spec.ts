@@ -10,7 +10,6 @@ import {
 	lcd_setup_block
 } from "./lcd_screen";
 import { LCD_SCREEN_MEMORY_TYPE, LCDScreenState } from "../arduino/state/lcd_screen.state";
-import { ActionType } from "../frame/action.type";
 
 describe('LCD Screen', () => {
 
@@ -64,7 +63,6 @@ describe('LCD Screen', () => {
 		expect(lcdScreenState.columns).toBe(20);
 		expect(lcdScreenState.memoryType).toBe(LCD_SCREEN_MEMORY_TYPE.OX3F);
 
-		expect(frame.actionType).toBe(ActionType.EMPTY);
 	});
 
 	it ('lcd_screen_simple_print_block should print ', () => {
@@ -96,7 +94,6 @@ describe('LCD Screen', () => {
 		expect(lcdScreenState.rowsOfText[1]).toBe('World               ');
 		expect(lcdScreenState.rowsOfText[2]).toBe('                    ');
 		expect(lcdScreenState.rowsOfText[3]).toBe('                    ');
-		expect(frame.actionType).toBe(ActionType.LCD_SCREEN_PRINT);
 	});
 
 	it ('should be able to clear the screen', () => {
@@ -112,7 +109,6 @@ describe('LCD Screen', () => {
 
 		const [frame] = lcd_screen_clear_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
 
-		expect(frame.actionType).toBe(ActionType.LCD_SCREEN_CLEAR);
 		const lcdScreenState = frame.state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
 		expect(lcdScreenState.rowsOfText[0]).toBe('                    ');
 		expect(lcdScreenState.rowsOfText[1]).toBe('                    ');
@@ -139,7 +135,6 @@ describe('LCD Screen', () => {
 
 		const [frame] = lcd_screen_blink_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
 
-		expect(frame.actionType).toBe(ActionType.LCD_SCREEN_BLINK);
 
 		const lcdScreenState = frame.state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
 		expect(lcdScreenState.blink.column).toBe(12);
@@ -162,7 +157,6 @@ describe('LCD Screen', () => {
 
 		const [frame] = lcd_backlight_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
 
-		expect(frame.actionType).toBe(ActionType.LCD_SCREEN_BACK_LIGHT);
 
 		const lcdScreenState = frame.state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
 
@@ -205,6 +199,5 @@ describe('LCD Screen', () => {
 		expect(lcdScreenState.rowsOfText[2]).toBe('                    ');
 		expect(lcdScreenState.rowsOfText[3]).toBe('                    ');
 
-		expect(simplePrintScreenFrame.actionType).toBe(ActionType.LCD_SCREEN_PRINT);
 	});
 });

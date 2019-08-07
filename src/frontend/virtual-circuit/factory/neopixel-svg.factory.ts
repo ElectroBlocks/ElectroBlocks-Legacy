@@ -12,39 +12,43 @@ export const neoPixelFactory = (virtualCircuit: VirtualCircuit,
                          componentState: NeoPixelStripState) => {
 	const neoPixelString = fs.readFileSync( path.join( __dirname, '..', '..', '..', '..', 'view', 'images', 'debug-mode', 'led_light_strip.svg' ) ).toString();
 
-	const neopixel = new NeopixelSvg(
+	console.log(componentState.numberOfLeds);
+	const neoPixel = new NeopixelSvg(
 		virtualCircuit.baseSVG.svg( neoPixelString ).children().pop() as Parent,
 		componentState.numberOfLeds,
 		componentState.analogPin
 	);
 
-	virtualCircuit.nodes.add(neopixel.svg);
+	virtualCircuit.nodes.add(neoPixel.svg);
 
 	createGroundWire(
 		virtualCircuit,
-		neopixel,
-		neopixel.svg.select('#CONNECT_GND').first() as Element);
+		neoPixel,
+		neoPixel.svg.select('#CONNECT_GND').first() as Element);
 
 
 	createPowerWire(
 		virtualCircuit,
-		neopixel,
-		neopixel.svg.select('#CONNECT_POWER').first() as Element);
+		neoPixel,
+		neoPixel.svg.select('#CONNECT_POWER').first() as Element);
 
 
 	createBreadboardWire(
 		virtualCircuit,
-		neopixel,
-		neopixel.svg.select('#CONNECT_DATA').first() as Element,
-		neopixel.pin,
+		neoPixel,
+		neoPixel.svg.select('#CONNECT_DATA').first() as Element,
+		neoPixel.pin,
 		'#006837'
 	);
 
-	virtualCircuit.arduino.showWire(virtualCircuitPin(neopixel.pin));
 
-	(neopixel.svg as any).draggy();
+	virtualCircuit.arduino.showWire(virtualCircuitPin(neoPixel.pin));
 
-	return neopixel;
+	console.log('should show this wire', neoPixel.pin);
+
+	(neoPixel.svg as any).draggy();
+
+	return neoPixel;
 };
 
 

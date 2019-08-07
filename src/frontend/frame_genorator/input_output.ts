@@ -1,11 +1,9 @@
 import { Block } from "../frame/block";
 import { ArduinoFrame, stringToPin } from "../arduino/arduino_frame";
-import { PIN_TYPE } from "../arduino/state/pin.state";
+import { PIN_TYPE, PinPicture, PinState } from "../arduino/state/pin.state";
 import { FrameLocation } from "../frame/frame";
 import { getInputValue } from "../frame/blockly_helper";
-import { PinState } from "../arduino/state/pin.state";
 import { ArduinoState } from "../arduino/state/arduino.state";
-import { ActionType } from "../frame/action.type";
 
 export const digital_write_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
 
@@ -37,12 +35,10 @@ const generatePinFrame = (block: Block, frameLocation: FrameLocation, pin: strin
 
 	if (pinState instanceof PinState) {
 		const index = arduinoState.components.indexOf(pinState);
-		arduinoState.components[index] = new PinState(stringToPin(pin), pinType, state);
+		arduinoState.components[index] = new PinState(stringToPin(pin), pinType, state, PinPicture.GENERIC);
 	} else {
-		arduinoState.components.push(new PinState(stringToPin(pin), pinType, state));
+		arduinoState.components.push(new PinState(stringToPin(pin), pinType, state, PinPicture.GENERIC));
 	}
 
-	const actionType = pinType == PIN_TYPE.ANALOG ? ActionType.ANALOG_PIN_WRITE  : ActionType.DIGITAL_PIN_WRITE;
-
-	return [new ArduinoFrame(block.id, arduinoState, frameLocation, actionType)];
+	return [new ArduinoFrame(block.id, arduinoState, frameLocation)];
 };

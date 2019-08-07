@@ -2,9 +2,8 @@ import { Block } from "../frame/block";
 import { FrameLocation } from "../frame/frame";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import { getInputValue } from "../frame/blockly_helper";
-import { Color } from "./colour";
+import { Color } from "./color";
 import { NeoPixelStripState } from "../arduino/state/neo_pixel_strip.state";
-import { ActionType } from "../frame/action.type";
 import { ArduinoState } from "../arduino/state/arduino.state";
 import { stringToPin } from "../arduino/arduino_frame";
 
@@ -15,12 +14,7 @@ export const neo_pixel_setup_block = (block: Block, frameLocation: FrameLocation
 
 	const pin = stringToPin(block.getFieldValue('PIN').toString());
 
-	const numberOfPixels = parseInt(getInputValue(
-		block,
-		'NUMBER_LEDS',
-		30,
-		frameLocation,
-		previousFrame).toString());
+	const numberOfPixels = parseInt(block.getFieldValue('NUMBER_LEDS'));
 
 	const leds: Array<{ position: number, color: Color }>  = [];
 
@@ -32,7 +26,7 @@ export const neo_pixel_setup_block = (block: Block, frameLocation: FrameLocation
 
 	state.components.push(neoPixelState);
 
-	return [new ArduinoFrame(block.id, state, frameLocation, ActionType.EMPTY)];
+	return [new ArduinoFrame(block.id, state, frameLocation)];
 
 };
 
@@ -65,6 +59,6 @@ export const neo_pixel_set_color_block = (block: Block, frameLocation: FrameLoca
 
 
 	return [
-		new ArduinoFrame(block.id,state, frameLocation, ActionType.NEO_PIXEL_LIGHT_UP)
+		new ArduinoFrame(block.id,state, frameLocation)
 	];
 };

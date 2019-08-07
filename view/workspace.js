@@ -233,32 +233,9 @@ ipcRenderer.on('arduino:usb', (event, isConnected) => {
 });
 
 
-ipcRenderer.on('video:debug', async (event, turnOnDebugMode) => {
-
-    uploadingCode = false;
-    debugVideoMode = turnOnDebugMode;
-
-    uploadCodeBtn.classList.remove('disable');
-    videoDebugBtn.classList.remove('disable');
-    videoDebugIcon.classList.add('fa-film');
-    videoDebugIcon.classList.remove('fa-spinner');
-    videoDebugIcon.classList.remove('fa-spin');
-
-
-    if (!turnOnDebugMode) {
-        sliderContainer.style.display = 'none';
-        videoContainer.style.display = 'none';
-        videoDebugBtn.classList.remove( 'active' );
-        toggleDebugBlocks( false );
-        resizeListener();
-        toggleDebugViewer();
-        document.getElementById( 'content-blocks' ).style.height = 'inherit';
-
-        return;
-    }
+videoDebugBtn.addEventListener( 'click',  async () => {
 
     await setupVideoPlayer();
-    await framePlayer.skipToFrame(0);
     videoDebugBtn.classList.add( 'active' );
     sliderContainer.style.display = 'block';
     videoContainer.style.display = 'block';
@@ -266,29 +243,6 @@ ipcRenderer.on('video:debug', async (event, turnOnDebugMode) => {
     document.getElementById( 'content-blocks' ).style.height = '600px';
     toggleDebugViewer();
     resizeListener();
-
-});
-
-videoDebugBtn.addEventListener( 'click',  () => {
-
-    if (!usbConnected) {
-        ipcRenderer.send('video:debug-mode', sliderContainer.style.display !== 'block');
-        return;
-    }
-
-    if (uploadingCode) {
-        return;
-    }
-
-    uploadingCode = true;
-
-    uploadCodeBtn.classList.add('disable');
-    videoDebugBtn.classList.add('disable');
-    videoDebugIcon.classList.remove('fa-film');
-    videoDebugIcon.classList.add('fa-spinner');
-    videoDebugIcon.classList.add('fa-spin');
-
-    ipcRenderer.send('video:debug-mode', sliderContainer.style.display !== 'block');
 });
 
 
@@ -359,7 +313,6 @@ function resizeListener() {
         window.panZoom.resize();
     }
 
-    console.log(blocklyDiv.style.height, 'block height');
     Blockly.svgResize(Blockly.mainWorkspace)
 }
 

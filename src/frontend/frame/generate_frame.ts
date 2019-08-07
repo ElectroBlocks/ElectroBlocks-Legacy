@@ -6,10 +6,9 @@ import { inputState } from "./input_state";
 
 
 
-export const generateListOfFrame = (numberOfTimesThroughLoop: number = 1) => {
+export const generateListOfFrame = async (numberOfTimesThroughLoop: number = 1) => {
 
 	inputState.clearBlockCalls();
-
 	let arduinoBlock = get_blockly().mainWorkspace.getTopBlocks().filter(function (block) {
 		return block.type == 'arduino_start';
 	})[0];
@@ -25,6 +24,7 @@ export const generateListOfFrame = (numberOfTimesThroughLoop: number = 1) => {
 		.filter(block => !block.disabled)
 		.filter(block => block.type != 'procedures_defnoreturn')
 		.forEach(block => {
+			console.log(block, 'top blocks');
 			frameGeneratingBlocks[block.type + '_block'](block, { location: 'pre-setup', iteration: 0 }, frames.length == 0 ? null : frames[frames.length - 1])
 				.filter(frame => frame instanceof ArduinoFrame)
 				.forEach((currentFrame: ArduinoFrame) => frames.push(currentFrame));
@@ -41,8 +41,6 @@ export const generateListOfFrame = (numberOfTimesThroughLoop: number = 1) => {
 
 	for (let i = 0; i < numberOfTimesThroughLoop; i += 1) {
 
-		console.log({ location: 'loop', iteration: i }, 'frame location');
-
 		let loopFrames = generateFrameForInputStatement(
 			arduinoBlock,
 			'loop',
@@ -53,8 +51,6 @@ export const generateListOfFrame = (numberOfTimesThroughLoop: number = 1) => {
 		loopFrames.forEach(currentFrame => frames.push(currentFrame));
 
 	}
-
-	console.log(frames, 'frames');
 
 	return frames;
 };

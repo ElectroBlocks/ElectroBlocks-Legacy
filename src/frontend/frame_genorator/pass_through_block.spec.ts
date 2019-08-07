@@ -1,6 +1,5 @@
 import 'jasmine';
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { EmptyCommand } from "../frame/command";
 import { ir_remote_scan_again_block, temp_get_temp_block } from "./pass_through_block";
 import { Block } from "../frame/block";
 import { ArduinoState } from "../arduino/state/arduino.state";

@@ -9,6 +9,10 @@ import { NeoPixelStripState } from "../../arduino/state/neo_pixel_strip.state";
 import { neoPixelFactory } from "../factory/neopixel-svg.factory";
 import { LedMatrixState } from "../../arduino/state/led_matrix.state";
 import { matrixFactory } from "../factory/matrix-svg.factory";
+import { PinState } from "../../arduino/state/pin.state";
+import { pinFactory } from "../factory/led.factory";
+import { LedColorState } from "../../arduino/state/led_color.state";
+import { rgbLedFactory } from "../factory/led-color.factory";
 
 
 export class VirtualCircuit {
@@ -55,7 +59,12 @@ export class VirtualCircuit {
 		} );
 	}
 
-	matchFinalState( state: ArduinoState ) {
+	matchFinalState( state: ArduinoState, runSetup: boolean) {
+
+		if (!runSetup) {
+			return;
+		}
+
 		this.svgs.forEach( ( svg ) => {
 			if (!svg.shouldExist( state )) {
 				svg.remove();
@@ -94,8 +103,32 @@ export class VirtualCircuit {
 			this.svgs.push(matrixFactory(this, component));
 			return;
 		}
+
+		if (component instanceof PinState) {
+			pinFactory(this, component)
+				.forEach(component => this.svgs.push(component));
+			return;
+		}
+
+		if (component instanceof LedColorState) {
+			this.svgs.push(rgbLedFactory(this, component));
+			return;
+		}
 	}
 
+	public reset() {
+		this.svgs.forEach(component => {
+			component.getArduinoPins().forEach(pin => {
+				this.arduino.hideWire(virtualCircuitPin(pin));
+			});
+			component.remove()
+		});
+		this.svgs.forEach(c => {
+			c = undefined;
+		});
+
+		this.svgs = [];
+	}
 }
 
 

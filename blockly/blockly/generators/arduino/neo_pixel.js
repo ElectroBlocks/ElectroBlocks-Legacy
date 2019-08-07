@@ -7,8 +7,7 @@ goog.require('Blockly.Arduino');
 
 Blockly.Arduino['neo_pixel_setup'] = function (block) {
 
-    var numberOfLeds = Blockly.Arduino.valueToCode(block, 'NUMBER_LEDS', Blockly.Arduino.ORDER_ATOMIC);
-
+    var numberOfLeds = block.getFieldValue('NUMBER_LEDS');
     var pin = block.getFieldValue('PIN');
 
     Blockly.Arduino.libraries_['define_neo_pixel'] =

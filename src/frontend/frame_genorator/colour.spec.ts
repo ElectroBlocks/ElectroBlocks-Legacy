@@ -1,7 +1,7 @@
 import { Block } from "../frame/block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
 import * as blockHelperFunctions from "../frame/blockly_helper";
-import { colour_picker_block, colour_random_block, colour_rgb_block } from "./colour";
+import { colour_picker_block, colour_random_block, colour_rgb_block } from "./color_blocks";
 import { ArduinoState } from "../arduino/state/arduino.state";
 
 describe('Color Blocks', () => {

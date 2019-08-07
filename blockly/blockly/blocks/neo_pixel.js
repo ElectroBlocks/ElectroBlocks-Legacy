@@ -16,10 +16,10 @@ Blockly.Blocks['neo_pixel_setup'] = {
             .setAlign(Blockly.ALIGN_RIGHT)
             .appendField("Analog Data Pin#")
             .appendField(new Blockly.FieldDropdown(profile.arduino_uno.analog), "PIN");
-        this.appendValueInput("NUMBER_LEDS")
-            .setCheck("Number")
+        this.appendDummyInput()
             .setAlign(Blockly.ALIGN_RIGHT)
-            .appendField("Number of LEDS");
+            .appendField("Number of leds")
+            .appendField(new Blockly.FieldNumber(30, 1, 150), "NUMBER_LEDS");
         this.setInputsInline(false);
         this.setColour(0);
         this.setTooltip("");

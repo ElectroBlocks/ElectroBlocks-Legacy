@@ -3,7 +3,6 @@ import { Block, get_blockly } from '../frame/block';
 import { getInputValue } from '../frame/blockly_helper';
 import { FrameLocation } from "../frame/frame";
 import { ArduinoState } from "../arduino/state/arduino.state";
-import { ActionType } from "../frame/action.type";
 
 
 /**
@@ -121,7 +120,7 @@ const setVariable = (block: Block, type: string, defaultValue: any, frameLocatio
     };
 
 
-    return [new ArduinoFrame(block.id, state, frameLocation, ActionType.EMPTY)];
+    return [new ArduinoFrame(block.id, state, frameLocation)];
 };
 
 /**

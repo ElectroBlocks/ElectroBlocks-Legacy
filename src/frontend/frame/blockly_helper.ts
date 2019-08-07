@@ -28,7 +28,7 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
     */
    const getInputValue = (parentBlock: Block, inputName: string, noBlockAttachedDefaultValue: any, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): number|string|boolean|Object|Array<number|string|boolean|Object> => {
 
-       const block = parentBlock.getInput(inputName).connection.targetBlock();
+        const block = parentBlock.getInput(inputName).connection.targetBlock();
 
         if (!block) {
             return noBlockAttachedDefaultValue;
@@ -41,7 +41,6 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
         if (block['defaultDebugValue'] !== undefined) {
             return inputState.addBlockCall(block.id, frameLocation).value;
         }
-
         // This means that the default value will be now come from the block definition
         // Not from the block attached to it.
         return valueGeneratingBlocks[block.type + '_block'](block, frameLocation, previousFrame);

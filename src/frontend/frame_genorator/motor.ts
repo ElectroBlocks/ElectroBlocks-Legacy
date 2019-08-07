@@ -5,7 +5,6 @@ import { getInputValue } from "../frame/blockly_helper";
 import { MOTOR_DIRECTION } from "../arduino/state/motor.state";
 import { ArduinoState } from "../arduino/state/arduino.state";
 import { MotorState } from "../arduino/state/motor.state";
-import { ActionType } from "../frame/action.type";
 
 export const move_motor_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) : ArduinoFrame[] => {
 
@@ -32,5 +31,5 @@ export const move_motor_block = (block: Block, frameLocation: FrameLocation, pre
 	}
 
 
-	return [new ArduinoFrame(block.id, state, frameLocation, ActionType.MOTOR_MOVE)]
+	return [new ArduinoFrame(block.id, state, frameLocation)]
 };

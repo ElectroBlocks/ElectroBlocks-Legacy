@@ -5,7 +5,6 @@ import { send_message_block } from "./message";
 import * as blockHelperFunctions from "../frame/blockly_helper";
 import { ArduinoState } from "../arduino/state/arduino.state";
 import { BluetoothState } from "../arduino/state/bluetooth.state";
-import { ActionType } from "../frame/action.type";
 
 describe('message', () => {
 
@@ -48,7 +47,6 @@ describe('message', () => {
 
 		expect(frame.state.variables['fred'].value).toBe('blue');
 		expect(frame.state.sendMessage).toBe('Hello World');
-		expect(frame.actionType).toBe(ActionType.ARDUINO_SEND_MESSAGE);
 	});
 
 	it ('should to an empty arduino.command frame if previous frame not available', () => {
@@ -62,7 +60,6 @@ describe('message', () => {
 
 		expect(frame.state.variables).toEqual({});
 		expect(frame.state.sendMessage).toBe('People Cool');
-		expect(frame.actionType).toBe(ActionType.ARDUINO_SEND_MESSAGE);
 	});
 
 	it ('should be able to do bluetooth block as well', () => {
@@ -74,7 +71,6 @@ describe('message', () => {
 		const [frame] = send_message_block(bluetoothSendMessageBlock, { location: 'loop', iteration: 1 }, previousFrame);
 
 		expect((frame.state.components[0] as BluetoothState).sendMessage).toBe('Blue Cool');
-		expect(frame.actionType).toBe(ActionType.BLUE_TOOTH_SEND_MESSAGE);
 
 	})
 

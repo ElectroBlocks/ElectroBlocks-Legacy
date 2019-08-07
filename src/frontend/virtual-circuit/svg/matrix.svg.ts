@@ -19,9 +19,13 @@ export class MatrixSvg extends ComponentSvg {
 	}
 
 	matchState( state: ArduinoState ): void {
-		const maxtrixState = state.components.find(this.isComponent) as LedMatrixState;
+		const matrixState = state.components.find(this.isComponent) as LedMatrixState;
 
-		maxtrixState.leds.forEach(ledState => {
+		if (!this.isComponent(matrixState)) {
+			return;
+		}
+
+		matrixState.leds.forEach(ledState => {
 			const circle = this.svg.select(`#_${ledState.row}-${ledState.col} circle`).first() as Circle;
 
 			if (circle) {

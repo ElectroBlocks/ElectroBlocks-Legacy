@@ -1,18 +1,23 @@
 import { Element } from "svg.js";
-import { returnBottomHole, takeNextBottomBreadboardHole } from "./next-wire.state";
+import {
+	returnBottomHole,
+	takeClosestBottomBreadboardHole,
+	takeNextBottomBreadboardHole
+} from "./next-wire.state";
 import { VirtualCircuit } from "./virtual-circuit";
 import { ComponentSvg } from "./component.svg";
 import { connectionToBreadboard } from "./arduino.svg";
 import { ARDUINO_UNO_PINS } from "../../arduino/arduino_frame";
 
 
-export class Wire {
+export class Wire implements Line {
 
 	constructor(
 		private line: svgjs.Line,
 		private component: Element,
 		private breadBoardHole: Element,
-		private connectionInfo: { type: 'power'|'ground'|'breadboard', holeNumber: number },
+		private connectionInfo:
+			{ type: 'power'|'ground'|'breadboard', holeNumber: number },
 		private color: string) {
 	}
 
@@ -53,6 +58,91 @@ export class Wire {
 
 }
 
+export interface Line {
+
+	destroyWire(): void;
+
+	updateConnection(): void;
+}
+
+class BreadboardWire implements Line {
+	constructor(
+		private line: svgjs.Line,
+		private breadBoardHole2: Element,
+		private breadBoardHole1: Element,
+		private bottomBreadboardHoleNumber: number,
+		private color: string
+	) {}
+
+	getHoleXY(whole: Element): [number, number] {
+		const { x, y } = whole.ctm().extract();
+
+		const innerX = whole.cx();
+		const innerY = whole.cy();
+
+		return [innerX + x, innerY + y]
+	}
+
+	updateConnection() {
+		const [x1, y1] = this.getHoleXY(this.breadBoardHole1);
+		const [x2, y2] = this.getHoleXY(this.breadBoardHole2);
+
+		this.line.plot( x1,y1, x2, y2 ).stroke({ width: 2, color: this.color, linecap: 'round' });
+	}
+
+	public destroyWire() {
+		returnBottomHole(this.bottomBreadboardHoleNumber);
+
+		this.line.remove();
+	}
+}
+
+export const createWireBreadboardHoleBreadboardHole = (
+	virtualCircuit: VirtualCircuit,
+	breadboardHole1: Element,
+	breadboardHole2: Element,
+	holeNumber: number,
+	color: string
+) => {
+
+	const dateWireLine = virtualCircuit.baseSVG.line(1,1, 2,2);
+
+	const dataWire = new BreadboardWire(
+		dateWireLine,
+		breadboardHole2,
+		breadboardHole1,
+		holeNumber,
+		color
+	);
+
+	virtualCircuit.nodes.add(dateWireLine);
+	dataWire.updateConnection();
+
+	return dataWire;
+};
+
+export const createLedBreadboardWire = (
+	virtualCircuit: VirtualCircuit,
+	baseSvg: ComponentSvg,
+	connectionElement: Element,
+	breadboardHole: Element,
+	color: string
+) => {
+
+	const dateWireLine = virtualCircuit.baseSVG.line(1,1, 2,2);
+	virtualCircuit.nodes.add(dateWireLine);
+
+	const dataWire = new Wire(
+		dateWireLine,
+		connectionElement,
+		breadboardHole,
+		{ type: "breadboard", holeNumber: -1 },
+		color
+	);
+
+	baseSvg.addWire(dataWire);
+	dataWire.updateConnection();
+};
 
 export const createBreadboardWire = (
 	virtualCircuit: VirtualCircuit,
@@ -73,22 +163,28 @@ export const createBreadboardWire = (
 
 	baseSvg.addWire(dataWire);
 	dataWire.updateConnection();
+
+	return dataWire.getHoleXY();
 };
 
 export const createPowerWire = (
 	virtualCircuit: VirtualCircuit,
 	componentSvg: ComponentSvg,
-	connectionElement: Element) => {
+	connectionElement: Element,
+	pin?: ARDUINO_UNO_PINS,
+	direction?: "right"|"left") => {
+
 	const powerWireLine = virtualCircuit.baseSVG.line( 1, 1, 2, 2 );
 	virtualCircuit.nodes.add( powerWireLine );
 
-	const nextPowerWire =  takeNextBottomBreadboardHole();
+
+	const nextPowerWireIndex = pin ? takeClosestBottomBreadboardHole(pin, direction) :  takeNextBottomBreadboardHole();
 
 	const powerWire = new Wire(
 		powerWireLine,
 		connectionElement,
-		virtualCircuit.arduino.svg.select(`#pin${nextPowerWire}W`).first() as Element,
-		{ type: "power", holeNumber: nextPowerWire },
+		virtualCircuit.arduino.svg.select(`#pin${nextPowerWireIndex}W`).first() as Element,
+		{ type: "power", holeNumber: nextPowerWireIndex },
 		'#FF422A'
 	);
 
@@ -100,11 +196,15 @@ export const createPowerWire = (
 export const createGroundWire = (
 	virtualCircuit: VirtualCircuit,
 	componentSvg: ComponentSvg,
-	connectionElement: Element) => {
+	connectionElement: Element,
+	pin?: ARDUINO_UNO_PINS,
+	direction?: "right"|"left"
+	) => {
+
 	const groundWireLine = virtualCircuit.baseSVG.line( 1, 1, 2, 2 );
 	virtualCircuit.nodes.add( groundWireLine );
+	const nextGroundWireIndex = pin ? takeClosestBottomBreadboardHole(pin, direction) :  takeNextBottomBreadboardHole();
 
-	const nextGroundWireIndex =  takeNextBottomBreadboardHole();
 
 	const groundWire = new Wire(
 		groundWireLine,

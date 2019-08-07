@@ -423,8 +423,22 @@
         <block type="time_seconds"></block>
     </category>
     <sep></sep>
-    <category name="Leds" colour="315">
-
+    <category name="Leds" colour="300">
+        <block type="setup_led_color"></block>
+        <block type="set_color_led">
+            <value name="COLOUR">
+                <block type="colour_picker">
+                </block>
+            </value>
+        </block>
+        <block type="led_switch"></block>
+        <block type="led_fade">
+            <value name="FADE">
+                <block type="math_number">
+                    <field name="NUM">125</field>
+                </block>
+            </value>
+        </block>
     </category>
     <category name="Push Button" colour="315">
         <block type="is_button_pressed"></block>

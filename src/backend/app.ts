@@ -8,7 +8,6 @@ import log from 'electron-log';
 import { UsbService } from "./usb.service";
 import { UploadService } from "./upload.service";
 import { distinctUntilChanged, filter, map, tap } from "rxjs/operators";
-import { firmware, simpleCode } from "../arduino.code";
 
 
 /**
@@ -325,23 +324,6 @@ ipcMain.on( 'display:code', ( event: any, code: string ) => {
 	}
 } );
 
-ipcMain.on('video:debug-mode', async (event: any, isOn: boolean) => {
-
-	const usbPort = await  usbService.getArduinoUsbPort();
-
-	if (!usbPort) {
-		mainWindow.webContents.send('video:debug', isOn);
-		return;
-	}
-
-	const code = isOn ? firmware : simpleCode;
-
-	console.log(isOn ? 'Uploading FirmWare' : 'Uploading Simple Code');
-
-	await uploadService.uploadCode(code);
-
-	mainWindow.webContents.send('video:debug', isOn);
-});
 
 ipcMain.on( 'debug:continue', async () => await usbService.sendMessage( 's|' ) );
 

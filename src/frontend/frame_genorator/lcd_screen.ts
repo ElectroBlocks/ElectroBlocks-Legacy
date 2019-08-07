@@ -4,7 +4,6 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
 import { getInputValue } from "../frame/blockly_helper";
 import { ArduinoState } from "../arduino/state/arduino.state";
 import { LCD_SCREEN_MEMORY_TYPE, LCDScreenState } from "../arduino/state/lcd_screen.state";
-import { ActionType } from "../frame/action.type";
 import * as _ from "lodash";
 
 
@@ -61,7 +60,7 @@ export const lcd_screen_print_block = (block: Block, frameLocation: FrameLocatio
 
 
 	return [
-		new ArduinoFrame(block.id, state, frameLocation, ActionType.LCD_SCREEN_PRINT)
+		new ArduinoFrame(block.id, state, frameLocation)
 	];
 };
 
@@ -92,7 +91,7 @@ export const lcd_screen_simple_print_block = (block: Block, frameLocation: Frame
 	}
 
 	return [
-		new ArduinoFrame(block.id, state, frameLocation, ActionType.LCD_SCREEN_PRINT)
+		new ArduinoFrame(block.id, state, frameLocation)
 	];
 };
 
@@ -109,7 +108,7 @@ export const lcd_screen_clear_block = (block: Block, frameLocation: FrameLocatio
 
 
 	return [
-		new ArduinoFrame(block.id, state, frameLocation, ActionType.LCD_SCREEN_CLEAR)
+		new ArduinoFrame(block.id, state, frameLocation)
 	];
 };
 
@@ -131,8 +130,7 @@ export const lcd_screen_blink_block = (block: Block, frameLocation: FrameLocatio
 		new ArduinoFrame(
 			block.id,
 			state,
-			frameLocation,
-			ActionType.LCD_SCREEN_BLINK
+			frameLocation
 		)
 	];
 
@@ -161,7 +159,6 @@ export const lcd_backlight_block = (block: Block, frameLocation: FrameLocation, 
 			block.id,
 			state,
 			frameLocation,
-			ActionType.LCD_SCREEN_BACK_LIGHT
 		)
 	];
 };

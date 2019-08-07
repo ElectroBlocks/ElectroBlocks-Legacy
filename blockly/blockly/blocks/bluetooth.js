@@ -9,7 +9,7 @@ Blockly.Blocks['bluetooth_setup'] = {
         this.appendDummyInput()
             .appendField("Bluetooth Setup");
         this.appendDummyInput()
-            .appendField("RX ")
+            .appendField("RX")
             .appendField(new Blockly.FieldDropdown(profile.arduino_uno.digital), "RX")
             .appendField("TX")
             .appendField(new Blockly.FieldDropdown(profile.arduino_uno.digital), "TX");

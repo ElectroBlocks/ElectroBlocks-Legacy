@@ -3,8 +3,7 @@ import { ArduinoState } from "../../arduino/state/arduino.state";
 import { ElectricAttachmentComponentState } from "../../arduino/state/electric.state";
 import { NeoPixelStripState } from "../../arduino/state/neo_pixel_strip.state";
 import { Parent } from "svg.js";
-import { Color } from "../../frame_genorator/colour";
-import { virtualCircuitPin } from "./arduino.svg";
+import { Color } from "../../frame_genorator/color";
 import { ARDUINO_UNO_PINS } from "../../arduino/arduino_frame";
 
 
@@ -26,6 +25,10 @@ export class NeopixelSvg extends ComponentSvg {
 
 	matchState( state: ArduinoState ): void {
 		const neoPixelState = state.components.find(state => this.isComponent(state)) as NeoPixelStripState;
+
+		if (!this.isComponent(neoPixelState)) {
+			return;
+		}
 
 		neoPixelState.neoPixels.forEach(pixel => {
 			this.setPixelColor(pixel.position, pixel.color);
@@ -63,7 +66,7 @@ export class NeopixelSvg extends ComponentSvg {
 			}
 		}
 
-		if (this.numberOfLeds < 12) {
+		if (this.numberOfLeds <= 12) {
 			this.svg.select('#LEVEL1').first().hide();
 			this.svg.select('#LEVEL2').first().hide();
 			this.svg.select('#LEVEL3').first().hide();

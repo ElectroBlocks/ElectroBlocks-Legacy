@@ -16,12 +16,10 @@ import * as blockly from "../frame/block";
 import { Block, Blockly } from "../frame/block";
 import { Variable } from "../frame/variable";
 import { ARDUINO_UNO_PINS, ArduinoFrame } from "../arduino/arduino_frame";
-import {  PIN_TYPE } from "../arduino/state/pin.state";
+import { PIN_TYPE, PinPicture, PinState } from "../arduino/state/pin.state";
 import * as blockHelper from "../frame/blockly_helper";
 import * as variableHelper from '../frame_genorator/variables';
-import { EmptyCommand } from "../frame/command";
 import { ArduinoState } from "../arduino/state/arduino.state";
-import { PinState } from "../arduino/state/pin.state";
 
 describe('list generators', () => {
 
@@ -83,7 +81,7 @@ describe('list generators', () => {
 
 		it ('should copy over variables and components', () => {
 
-			const pinComponent = new PinState(ARDUINO_UNO_PINS.PIN_1, PIN_TYPE.DIGITAL, 1);
+			const pinComponent = new PinState(ARDUINO_UNO_PINS.PIN_1, PIN_TYPE.DIGITAL, 1, PinPicture.GENERIC);
 
 			const state = new ArduinoState([pinComponent], {'bill': {
 					type: 'Number',

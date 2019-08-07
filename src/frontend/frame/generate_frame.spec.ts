@@ -43,7 +43,7 @@ describe('Generate Frames', () => {
 
 	});
 
-	it ('should generate number of frames based on the number of times going through the loop', () => {
+	it ('should generate number of frames based on the number of times going through the loop', async () => {
 		const generateLoopSpy = spyOn(blockHelper, 'generateFrameForInputStatement');
 
 		generateLoopSpy
@@ -54,8 +54,8 @@ describe('Generate Frames', () => {
 			.withArgs({type: 'arduino_start', 'disabled': false }, 'loop', { location: 'loop', iteration: jasmine.any(Number) }, jasmine.anything()).and
 			.callFake(() => [ArduinoFrame.makeEmptyFrame('block_id', frameLocation), ArduinoFrame.makeEmptyFrame('block_id', frameLocation)]);
 
-		expect(generateListOfFrame(1).length).toBe(3);
+		expect((await generateListOfFrame(1)).length).toBe(3);
 
-		expect(generateListOfFrame(2).length).toBe(5);
+		expect((await generateListOfFrame(2)).length).toBe(5);
 	});
 });

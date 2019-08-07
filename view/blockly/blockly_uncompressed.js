@@ -121,7 +121,7 @@ goog.addDependency("../../closure-deps/bin/getjsversion.js", [], []);
 goog.addDependency("../../closure-deps/index.js", [], []);
 goog.addDependency("../../closure-deps/lib/depfile.js", [], []);
 goog.addDependency("../../closure-deps/lib/depgraph.js", [], []);
-goog.addDependency("../../closure-deps/lib/factory.js", [], []);
+goog.addDependency("../../closure-deps/lib/parser.js", [], []);
 goog.addDependency("../../closure-deps/lib/sourceerror.js", [], []);
 goog.addDependency("../../closure-deps/spec/tests/closuremakedeps_test.js", [], []);
 goog.addDependency("../../closure-deps/spec/tests/depfile_test.js", [], []);
@@ -432,7 +432,7 @@ goog.addDependency("editor/browserfeature.js", ['goog.editor.BrowserFeature'], [
 goog.addDependency("editor/browserfeature_test.js", ['goog.editor.BrowserFeatureTest'], ['goog.dom', 'goog.dom.Range', 'goog.dom.TagName', 'goog.editor.BrowserFeature', 'goog.testing.ExpectedFailures', 'goog.testing.jsunit']);
 goog.addDependency("editor/clicktoeditwrapper.js", ['goog.editor.ClickToEditWrapper'], ['goog.Disposable', 'goog.dom', 'goog.dom.Range', 'goog.dom.TagName', 'goog.editor.BrowserFeature', 'goog.editor.Command', 'goog.editor.Field', 'goog.editor.range', 'goog.events.BrowserEvent', 'goog.events.EventHandler', 'goog.events.EventType']);
 goog.addDependency("editor/clicktoeditwrapper_test.js", ['goog.editor.ClickToEditWrapperTest'], ['goog.dom', 'goog.dom.Range', 'goog.dom.TagName', 'goog.editor.ClickToEditWrapper', 'goog.editor.SeamlessField', 'goog.testing.MockClock', 'goog.testing.events', 'goog.testing.jsunit']);
-goog.addDependency("editor/arduino.command.js", ['goog.editor.Command'], []);
+goog.addDependency("editor/command.js", ['goog.editor.Command'], []);
 goog.addDependency("editor/contenteditablefield.js", ['goog.editor.ContentEditableField'], ['goog.asserts', 'goog.editor.Field', 'goog.log']);
 goog.addDependency("editor/contenteditablefield_test.js", ['goog.editor.ContentEditableFieldTest'], ['goog.dom', 'goog.editor.ContentEditableField', 'goog.editor.field_test', 'goog.html.SafeHtml', 'goog.testing.jsunit']);
 goog.addDependency("editor/defines.js", ['goog.editor.defines'], []);
@@ -1170,7 +1170,7 @@ goog.addDependency("string/linkify.js", ['goog.string.linkify'], ['goog.html.Saf
 goog.addDependency("string/linkify_test.js", ['goog.string.linkifyTest'], ['goog.dom', 'goog.dom.TagName', 'goog.dom.safe', 'goog.html.SafeHtml', 'goog.string', 'goog.string.linkify', 'goog.testing.dom', 'goog.testing.jsunit']);
 goog.addDependency("string/newlines.js", ['goog.string.newlines', 'goog.string.newlines.Line'], ['goog.array']);
 goog.addDependency("string/newlines_test.js", ['goog.string.newlinesTest'], ['goog.string.newlines', 'goog.testing.jsunit']);
-goog.addDependency("string/factory.js", ['goog.string.Parser'], []);
+goog.addDependency("string/parser.js", ['goog.string.Parser'], []);
 goog.addDependency("string/path.js", ['goog.string.path'], ['goog.array', 'goog.string']);
 goog.addDependency("string/path_test.js", ['goog.string.pathTest'], ['goog.string.path', 'goog.testing.jsunit']);
 goog.addDependency("string/string.js", ['goog.string', 'goog.string.Unicode'], []);

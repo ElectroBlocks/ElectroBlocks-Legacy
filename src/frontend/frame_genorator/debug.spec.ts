@@ -1,7 +1,6 @@
 import 'jasmine';
 import { Block } from "../frame/block";
 import { ArduinoFrame } from "../arduino/arduino_frame";
-import { EmptyCommand } from "../frame/command";
 import { debug_block } from "./debug";
 import { ArduinoState } from "../arduino/state/arduino.state";
 

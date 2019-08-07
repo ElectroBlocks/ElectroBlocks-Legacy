@@ -3,7 +3,6 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
 import { getInputValue } from "../frame/blockly_helper";
 import { FrameLocation } from "../frame/frame";
 import { ArduinoState } from "../arduino/state/arduino.state";
-import { ActionType } from "../frame/action.type";
 
 
 export const delay_block_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
@@ -16,7 +15,7 @@ export const delay_block_block = (block: Block, frameLocation: FrameLocation, pr
 
 	const updatedState = new ArduinoState(state.components, state.variables, false, '', parseFloat(time) * 1000);
 
-	const frame = new ArduinoFrame(block.id, updatedState, frameLocation, ActionType.DELAY);
+	const frame = new ArduinoFrame(block.id, updatedState, frameLocation);
 
 	return [frame];
 };
