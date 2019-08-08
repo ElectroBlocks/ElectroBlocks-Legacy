@@ -13,6 +13,8 @@ import { PinState } from "../../arduino/state/pin.state";
 import { pinFactory } from "../factory/led.factory";
 import { LedColorState } from "../../arduino/state/led_color.state";
 import { rgbLedFactory } from "../factory/led-color.factory";
+import { LCDScreenState } from "../../arduino/state/lcd_screen.state";
+import { lcdFactory } from "../factory/lcd-svg.factory";
 
 
 export class VirtualCircuit {
@@ -112,6 +114,11 @@ export class VirtualCircuit {
 
 		if (component instanceof LedColorState) {
 			this.svgs.push(rgbLedFactory(this, component));
+			return;
+		}
+
+		if (component instanceof LCDScreenState) {
+			this.svgs.push(lcdFactory(this, component));
 			return;
 		}
 	}

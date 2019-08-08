@@ -11,11 +11,8 @@ export const lcd_setup_block = (block: Block, frameLocation: FrameLocation, prev
 
 	const memoryType = block.getFieldValue('MEMORY_TYPE') as LCD_SCREEN_MEMORY_TYPE;
 
-	const rows = parseInt(
-		getInputValue(block, 'ROWS', 2, frameLocation, previousFrame) as string);
-
-	const columns = parseInt(
-		getInputValue(block, 'COLUMNS', 16, frameLocation, previousFrame) as string);
+	const rows = block.getFieldValue('SIZE') == '16 x 2' ? 2 : 4;
+	const columns = block.getFieldValue('SIZE') == '16 x 2' ? 16 : 20;
 
 	const emptyRowsOfText = [];
 
@@ -147,8 +144,8 @@ export const lcd_backlight_block = (block: Block, frameLocation: FrameLocation, 
 	const isOn = block.getFieldValue('BACKLIGHT') == 'ON';
 
 	state.components[componentIndex] = new LCDScreenState(
-		lcdScreenState.columns,
 		lcdScreenState.rows,
+		lcdScreenState.columns,
 		lcdScreenState.memoryType,
 		_.cloneDeep(lcdScreenState.rowsOfText),
 		_.cloneDeep(lcdScreenState.blink),

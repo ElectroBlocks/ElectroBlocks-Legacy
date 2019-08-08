@@ -48,9 +48,7 @@ describe('LCD Screen', () => {
 
 		blockGetFieldValueSpy.withArgs('MEMORY_TYPE').and.returnValue(LCD_SCREEN_MEMORY_TYPE.OX3F);
 
-		getInputValueSpy.withArgs(block, 'ROWS', 2, { location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(4);
-
-		getInputValueSpy.withArgs(block, 'COLUMNS', 16, { location: 'pre-setup', iteration: 0 },  undefined).and.returnValue(20);
+		blockGetFieldValueSpy.withArgs('SIZE').and.returnValue('20 x 4');
 
 		const [frame] =
 			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
@@ -69,9 +67,7 @@ describe('LCD Screen', () => {
 
 		blockGetFieldValueSpy.withArgs('MEMORY_TYPE').and.returnValue(LCD_SCREEN_MEMORY_TYPE.OX3F);
 
-		getInputValueSpy.withArgs(block, 'ROWS', 2,{ location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(4);
-
-		getInputValueSpy.withArgs(block, 'COLUMNS', 16,{ location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(20);
+		blockGetFieldValueSpy.withArgs('SIZE').and.returnValue('20 x 4');
 
 		const [previousFrame] =
 			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
@@ -100,9 +96,7 @@ describe('LCD Screen', () => {
 		blockGetFieldValueSpy.withArgs('MEMORY_TYPE')
 			.and.returnValue(LCD_SCREEN_MEMORY_TYPE.OX3F);
 
-		getInputValueSpy.withArgs(block, 'ROWS', 2,{ location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(4);
-
-		getInputValueSpy.withArgs(block, 'COLUMNS', 16, { location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(20);
+		blockGetFieldValueSpy.withArgs('SIZE').and.returnValue('20 x 4');
 
 		const [previousFrame] =
 			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
@@ -120,9 +114,7 @@ describe('LCD Screen', () => {
 
 		blockGetFieldValueSpy.withArgs('MEMORY_TYPE').and.returnValue(LCD_SCREEN_MEMORY_TYPE.OX3F);
 
-		getInputValueSpy.withArgs(block, 'ROWS', 2, { location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(4);
-
-		getInputValueSpy.withArgs(block, 'COLUMNS', 16,{ location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(20);
+		blockGetFieldValueSpy.withArgs('SIZE').and.returnValue('20 x 4');
 
 		const [previousFrame] =
 			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
@@ -146,9 +138,7 @@ describe('LCD Screen', () => {
 
 		blockGetFieldValueSpy.withArgs('MEMORY_TYPE').and.returnValue(LCD_SCREEN_MEMORY_TYPE.OX3F);
 
-		getInputValueSpy.withArgs(block, 'ROWS', 2, { location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(4);
-
-		getInputValueSpy.withArgs(block, 'COLUMNS', 16, { location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(20);
+		blockGetFieldValueSpy.withArgs('SIZE').and.returnValue('20 x 4');
 
 		const [previousFrame] =
 			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
@@ -166,9 +156,7 @@ describe('LCD Screen', () => {
 	it ('lcd_screen_print_block it should print', () => {
 		blockGetFieldValueSpy.withArgs('MEMORY_TYPE').and.returnValue(LCD_SCREEN_MEMORY_TYPE.OX3F);
 
-		getInputValueSpy.withArgs(block, 'ROWS', 2, { location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(4);
-
-		getInputValueSpy.withArgs(block, 'COLUMNS', 16, { location: 'pre-setup', iteration: 0 }, undefined).and.returnValue(20);
+		blockGetFieldValueSpy.withArgs('SIZE').and.returnValue('20 x 4');
 
 		const [previousFrame] =
 			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });

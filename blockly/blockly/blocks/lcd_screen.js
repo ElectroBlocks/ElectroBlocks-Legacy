@@ -9,8 +9,12 @@ goog.require('Blockly');
 Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     {
         "type": "lcd_setup",
-        "message0": "LCD Screen Setup Block | Memory Type %1 %2 Number of Rows %3 Number of Columns %4",
+        "lastDummyAlign0": "RIGHT",
+        "message0": "LCD Screen Setup Block %1 Memory Type %2 %3 Size %4",
         "args0": [
+            {
+                "type": "input_dummy"
+            },
             {
                 "type": "field_dropdown",
                 "name": "MEMORY_TYPE",
@@ -26,19 +30,22 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
                 ]
             },
             {
-                "type": "input_dummy"
-            },
-            {
-                "type": "input_value",
-                "name": "ROWS",
-                "check": "Number",
+                "type": "input_dummy",
                 "align": "RIGHT"
             },
             {
-                "type": "input_value",
-                "name": "COLUMNS",
-                "check": "Number",
-                "align": "RIGHT"
+                "type": "field_dropdown",
+                "name": "SIZE",
+                "options": [
+                    [
+                        "16 x 2",
+                        "16 x 2"
+                    ],
+                    [
+                        "20 x 4",
+                        "20 x 4"
+                    ]
+                ]
             }
         ],
         "inputsInline": false,
@@ -204,13 +211,13 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
             },
             {
                 "type": "input_value",
-                "name": "COLUMN",
+                "name": "ROW",
                 "check": "Number",
                 "align": "RIGHT"
             },
             {
                 "type": "input_value",
-                "name": "ROW",
+                "name": "COLUMN",
                 "check": "Number",
                 "align": "RIGHT"
             }

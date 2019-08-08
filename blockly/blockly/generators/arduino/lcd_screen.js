@@ -6,11 +6,11 @@ goog.require('Blockly.Arduino');
 
 Blockly.Arduino['lcd_setup'] = function (block) {
 
-    var numberOfRows = Blockly.Arduino.valueToCode(block, 'ROWS', Blockly.Arduino.ORDER_ATOMIC);
-    var numberOfColumns = Blockly.Arduino.valueToCode(block, 'COLUMNS', Blockly.Arduino.ORDER_ATOMIC);
+    var size = block.getFieldValue('SIZE');
     var memoryAddressLCDType = block.getFieldValue('MEMORY_TYPE').toUpperCase();
 
-
+    var numberOfRows = size === '16 x 2' ? 2 : 4;
+    var numberOfColumns = size === '16 x 2' ? 16 : 20;
     Blockly.Arduino.libraries_['define_wire'] = '#include <Wire.h>;\n';
     Blockly.Arduino.libraries_['define_liquid_crystal_i2c_big'] = '#include <LiquidCrystal_I2C.h>;\n';
     Blockly.Arduino.libraries_['liquid_crystal_ic2_lcd_object'] =
