@@ -109,6 +109,32 @@ export const lcd_screen_clear_block = (block: Block, frameLocation: FrameLocatio
 	];
 };
 
+export const lcd_scroll_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
+	const state = previousFrame.copyState();
+
+	const lcdScreenState = state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
+
+	const direction = block.getFieldValue('DIR');
+
+
+	for (let i = 0; i < lcdScreenState.rows; i += 1) {
+		if (direction == 'RIGHT') {
+			lcdScreenState.rowsOfText[i]
+				= ' ' + lcdScreenState
+							.rowsOfText[i]
+							.substring(0, lcdScreenState.rowsOfText[i].length - 1);
+		} else {
+			lcdScreenState.rowsOfText[i] =
+				lcdScreenState.rowsOfText[i].substring(1) + ' ';
+		}
+	}
+
+	return [
+		new ArduinoFrame(block.id, state, frameLocation)
+	];
+
+};
+
 export const lcd_screen_blink_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): ArduinoFrame[] => {
 
 	const state = previousFrame.copyState();

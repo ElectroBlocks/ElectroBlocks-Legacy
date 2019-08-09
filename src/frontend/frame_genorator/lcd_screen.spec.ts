@@ -6,7 +6,7 @@ import {
 	lcd_screen_blink_block,
 	lcd_screen_clear_block,
 	lcd_screen_print_block,
-	lcd_screen_simple_print_block,
+	lcd_screen_simple_print_block, lcd_scroll_block,
 	lcd_setup_block
 } from "./lcd_screen";
 import { LCD_SCREEN_MEMORY_TYPE, LCDScreenState } from "../arduino/state/lcd_screen.state";
@@ -151,6 +151,60 @@ describe('LCD Screen', () => {
 		const lcdScreenState = frame.state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
 
 		expect(lcdScreenState.backLightOn).toBeTruthy();
+	});
+
+	it ('should scroll all the text to right', () => {
+		blockGetFieldValueSpy.withArgs('MEMORY_TYPE').and.returnValue(LCD_SCREEN_MEMORY_TYPE.OX3F);
+
+		blockGetFieldValueSpy.withArgs('SIZE').and.returnValue('20 x 4');
+
+		const [previousFrame] =
+			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
+
+
+		getInputValueSpy.withArgs(lcdBlock, 'ROW', 0, { location: 'loop', iteration: 2 }, previousFrame).and.returnValue(0);
+
+		getInputValueSpy.withArgs(lcdBlock, 'COLUMN',  0,{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue(0);
+
+		getInputValueSpy.withArgs(lcdBlock, 'PRINT', '', { location: 'loop', iteration: 2 }, previousFrame).and.returnValue('World');
+
+		const [simplePrintScreenFrame] = lcd_screen_print_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
+
+
+		lcdBlockGetFieldValueSpy.withArgs('DIR').and.returnValue('RIGHT');
+
+		const [scrollRightFrame] = lcd_scroll_block(lcdBlock, { location: 'loop', iteration: 2 }, simplePrintScreenFrame);
+
+		const lcdScreenState = scrollRightFrame.state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
+
+		expect(lcdScreenState.rowsOfText[0]).toBe(' World              ')
+	});
+
+	it ('should scroll all the text to left', () => {
+		blockGetFieldValueSpy.withArgs('MEMORY_TYPE').and.returnValue(LCD_SCREEN_MEMORY_TYPE.OX3F);
+
+		blockGetFieldValueSpy.withArgs('SIZE').and.returnValue('20 x 4');
+
+		const [previousFrame] =
+			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
+
+		getInputValueSpy.withArgs(lcdBlock, 'ROW', 0, { location: 'loop', iteration: 2 }, previousFrame).and.returnValue(0);
+
+		getInputValueSpy.withArgs(lcdBlock, 'COLUMN',  0,{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue(0);
+
+		getInputValueSpy.withArgs(lcdBlock, 'PRINT', '', { location: 'loop', iteration: 2 }, previousFrame).and.returnValue('World');
+
+		const [simplePrintScreenFrame] = lcd_screen_print_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
+
+
+		lcdBlockGetFieldValueSpy.withArgs('DIR').and.returnValue('LEFT');
+
+		const [scrollRightFrame] = lcd_scroll_block(lcdBlock, { location: 'loop', iteration: 2 }, simplePrintScreenFrame);
+
+		const lcdScreenState = scrollRightFrame.state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
+
+		expect(lcdScreenState.rowsOfText[0]).toBe('orld                ')
+
 	});
 
 	it ('lcd_screen_print_block it should print', () => {

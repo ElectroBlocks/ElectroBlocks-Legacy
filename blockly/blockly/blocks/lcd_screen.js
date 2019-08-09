@@ -10,7 +10,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     {
         "type": "lcd_setup",
         "lastDummyAlign0": "RIGHT",
-        "message0": "LCD Screen Setup Block %1 Memory Type %2 %3 Size %4",
+        "message0": "LCD Screen => setup lcd screen %1 Memory Type %2 %3 Size %4",
         "args0": [
             {
                 "type": "input_dummy"
@@ -55,7 +55,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     },
     {
         "type": "lcd_screen_simple_print",
-        "message0": "Print  ->  Delay ->  Clear %1 Print on Row 1 %2 Print on Row 2 %3 Print on Row 3 %4 Print on Row 4 %5 Delay in milliseconds before clearing screen %6",
+        "message0": "LCD Screen => Print  ->  Delay ->  Clear %1 Print on Row 1 %2 Print on Row 2 %3 Print on Row 3 %4 Print on Row 4 %5 Delay in milliseconds before clearing screen %6",
         "args0": [
             {
                 "type": "input_dummy"
@@ -101,7 +101,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     {
         "type": "lcd_backlight",
         "lastDummyAlign0": "RIGHT",
-        "message0": "LCD Backlight %1",
+        "message0": "LCD Screen =>  Backlight %1",
         "args0": [
             {
                 "type": "field_dropdown",
@@ -125,8 +125,33 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
         "helpUrl": ""
     },
     {
+        "type": "lcd_scroll",
+        "message0": "LCD Screen => Scroll %1",
+        "args0": [
+            {
+                "type": "field_dropdown",
+                "name": "DIR",
+                "options": [
+                    [
+                        "RIGHT",
+                        "RIGHT"
+                    ],
+                    [
+                        "LEFT",
+                        "LEFT"
+                    ]
+                ]
+            }
+        ],
+        "previousStatement": null,
+        "nextStatement": null,
+        "colour": 285,
+        "tooltip": "",
+        "helpUrl": ""
+    },
+    {
         "type": "lcd_screen_clear",
-        "message0": "Clear Screen %1",
+        "message0": "LCD Screen => Clear %1",
         "args0": [
             {
                 "type": "field_image",
@@ -144,7 +169,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     },
     {
         "type": "lcd_screen_print",
-        "message0": "Position and print on to the screen  %1 %2 Row %3 Column %4 Message %5",
+        "message0": "LCD Screen => Print  %1 %2 Row %3 Column %4 Message %5",
         "args0": [
             {
                 "type": "field_image",
@@ -183,13 +208,13 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     },
     {
         "type": "lcd_screen_blink",
-        "message0": "Blink one space %1 %2 %3 ROW %4 COLUMN %5",
+        "message0": "LCD Screen => Blink %1 %2 %3 ROW %4 COLUMN %5",
         "args0": [
             {
                 "type": "field_image",
                 "src": "images/blink.png",
-                "width": 15,
-                "height": 15,
+                "width": 30,
+                "height": 30,
                 "alt": "*"
             },
             {

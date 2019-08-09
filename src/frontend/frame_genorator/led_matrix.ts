@@ -31,7 +31,6 @@ export const led_matrix_make_draw_block = ( block: Block, frameLocation: FrameLo
 		.forEach( input => {
 			input.fieldRow.forEach( ( field: { name: string, state_: boolean } ) => {
 
-				console.log(field.name);
 				const row = parseInt( field.name.split( ',' )[ 0 ] );
 				const column = parseInt( field.name.split( ',' )[ 1 ] );
 				const isOn = field.state_;
@@ -52,7 +51,6 @@ export const led_matrix_make_draw_block = ( block: Block, frameLocation: FrameLo
 			} );
 		} );
 
-	console.log(ledMatrixComponent.leds);
 
 	if (!state.components.includes(ledMatrixComponent)) {
 		state.components.push(ledMatrixComponent);

@@ -28,9 +28,9 @@ import { led_matrix_make_draw_block, led_matrix_turn_one_on_off_block } from "..
 
 import { neo_pixel_set_color_block, neo_pixel_setup_block } from "../frame_genorator/neo-pixel";
 
-import { lcd_backlight_block, lcd_screen_blink_block, lcd_screen_simple_print_block, lcd_setup_block, lcd_screen_clear_block,  } from "../frame_genorator/lcd_screen";
+import { lcd_backlight_block, lcd_screen_blink_block, lcd_screen_simple_print_block, lcd_setup_block, lcd_screen_clear_block, lcd_scroll_block, lcd_screen_print_block  } from "../frame_genorator/lcd_screen";
 
-import { 
+import {
     variables_set_boolean_block,
     variables_set_string_block,
     variables_set_colour_block,
@@ -159,6 +159,8 @@ frameGeneratingBlocks = {
     lcd_screen_simple_print_block,
     lcd_setup_block,
     lcd_screen_clear_block,
+    lcd_scroll_block,
+    lcd_screen_print_block,
 
     temp_get_temp_block,
     ir_remote_scan_again_block,

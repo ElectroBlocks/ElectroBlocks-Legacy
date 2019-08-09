@@ -21,6 +21,16 @@ Blockly.Arduino['lcd_setup'] = function (block) {
 
     return '';
 };
+Blockly.Arduino['lcd_scroll'] = function(block) {
+    var dropdown_dir = block.getFieldValue('DIR');
+
+    if (dropdown_dir === 'RIGHT') {
+        return 'lcd.scrollDisplayRight(); \n';
+    } else {
+        return 'lcd.scrollDisplayLeft(); \n';
+    }
+};
+
 
 Blockly.Arduino['lcd_screen_simple_print'] = function(block) {
 
