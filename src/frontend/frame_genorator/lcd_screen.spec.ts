@@ -81,11 +81,14 @@ describe('LCD Screen', () => {
 
 		getInputValueSpy.withArgs(lcdBlock, 'ROW_4', '',{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue('');
 
+		getInputValueSpy.withArgs(lcdBlock, 'DELAY', 1000,{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue(3000);
+
 
 		const [frame] = lcd_screen_simple_print_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
 
 		const lcdScreenState = frame.state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
 
+		expect(frame.state.delay).toBe(3000);
 		expect(lcdScreenState.rowsOfText[0]).toBe('Hello               ');
 		expect(lcdScreenState.rowsOfText[1]).toBe('World               ');
 		expect(lcdScreenState.rowsOfText[2]).toBe('                    ');
@@ -188,9 +191,9 @@ describe('LCD Screen', () => {
 		const [previousFrame] =
 			lcd_setup_block(block, { location: 'pre-setup', iteration: 0 });
 
-		getInputValueSpy.withArgs(lcdBlock, 'ROW', 0, { location: 'loop', iteration: 2 }, previousFrame).and.returnValue(0);
+		getInputValueSpy.withArgs(lcdBlock, 'ROW', 0, { location: 'loop', iteration: 2 }, previousFrame).and.returnValue(1);
 
-		getInputValueSpy.withArgs(lcdBlock, 'COLUMN',  0,{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue(0);
+		getInputValueSpy.withArgs(lcdBlock, 'COLUMN',  0,{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue(1);
 
 		getInputValueSpy.withArgs(lcdBlock, 'PRINT', '', { location: 'loop', iteration: 2 }, previousFrame).and.returnValue('World');
 
@@ -222,13 +225,15 @@ describe('LCD Screen', () => {
 		getInputValueSpy.withArgs(lcdBlock, 'ROW_3', '',{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue('');
 
 		getInputValueSpy.withArgs(lcdBlock, 'ROW_4', '',{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue('');
-	
+
+		getInputValueSpy.withArgs(lcdBlock, 'DELAY', 1000,{ location: 'loop', iteration: 2 }, previousFrame).and.returnValue(3000);
+
 
 		const [frame] = lcd_screen_simple_print_block(lcdBlock, { location: 'loop', iteration: 2 }, previousFrame);
 
-		getInputValueSpy.withArgs(lcdBlock, 'ROW', 0, { location: 'loop', iteration: 2 }, frame).and.returnValue(0);
+		getInputValueSpy.withArgs(lcdBlock, 'ROW', 0, { location: 'loop', iteration: 2 }, frame).and.returnValue(1);
 
-		getInputValueSpy.withArgs(lcdBlock, 'COLUMN',  0,{ location: 'loop', iteration: 2 }, frame).and.returnValue(0);
+		getInputValueSpy.withArgs(lcdBlock, 'COLUMN',  0,{ location: 'loop', iteration: 2 }, frame).and.returnValue(1);
 
 		getInputValueSpy.withArgs(lcdBlock, 'PRINT', '', { location: 'loop', iteration: 2 }, frame).and.returnValue('World');
 

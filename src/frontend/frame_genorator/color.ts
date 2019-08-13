@@ -1,8 +1,3 @@
-import { ArduinoFrame } from "../arduino/arduino_frame";
-import { Block } from "../frame/block";
-import { getInputValue } from "../frame/blockly_helper";
-import { getRandomInt } from "./math";
-import { FrameLocation } from "../frame/frame";
 
 export interface Color {
 	red: number;

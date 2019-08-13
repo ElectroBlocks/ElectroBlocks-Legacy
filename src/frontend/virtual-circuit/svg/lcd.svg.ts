@@ -3,6 +3,7 @@ import { ElectricAttachmentComponentState } from "../../arduino/state/electric.s
 import { ArduinoState } from "../../arduino/state/arduino.state";
 import { Parent, Text } from "svg.js";
 import { LCDScreenState } from "../../arduino/state/lcd_screen.state";
+import { ARDUINO_UNO_PINS } from "../../arduino/arduino_frame";
 
 
 export class LcdSvg extends ComponentSvg {
@@ -12,6 +13,7 @@ export class LcdSvg extends ComponentSvg {
 	            public readonly rows: number) {
 		super(svg);
 		this.initDisplay();
+		this.arduinoPins.push(ARDUINO_UNO_PINS.PIN_A4, ARDUINO_UNO_PINS.PIN_A5);
 	}
 
 	private isBlinking = false;

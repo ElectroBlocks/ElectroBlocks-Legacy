@@ -17,7 +17,7 @@ export class ArduinoFrame implements Frame {
 	}
 
 	copyState(): ArduinoState {
-		return this.state.copyState();
+		return ArduinoState.copyState(this.state);
 	}
 
 	makeCopy( blockId: string, frameLocation: FrameLocation ): Frame {

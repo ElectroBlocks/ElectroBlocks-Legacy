@@ -5,7 +5,8 @@ import {
 	controls_ifelse_block,
 	logic_boolean_block,
 	logic_compare_block,
-	logic_negate_block
+	logic_negate_block,
+	logic_operation_block
 } from "./logic";
 import * as blockHelper from '../frame/blockly_helper';
 import { generateFrameForInputStatement } from "../frame/blockly_helper";
@@ -192,6 +193,52 @@ describe('logic', () => {
 			expect(logic_negate_block(block, frameLocation)).toBeFalsy();
 
 		});
+	});
+
+	describe('logic_operation_block', () => {
+
+		it('should "and" be selected both sides should be true to be true', () => {
+
+			blockSpy.withArgs('OP').and.returnValue('AND');
+
+
+			getInputValueSpy.withArgs(block, 'A', true, frameLocation, undefined).and.returnValue(true);
+
+			getInputValueSpy.withArgs(block, 'B', false, frameLocation, undefined).and.returnValue(true);
+			expect(logic_operation_block(block, frameLocation)).toBeTruthy();
+
+			blockSpy.withArgs('OP').and.returnValue('AND');
+			getInputValueSpy.withArgs(block, 'A', true, frameLocation, undefined).and.returnValue(true);
+
+			getInputValueSpy.withArgs(block, 'B', false, frameLocation, undefined).and.returnValue(false);
+			expect(logic_operation_block(block, frameLocation)).toBeFalsy()
+
+		});
+
+		it('should "or" be selected one sides should be true', () => {
+			blockSpy.withArgs('OP').and.returnValue('OR');
+
+
+			getInputValueSpy.withArgs(block, 'A', true, frameLocation, undefined).and.returnValue(true);
+
+			getInputValueSpy.withArgs(block, 'B', false, frameLocation, undefined).and.returnValue(true);
+			expect(logic_operation_block(block, frameLocation)).toBeTruthy();
+
+			blockSpy.withArgs('OP').and.returnValue('OR');
+			getInputValueSpy.withArgs(block, 'A', true, frameLocation, undefined).and.returnValue(true);
+
+			getInputValueSpy.withArgs(block, 'B', false, frameLocation, undefined).and.returnValue(false);
+			expect(logic_operation_block(block, frameLocation)).toBeTruthy();
+
+
+			blockSpy.withArgs('OP').and.returnValue('OR');
+			getInputValueSpy.withArgs(block, 'A', true, frameLocation, undefined).and.returnValue(false);
+
+			getInputValueSpy.withArgs(block, 'B', false, frameLocation, undefined).and.returnValue(false);
+			expect(logic_operation_block(block, frameLocation)).toBeFalsy();
+
+		});
+
 	});
 
 });

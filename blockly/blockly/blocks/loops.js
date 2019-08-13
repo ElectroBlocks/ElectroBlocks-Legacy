@@ -119,7 +119,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
   // Block for 'for' loop.
   {
     "type": "controls_for",
-    "message0": "%{BKY_CONTROLS_FOR_TITLE}",
+    "message0": "count with %1 from %2 to %3 add or subtract %4 each time",
     "args0": [
       {
         "type": "field_variable",

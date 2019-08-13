@@ -37,8 +37,15 @@ export const lcd_screen_print_block = (block: Block, frameLocation: FrameLocatio
 	
 	const lcdScreenState = previousFrame.state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
 
-	const row = parseInt(getInputValue(block, 'ROW', 0, frameLocation, previousFrame).toString());
-	const column = parseInt(getInputValue(block, 'COLUMN', 0, frameLocation, previousFrame).toString());
+	let row = parseInt(getInputValue(block, 'ROW', 0, frameLocation, previousFrame).toString());
+
+
+	let column = parseInt(getInputValue(block, 'COLUMN', 0, frameLocation, previousFrame).toString());
+
+	row = row <= 0 ? 0 : row - 1;
+	column = column <= 0 ? 0 : column - 1;
+
+
 	const print = getInputValue(block, 'PRINT', '', frameLocation, previousFrame).toString();
 	//const command = lcdScreen.print(row, column, print);
 
@@ -53,7 +60,7 @@ export const lcd_screen_print_block = (block: Block, frameLocation: FrameLocatio
 
 	const state = previousFrame.copyState();
 
-	(state.components.find(component => component instanceof LCDScreenState) as LCDScreenState).rowsOfText[row] = stringToPrint.join('');
+	(state.components.find(component => component instanceof LCDScreenState) as LCDScreenState).rowsOfText[row <= 0 ? 0 : row -1] = stringToPrint.join('');
 
 
 	return [
@@ -75,7 +82,11 @@ export const lcd_screen_simple_print_block = (block: Block, frameLocation: Frame
 	const row4 = getInputValue(block, 'ROW_4', '',
 		frameLocation,previousFrame).toString();
 
-	const state = previousFrame.copyState();
+	const delay = parseInt(getInputValue(block, 'DELAY', 1000,
+		frameLocation,previousFrame).toString());
+
+
+	const state = { ...previousFrame.copyState(), delay };
 
 	const lcdScreenState = state.components.find(component => component instanceof LCDScreenState) as LCDScreenState;
 
@@ -119,6 +130,7 @@ export const lcd_scroll_block = (block: Block, frameLocation: FrameLocation, pre
 
 	for (let i = 0; i < lcdScreenState.rows; i += 1) {
 		if (direction == 'RIGHT') {
+			console.log(lcdScreenState.rowsOfText[i], 'lcd screen text');
 			lcdScreenState.rowsOfText[i]
 				= ' ' + lcdScreenState
 							.rowsOfText[i]

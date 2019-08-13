@@ -23,12 +23,13 @@ export class ArduinoState implements ElectricComponentState {
 		return new ArduinoState([], {}, false);
 	}
 
-	public copyState() {
+	public static copyState(state: ArduinoState) {
 
-		const components = _.cloneDeep(this.components);
+		const components = _.cloneDeep(state.components);
 
 		const updatedComponents = components.map(component => component.copyState());
 
-		return new ArduinoState(updatedComponents, _.cloneDeep(this.variables));
+		return new ArduinoState(updatedComponents, _.cloneDeep(state.variables));
 	}
+
 }

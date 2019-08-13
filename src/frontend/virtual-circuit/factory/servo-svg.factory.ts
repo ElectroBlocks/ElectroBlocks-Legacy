@@ -29,7 +29,7 @@ export const servoFactory = (virtualCircuit: VirtualCircuit,
 		servoSvg.svg.select('#DATA_BOX').first() as Element,
 		servoSvg.pin,
 		'#FFA500'
-	);
+	).getHoleXY();
 
 	servoSvg.move(positionX - 60, 40);
     servoSvg.updateWires();

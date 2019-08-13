@@ -24,7 +24,6 @@ export const generateListOfFrame = async (numberOfTimesThroughLoop: number = 1) 
 		.filter(block => !block.disabled)
 		.filter(block => block.type != 'procedures_defnoreturn')
 		.forEach(block => {
-			console.log(block, 'top blocks');
 			frameGeneratingBlocks[block.type + '_block'](block, { location: 'pre-setup', iteration: 0 }, frames.length == 0 ? null : frames[frames.length - 1])
 				.filter(frame => frame instanceof ArduinoFrame)
 				.forEach((currentFrame: ArduinoFrame) => frames.push(currentFrame));

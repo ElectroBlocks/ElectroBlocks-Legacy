@@ -1,20 +1,5 @@
 'use strict';
 
-Blockly.Blocks['led_switch'] = {
-    init: function() {
-        this.appendDummyInput()
-            .appendField("Led")
-            .appendField(new Blockly.FieldDropdown(profile.arduino_uno.digital), "PIN")
-            .appendField("turn")
-            .appendField(new Blockly.FieldDropdown([["ON","ON"], ["OFF","OFF"]]), "STATE")
-            .appendField(new Blockly.FieldImage("https://www.gstatic.com/codesite/ph/images/star_on.gif", 15, 15, "*"));
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(300);
-        this.setTooltip("");
-        this.setHelpUrl("");
-    }
-};
 
 Blockly.Blocks['led_switch'] = {
     init: function() {

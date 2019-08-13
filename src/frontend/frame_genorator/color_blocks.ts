@@ -53,6 +53,8 @@ export const colour_rgb_block = (block: Block, frameLocation: FrameLocation, pre
 		previousFrame
 	).toString();
 
+	console.log(red, green, blue);
+
 	return { red: parseInt(red), green : parseInt(green), blue: parseInt(blue) };
 
 };

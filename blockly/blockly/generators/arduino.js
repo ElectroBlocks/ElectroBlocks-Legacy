@@ -93,26 +93,27 @@ Blockly.Arduino.init = function(workspace) {
     //         Blockly.Names.DEVELOPER_VARIABLE_TYPE));
     // }
 
+
     var doubleVariables = workspace.getVariablesOfType('Number');
     var i = 0;
     var variableCode = '';
     for (i = 0; i < doubleVariables.length; i += 1) {
-        variableCode += 'double ' + doubleVariables[i].name + ' = 0; \n\n';
+        variableCode += 'double ' + Blockly.Arduino.variableDB_.getName(doubleVariables[i].getId(), Blockly.Variables.NAME_TYPE) + ' = 0; \n\n';
     }
 
     var stringVariables = workspace.getVariablesOfType('String');
     for (i = 0; i < stringVariables.length; i += 1) {
-        variableCode += 'String ' + stringVariables[i].name + ' = ""; \n\n';
+        variableCode += 'String ' + Blockly.Arduino.variableDB_.getName(stringVariables[i].getId(), Blockly.Variables.NAME_TYPE) + ' = ""; \n\n';
     }
 
     var booleanVariables = workspace.getVariablesOfType('Boolean');
     for (i = 0; i < booleanVariables.length; i += 1) {
-        variableCode += 'boolean ' + booleanVariables[i].name + ' = false; \n\n';
+        variableCode += 'boolean ' + Blockly.Arduino.variableDB_.getName(booleanVariables[i].getId(), Blockly.Variables.NAME_TYPE) + ' = false; \n\n';
     }
 
     var colourVariables = workspace.getVariablesOfType('Colour');
     for (i = 0; i < colourVariables.length; i += 1) {
-        variableCode += 'RGB ' + colourVariables[i].name + ' = {0, 0, 0}; \n\n';
+        variableCode += 'RGB ' + Blockly.Arduino.variableDB_.getName(colourVariables[i].getId(), Blockly.Variables.NAME_TYPE) + ' = {0, 0, 0}; \n\n';
     }
 
     Blockly.Arduino.variablesInitCode_ = variableCode;
@@ -138,6 +139,7 @@ Blockly.Arduino.finish = function(code) {
 
     // Convert the definitions dictionary into a list.
     code = libraryCode + '\n' +
+            'int simple_loop_variable = 0; \n' +
             'struct RGB { \n' +
         '\tint red;\n' +
         '\tint green;\n' +

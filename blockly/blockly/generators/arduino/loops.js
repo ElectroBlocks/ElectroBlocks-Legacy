@@ -12,10 +12,8 @@ Blockly.Arduino['controls_repeat_ext'] = function(block) {
     var branch = Blockly.Arduino.statementToCode(block, 'DO');
     branch = Blockly.Arduino.addLoopTrap(branch, block.id);
     var code = '';
-    var loopVar = Blockly.Arduino.variableDB_.getDistinctName(
-        'loop_index', Blockly.Variables.NAME_TYPE);
-    Blockly.Arduino.variablesInitCode_ = 'double ' + loopVar + ' = 0;\n';
-    code += 'for (' + loopVar + ' = 0; ' + loopVar + ' <= ' + repeats + '; ' +
+    var loopVar = 'simple_loop_variable';
+    code += 'for (' + loopVar + ' = 1; ' + loopVar + ' <= ' + repeats + '; ' +
         loopVar + ' += 1) {\n' +
         branch + '}\n';
 
@@ -35,7 +33,7 @@ Blockly.Arduino['controls_for'] = function (block) {
     var toNumber = Blockly.Arduino.valueToCode(block, 'TO',
             Blockly.Arduino.ORDER_ASSIGNMENT) || '0';
 
-    var byNumber = Math.abs(parseInt(Blockly.Arduino.valueToCode(block, 'TO',
+    var byNumber = Math.abs(parseInt(Blockly.Arduino.valueToCode(block, 'BY',
             Blockly.Arduino.ORDER_ASSIGNMENT)));
 
     byNumber = byNumber == 0 ? 1 : byNumber;

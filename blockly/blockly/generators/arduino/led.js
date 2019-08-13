@@ -10,8 +10,8 @@ Blockly.Arduino['led_switch'] = function(block) {
     var state = block.getFieldValue('STATE');
 
     Blockly.Arduino.setupCode_['led_pin' + pin ] = '\tpinMode(' + pin + ', OUTPUT); \n';
-
-    return 'digitalWrite(' + pin + ', ' + state + '); \n';
+    const ledState = state === 'ON' ? 'HIGH': 'LOW';
+    return 'digitalWrite(' + pin + ', ' + ledState + '); \n';
 };
 
 Blockly.Arduino['led_fade'] = function (block) {

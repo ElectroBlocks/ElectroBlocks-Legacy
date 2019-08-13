@@ -164,7 +164,7 @@ export const createBreadboardWire = (
 	baseSvg.addWire(dataWire);
 	dataWire.updateConnection();
 
-	return dataWire.getHoleXY();
+	return dataWire;
 };
 
 export const createPowerWire = (
@@ -190,6 +190,8 @@ export const createPowerWire = (
 
 	componentSvg.addWire(powerWire);
 	powerWire.updateConnection();
+
+	return powerWire.getHoleXY();
 };
 
 
@@ -216,4 +218,7 @@ export const createGroundWire = (
 
 	componentSvg.addWire(groundWire);
 	groundWire.updateConnection();
+
+	return groundWire.getHoleXY();
+
 };

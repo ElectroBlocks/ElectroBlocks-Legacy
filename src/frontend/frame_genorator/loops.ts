@@ -3,7 +3,7 @@ import { ArduinoFrame } from "../arduino/arduino_frame";
 import { generateFrameForInputStatement, getInputValue } from "../frame/blockly_helper";
 import { getVariableName } from "./variables";
 import { Block } from "../frame/block";
-import { FrameLocation } from "../frame/frame";
+import { Frame, FrameLocation } from "../frame/frame";
 import { ArduinoState } from "../arduino/state/arduino.state";
 
 /**
@@ -15,7 +15,7 @@ const controls_repeat_ext_block = (block: Block, frameLocation: FrameLocation, p
 	const loopFrame = previousFrame ? previousFrame.makeCopy(block.id, frameLocation) as ArduinoFrame :
 		ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
-	const times = getInputValue(block, 'TIMES', 1, frameLocation,previousFrame);
+	const times = getInputValue(block, 'TIMES', 1, frameLocation,previousFrame) as number;
 
 	if (times <= 0) {
 		return [loopFrame];
@@ -25,16 +25,25 @@ const controls_repeat_ext_block = (block: Block, frameLocation: FrameLocation, p
 	frames.unshift(loopFrame);
 
 	for (let i = 1; i < times; i += 1) {
+
 		previousFrame = frames[frames.length - 1];
+		const loopFrame = previousFrame.makeCopy(block.id, frameLocation) as ArduinoFrame;
+
+		if (times - 1 > i) {
+			frames.push(loopFrame);
+		}
+
 		frames = frames
 			.concat(
 				generateFrameForInputStatement(
 					block,
 					'DO',
 					frameLocation,
-					previousFrame
+					loopFrame
 				) as ArduinoFrame[]
 			);
+
+
 	}
 
 	return frames;
