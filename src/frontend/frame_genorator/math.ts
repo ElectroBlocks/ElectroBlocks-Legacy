@@ -90,11 +90,11 @@ const math_random_int_block = (block: Block,frameLocation: FrameLocation, previo
 /**
  * Turns a "string" to a number not super relevant in javascript
  */
-const string_to_number_block = (block: Block,frameLocation: FrameLocation, previousFrame?: ArduinoFrame): string =>  {
+const string_to_number_block = (block: Block,frameLocation: FrameLocation, previousFrame?: ArduinoFrame): number =>  {
 
 	let numValue = getInputValue(block, 'VALUE',0,frameLocation, previousFrame);
 
-	return numValue.toString();
+	return parseFloat(numValue.toString());
 };
 
 /**

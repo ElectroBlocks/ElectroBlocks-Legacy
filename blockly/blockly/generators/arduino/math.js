@@ -90,7 +90,10 @@ Blockly.Arduino['math_random_int'] = function(block) {
 
 Blockly.Arduino['string_to_number'] = function (block) {
     Blockly.Arduino.functionNames_['parseDouble'] = '\ndouble parseDouble(String num) {\n' +
-            '\treturn num.toDouble();\n' +
+        '\t // Use num.toDouble() instead of this.  Doing this because of arduino is compiling on a linux server.  \n' +
+        '\tchar str[40];\n' +
+        '\tnum.toCharArray(str, num.length() + 1);\n' +
+        '\treturn atof(str);\n' +
             '}\n';
 
     var string = Blockly.Arduino.valueToCode(block, 'VALUE', Blockly.Arduino.ORDER_ATOMIC);

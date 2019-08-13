@@ -203,11 +203,11 @@ describe('Math', () => {
 		it('should a  string into a number', () => {
 			getInputValueSpy
 				.withArgs(block, 'VALUE', 0, frameLocation, previousFrame)
-				.and.returnValue(332);
+				.and.returnValue('332');
 
 			const number = string_to_number_block(block, frameLocation, previousFrame);
 
-			expect(number).toBe('332');
+			expect(number).toBe(332);
 		});
 	});
 
