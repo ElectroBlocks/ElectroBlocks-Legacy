@@ -1,0 +1,23 @@
+<router-outlet name="topMenu"></router-outlet>
+<div
+  [ngClass]="{ showBottom: showBottom$ | async }"
+  [style.width]="blocklyContainerWidth"
+  id="blockly-container"
+>
+  <app-blockly></app-blockly>
+</div>
+<div
+  [ngClass]="{ showBottom: showBottom$ | async }"
+  #grabber
+  (mouseup)="grabberMouseUp($event)"
+  (mousedown)="grabberMouseDown($event)"
+  id="grabber"
+></div>
+<div
+  [ngClass]="{ showBottom: showBottom$ | async }"
+  [style.width]="routerContainerWidth"
+  id="route-container"
+>
+  <router-outlet></router-outlet>
+</div>
+<router-outlet name="bottom"></router-outlet>

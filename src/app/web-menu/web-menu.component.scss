@@ -1,0 +1,33 @@
+#top-menu {
+  height: 50px;
+}
+
+.icon-bar {
+  width: 100%;
+  overflow: auto;
+}
+
+.icon-bar .fa {
+  color: #aadcc3;
+}
+
+.icon-bar .active .fa {
+  color: #4caf50 !important;
+}
+
+.icon-bar a,
+.icon-bar span {
+  float: left;
+  width: 20%;
+  text-align: center;
+  padding: 7px 0;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.icon-bar-bottom a,
+.icon-bar-bottom span {
+  float: right;
+}

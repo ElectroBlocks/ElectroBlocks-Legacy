@@ -1,0 +1,12 @@
+<div [style.height]="svgHeight" id="svg">
+  <app-svg></app-svg>
+</div>
+<div
+  (mouseup)="grabberMouseUp($event)"
+  (mousedown)="grabberMouseDown($event)"
+  id="svg-grabber"
+  #svgGrabber
+></div>
+<div [style.height]="settingHeight" id="settingContainer">
+  <app-settings-container></app-settings-container>
+</div>

@@ -1,0 +1,54 @@
+<div id="slide-container">
+  <input
+    type="range"
+    min="1"
+    (change)="scrubBarFrameChange($event)"
+    [max]="numberOfFrames$ | async"
+    [ngModel]="frameNumber$ | async"
+    class="slider"
+    id="scrub-bar"
+  />
+</div>
+<div id="video-controls-container" class="icon-bar">
+  <a
+    id="video-debug-backward"
+    (click)="previous()"
+    [ngClass]="{ disable: noFrames$ | async }"
+    ><i class="fa fa-backward"></i
+  ></a>
+  <a
+    id="video-debug-play"
+    (click)="play()"
+    [ngClass]="{ disable: noFrames$ | async }"
+    ><i
+      [ngClass]="{
+        'fa-play': !player.isPlaying(),
+        'fa-stop': player.isPlaying()
+      }"
+      class="fa "
+    ></i
+  ></a>
+
+  <a
+    id="video-debug-forward"
+    (click)="next()"
+    [ngClass]="{ disable: noFrames$ | async }"
+    ><i class="fa fa-forward"></i
+  ></a>
+  <div id="speed-control" class="menu-section">
+    <label for="speed">Speed: </label>
+    <input
+      (change)="changeSpeed($event)"
+      id="speed"
+      type="range"
+      min="1"
+      max="10"
+      value="1"
+    />
+  </div>
+  <div class="menu-section" id="frameInfo">
+    <label for="loop-times">
+      Frame: {{ frameNumber$ | async }} | Loop: {{ loop$ | async }}</label
+    >
+  </div>
+</div>
