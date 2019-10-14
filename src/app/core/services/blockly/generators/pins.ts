@@ -1,11 +1,18 @@
 import * as Blockly from 'blockly/core';
 import { Block } from 'blockly';
 
-Blockly.Arduino['is_button_pressed'] = function(block: Block) {
+Blockly.Arduino['push_button_setup'] = function(block: Block) {
   var pin = block.getFieldValue('PIN');
 
   Blockly.Arduino.setupCode_['btn_pin_' + pin] =
-    '\tpinMode(' + pin + ', INPUT_PULLUP); \n';
+  '\tpinMode(' + pin + ', INPUT_PULLUP); \n';
+
+  return '';
+}
+
+Blockly.Arduino['is_button_pressed'] = function(block: Block) {
+  var pin = block.getFieldValue('PIN');
+
 
   return ['(digitalRead(' + pin + ') == LOW)', Blockly.Arduino.ORDER_ATOMIC];
 };

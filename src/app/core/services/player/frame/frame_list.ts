@@ -4,6 +4,8 @@ import { Block } from 'blockly';
 
 import { Color } from '../frame_genorator/color';
 
+import { is_button_pressed_block } from '../frame_genorator/button';
+
 import {
   colour_picker_block,
   colour_random_block,
@@ -32,7 +34,8 @@ import {
   ir_remote_setup_block,
   soil_sensor_setup_block,
   bluetooth_setup_block,
-  rfid_setup_block
+  rfid_setup_block,
+  push_button_setup_block
 } from '../frame_genorator/pass_through_block';
 
 import {
@@ -210,6 +213,7 @@ frameGeneratingBlocks = {
   ir_remote_setup_block,
   soil_sensor_setup_block,
   bluetooth_setup_block,
+  push_button_setup_block,
 
   set_color_led_block,
   led_color_setup_block,
@@ -254,7 +258,9 @@ valueGeneratingBlocks = {
 
   rfid_card_block,
   rfid_scan_block, 
-  rfid_tag_block
+  rfid_tag_block,
+
+  is_button_pressed_block
 };
 
 export { frameGeneratingBlocks, valueGeneratingBlocks };

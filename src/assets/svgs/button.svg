@@ -1,24 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="269.13" height="323.93" viewBox="0 0 269.13 323.93">
+<svg xmlns="http://www.w3.org/2000/svg" width="61.5" height="85.93" viewBox="0 0 61.5 85.93">
   <title>button</title>
   <g id="Layer_1" data-name="Layer 1">
-    <path d="M254,224.39" transform="translate(-31.88 -21.07)" style="fill: none;stroke: #000;stroke-miterlimit: 10"/>
-    <text transform="translate(0 20.74)" style="font-size: 24px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">Is <tspan x="26.52" y="0" style="letter-spacing: -0.01318359375em">b</tspan><tspan x="41.2" y="0">utton 7 p</tspan><tspan x="142.95" y="0" style="letter-spacing: -0.02490234375em">r</tspan><tspan x="152.86" y="0">essed?</tspan></text>
-    <text transform="translate(69 54.74)" style="font-size: 24px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">No</text>
-    <line x1="74.12" y1="253.93" x2="74.12" y2="323.93" style="fill: none;stroke: blue;stroke-miterlimit: 10;stroke-width: 4px"/>
-    <line x1="117.12" y1="253.93" x2="117.12" y2="323.93" style="fill: none;stroke: #000;stroke-miterlimit: 10;stroke-width: 4px"/>
-    <text transform="translate(124.44 279.67)" style="font-size: 24px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">GND</text>
-    <text transform="translate(27.44 279.67)" style="font-size: 24px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">Pin</text>
+    <path d="M62.56,58.49" transform="translate(-13.32 -3.07)" fill="none" stroke="#000" stroke-miterlimit="10"/>
+    <text id="BUTTON_TEXT" transform="translate(10.7 5.24)" font-size="6.07" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">Button 7 </text>
+    <text id="PRESSED_STATE" transform="translate(10.57 13.84)" font-size="6.07" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">Not P<tspan x="15.99" y="0" letter-spacing="-0.02em">r</tspan><tspan x="18.5" y="0">essed</tspan></text>
+    <line id="PIN_WIRE" x1="11.81" y1="68.23" x2="11.81" y2="85.93" fill="none" stroke="#4cc9c0" stroke-miterlimit="10" stroke-width="2"/>
+    <line id="GND_WIRE" x1="22.68" y1="68.23" x2="22.68" y2="85.93" fill="none" stroke="#4cc9c0" stroke-miterlimit="10" stroke-width="2"/>
+    <text transform="translate(24.53 75.74)" font-size="6.07" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">GND</text>
+    <text transform="translate(0 75.74)" font-size="6.07" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">Pin</text>
   </g>
   <g id="button">
-    <rect x="65.45" y="123.41" width="61.21" height="130.53" style="fill: #39b54a;stroke: #000;stroke-miterlimit: 10"/>
-    <rect x="69.71" y="92.64" width="52.86" height="20.61" style="fill: red;stroke: #000;stroke-miterlimit: 10"/>
-    <path d="M52.58,108.52H139.7a10,10,0,0,1,10,10v5.9a7,7,0,0,1-7,7H48.58a6,6,0,0,1-6-6v-6.9A10,10,0,0,1,52.58,108.52Z" style="fill: red;stroke: #000;stroke-miterlimit: 10"/>
+    <rect x="9.61" y="35.21" width="15.48" height="33.01" fill="#39b54a" stroke="#000" stroke-miterlimit="10"/>
+    <rect x="10.69" y="27.43" width="13.37" height="5.21" fill="red" stroke="#000" stroke-miterlimit="10"/>
+    <path d="M6.24,31.45H28.51a2.41,2.41,0,0,1,2.41,2.41v1.69a1.69,1.69,0,0,1-1.69,1.69h-24a1.45,1.45,0,0,1-1.45-1.45V33.86a2.41,2.41,0,0,1,2.41-2.41Z" fill="red" stroke="#000" stroke-miterlimit="10"/>
   </g>
   <g id="Hand">
-    <polygon id="thumb" points="159.41 63.48 68.89 62.93 68.73 88.49 159.25 89.03 158.94 141.13 205.66 141.41 206.13 63.76 159.41 63.48" style="fill: #b2724f;stroke: #000;stroke-linecap: round;stroke-linejoin: round"/>
-    <polygon points="268.63 175.43 206.13 175.43 206.13 139.44 51.13 139.44 51.13 236.76 206.13 236.76 206.13 218.43 268.63 218.43 268.63 175.43" style="fill: #b2724f;stroke: #000;stroke-miterlimit: 10"/>
-    <line x1="51.71" y1="218.44" x2="153.26" y2="218.44" style="fill: none;stroke: #000;stroke-miterlimit: 10"/>
-    <line x1="52.41" y1="190.39" x2="154.65" y2="190.39" style="fill: none;stroke: #000;stroke-miterlimit: 10"/>
-    <line x1="52.41" y1="163.48" x2="158.83" y2="163.48" style="fill: none;stroke: #000;stroke-miterlimit: 10"/>
+    <polygon id="thumb" points="33.38 19.57 10.48 19.43 10.44 25.9 33.34 26.04 33.26 39.21 45.08 39.28 45.2 19.64 33.38 19.57" fill="#b2724f" stroke="#000" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="61 48.37 45.2 48.37 45.2 39.27 5.99 39.27 5.99 63.88 45.2 63.88 45.2 59.25 61 59.25 61 48.37" fill="#b2724f" stroke="#000" stroke-miterlimit="10"/>
+    <line x1="6.14" y1="59.25" x2="31.82" y2="59.25" fill="none" stroke="#000" stroke-miterlimit="10"/>
+    <line x1="6.06" y1="52.16" x2="31.92" y2="52.16" fill="none" stroke="#000" stroke-miterlimit="10"/>
+    <line x1="6.06" y1="45.35" x2="32.98" y2="45.35" fill="none" stroke="#000" stroke-miterlimit="10"/>
   </g>
 </svg>

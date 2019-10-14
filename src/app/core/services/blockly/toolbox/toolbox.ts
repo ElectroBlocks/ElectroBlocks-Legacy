@@ -187,8 +187,13 @@ export const toolbox = `<xml
     </block>
   </value>
 </block>
+
 <block type="bluetooth_has_message"></block>
 <block type="bluetooth_get_message"></block>
+</category>
+<category name="Buttons" colour="260">
+<block type="push_button_setup"></block>
+<block type="is_button_pressed"></block>
 </category>
 <category name="Debug" colour="65">
 <block type="debug_block"></block>
@@ -204,7 +209,7 @@ export const toolbox = `<xml
 <block type="arduino_get_message"></block>
 <block type="arduino_receive_message"></block>
 </category>
-<category name="Pins / Buttons" colour="260">
+<category name="Pins" colour="260">
     <block type="digital_write"></block>
     <block type="digital_read"></block>
     <block type="analog_read"></block>
@@ -215,12 +220,13 @@ export const toolbox = `<xml
                 </block>
             </value>
     </block>
-    <block type="is_button_pressed"></block>
 
 </category>
 
 
-<category colour="310" name="Time">
+
+
+<category colour="330" name="Time">
 <block type="delay_block">
 <value name="DELAY">
     <block type="math_number">

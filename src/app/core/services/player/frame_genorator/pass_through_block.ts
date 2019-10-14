@@ -17,3 +17,4 @@ export const ir_remote_setup_block = temp_get_temp_block;
 export const soil_sensor_setup_block = temp_get_temp_block;
 export const bluetooth_setup_block = temp_get_temp_block;
 export const rfid_setup_block = temp_get_temp_block;
+export const push_button_setup_block = temp_get_temp_block;

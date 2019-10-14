@@ -9,5 +9,6 @@ export enum ElectricComponentType {
 	ARDUINO = 'ARDUINO',
 	BLUE_TOOTH = 'BLUE_TOOTH',
 	LED_COLOR = 'LED_COLOR',
-	RFID = 'RFID'
+	RFID = 'RFID',
+	BUTTON = 'BUTTON'
 }

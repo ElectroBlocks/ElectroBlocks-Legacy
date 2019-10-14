@@ -23,10 +23,11 @@ import { rgbLedFactory } from '../factory/led-color.factory';
 import { LCDScreenState } from '../../player/arduino/state/lcd_screen.state';
 import { lcdFactory } from '../factory/lcd-svg.factory';
 import { Resistor } from './resistor';
-import { RFIDSvg } from './rfid.svg';
 import { RFIDState } from '../../player/arduino/state/rfid.state';
 import { rfidFactory } from '../factory/rfid-svg.factory';
+import { buttonFactory } from '../factory/button-svg.factory';
 import { resetBreadBoardWholes } from './next-wire.state';
+import { ButtonState } from '../../player/arduino/state/button.state';
 
 export class VirtualCircuit {
   private svgs: ComponentSvg[] = [];
@@ -157,7 +158,7 @@ export class VirtualCircuit {
     for (let i = 0; i < components.length; i += 1) {
       const doesComponentExist =
         this.svgs.findIndex(svg => svg.isComponent(components[i])) >= 0;
-
+      
       if (!doesComponentExist) {
         await this.createComponent(components[i]);
       }
@@ -245,6 +246,17 @@ export class VirtualCircuit {
     if (component instanceof LCDScreenState) {
       this.svgs.push(
         await lcdFactory(
+          this,
+          component,
+          !this.showArduinoComm.getShowArduino()
+        )
+      );
+      return;
+    }
+
+    if (component instanceof ButtonState) {
+      this.svgs.push(
+        await buttonFactory(
           this,
           component,
           !this.showArduinoComm.getShowArduino()

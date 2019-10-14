@@ -30,6 +30,8 @@ import * as _ from 'lodash';
 import { SensorComponent } from './player/arduino/state/electric.state';
 import { blocksInsideInput } from './player/frame/blockly_helper';
 import { inputState } from './player/frame/input_state';
+import { checkButtonPinSelectionValid } from './blockly/events/checkButtonPinSelectionValid';
+import { ButtonState } from './player/arduino/state/button.state';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +66,7 @@ export class BlocklyService {
     framePlayer.changeFrame$
       .pipe(filter(() => this.getWorkSpace() !== undefined))
       .subscribe(changeFrame => {
+        console.log('changeFrame', changeFrame);
         const topBlocks: Block[] = Blockly.mainWorkspace
           .getTopBlocks()
           .filter(block => block.type !== 'arduino_start');
@@ -108,10 +111,14 @@ export class BlocklyService {
                   info => info.sensorBlockType === sensorBlockToSet.type
                 );
                 const component = changeFrame.state.components.find(
-                  c =>
-                    c instanceof SensorComponent &&
-                    mapToSetupSensorBlock.type === c.type
-                ) as SensorComponent;
+                  c => {
+                    if (c instanceof ButtonState) {
+                      return c.pin == sensorBlockToSet.getFieldValue('PIN');
+                    }
+
+                    return c instanceof SensorComponent &&
+                      mapToSetupSensorBlock.type === c.type
+                  }) as SensorComponent;
                 sensorBlockToSet
                   .getField('SIMPLE_DEBUG')
                   .setValue(component.getFieldValue(blockMapInfo.dataSaveKey));
@@ -180,11 +187,12 @@ export class BlocklyService {
       forLoopChangeText(this.workspace);
       deleteVariables(this.workspace, event);
       disableEnableBlocks(this.workspace);
+      checkButtonPinSelectionValid(this.workspace);
       changeSetupBlockValueBecauseOfLoopChange(this.workspace, event);
       saveDebugBlockState(this.workspace, this.getNumberLoops());
       this.nextArduinoCode();
       this.showDebugMode(this.router.routerState.snapshot.root.firstChild.data.showRunLoopOption)
-      await this.generateFrames();
+      await this.generateFrames(event.blockId);
     });
 
     this.blocklyPromptOverRide.overRideBlocklyPrompt();
@@ -286,10 +294,12 @@ export class BlocklyService {
     return parseInt(this.getArduinoStartBlock().getFieldValue('LOOP_TIMES'), 0);
   }
 
-  public async generateFrames(keepCurrentIndex = false) {
+  public async generateFrames(blockId: string) {
     const frames = await generateListOfFrame();
-
-    if (_.isEqual(frames, this.framePlayer.getFrames())) {
+    console.log(frames, 'new frames called');
+    const block = this.getWorkSpace().getBlockById(blockId);
+    const overRideIsEqual = block && ['is_button_pressed'].includes(block.type);
+    if (_.isEqual(frames, this.framePlayer.getFrames()) && !overRideIsEqual) {
       return;
     }
 
@@ -298,7 +308,7 @@ export class BlocklyService {
       .forEach(block => block.setWarningText(null));
 
     if (frames.length === 0) {
-      await this.framePlayer.setFrames([], keepCurrentIndex);
+      await this.framePlayer.setFrames([], false);
       this.framesSubject.next([]);
       return;
     }
@@ -306,7 +316,7 @@ export class BlocklyService {
     if (frames[frames.length - 1] instanceof ArduinoFrame) {
       await this.framePlayer.setFrames(
         frames as ArduinoFrame[],
-        keepCurrentIndex
+        false
       );
       this.framesSubject.next(frames as ArduinoFrame[]);
       this.showFrameGeneratorError = true;
@@ -319,7 +329,7 @@ export class BlocklyService {
       );
     }
 
-    await this.framePlayer.setFrames([], keepCurrentIndex);
+    await this.framePlayer.setFrames([], false);
     this.framesSubject.next([]);
     this.showFrameGeneratorError = false;
 
