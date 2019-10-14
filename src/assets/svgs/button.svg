@@ -15,7 +15,8 @@
     <path d="M6.24,31.45H28.51a2.41,2.41,0,0,1,2.41,2.41v1.69a1.69,1.69,0,0,1-1.69,1.69h-24a1.45,1.45,0,0,1-1.45-1.45V33.86a2.41,2.41,0,0,1,2.41-2.41Z" fill="red" stroke="#000" stroke-miterlimit="10"/>
   </g>
   <g id="Hand">
-    <polygon id="thumb" points="33.38 19.57 10.48 19.43 10.44 25.9 33.34 26.04 33.26 39.21 45.08 39.28 45.2 19.64 33.38 19.57" fill="#b2724f" stroke="#000" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon id="THUMB_DOWN" points="33.38 19.57 10.48 19.43 10.44 25.9 33.34 26.04 33.26 39.21 45.08 39.28 45.2 19.64 33.38 19.57" fill="#b2724f" stroke="#000" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon id="THUMB_UP" points="33.38 24.57 10.48 24.43 10.44 30.9 33.34 31.04 33.26 44.21 45.08 44.28 45.2 24.64 33.38 24.57" fill="#b2724f" stroke="#000" stroke-linecap="round" stroke-linejoin="round"/>
     <polygon points="61 48.37 45.2 48.37 45.2 39.27 5.99 39.27 5.99 63.88 45.2 63.88 45.2 59.25 61 59.25 61 48.37" fill="#b2724f" stroke="#000" stroke-miterlimit="10"/>
     <line x1="6.14" y1="59.25" x2="31.82" y2="59.25" fill="none" stroke="#000" stroke-miterlimit="10"/>
     <line x1="6.06" y1="52.16" x2="31.92" y2="52.16" fill="none" stroke="#000" stroke-miterlimit="10"/>

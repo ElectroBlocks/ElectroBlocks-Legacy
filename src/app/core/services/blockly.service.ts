@@ -305,7 +305,7 @@ export class BlocklyService {
 
     this.getWorkSpace()
       .getAllBlocks()
-      .forEach(block => block.setWarningText(null));
+      .forEach(blockW => blockW.setWarningText(null));
 
     if (frames.length === 0) {
       await this.framePlayer.setFrames([], false);
