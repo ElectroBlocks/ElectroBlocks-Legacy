@@ -1,5 +1,3 @@
-import { BlocklyService } from './../../blockly.service';
-import { ArduinoState } from './../arduino/state/arduino.state';
 import { Block } from 'blockly';
 import { FrameLocation } from './../frame/frame';
 import { ArduinoFrame } from './../arduino/arduino_frame';

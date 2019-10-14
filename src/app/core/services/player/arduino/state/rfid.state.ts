@@ -4,7 +4,6 @@ import {
   ElectricAttachmentComponentState,
   SensorComponent
 } from './electric.state';
-import { listOfStateHoldersBlocks } from '../../frame/state_holder';
 
 export class RFIDState extends SensorComponent {
   public readonly electricComponentType = ElectricComponentType.RFID;

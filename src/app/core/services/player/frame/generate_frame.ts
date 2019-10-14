@@ -1,17 +1,17 @@
 import { ArduinoFrame, ARDUINO_UNO_PINS } from './../arduino/arduino_frame';
 import { frameGeneratingBlocks } from './frame_list';
 import { generateFrameForInputStatement } from './blockly_helper';
-import { inputState } from './input_state';
 import * as Blockly from 'blockly/core';
 import { Block } from 'blockly';
 import * as _ from 'lodash';
 import { listOfStateHoldersBlocks } from './state_holder';
 import { ElectricAttachmentComponentState } from '../arduino/state/electric.state';
+import { blockMultipleSetup } from '../../blockly/events/enableDisableBlocks';
+import { ButtonState } from '../arduino/state/button.state';
 
 export const generateListOfFrame = async (): Promise<
   ArduinoFrame[] | ARDUINO_UNO_PINS[]
 > => {
-  inputState.clearBlockCalls();
   const arduinoBlock = Blockly.mainWorkspace
     .getTopBlocks()
     .filter(function(block) {
@@ -45,11 +45,9 @@ export const generateListOfFrame = async (): Promise<
         .forEach((currentFrame: ArduinoFrame) => frames.push(currentFrame));
     });
 
-  if (sensorStatesForLoop[0]) {
-    frames.forEach(frame => {
-      sensorStatesForLoop[0].forEach(sensorComponent => {
-        frame.state.components.push(sensorComponent);
-      });
+  if (sensorStatesForLoop[0] && frames[0]) {
+    sensorStatesForLoop[0].forEach(sensorComponent => {
+      frames[0].state.components.push(sensorComponent);
     });
   }
 
@@ -73,7 +71,18 @@ export const generateListOfFrame = async (): Promise<
     loopFrames.forEach(currentFrame => {
       sensorStatesForLoop[i].forEach(sensorComponent => {
         const componentIndex = currentFrame.state.components.findIndex(
-          component => typeof component === typeof sensorComponent
+          component => {
+            if (
+              component instanceof ButtonState &&
+              sensorComponent instanceof ButtonState
+            ) {
+              return component.pin === sensorComponent.pin;
+            }
+            return (
+              component.electricComponentType ===
+              sensorComponent.electricComponentType
+            );
+          }
         );
         currentFrame.state.components[componentIndex] = sensorComponent;
       });
@@ -103,7 +112,7 @@ const getDuplicatePins = (frames: ArduinoFrame[]): ARDUINO_UNO_PINS[] => {
     .map(component => component.pins)
     .reduce((pins, val) => pins.concat(val), [])
     .sort();
-
+  console.log(listOfPins, 'list of pins');
   const pinCount = _.countBy(listOfPins);
   const duplicatePins = [];
   for (const pin in pinCount) {
@@ -111,14 +120,17 @@ const getDuplicatePins = (frames: ArduinoFrame[]): ARDUINO_UNO_PINS[] => {
       duplicatePins.push(pin);
     }
   }
-
+  console.log(duplicatePins);
   return duplicatePins;
 };
 
 const hasDuplicateBlocks = (blocks: Block[]) => {
   const blockCountObject = _.countBy(blocks.map(block => block.type));
   for (const blockType in blockCountObject) {
-    if (blockCountObject[blockType] > 1) {
+    if (
+      blockCountObject[blockType] > 1 &&
+      !blockMultipleSetup.includes(blockType)
+    ) {
       return true;
     }
   }
@@ -147,7 +159,12 @@ export const getSensorData = (): {
 
   const topBlocks: Block[] = Blockly.mainWorkspace
     .getTopBlocks()
-    .filter(block => block.type !== 'arduino_start');
+    .filter(
+      block =>
+        block.type !== 'arduino_start' &&
+        (block as any).rendered &&
+        block.isEnabled()
+    );
   topBlocks
     .filter(block => block.isEnabled())
     .filter(block =>

@@ -22,7 +22,8 @@ const blocksThatRequireSetup = {
   set_color_led: 'led_color_setup',
   rfid_scan: 'rfid_setup',
   rfid_tag: 'rfid_setup',
-  rfid_card: 'rfid_setup'
+  rfid_card: 'rfid_setup',
+  is_button_pressed: 'push_button_setup'
 };
 
 const standAloneBlocks = [
@@ -41,10 +42,15 @@ const standAloneBlocks = [
   'ir_remote_setup',
   'temp_setup',
   'bluetooth_setup',
-  'led_color_setup'
+  'led_color_setup',
+  'push_button_setup'
 ];
 
-export const sensorSetupBlocks = ['rfid_setup'];
+export const blockMultipleSetup = [
+  'push_button_setup',
+];
+
+export const sensorSetupBlocks = ['rfid_setup', 'push_button_setup'];
 
 const disableBlockForNotHavingRequiredSetupBlock = (blocks, testBlock) => {
   if (!blocksThatRequireSetup[testBlock.type]) {
@@ -78,8 +84,8 @@ export const disableEnableBlocks = workspace => {
     .filter(block => standAloneBlocks.includes(block.type))
     .forEach(setupBlock => {
       const disableSetupBlock =
-        blocks.filter(block => block.type === setupBlock.type).length > 1;
-      setupBlock.setEnabled(!disableSetupBlock);
+        blocks.filter(block => block.type === setupBlock.type && setupBlock.type !== 'arduino_start').length > 1;
+      setupBlock.setEnabled(!disableSetupBlock || blockMultipleSetup.includes(setupBlock.type));
     });
 
   // Disables / Enables Blocks that don't have the required setup blocks

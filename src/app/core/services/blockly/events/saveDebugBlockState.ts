@@ -60,6 +60,7 @@ const collectDataFromSetupBlock = (block: Block, input: FakeInputMap[]) => {
     );
   });
 
+  console.log(loopDataToSave, 'loopDataToSave');
   return loopDataToSave;
 };
 

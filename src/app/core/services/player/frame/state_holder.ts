@@ -1,7 +1,9 @@
 import { ElectricAttachmentComponentState } from '../arduino/state/electric.state';
 import { RFIDState } from '../arduino/state/rfid.state';
+import { ButtonState } from '../arduino/state/button.state';
 import { Block } from 'blockly';
 import { stringToPin, ARDUINO_UNO_PINS } from '../arduino/arduino_frame';
+import { PinState, PIN_TYPE } from '../arduino/state/pin.state';
 
 export const listOfStateHoldersBlocks: {
   [key: string]: {
@@ -14,6 +16,33 @@ export const listOfStateHoldersBlocks: {
     ) => ElectricAttachmentComponentState;
   };
 } = {
+  push_button_setup_block: {
+    type: 'button_component',
+    fieldsToCollect: [
+      {
+        setupBlockFieldName: 'is_pressed',
+        sensorBlockType: 'is_button_pressed',
+        dataSaveKey: 'button_pressed',
+        type: 'field_checkbox',
+        defaultValue: false
+      }
+    ],
+    convertToState(
+      setupBlock: Block,
+      listOfInput: Array<{ button_pressed: boolean }>,
+      loopNumber: number
+    )  {
+      const pin = stringToPin(setupBlock.getFieldValue('PIN')) || ARDUINO_UNO_PINS.PIN_7;
+
+      if (!listOfInput) {
+        return new ButtonState(pin, false);
+      }
+
+      const data = listOfInput[loopNumber];
+
+      return new ButtonState(pin, data.button_pressed);
+    }
+  },
   rfid_setup_block: {
     type: 'rfid_component',
     fieldsToCollect: [
