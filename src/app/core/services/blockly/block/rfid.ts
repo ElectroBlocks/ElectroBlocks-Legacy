@@ -1,6 +1,8 @@
 import { defineBlocksWithJsonArray } from 'blockly';
-import { selectedBoard } from '../types/pins';
 import './debug_extensions';
+import * as Blockly from 'blockly/core';
+import { selectedBoard } from '../types/pins';
+import { loopTimes } from './debug_extensions';
 
 defineBlocksWithJsonArray([
   {
@@ -91,69 +93,54 @@ defineBlocksWithJsonArray([
     tooltip: '',
     helpUrl: ''
   },
-  {
-    type: 'rfid_setup',
-    message0:
-      '%1 RFID Setup %2 RX Pin# %3 TX Pin# %4 %5  ----------------------------------------- %6 Loop %7 Scanned Card? %8 %9 Card #: %10 %11 Tag: %12',
-    args0: [
-      {
-        type: 'field_image',
-        src: './assets/blocks/rfid/rfid.png',
-        width: 15,
-        height: 15,
-        alt: '*',
-        flipRtl: false
-      },
-      {
-        type: 'input_dummy'
-      },
-      {
-        type: 'field_dropdown',
-        name: 'RX',
-        options: selectedBoard().digitalPins
-      },
-      {
-        type: 'field_dropdown',
-        name: 'TX',
-        options: selectedBoard().digitalPins
-      },
-      {
-        type: 'input_dummy'
-      },
-      {
-        type: 'input_dummy',
-        name: 'SHOW_CODE_VIEW'
-      },
-      {
-        type: 'input_dummy',
-        input: '',
-        name: 'LOOP_INPUT'
-      },
-      {
-        type: 'field_checkbox',
-        name: 'scanned_card',
-        checked: false
-      },
-      {
-        type: 'input_dummy'
-      },
-      {
-        type: 'field_input',
-        name: 'card_number',
-        text: 'card_number'
-      },
-      {
-        type: 'input_dummy'
-      },
-      {
-        type: 'field_input',
-        name: 'tag',
-        text: 'tag'
-      }
-    ],
-    colour: 260,
-    tooltip: '',
-    helpUrl: '',
-    extensions: ['debug-setup']
-  }
+  
 ]);
+
+Blockly.Blocks['rfid_setup'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("./assets/blocks/rfid/rfid.png", 15, 15, { alt: "*", flipRtl: "FALSE" }))
+        .appendField("RFID Setup");
+    this.appendDummyInput()
+        .appendField("RX Pin#")
+        .appendField(new Blockly.FieldDropdown(selectedBoard().digitalPins), "RX")
+        .appendField("TX Pin#")
+        .appendField(new Blockly.FieldDropdown(selectedBoard().digitalPins), "TX");
+    this.appendDummyInput("SHOW_CODE_VIEW")
+        .appendField("-----------------------------------------");
+    this.appendDummyInput()
+        .appendField("LOOP")
+        .appendField(new Blockly.FieldDropdown(() => {
+          return loopTimes();
+        }), "LOOP");
+    this.appendDummyInput()
+        .appendField("Scanned Card?")
+        .appendField(new Blockly.FieldCheckbox("TRUE", value => {
+          if ("FALSE" === value) {
+            this.getField('card_number').setValue('');
+            this.getField('tag').setValue('');
+          }
+          return value;
+        }), "scanned_card");
+    this.appendDummyInput()
+        .appendField("Card #:")
+        .appendField(new Blockly.FieldTextInput("card_number", 
+          value => {
+            if (this.getFieldValue('scanned_card') === 'FALSE') {
+               return null;
+            }
+            return value;
+        }), "card_number");
+    this.appendDummyInput()
+        .appendField("Tag#:")
+        .appendField(new Blockly.FieldTextInput("tag" , value => {
+            if (this.getFieldValue('scanned_card') === 'FALSE') {
+               return null;
+            }
+            return value;
+          }), "tag");
+    this.setColour(260);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};

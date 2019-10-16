@@ -1,22 +1,21 @@
-import { ElectricAttachmentComponentState } from "./electric.state";
+import { ElectricAttachmentComponentState, SensorComponent } from "./electric.state";
 import { ARDUINO_UNO_PINS } from "../arduino_frame";
 import { ElectricComponentType } from "./electric.component.type";
 
-export class BluetoothState implements ElectricAttachmentComponentState {
+export class BluetoothState implements SensorComponent {
 
 	public readonly electricComponentType = ElectricComponentType.BLUE_TOOTH;
 
 	public readonly pins = [this.rxPin, this.txPin];
 
-	public readonly hasMessage: boolean;
+	public readonly type = 'bluetooth_component';
 
 	constructor(
 		public readonly rxPin: ARDUINO_UNO_PINS,
 		public readonly txPin: ARDUINO_UNO_PINS,
-		public readonly receiveMessage = '',
+		public readonly hasMessage = false,
+		public readonly receivedMessage = '',
 		public readonly sendMessage = '') {
-
-		this.hasMessage = this.receiveMessage.length > 0;
 	}
 
 	public copyState() {
@@ -26,4 +25,15 @@ export class BluetoothState implements ElectricAttachmentComponentState {
 	public isEqual(state: ElectricAttachmentComponentState): boolean {
 		return state instanceof BluetoothState;
 	}
+
+    public getFieldValue(dataKeySaveInSetupBlock: string) {
+		if (dataKeySaveInSetupBlock === 'message') {
+			return this.receivedMessage;
+		}
+
+		if (dataKeySaveInSetupBlock === 'receiving_message' ) {
+			return this.hasMessage;
+		}
+	}
+
 }

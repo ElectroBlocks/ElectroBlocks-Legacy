@@ -50,7 +50,7 @@ export const blockMultipleSetup = [
   'push_button_setup',
 ];
 
-export const sensorSetupBlocks = ['rfid_setup', 'push_button_setup'];
+export const sensorSetupBlocks = ['rfid_setup', 'push_button_setup', 'bluetooth_setup'];
 
 const disableBlockForNotHavingRequiredSetupBlock = (blocks, testBlock) => {
   if (!blocksThatRequireSetup[testBlock.type]) {

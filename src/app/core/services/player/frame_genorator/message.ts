@@ -20,7 +20,7 @@ export const send_message_block = (block: Block, frameLocation: FrameLocation, p
 		const componentIndex = state.components.findIndex(c => c instanceof BluetoothState);
 
 
-		state.components[componentIndex] = new BluetoothState(bluetooth.rxPin, bluetooth.txPin, '', message);
+		state.components[componentIndex] = new BluetoothState(bluetooth.rxPin, bluetooth.txPin, false,  '', message);
 
 		return [
 			new ArduinoFrame(block.id, state, frameLocation)

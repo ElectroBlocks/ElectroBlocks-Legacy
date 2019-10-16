@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 23.0.6, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- Generator: Adobe Illustrator 23.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="svg2985" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 350 200" style="enable-background:new 0 0 350 200;" xml:space="preserve">
 <style type="text/css">
@@ -29,16 +29,16 @@
 	<text id="tspan3032" transform="matrix(6.368163e-17 1.04 -1 6.123234e-17 64.9805 166.2393)" class="st1 st2 st3">Key</text>
 </g>
 <g id="text3064">
-	<text id="tspan3066" transform="matrix(6.368163e-17 1.04 -1 6.123234e-17 55.8496 164.2495)" class="st1 st2 st3">VCC</text>
+	<text id="tspan3066" transform="matrix(6.368163e-17 1.04 -1 6.123234e-17 55.8496 164.249)" class="st1 st2 st3">VCC</text>
 </g>
 <g id="text3064-1">
 	<text id="tspan3066-7" transform="matrix(6.368163e-17 1.04 -1 6.123234e-17 47.1406 163.6797)" class="st1 st2 st3">GND</text>
 </g>
 <g id="text3064-1-4">
-	<text id="tspan3066-7-0" transform="matrix(6.368163e-17 1.04 -1 6.123234e-17 37.3809 164.8193)" class="st1 st2 st3">TXD</text>
+	<text id="tspan3066-7-0" transform="matrix(6.368163e-17 1.04 -1 6.123234e-17 37.3809 164.8188)" class="st1 st2 st3">TXD</text>
 </g>
 <g id="text3064-1-4-9">
-	<text id="tspan3066-7-0-4" transform="matrix(6.368163e-17 1.04 -1 6.123234e-17 28.25 164.2495)" class="st1 st2 st3">RXD</text>
+	<text id="tspan3066-7-0-4" transform="matrix(6.368163e-17 1.04 -1 6.123234e-17 28.25 164.249)" class="st1 st2 st3">RXD</text>
 </g>
 <g id="text3064-1-4-9-8">
 	<text id="tspan3066-7-0-4-8" transform="matrix(5.878305e-17 0.96 -1 6.123234e-17 19.8105 164.0503)" class="st1 st2 st4">State</text>
@@ -191,7 +191,7 @@
 	c-0.3,0-0.5,0-0.8,0.1c0,0.1-0.1,0.2-0.2,0.3s-0.2,0.2-0.3,0.2s-0.1,0.2-0.1,0.4S46.5,83,46.3,83s-0.3,0.1-0.4,0.2
 	c-0.1,0.3-0.1,0.3-0.1,2.5C45.8,86.4,45.9,87.2,46,87.9z M56.8,123.9c3.8,0,3.5,0.1,3.5-1.7V121H60c-0.1,0-0.3,0-0.4-0.1
 	c-0.2-0.1-0.5-0.2-0.7-0.2l0,0c0.3,0,0.5,0,0.8-0.1c-0.9-0.1-1.9-0.2-2.8-0.1c-0.9-0.1-1.9,0-2.8,0.1c0,0.1,0.4,0.1,0.8,0.2l0,0
-	c-0.3,0-0.5,0-0.8,0.1C54,121,54,121,53.9,121c-0.1,0-0.2,0.2-0.2,1.4v1.4C53.7,123.8,56.9,123.9,56.8,123.9z M56.7,76
+	c-0.3,0-0.5,0-0.8,0.1C54,121,54,121,53.9,121s-0.2,0.2-0.2,1.4v1.4C53.7,123.8,56.9,123.9,56.8,123.9z M56.7,76
 	c0.2,0,0.3,0.1,0.3,0.2s0.4,0.2,2.9,0.2h2.9v-0.3c0-0.1,0-0.2,0.1-0.3c0.1,0,0.1-0.1,0.1-0.2s0.1-0.2,0.2-0.2c0.1,0,0.2-0.2,0.2-0.8
 	c0-0.6,0-0.8-0.3-1.1c-0.2-0.1-0.3-0.3-0.3-0.5c0-0.3-0.1-0.3-2.9-0.3c-2.5,0-2.9,0-2.9,0.2c0,0.1,0,0.1-0.1,0.2
 	c-0.4,0-0.5,0.3-0.5,1.6V76C56.3,76,56.7,76,56.7,76z M56.7,79.9c0.2,0,0.3,0.1,0.3,0.2s0.4,0.2,2.8,0.2c2.6,0,2.8,0,3.1-0.2
@@ -208,8 +208,8 @@
 <rect id="rect4318" x="34.8" y="91.1" class="st9" width="27.4" height="28.4"/>
 <rect id="rect3085" x="35.4" y="91.8" class="st10" width="26.1" height="26.8"/>
 <g id="text3014">
-	<text id="tspan3016" transform="matrix(1.04 0 0 1 40.0796 104.6699)" class="st1 st2 st11">HC-05</text>
-	<text id="tspan3018" transform="matrix(1.04 0 0 1 41.2202 110.1201)" class="st1 st2 st12">Bluetooth</text>
+	<text id="tspan3016" transform="matrix(1.04 0 0 1 40.0791 104.6699)" class="st1 st2 st11">HC-05</text>
+	<text id="tspan3018" transform="matrix(1.04 0 0 1 41.2197 110.1201)" class="st1 st2 st12">Bluetooth</text>
 </g>
 <path id="path4280" class="st7" d="M50.2,98.7c0.1-0.4,1.7-1.2,2.2-1.2c0.8,0.2,1.6,0.6,2.2,1.1c0.2,0.4,0.1,1.8-0.1,1.8
 	s-0.2-0.2-0.2-0.8v-0.8l-0.8-0.4c-1-0.5-1.2-0.5-2.1,0c-0.9,0.5-0.8,0.6-0.9,1.5c0,0.5-0.2,0.8-0.4,0.5C50,99.8,50.1,99.3,50.2,98.7
@@ -250,25 +250,25 @@
 <rect id="rect5898-1-8-2-2" x="17.9" y="132.3" class="st14" width="5.6" height="3.5"/>
 <rect id="rect5898-8-2-2-9-6" x="18" y="137.7" class="st14" width="5.6" height="3.5"/>
 <rect id="rect5898-8-2-2-9-9-2" x="17.8" y="143.1" class="st14" width="5.6" height="3.5"/>
-<rect id="rect5898-8-9-6-7" x="24.4" y="149.3" transform="matrix(1 -2.443444e-03 2.443444e-03 1 -0.3719 6.422866e-02)" class="st14" width="3.4" height="5.9"/>
-<rect id="rect5898-1-8-6-5" x="29.9" y="149.2" transform="matrix(1 -2.443444e-03 2.443444e-03 1 -0.3717 7.766719e-02)" class="st14" width="3.4" height="5.9"/>
-<rect id="rect5898-8-2-2-2-7" x="35" y="149.1" transform="matrix(1 -2.443444e-03 2.443444e-03 1 -0.3714 9.012860e-02)" class="st14" width="3.4" height="5.9"/>
-<rect id="rect5898-14-4-3-8" x="39.8" y="149.3" transform="matrix(1 -2.443444e-03 2.443444e-03 1 -0.3719 0.1019)" class="st14" width="3.4" height="5.9"/>
-<rect id="rect5898-8-9-5-8-2" x="45.1" y="149.2" transform="matrix(1 -2.443444e-03 2.443444e-03 1 -0.3716 0.1148)" class="st14" width="3.4" height="5.9"/>
-<rect id="rect5898-1-8-2-2-7" x="50.5" y="149.2" transform="matrix(1 -2.443444e-03 2.443444e-03 1 -0.3716 0.128)" class="st14" width="3.4" height="5.9"/>
-<rect id="rect5898-8-2-2-9-6-8" x="55.6" y="149.2" transform="matrix(1 -2.443444e-03 2.443444e-03 1 -0.3716 0.1405)" class="st14" width="3.4" height="5.9"/>
-<rect id="rect5898-8-2-2-9-9-2-0" x="60.8" y="149.2" transform="matrix(1 -2.443444e-03 2.443444e-03 1 -0.3716 0.1532)" class="st14" width="3.4" height="5.9"/>
+<rect id="rect5898-8-9-6-7" x="24.4" y="149.3" transform="matrix(1 -2.443437e-03 2.443437e-03 1 -0.3719 6.422848e-02)" class="st14" width="3.4" height="5.9"/>
+<rect id="rect5898-1-8-6-5" x="29.9" y="149.2" transform="matrix(1 -2.443437e-03 2.443437e-03 1 -0.3717 7.766697e-02)" class="st14" width="3.4" height="5.9"/>
+<rect id="rect5898-8-2-2-2-7" x="35" y="149.1" transform="matrix(1 -2.443437e-03 2.443437e-03 1 -0.3714 9.012833e-02)" class="st14" width="3.4" height="5.9"/>
+<rect id="rect5898-14-4-3-8" x="39.8" y="149.3" transform="matrix(1 -2.443437e-03 2.443437e-03 1 -0.3719 0.1019)" class="st14" width="3.4" height="5.9"/>
+<rect id="rect5898-8-9-5-8-2" x="45.1" y="149.2" transform="matrix(1 -2.443437e-03 2.443437e-03 1 -0.3716 0.1148)" class="st14" width="3.4" height="5.9"/>
+<rect id="rect5898-1-8-2-2-7" x="50.5" y="149.2" transform="matrix(1 -2.443437e-03 2.443437e-03 1 -0.3716 0.128)" class="st14" width="3.4" height="5.9"/>
+<rect id="rect5898-8-2-2-9-6-8" x="55.6" y="149.2" transform="matrix(1 -2.443437e-03 2.443437e-03 1 -0.3716 0.1405)" class="st14" width="3.4" height="5.9"/>
+<rect id="rect5898-8-2-2-9-9-2-0" x="60.8" y="149.2" transform="matrix(1 -2.443437e-03 2.443437e-03 1 -0.3716 0.1532)" class="st14" width="3.4" height="5.9"/>
 <rect id="rect3085-1" x="35.7" y="126.6" class="st10" width="25.9" height="20"/>
 <rect id="rect5813-0-6-8" x="28.1" y="55.7" class="st8" width="2.4" height="13.6"/>
-<rect id="KEY_WIRE" x="64.1" y="176.3" class="st15" width="4.5" height="20"/>
-<rect id="KEY_VCC" x="55" y="176.3" class="st15" width="4.5" height="20"/>
-<rect id="KEY_GND" x="46.2" y="176.3" class="st15" width="4.5" height="20"/>
-<rect id="KEY_TXD" x="36.4" y="176.3" class="st15" width="4.5" height="20"/>
-<rect id="KEY_RXD" x="27.4" y="176.3" class="st15" width="4.5" height="20"/>
-<rect id="KEY_STATE" x="18.9" y="176.3" class="st15" width="4.5" height="20"/>
+<rect id="WIRE_x5F_KEY" x="64.1" y="176.3" class="st15" width="4.5" height="20"/>
+<rect id="WIRE_x5F_VCC" x="55" y="176.3" class="st15" width="4.5" height="20"/>
+<rect id="WIRE_x5F_GND" x="46.2" y="176.3" class="st15" width="4.5" height="20"/>
+<rect id="WIRE_x5F_TXD" x="36.4" y="176.3" class="st15" width="4.5" height="20"/>
+<rect id="WIRE_x5F_RXD" x="27.4" y="176.3" class="st15" width="4.5" height="20"/>
+<rect id="WIRE_x5F_STATE" x="18.9" y="176.3" class="st15" width="4.5" height="20"/>
 <path id="MESSAGE_x5F_BUBBLE" class="st16" d="M308.9,7.4H126.4c-5.9,0-10.8,2.9-10.8,6.5V71c0,0-8.1,24.6-32.4,50L157,95.8h151.9
 	c5.9,0,10.8-2.9,10.8-6.5V13.8C319.7,10.3,314.8,7.4,308.9,7.4z"/>
-<text id="MESSAGE_x5F_LINE_x5F_1" transform="matrix(1 0 0 1 135 49)" class="st17 st18">THIS IS LINE OF MES</text>
-<text id="MESSAGE_x5F_LINE_x5F_1_2_" transform="matrix(1 0 0 1 135 69.1)" class="st17 st18">THIS IS LINE OF MES</text>
-<text id="MESSAGE_x5F_LINE_x5F_1_1_" transform="matrix(1 0 0 1 135 30)" class="st17 st18">THIS IS LINE OF MES</text>
+<text id="MESSAGE_x5F_LINE_x5F_3" transform="matrix(1 0 0 1 135 57)" class="st17 st18">THIS IS LINE OF MES</text>
+<text id="MESSAGE_x5F_LINE_x5F_2" transform="matrix(1 0 0 1 135 77.1)" class="st17 st18">THIS IS LINE OF MES</text>
+<text id="MESSAGE_x5F_LINE_x5F_1_1_" transform="matrix(1 0 0 1 135 38)" class="st17 st18">THIS IS LINE OF MES</text>
 </svg>
