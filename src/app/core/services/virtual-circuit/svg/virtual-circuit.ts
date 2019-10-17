@@ -28,6 +28,8 @@ import { rfidFactory } from '../factory/rfid-svg.factory';
 import { buttonFactory } from '../factory/button-svg.factory';
 import { resetBreadBoardWholes } from './next-wire.state';
 import { ButtonState } from '../../player/arduino/state/button.state';
+import { BluetoothState } from '../../player/arduino/state/bluetooth.state';
+import { bluetoothFactory } from '../factory/bluetooth-svg.factory';
 
 export class VirtualCircuit {
   private svgs: ComponentSvg[] = [];
@@ -99,10 +101,13 @@ export class VirtualCircuit {
     const containerWidth = document.getElementById('virtual-circuit')
       .clientWidth;
     const setXPosition =
-      containerWidth / 2 - this.arduino.svg.bbox().w / 2 + 100;
-
-    this.zoom.zoom(scaleFactor, 0, containerHeight - 100);
-    this.zoom.setPosition(setXPosition, this.zoom.transform.y);
+      containerWidth / 2 - (this.arduino.svg.bbox().w / 2 + 100) * scaleFactor;
+    console.log(containerHeight);
+    this.zoom.zoom(scaleFactor);
+    this.zoom.setPosition(
+      setXPosition,
+      containerHeight - (this.arduino.svg.height() - 30) * scaleFactor
+    );
   }
 
   public matchState(state: ArduinoState) {
@@ -158,7 +163,7 @@ export class VirtualCircuit {
     for (let i = 0; i < components.length; i += 1) {
       const doesComponentExist =
         this.svgs.findIndex(svg => svg.isComponent(components[i])) >= 0;
-      
+
       if (!doesComponentExist) {
         await this.createComponent(components[i]);
       }
@@ -235,6 +240,17 @@ export class VirtualCircuit {
     if (component instanceof LedColorState) {
       this.svgs.push(
         await rgbLedFactory(
+          this,
+          component,
+          !this.showArduinoComm.getShowArduino()
+        )
+      );
+      return;
+    }
+
+    if (component instanceof BluetoothState) {
+      this.svgs.push(
+        await bluetoothFactory(
           this,
           component,
           !this.showArduinoComm.getShowArduino()

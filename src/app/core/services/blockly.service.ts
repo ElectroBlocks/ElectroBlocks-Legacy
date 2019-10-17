@@ -22,14 +22,13 @@ import { generateListOfFrame } from './player/frame/generate_frame';
 import { duplicatePinWarningTextBlocks } from './player/frame/block-duplicate-pin-warning-text';
 import { Router } from '@angular/router';
 import { changeSetupBlockValueBecauseOfLoopChange } from './blockly/events/changeSetupBlockValueBecauseOfLoopChange';
-import { map, filter } from 'rxjs/operators';
-import { FrameOutput } from './player/frame/frame_output';
+import { changeLoopNumberInSensorBlocks } from './blockly/events/changeLoopNumberInSensorSetupBlocks';
+import { filter } from 'rxjs/operators';
 import { Block } from 'blockly';
 import { listOfStateHoldersBlocks } from './player/frame/state_holder';
 import * as _ from 'lodash';
 import { SensorComponent } from './player/arduino/state/electric.state';
 import { blocksInsideInput } from './player/frame/blockly_helper';
-import { inputState } from './player/frame/input_state';
 import { checkButtonPinSelectionValid } from './blockly/events/checkButtonPinSelectionValid';
 import { ButtonState } from './player/arduino/state/button.state';
 
@@ -192,6 +191,7 @@ export class BlocklyService {
       saveDebugBlockState(this.workspace, this.getNumberLoops());
       this.nextArduinoCode();
       this.showDebugMode(this.router.routerState.snapshot.root.firstChild.data.showRunLoopOption)
+      changeLoopNumberInSensorBlocks(this.getWorkSpace(), event);
       await this.generateFrames(event.blockId);
     });
 

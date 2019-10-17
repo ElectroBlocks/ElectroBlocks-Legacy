@@ -35,4 +35,4 @@ const getRFIDComponent = (frameLocation: FrameLocation): RFIDState => {
   return data[loopNumber].find(
     component => component instanceof RFIDState
   ) as RFIDState;
-}
+};

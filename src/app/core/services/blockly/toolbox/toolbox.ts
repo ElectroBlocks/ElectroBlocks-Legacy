@@ -177,8 +177,8 @@ export const toolbox = `<xml
 <sep></sep>
 <category name="Bluetooth" colour="290">
 <block type="bluetooth_setup">
-  <field name="RX">10</field>
-  <field name="TX">11</field>
+  <field name="RX">11</field>
+  <field name="TX">10</field>
 </block>
 <block type="bluetooth_send_message">
   <value name="MESSAGE">

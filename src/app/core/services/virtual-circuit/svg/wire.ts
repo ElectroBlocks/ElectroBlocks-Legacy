@@ -102,7 +102,7 @@ class BreadboardWire implements Line {
   }
 }
 
-export const createWireBreadboardHoleBreadboardHole = (
+export const createWireBreadboardHole = (
   virtualCircuit: VirtualCircuit,
   breadboardHole1: Element,
   breadboardHole2: Element,

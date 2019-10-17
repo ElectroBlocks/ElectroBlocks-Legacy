@@ -4,6 +4,7 @@ import { ButtonState } from '../arduino/state/button.state';
 import { Block } from 'blockly';
 import { stringToPin, ARDUINO_UNO_PINS } from '../arduino/arduino_frame';
 import { PinState, PIN_TYPE } from '../arduino/state/pin.state';
+import { BluetoothState } from '../arduino/state/bluetooth.state';
 
 export const listOfStateHoldersBlocks: {
   [key: string]: {
@@ -41,6 +42,51 @@ export const listOfStateHoldersBlocks: {
       const data = listOfInput[loopNumber];
 
       return new ButtonState(pin, data.button_pressed);
+    }
+  },
+  bluetooth_setup_block: {
+    type: 'bluetooth_component',
+    fieldsToCollect: [
+      {
+      setupBlockFieldName: 'receiving_message',
+      sensorBlockType: 'bluetooth_has_message',
+      dataSaveKey: 'receiving_message',
+      type: 'field_checkbox',
+      defaultValue: false
+    },
+    {
+      setupBlockFieldName: 'message',
+      sensorBlockType: 'bluetooth_get_message',
+      dataSaveKey: 'message',
+      type: 'field_input',
+      defaultValue: ''
+    },
+  ],
+    convertToState(
+      setupBlock: Block,
+      listOfInput: Array<{
+        receiving_message: boolean;
+        message: string;
+      }>,
+      loopNumber: number
+    ) {
+
+      const rxPin = stringToPin(setupBlock.getFieldValue('RX'));
+      const txPin = stringToPin(setupBlock.getFieldValue('TX'));
+
+      if (!listOfInput) {
+        return new BluetoothState(rxPin, txPin, false, '', '');
+      }
+
+      const data = listOfInput[loopNumber];
+
+      return new BluetoothState(
+        rxPin, 
+        txPin,
+        data.receiving_message,
+        data.message,
+        ''
+      );
     }
   },
   rfid_setup_block: {

@@ -1,10 +1,7 @@
-import { filter } from 'rxjs/operators';
 import { Block } from 'blockly';
 import { Frame, FrameLocation } from './frame';
 import { frameGeneratingBlocks, valueGeneratingBlocks } from './frame_list';
 import { ArduinoFrame } from '../arduino/arduino_frame';
-import { inputStateHolder } from './input-state-holder';
-import { stat } from 'fs';
 
 /**
  * This will take a statement input where blocks are being stored and gather all the blocks
@@ -108,14 +105,6 @@ const generateFrames = (
   return frames;
 };
 
-const addInputComponentsToFrame = (
-  frame: ArduinoFrame,
-  previousFrame?: ArduinoFrame
-) => {
-  const states = inputStateHolder
-    .getStateList()
-    .filter(state => state.block.id == frame.blockId);
-  states.forEach(state => {});
-};
+
 
 export { generateFrameForInputStatement, getInputValue };

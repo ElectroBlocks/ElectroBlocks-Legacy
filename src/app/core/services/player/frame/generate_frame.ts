@@ -8,6 +8,7 @@ import { listOfStateHoldersBlocks } from './state_holder';
 import { ElectricAttachmentComponentState } from '../arduino/state/electric.state';
 import { blockMultipleSetup } from '../../blockly/events/enableDisableBlocks';
 import { ButtonState } from '../arduino/state/button.state';
+import { BluetoothState } from '../arduino/state/bluetooth.state';
 
 export const generateListOfFrame = async (): Promise<
   ArduinoFrame[] | ARDUINO_UNO_PINS[]
@@ -78,13 +79,24 @@ export const generateListOfFrame = async (): Promise<
             ) {
               return component.pin === sensorComponent.pin;
             }
+
             return (
               component.electricComponentType ===
               sensorComponent.electricComponentType
             );
           }
         );
-        currentFrame.state.components[componentIndex] = sensorComponent;
+
+        if (
+          currentFrame.state.components[componentIndex] instanceof
+            BluetoothState &&
+          (currentFrame.state.components[componentIndex] as BluetoothState).sendMessage.length > 0
+        ) {
+          // DON'T SET BLUETOOTH SEND MESSAGE 
+          // SET BY BLOCK FRAME GENERATOR
+          return;
+        }
+          currentFrame.state.components[componentIndex] = sensorComponent;
       });
       frames.push(currentFrame);
     });

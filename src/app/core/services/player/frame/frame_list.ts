@@ -7,6 +7,12 @@ import { Color } from '../frame_genorator/color';
 import { is_button_pressed_block } from '../frame_genorator/button';
 
 import {
+  bluetooth_get_message_block,
+  bluetooth_has_message_block,
+  bluetooth_send_message_block
+} from '../frame_genorator/bluetooth';
+
+import {
   colour_picker_block,
   colour_random_block,
   colour_rgb_block
@@ -129,7 +135,11 @@ import {
   parse_string_block_block
 } from '../frame_genorator/text';
 
-import { rfid_card_block, rfid_scan_block, rfid_tag_block } from '../frame_genorator/rfid';
+import {
+  rfid_card_block,
+  rfid_scan_block,
+  rfid_tag_block
+} from '../frame_genorator/rfid';
 
 let valueGeneratingBlocks: {
   [key: string]: (
@@ -218,7 +228,9 @@ frameGeneratingBlocks = {
   set_color_led_block,
   led_color_setup_block,
 
-  rfid_setup_block
+  rfid_setup_block,
+
+  bluetooth_send_message_block
 };
 
 valueGeneratingBlocks = {
@@ -257,8 +269,11 @@ valueGeneratingBlocks = {
   parse_string_block_block,
 
   rfid_card_block,
-  rfid_scan_block, 
+  rfid_scan_block,
   rfid_tag_block,
+
+  bluetooth_get_message_block,
+  bluetooth_has_message_block,
 
   is_button_pressed_block
 };
