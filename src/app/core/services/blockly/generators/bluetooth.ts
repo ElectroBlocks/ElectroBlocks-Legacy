@@ -6,11 +6,20 @@ Blockly.Arduino['bluetooth_setup'] = function(block) {
   var rxPin = block.getFieldValue('RX');
   var txPin = block.getFieldValue('TX');
   Blockly.Arduino.libraries_['define_bluetooth'] =
-    '#include <SoftwareSerial.h>;\nSoftwareSerial blueToothSerial(' +
+    '\n#include <SoftwareSerial.h>;\nSoftwareSerial blueToothSerial(' +
     txPin +
     ', ' +
     rxPin +
-    '); \n';
+    '); \n\n' +
+    `String getBluetoothMessage() {
+   if (bluetoothMessageDEV.length() > 0) {
+     return bluetoothMessageDEV;
+   }
+
+   bluetoothMessageDEV = blueToothSerial.readStringUntil('|');
+
+   return bluetoothMessageDEV;
+};`;
 
   Blockly.Arduino.setupCode_['bluetooth_setup'] =
     '\tblueToothSerial.begin(' +
@@ -22,13 +31,13 @@ Blockly.Arduino['bluetooth_setup'] = function(block) {
 };
 
 Blockly.Arduino['bluetooth_get_message'] = function(block) {
-  return ["blueToothSerial.readStringUntil('|')", Blockly.Arduino.ORDER_ATOMIC];
+  return ['getBluetoothMessage()', Blockly.Arduino.ORDER_ATOMIC];
 };
 
 Blockly.Arduino['bluetooth_has_message'] = function(block) {
   // available() returns the number of bytes.  Because 0 will return false
   // we can return 0 as false and greater than 0 as true for the blocks.
-  return ['(boolean)blueToothSerial.available()', Blockly.Arduino.ORDER_ATOMIC];
+  return ['getBluetoothMessage().length() > 0', Blockly.Arduino.ORDER_ATOMIC];
 };
 
 Blockly.Arduino['bluetooth_send_message'] = function(block) {

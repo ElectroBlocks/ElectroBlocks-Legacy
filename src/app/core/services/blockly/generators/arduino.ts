@@ -157,14 +157,15 @@ Blockly.Arduino.finish = function(code) {
 
   // Convert the definitions dictionary into a list.
   code =
-    libraryCode +
-    '\n' +
     'int simple_loop_variable = 0; \n' +
+    'String bluetoothMessageDEV = ""; \n' +
     'struct RGB { \n' +
     '\tint red;\n' +
     '\tint green;\n' +
     '\tint blue;\n' +
     '};\n' +
+    libraryCode +
+    '\n' +
     Blockly.Arduino.variablesInitCode_ +
     '\n' +
     functionsCode +

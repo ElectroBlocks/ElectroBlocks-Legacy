@@ -11,10 +11,12 @@ export class BluetoothSVG extends ComponentSvg {
     public readonly state: BluetoothState
   ) {
     super(svg);
+    this.arduinoPins.push(state.txPin);
+    this.arduinoPins.push(state.rxPin);
   }
 
   public matchState(state: ArduinoState): void {
-    const bluetoothState = state.components.find((c) =>
+    const bluetoothState = state.components.find(c =>
       this.isComponent(c)
     ) as BluetoothState;
 
@@ -24,11 +26,9 @@ export class BluetoothSVG extends ComponentSvg {
     }
 
     if (bluetoothState.hasMessage) {
-      this.displayMessage(bluetoothState.receivedMessage, 'Receiving Message:');
+      this.displayMessage(bluetoothState.receivedMessage, 'Received Message:');
       return;
     }
-
-    
 
     this.svg
       .select('#MESSAGE_BUBBLE')
@@ -48,14 +48,14 @@ export class BluetoothSVG extends ComponentSvg {
       .hide();
   }
   public shouldExist(state: ArduinoState): boolean {
-    return state.components.find((c) => this.isComponent(c)) !== undefined;
+    return state.components.find(c => this.isComponent(c)) !== undefined;
   }
   public isComponent(component: ElectricAttachmentComponentState): boolean {
     return this.state.isEqual(component);
   }
 
-  public resetComponent() { }
-  
+  public resetComponent() {}
+
   private displayMessage(message: string, header: string) {
     this.svg
       .select('#MESSAGE_BUBBLE')

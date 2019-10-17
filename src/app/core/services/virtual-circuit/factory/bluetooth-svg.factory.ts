@@ -53,7 +53,7 @@ export const bluetoothFactory = async (
     .select(`#${resistorPinHole(componentState.txPin)}`)
     .first();
 
-  const positionX = txPinHole.ctm().extract().x + txPinHole.cx() -50;
+  const positionX = txPinHole.ctm().extract().x + txPinHole.cx() - 50;
 
   createGroundWire(
     virtualCircuit,
@@ -72,16 +72,14 @@ export const bluetoothFactory = async (
   );
 
   const positionY =
-  virtualCircuit.baseSVG
-    .select(`#breadboardbreadboard`)
-    .first()
-    .ctm()
-    .extract().transformedY - 175;
-
+    virtualCircuit.baseSVG
+      .select(`#breadboardbreadboard`)
+      .first()
+      .ctm()
+      .extract().transformedY - 175;
 
   bluetoothSVG.move(positionX, positionY);
   bluetoothSVG.updateWires();
-
 
   return bluetoothSVG;
 };
