@@ -6,7 +6,7 @@ import { connectionToBreadboard, virtualCircuitPin } from '../svg/arduino.svg';
 import {
   createGroundWire,
   createLedBreadboardWire,
-  createWireBreadboardHoleBreadboardHole
+  createWireBreadboardHole
 } from '../svg/wire';
 import { resistorFactory } from './resistor.factory';
 import { takeClosestBottomBreadboardHole } from '../svg/next-wire.state';
@@ -235,7 +235,7 @@ const breadboardRgbLedFactory = async (
     'right'
   );
 
-  const gndWire = createWireBreadboardHoleBreadboardHole(
+  const gndWire = createWireBreadboardHole(
     virtualCircuit,
     virtualCircuit.baseSVG
       .select(`#pin${breadboardGNDWire}A`)

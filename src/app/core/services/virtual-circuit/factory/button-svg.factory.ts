@@ -5,11 +5,9 @@ import { ButtonSvg } from '../svg/button.svg';
 import { Element, Parent } from 'svg.js';
 import {
   createBreadboardWire,
-  createGroundWire,
-  createPowerWire
+  createGroundWire
 } from '../svg/wire';
 import { virtualCircuitPin } from '../svg/arduino.svg';
-import { groundPowerOnePinComponents } from './factory_helpers';
 import { resistorPinWhole as resistorPinHole } from './led.factory';
 
 export const buttonFactory = async (
@@ -24,7 +22,7 @@ export const buttonFactory = async (
     .children()
     .pop() as Parent);
 
-  buttonSvg.svg.size(150, 200);  
+  buttonSvg.svg.size(150, 200);
 
   virtualCircuit.nodes.add(buttonSvg.svg);
   (buttonSvg.svg as any).draggy();
@@ -50,7 +48,7 @@ export const buttonFactory = async (
     buttonSvg.svg.select('#GND_WIRE').first() as Element,
     componentState.pin,
     'right'
-  )
+  );
 
   const positionY =
     virtualCircuit.baseSVG

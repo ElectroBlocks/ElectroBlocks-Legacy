@@ -6,7 +6,7 @@ import { loopTimes } from './debug_extensions';
 defineBlocksWithJsonArray([
   {
     type: 'bluetooth_get_message',
-    message0: '%1 bluetooth get message',
+    message0: '%1 bluetooth get message. %2 message (readonly) %3',
     args0: [
       {
         type: 'field_image',
@@ -15,17 +15,26 @@ defineBlocksWithJsonArray([
         height: 15,
         alt: '*',
         flipRtl: false
+      },
+      {
+        type: 'input_dummy'
+      },
+      {
+        type: 'field_input',
+        name: 'SIMPLE_DEBUG',
+        text: ''
       }
     ],
-    inputsInline: true,
     output: 'String',
     colour: 290,
     tooltip: '',
-    helpUrl: ''
+    helpUrl: '',
+    extensions: ['debug']
   },
   {
     type: 'bluetooth_has_message',
-    message0: '%1 bluetooth receiving message?',
+    message0:
+      '%1 bluetooth receiving message? %2 Is receiving message? (readonly) %3',
     args0: [
       {
         type: 'field_image',
@@ -34,6 +43,14 @@ defineBlocksWithJsonArray([
         height: 15,
         alt: '*',
         flipRtl: false
+      },
+      {
+        type: 'input_dummy'
+      },
+      {
+        type: 'field_checkbox',
+        name: 'SIMPLE_DEBUG',
+        checked: false
       }
     ],
     output: 'Boolean',
@@ -70,36 +87,53 @@ defineBlocksWithJsonArray([
 Blockly.Blocks['bluetooth_setup'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldImage("./assets/blocks/bluetooth/bluetooth.png", 15, 15, { alt: "*", flipRtl: "FALSE" }))
-        .appendField("Bluetooth Setup");
+      .appendField(
+        new Blockly.FieldImage(
+          './assets/blocks/bluetooth/bluetooth.png',
+          15,
+          15,
+          { alt: '*', flipRtl: 'FALSE' }
+        )
+      )
+      .appendField('Bluetooth Setup');
     this.appendDummyInput()
-        .appendField("RX Pin# ")
-        .appendField(new Blockly.FieldDropdown(selectedBoard().digitalPins), "RX")
-        .appendField("TX Pin#")
-        .appendField(new Blockly.FieldDropdown(selectedBoard().digitalPins), "TX");
-    this.appendDummyInput("SHOW_CODE_VIEW")
-        .appendField("-----------------------------------------");
+      .appendField('RX Pin# ')
+      .appendField(new Blockly.FieldDropdown(selectedBoard().digitalPins), 'RX')
+      .appendField('TX Pin#')
+      .appendField(
+        new Blockly.FieldDropdown(selectedBoard().digitalPins),
+        'TX'
+      );
+    this.appendDummyInput('SHOW_CODE_VIEW').appendField(
+      '-----------------------------------------'
+    );
     this.appendDummyInput()
-        .appendField("Loop")
-        .appendField(new Blockly.FieldDropdown(() => loopTimes()), "LOOP");
+      .appendField('Loop')
+      .appendField(new Blockly.FieldDropdown(() => loopTimes()), 'LOOP');
     this.appendDummyInput()
-        .appendField("Receiving Message? ")
-        .appendField(new Blockly.FieldCheckbox("TRUE", value => {
-          if ("FALSE" === value) {
+      .appendField('Receiving Message? ')
+      .appendField(
+        new Blockly.FieldCheckbox('TRUE', value => {
+          if ('FALSE' === value) {
             this.getField('message').setValue('');
           }
           return value;
-        }), "receiving_message");
+        }),
+        'receiving_message'
+      );
     this.appendDummyInput()
-        .appendField("Message:")
-        .appendField(new Blockly.FieldTextInput("message",           value => {
+      .appendField('Message:')
+      .appendField(
+        new Blockly.FieldTextInput('message', value => {
           if (this.getFieldValue('receiving_message') === 'FALSE') {
-             return null;
+            return null;
           }
           return value;
-        }), "message");
+        }),
+        'message'
+      );
     this.setColour(290);
- this.setTooltip("");
- this.setHelpUrl("");
+    this.setTooltip('');
+    this.setHelpUrl('');
   }
 };

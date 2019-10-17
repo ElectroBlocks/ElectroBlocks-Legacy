@@ -24,8 +24,6 @@ export const virtualCircuitFactory = async (
 
   nodes.add(arduino.svg);
 
-  //arduino.move(100, 100);
-
   arduino.hidePinWires();
 
   const zoom = (nodes as any).panZoom();

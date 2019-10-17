@@ -9,8 +9,8 @@ import {
   createPowerWire
 } from '../svg/wire';
 import { virtualCircuitPin } from '../svg/arduino.svg';
-import { groundPowerOnePinComponents } from './factory_helpers';
 import { resistorPinWhole as resistorPinHole } from './led.factory';
+import { ARDUINO_UNO_PINS } from '../../player/arduino/arduino_frame';
 
 export const rfidFactory = async (
   virtualCircuit: VirtualCircuit,
@@ -43,7 +43,63 @@ export const rfidFactory = async (
 
   const positionX = txPinHole.ctm().extract().x + txPinHole.cx() - 100;
 
-  groundPowerOnePinComponents(rfidSvg, componentState.txPin, virtualCircuit);
+  if (
+    [ARDUINO_UNO_PINS.PIN_13, ARDUINO_UNO_PINS.PIN_A2].includes(
+      componentState.txPin
+    )
+  ) {
+    createGroundWire(
+      virtualCircuit,
+      rfidSvg,
+      rfidSvg.svg.select('#GND_BOX').first() as Element,
+      componentState.txPin,
+      'left'
+    );
+
+    createPowerWire(
+      virtualCircuit,
+      rfidSvg,
+      rfidSvg.svg.select('#_5V_BOX').first() as Element,
+      componentState.txPin,
+      'left'
+    );
+  } else if (
+    [ARDUINO_UNO_PINS.PIN_A0, ARDUINO_UNO_PINS.PIN_A1].includes(
+      componentState.txPin
+    )
+  ) {
+    createPowerWire(
+      virtualCircuit,
+      rfidSvg,
+      rfidSvg.svg.select('#_5V_BOX').first() as Element,
+      componentState.txPin,
+      'left'
+    );
+
+    createGroundWire(
+      virtualCircuit,
+      rfidSvg,
+      rfidSvg.svg.select('#GND_BOX').first() as Element,
+      componentState.txPin,
+      'left'
+    );
+  } else {
+    createPowerWire(
+      virtualCircuit,
+      rfidSvg,
+      rfidSvg.svg.select('#_5V_BOX').first() as Element,
+      componentState.txPin,
+      'left'
+    );
+
+    createGroundWire(
+      virtualCircuit,
+      rfidSvg,
+      rfidSvg.svg.select('#GND_BOX').first() as Element,
+      componentState.txPin,
+      'left'
+    );
+  }
 
   const positionY =
     virtualCircuit.baseSVG
