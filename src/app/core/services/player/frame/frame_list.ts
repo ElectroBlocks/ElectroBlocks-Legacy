@@ -8,7 +8,8 @@ import { is_button_pressed_block } from '../frame_genorator/button';
 
 import {
   bluetooth_get_message_block,
-  bluetooth_has_message_block
+  bluetooth_has_message_block,
+  bluetooth_send_message_block
 } from '../frame_genorator/bluetooth';
 
 import {
@@ -227,7 +228,9 @@ frameGeneratingBlocks = {
   set_color_led_block,
   led_color_setup_block,
 
-  rfid_setup_block
+  rfid_setup_block,
+
+  bluetooth_send_message_block
 };
 
 valueGeneratingBlocks = {

@@ -84,7 +84,7 @@
   <rect id="WIRE_TX" x="17.52" y="170.4" width="4.5" height="20" fill="#c9bfb5"/>
   <rect id="WIRE_RX" x="5.39" y="170.4" width="4.5" height="20" fill="#c9bfb5"/>
   <path id="MESSAGE_BUBBLE" d="M308.9,7.4H126.4c-5.9,0-10.8,2.9-10.8,6.5V71s-8.1,24.6-32.4,50L157,95.8H308.9c5.9,0,10.8-2.9,10.8-6.5V13.8C319.7,10.3,314.8,7.4,308.9,7.4Z" transform="translate(-15.6 -5.9)" fill="#fff" stroke="#000" stroke-miterlimit="10" stroke-width="3"/>
-  <text id="MESSAGE_LINE_3" transform="translate(119.4 51.1)" font-size="16" font-family="ArialRoundedMTBold, Arial Rounded MT Bold" style="isolation: isolate">THIS IS LINE OF MES</text>
-  <text id="MESSAGE_LINE_2" transform="translate(119.4 71.2)" font-size="16" font-family="ArialRoundedMTBold, Arial Rounded MT Bold" style="isolation: isolate">THIS IS LINE OF MES</text>
+  <text id="MESSAGE_LINE_3" transform="translate(119.4 71.2)" font-size="16" font-family="ArialRoundedMTBold, Arial Rounded MT Bold" style="isolation: isolate">THIS IS LINE OF MES</text>
+  <text id="MESSAGE_LINE_2" transform="translate(119.4 51.1)" font-size="16" font-family="ArialRoundedMTBold, Arial Rounded MT Bold" style="isolation: isolate">THIS IS LINE OF MES</text>
   <text id="MESSAGE_LINE_1" transform="translate(119.4 32.1)" font-size="16" font-family="ArialRoundedMTBold, Arial Rounded MT Bold" style="isolation: isolate">THIS IS LINE OF MES</text>
 </svg>

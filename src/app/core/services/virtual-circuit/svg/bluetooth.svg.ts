@@ -13,13 +13,71 @@ export class BluetoothSVG extends ComponentSvg {
     super(svg);
   }
 
-  public matchState(state: ArduinoState): void {}
+  public matchState(state: ArduinoState): void {
+    const bluetoothState = state.components.find((c) =>
+      this.isComponent(c)
+    ) as BluetoothState;
+
+    if (bluetoothState.sendMessage.length > 0) {
+      this.displayMessage(bluetoothState.sendMessage, 'Sending Message:');
+      return;
+    }
+
+    if (bluetoothState.hasMessage) {
+      this.displayMessage(bluetoothState.receivedMessage, 'Receiving Message:');
+      return;
+    }
+
+    
+
+    this.svg
+      .select('#MESSAGE_BUBBLE')
+      .first()
+      .hide();
+    this.svg
+      .select('#MESSAGE_LINE_1')
+      .first()
+      .hide();
+    this.svg
+      .select('#MESSAGE_LINE_2')
+      .first()
+      .hide();
+    this.svg
+      .select('#MESSAGE_LINE_3')
+      .first()
+      .hide();
+  }
   public shouldExist(state: ArduinoState): boolean {
-    return state.components.find(c => this.isComponent(c)) !== undefined;
+    return state.components.find((c) => this.isComponent(c)) !== undefined;
   }
   public isComponent(component: ElectricAttachmentComponentState): boolean {
     return this.state.isEqual(component);
   }
 
-  public resetComponent() {}
+  public resetComponent() { }
+  
+  private displayMessage(message: string, header: string) {
+    this.svg
+      .select('#MESSAGE_BUBBLE')
+      .first()
+      .show();
+    const textLine1 = this.svg.select('#MESSAGE_LINE_1').first() as Text;
+    textLine1.show();
+    textLine1.node.textContent = header;
+    if (message.length > 38) {
+      message = message.slice(0, 35) + '...';
+    }
+    console.log(message, 'message');
+    const textLine2 = this.svg.select('#MESSAGE_LINE_2').first() as Text;
+    textLine2.node.textContent = message.slice(0, 18);
+    textLine2.show();
+    const textLine3 = this.svg.select('#MESSAGE_LINE_3').first() as Text;
+
+    if (message.length > 18) {
+      textLine3.node.textContent = message.slice(18);
+      textLine3.show();
+    } else {
+      textLine3.hide();
+    }
+  }
 }
