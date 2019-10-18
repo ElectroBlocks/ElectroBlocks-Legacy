@@ -1,7 +1,6 @@
 import { ComponentSvg } from './component.svg';
 import { ArduinoState } from '../../player/arduino/state/arduino.state';
 import { ElectricAttachmentComponentState } from '../../player/arduino/state/electric.state';
-import { ButtonState } from '../../player/arduino/state/button.state';
 import { Parent, Text } from 'svg.js';
 import { BluetoothState } from '../../player/arduino/state/bluetooth.state';
 
@@ -67,7 +66,6 @@ export class BluetoothSVG extends ComponentSvg {
     if (message.length > 38) {
       message = message.slice(0, 35) + '...';
     }
-    console.log(message, 'message');
     const textLine2 = this.svg.select('#MESSAGE_LINE_2').first() as Text;
     textLine2.node.textContent = message.slice(0, 18);
     textLine2.show();

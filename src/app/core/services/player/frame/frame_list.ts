@@ -41,7 +41,8 @@ import {
   soil_sensor_setup_block,
   bluetooth_setup_block,
   rfid_setup_block,
-  push_button_setup_block
+  push_button_setup_block,
+  message_setup_block
 } from '../frame_genorator/pass_through_block';
 
 import {
@@ -84,10 +85,7 @@ import {
   string_to_number_block
 } from '../frame_genorator/math';
 
-import {
-  send_message_block,
-  bt_send_message_block
-} from '../frame_genorator/message';
+import { arduino_send_message_block } from '../frame_genorator/message';
 
 import {
   get_colour_from_list_block,
@@ -191,9 +189,7 @@ frameGeneratingBlocks = {
 
   delay_block_block,
 
-  send_message_block,
-  bt_send_message_block,
-
+  arduino_send_message_block,
   rotate_servo_block,
 
   move_motor_block,
@@ -224,6 +220,7 @@ frameGeneratingBlocks = {
   soil_sensor_setup_block,
   bluetooth_setup_block,
   push_button_setup_block,
+  message_setup_block,
 
   set_color_led_block,
   led_color_setup_block,

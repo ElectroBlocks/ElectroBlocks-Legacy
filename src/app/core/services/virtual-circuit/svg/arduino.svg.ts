@@ -1,10 +1,11 @@
-import { Parent } from 'svg.js';
+import { Parent, Text } from 'svg.js';
 import { BaseSvg } from './base.svg';
 import { ArduinoState } from '../../player/arduino/state/arduino.state';
 import { ARDUINO_UNO_PINS } from '../../player/arduino/arduino_frame';
 
 export class ArduinoSvg extends BaseSvg {
   public matchState(state: ArduinoState): void {
+    console.log(state, 'loading arduino state');
     if (state.rxLedOn) {
       this.turnOnLed(ARDUINO_LEDS.RX_LED);
     }
@@ -28,13 +29,22 @@ export class ArduinoSvg extends BaseSvg {
     if (!state.powerLedOn) {
       this.turnOffLed(ARDUINO_LEDS.POWER_LED);
     }
+
+    if (state.sendMessage.length === 0) {
+      this.hideMessage();
+    }
+
+    if (state.sendMessage.length > 0) {
+      this.showMessage('Send Message:', state.sendMessage);
+      return;
+    }
   }
 
   /**
    * Turns on an led
    */
   public turnOnLed(led: ARDUINO_LEDS) {
-    if (led == ARDUINO_LEDS.POWER_LED) {
+    if (led === ARDUINO_LEDS.POWER_LED) {
       this.svg.select(`#${ARDUINO_LEDS.POWER_LED}`).first().node.style.fill =
         LED_COLORS.POWER_ON;
 
@@ -78,7 +88,7 @@ export class ArduinoSvg extends BaseSvg {
   }
 
   public hideWire(wire: ARDUINO_BREADBOARD_WIRES) {
-    const wirePinGroup = this.svg
+    this.svg
       .select(`#${wire}`)
       .first()
       .hide();
@@ -87,11 +97,65 @@ export class ArduinoSvg extends BaseSvg {
   }
 
   public showWire(wire: ARDUINO_BREADBOARD_WIRES) {
-    const wirePinGroup = this.svg
+    this.svg
       .select(`#${wire}`)
       .first()
       .show();
     return this;
+  }
+
+  public showMessage(title: string, message: string) {
+    const titleNode = this.svg.select('#MESSAGE_ARDUINO_TITLE').first() as Text;
+
+    titleNode.node.textContent = title;
+    titleNode.show();
+
+    if (message.length > 34) {
+      message = message.slice(0, 31) + '...';
+    }
+
+    const textLine1 = this.svg
+      .select('#MESSAGE_ARDUINO_LINE_1')
+      .first() as Text;
+    textLine1.node.textContent = message.slice(0, 17);
+    textLine1.show();
+    const textLine2 = this.svg
+      .select('#MESSAGE_ARDUINO_LINE_2')
+      .first() as Text;
+
+    if (message.length > 17) {
+      textLine2.node.textContent = message.slice(17);
+      textLine2.show();
+    } else {
+      textLine2.hide();
+    }
+
+    this.svg
+      .select('#MESSAGE_BUBBLE_ARDUINO')
+      .first()
+      .show();
+  }
+
+  public hideMessage() {
+    this.svg
+      .select('#MESSAGE_ARDUINO_TITLE')
+      .first()
+      .hide();
+
+    this.svg
+      .select('#MESSAGE_ARDUINO_LINE_1')
+      .first()
+      .hide();
+
+    this.svg
+      .select('#MESSAGE_ARDUINO_LINE_2')
+      .first()
+      .hide();
+
+    this.svg
+      .select('#MESSAGE_BUBBLE_ARDUINO')
+      .first()
+      .hide();
   }
 }
 

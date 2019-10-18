@@ -15,7 +15,7 @@ export const virtualCircuitFactory = async (
   const baseSVG: svgjs.Doc = new Doc('virtual-circuit');
 
   const nodes = baseSVG.group();
-  const virtualArduinoSVGPath = './assets/svgs/arduino-breadboard-wired-1.svg';
+  const virtualArduinoSVGPath = './assets/svgs/arduino-breadboard-wired-2.svg';
 
   const arduino = new ArduinoSvg(baseSVG
     .svg(await fetchSVGXMLData(virtualArduinoSVGPath))
@@ -25,6 +25,7 @@ export const virtualCircuitFactory = async (
   nodes.add(arduino.svg);
 
   arduino.hidePinWires();
+  arduino.hideMessage();
 
   const zoom = (nodes as any).panZoom();
   (arduino.svg as any).draggy();

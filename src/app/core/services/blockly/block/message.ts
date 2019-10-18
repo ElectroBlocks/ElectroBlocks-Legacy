@@ -1,4 +1,6 @@
 import { defineBlocksWithJsonArray } from 'blockly';
+import * as Blockly from 'blockly/core';
+import { loopTimes } from './debug_extensions';
 
 defineBlocksWithJsonArray([
   {
@@ -62,3 +64,50 @@ defineBlocksWithJsonArray([
     helpUrl: ''
   }
 ]);
+
+Blockly.Blocks['message_setup'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField(
+        new Blockly.FieldImage(
+          './assets/blocks/message/message.png',
+          15,
+          15,
+          { alt: '*', flipRtl: 'FALSE' }
+        )
+      )
+      .appendField('Message Setup');
+
+    this.appendDummyInput('SHOW_CODE_VIEW').appendField(
+      '-----------------------------------------'
+    );
+    this.appendDummyInput()
+      .appendField('Loop')
+      .appendField(new Blockly.FieldDropdown(() => loopTimes()), 'LOOP');
+    this.appendDummyInput()
+      .appendField('Receiving Message? ')
+      .appendField(
+        new Blockly.FieldCheckbox('TRUE', value => {
+          if ('FALSE' === value) {
+            this.getField('message').setValue('');
+          }
+          return value;
+        }),
+        'receiving_message'
+      );
+    this.appendDummyInput()
+      .appendField('Message:')
+      .appendField(
+        new Blockly.FieldTextInput('message', value => {
+          if (this.getFieldValue('receiving_message') === 'FALSE') {
+            return null;
+          }
+          return value;
+        }),
+        'message'
+      );
+    this.setColour(20);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};

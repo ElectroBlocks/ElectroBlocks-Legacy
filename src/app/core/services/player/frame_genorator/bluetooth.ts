@@ -31,27 +31,36 @@ export const bluetooth_send_message_block = (
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
-
-  const sendMessage = getInputValue(block, 'MESSAGE', '', frameLocation) as string;
-
+  const sendMessage = getInputValue(
+    block,
+    'MESSAGE',
+    '',
+    frameLocation
+  ) as string;
 
   const bluetoothState = getBluetoothState(frameLocation);
   const newBluetoothState = new BluetoothState(
     bluetoothState.rxPin,
     bluetoothState.txPin,
     bluetoothState.hasMessage,
-    bluetoothState.receivedMessage,
     sendMessage
   );
-  const state = previousFrame.copyState();  
+  const state = previousFrame.copyState();
   const components = state.components.filter(
-    (c) => !(c instanceof BluetoothState)
+    c => !(c instanceof BluetoothState)
   );
   components.push(newBluetoothState);
-  console.log(components, 'components');
 
-  const newState = new ArduinoState(components, state.variables, state.txLedOn, state.sendMessage, state.delay, state.powerLedOn);
-  
+  const newState = new ArduinoState(
+    components,
+    state.variables,
+    state.txLedOn,
+    state.rxLedOn,
+    state.sendMessage,
+    state.delay,
+    state.powerLedOn
+  );
+
   return [new ArduinoFrame(block.id, newState, frameLocation)];
 };
 

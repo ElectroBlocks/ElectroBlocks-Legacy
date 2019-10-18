@@ -262,7 +262,7 @@ export class FramePlayer {
   private async delay() {
     const delay = this.frames[this.currentFrame].state.delay;
 
-    let time = 400 / this.speed;
+    const time = 400 / this.speed;
     await BluebirdPromise.delay(time + delay);
   }
 

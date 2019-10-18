@@ -2,9 +2,9 @@
  * List of key value block type => setup block required
  */
 const blocksThatRequireSetup = {
-  bt_receive_message: 'bluetooth_setup',
-  bt_has_message: 'bluetooth_setup',
-  bt_send_message: 'bluetooth_setup',
+  bluetooth_send_message: 'bluetooth_setup',
+  bluetooth_has_message: 'bluetooth_setup',
+  bluetooth_get_message: 'bluetooth_setup',
   lcd_screen_simple_print: 'lcd_setup',
   lcd_screen_clear: 'lcd_setup',
   lcd_screen_print: 'lcd_setup',
@@ -23,7 +23,10 @@ const blocksThatRequireSetup = {
   rfid_scan: 'rfid_setup',
   rfid_tag: 'rfid_setup',
   rfid_card: 'rfid_setup',
-  is_button_pressed: 'push_button_setup'
+  is_button_pressed: 'push_button_setup',
+  arduino_send_message: 'message_setup',
+  arduino_get_message: 'message_setup',
+  arduino_receive_message: 'message_setup'
 };
 
 const standAloneBlocks = [
@@ -43,14 +46,18 @@ const standAloneBlocks = [
   'temp_setup',
   'bluetooth_setup',
   'led_color_setup',
-  'push_button_setup'
-];
-
-export const blockMultipleSetup = [
   'push_button_setup',
+  'message_setup'
 ];
 
-export const sensorSetupBlocks = ['rfid_setup', 'push_button_setup', 'bluetooth_setup'];
+export const blockMultipleSetup = ['push_button_setup'];
+
+export const sensorSetupBlocks = [
+  'rfid_setup',
+  'push_button_setup',
+  'bluetooth_setup',
+  'message_setup'
+];
 
 const disableBlockForNotHavingRequiredSetupBlock = (blocks, testBlock) => {
   if (!blocksThatRequireSetup[testBlock.type]) {
@@ -84,8 +91,14 @@ export const disableEnableBlocks = workspace => {
     .filter(block => standAloneBlocks.includes(block.type))
     .forEach(setupBlock => {
       const disableSetupBlock =
-        blocks.filter(block => block.type === setupBlock.type && setupBlock.type !== 'arduino_start').length > 1;
-      setupBlock.setEnabled(!disableSetupBlock || blockMultipleSetup.includes(setupBlock.type));
+        blocks.filter(
+          block =>
+            block.type === setupBlock.type &&
+            setupBlock.type !== 'arduino_start'
+        ).length > 1;
+      setupBlock.setEnabled(
+        !disableSetupBlock || blockMultipleSetup.includes(setupBlock.type)
+      );
     });
 
   // Disables / Enables Blocks that don't have the required setup blocks

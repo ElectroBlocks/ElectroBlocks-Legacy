@@ -199,6 +199,7 @@ export const toolbox = `<xml
 <block type="debug_block"></block>
 </category>
 <category name="Message" colour="20">
+<block type="message_setup"></block>
 <block type="arduino_send_message">
 <value name="MESSAGE">
                 <block type="text">

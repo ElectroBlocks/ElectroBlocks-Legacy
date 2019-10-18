@@ -7,8 +7,13 @@ export function stepSerialBegin() {
     '\tSerial.begin(' + selectedBoard().serial_baud_rate + '); \n';
 }
 
-Blockly.Arduino['arduino_receive_message'] = function(block) {
+Blockly.Arduino['message_setup'] = function() {
   stepSerialBegin();
+
+  return '';
+};
+
+Blockly.Arduino['arduino_receive_message'] = function(block) {
   return [
     "Serial.readStringUntil('" + '|' + "')",
     Blockly.Arduino.ORDER_ATOMIC
@@ -16,12 +21,10 @@ Blockly.Arduino['arduino_receive_message'] = function(block) {
 };
 
 Blockly.Arduino['arduino_has_message'] = function(block) {
-  stepSerialBegin();
   return ['(Serial.available() > 0)', Blockly.Arduino.ORDER_ATOMIC];
 };
 
 Blockly.Arduino['arduino_send_message'] = function(block) {
-  stepSerialBegin();
   var message = Blockly.Arduino.valueToCode(
     block,
     'MESSAGE',
