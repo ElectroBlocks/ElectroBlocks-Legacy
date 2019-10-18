@@ -29,7 +29,6 @@ export const delay_block_block = (
     state.components,
     state.variables,
     false,
-    false,
     '',
     parseFloat(time) * 1000
   );

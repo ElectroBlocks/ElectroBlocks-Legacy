@@ -2,20 +2,12 @@ import { Parent, Text } from 'svg.js';
 import { BaseSvg } from './base.svg';
 import { ArduinoState } from '../../player/arduino/state/arduino.state';
 import { ARDUINO_UNO_PINS } from '../../player/arduino/arduino_frame';
+import { ArduinoMessageState } from '../../player/arduino/state/arduino-message.state';
 
 export class ArduinoSvg extends BaseSvg {
   public matchState(state: ArduinoState): void {
-    console.log(state, 'loading arduino state');
-    if (state.rxLedOn) {
-      this.turnOnLed(ARDUINO_LEDS.RX_LED);
-    }
-
-    if (!state.rxLedOn) {
-      this.turnOffLed(ARDUINO_LEDS.RX_LED);
-    }
-
+    
     if (state.txLedOn) {
-      this.turnOnLed(ARDUINO_LEDS.TX_LED);
     }
 
     if (!state.txLedOn) {
@@ -30,14 +22,25 @@ export class ArduinoSvg extends BaseSvg {
       this.turnOffLed(ARDUINO_LEDS.POWER_LED);
     }
 
-    if (state.sendMessage.length === 0) {
-      this.hideMessage();
-    }
+
 
     if (state.sendMessage.length > 0) {
+      this.turnOffLed(ARDUINO_LEDS.RX_LED);
       this.showMessage('Send Message:', state.sendMessage);
       return;
     }
+
+    const message = state.components.find(c => c instanceof ArduinoMessageState) as ArduinoMessageState;
+
+    if (message && message.recievingMessage) {
+            this.turnOnLed(ARDUINO_LEDS.RX_LED);
+      this.showMessage('Recieved Message:', message.message);
+      return;
+    }
+
+    this.hideMessage();
+      this.turnOffLed(ARDUINO_LEDS.RX_LED);
+
   }
 
   /**

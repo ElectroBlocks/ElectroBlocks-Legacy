@@ -34,7 +34,7 @@ defineBlocksWithJsonArray([
   {
     type: 'bluetooth_has_message',
     message0:
-      '%1 bluetooth receiving message? %2 Is receiving message? (readonly) %3',
+      '%1 Is bluetooth receiving message? %2 Is receiving message? (readonly) %3',
     args0: [
       {
         type: 'field_image',

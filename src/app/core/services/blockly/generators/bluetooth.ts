@@ -10,8 +10,10 @@ Blockly.Arduino['bluetooth_setup'] = function(block) {
     txPin +
     ', ' +
     rxPin +
-    '); \n\n' +
-    `String getBluetoothMessage() {
+    '); \n\n';
+   Blockly.Arduino.functionNames_[
+     'getBluetoothMessage'
+   ] = `String getBluetoothMessage() {
    if (bluetoothMessageDEV.length() > 0) {
      return bluetoothMessageDEV;
    }

@@ -20,6 +20,7 @@ Blockly.Arduino['arduino_start'] = function(block: Block) {
     statementsLoop +
     '\n' +
     '\tbluetoothMessageDEV = ""; \n' +
+    '\tserialMessageDEV= ""; \n' +
     '}'
   );
 };

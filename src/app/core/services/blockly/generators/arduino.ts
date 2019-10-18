@@ -159,6 +159,7 @@ Blockly.Arduino.finish = function(code) {
   code =
     'int simple_loop_variable = 0; \n' +
     'String bluetoothMessageDEV = ""; \n' +
+    'String serialMessageDEV = ""; \n'  +
     'struct RGB { \n' +
     '\tint red;\n' +
     '\tint green;\n' +

@@ -55,7 +55,6 @@ export const bluetooth_send_message_block = (
     components,
     state.variables,
     state.txLedOn,
-    state.rxLedOn,
     state.sendMessage,
     state.delay,
     state.powerLedOn

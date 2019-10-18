@@ -85,7 +85,11 @@ import {
   string_to_number_block
 } from '../frame_genorator/math';
 
-import { arduino_send_message_block } from '../frame_genorator/message';
+import {
+  arduino_send_message_block,
+  arduino_get_message_block,
+  arduino_receive_message_block
+} from '../frame_genorator/message';
 
 import {
   get_colour_from_list_block,
@@ -272,7 +276,10 @@ valueGeneratingBlocks = {
   bluetooth_get_message_block,
   bluetooth_has_message_block,
 
-  is_button_pressed_block
+  is_button_pressed_block,
+
+  arduino_get_message_block,
+  arduino_receive_message_block
 };
 
 export { frameGeneratingBlocks, valueGeneratingBlocks };

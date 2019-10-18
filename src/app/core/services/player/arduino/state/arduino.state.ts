@@ -13,7 +13,6 @@ export class ArduinoState implements ElectricComponentState {
     public readonly components: ElectricAttachmentComponentState[],
     public readonly variables: { [key: string]: Variable },
     public readonly txLedOn = false,
-    public readonly rxLedOn = false,
     public readonly sendMessage = '', // message arduino is sending
     public readonly delay = 0, // Number of milliseconds to delay
     public readonly powerLedOn = true

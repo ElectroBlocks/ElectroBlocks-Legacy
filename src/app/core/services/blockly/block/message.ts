@@ -5,7 +5,8 @@ import { loopTimes } from './debug_extensions';
 defineBlocksWithJsonArray([
   {
     type: 'arduino_receive_message',
-    message0: '%1 arduino receiving message?',
+    message0:
+      '%1 Is Arduino receiving message? %2 Is receiving message? (readonly) %3',
     args0: [
       {
         type: 'field_image',
@@ -14,6 +15,14 @@ defineBlocksWithJsonArray([
         height: 15,
         alt: '*',
         flipRtl: false
+      },
+      {
+        type: 'input_dummy'
+      },
+      {
+        type: 'field_checkbox',
+        name: 'SIMPLE_DEBUG',
+        checked: false
       }
     ],
     output: 'Boolean',
@@ -23,7 +32,7 @@ defineBlocksWithJsonArray([
   },
   {
     type: 'arduino_get_message',
-    message0: '%1 arduino get message.',
+    message0: '%1 arduino get message. %2 message (readonly) %3',
     args0: [
       {
         type: 'field_image',
@@ -32,6 +41,14 @@ defineBlocksWithJsonArray([
         height: 15,
         alt: '*',
         flipRtl: false
+      },
+      {
+        type: 'input_dummy'
+      },
+      {
+        type: 'field_input',
+        name: 'SIMPLE_DEBUG',
+        text: ''
       }
     ],
     output: 'String',
