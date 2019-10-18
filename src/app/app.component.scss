@@ -1,0 +1,21 @@
+#grabber {
+  display: inline-block;
+  width: 1%;
+  height: 100%;
+  cursor: col-resize;
+  background-color: #eff0f1;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==);
+}
+
+#route-container,
+#blockly-container {
+  display: inline-block;
+  vertical-align: top;
+  height: calc(100% - 50px);
+}
+
+.showBottom {
+  height: calc(100% - 130px) !important;
+}

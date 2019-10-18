@@ -1,89 +1,110 @@
 {
-  "name": "ElectroBlocks",
-  "productName": "ElectroBlocks A Blockly Based Arduino IDE",
-  "email": "Noah Glaser",
-  "version": "2.0.9",
-  "description": "An ide for developing arduino code with blockly.",
-  "main": "app.js",
-  "author": "Noah Glaser",
-  "repository": "git@github.com:phptuts/ElectroBlocks.git",
-  "license": "MIT",
+  "name": "angular-electron",
+  "version": "6.1.0",
+  "description": "Angular 8 with Electron (Typescript + SASS + Hot Reload)",
+  "homepage": "https://github.com/maximegris/angular-electron",
+  "author": {
+    "name": "Maxime GRIS",
+    "email": "maxime.gris@gmail.com"
+  },
+  "keywords": [
+    "angular",
+    "angular 8",
+    "electron",
+    "typescript",
+    "sass"
+  ],
+  "main": "main.js",
+  "private": true,
   "scripts": {
-    "start": "electron .",
-    "pack": "build --dir",
-    "dist": "build",
-    "dist-win": "build --win",
-    "publish": "build -p always",
-    "dist-mac": "build --mac",
-    "publish-mac": "build  --mac -p always",
-    "publish-win": "build  --win -p always",
-    "dist-linux": "build --linux",
-    "publish-linux": "build  --linux -p always",
-    "postinstall": "electron-builder install-app-deps"
-  },
-  "build": {
-    "appId": "electroblocks.codingwithnoah.org",
-    "productName": "ElectroBlocks",
-    "copyright": "Copyright © 2019",
-    "win": {
-      "publisherName": "Noah Glaser",
-      "certificateSubjectName": "Noah Glaser",
-      "target": "nsis",
-      "icon": "build/win-icon.ico"
-    },
-    "mac": {
-      "category": "public.arduino.tools",
-      "target": [
-        "dmg",
-        "zip"
-      ]
-    },
-    "linux": {
-      "target": [
-        "deb"
-      ],
-      "maintainer": "Noah Glaser"
-    },
-    "dmg": {
-      "backgroundColor": "#faf9ef",
-      "publish": {
-        "provider": "s3",
-        "bucket": "oaklandcodeschool",
-        "path": "osx"
-      },
-      "window": {
-        "width": 300,
-        "height": 250,
-        "x": 50,
-        "y": 0
-      },
-      "contents": [
-        {
-          "x": 110,
-          "y": 150
-        },
-        {
-          "x": 240,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ]
-    }
-  },
-  "dependencies": {
-    "avrgirl-arduino": "^3.0.0",
-    "axios": "0.18.0",
-    "electron-log": "^2.2.17",
-    "electron-online": "^1.0.0",
-    "electron-prompt": "0.5.0",
-    "electron-publisher-s3": "^20.9.0",
-    "electron-updater": "^4.0.6",
-    "rxjs": "^5.5.8",
-    "serialport": "^7.1.3"
+    "postinstall": "npm run postinstall:electron && electron-builder install-app-deps",
+    "postinstall:web": "node postinstall-web",
+    "postinstall:electron": "node postinstall",
+    "ng": "ng",
+    "start": "npm run postinstall:electron && npm-run-all -p ng:serve electron:serve",
+    "build": "npm run postinstall:electron && npm run electron:serve-tsc && ng build",
+    "build:dev": "npm run build -- -c dev",
+    "build:prod": "npm run build -- -c production",
+    "ng:serve": "ng serve",
+    "ng:serve:web": "npm run postinstall:web && ng serve -o",
+    "electron:serve-tsc": "tsc -p tsconfig-serve.json",
+    "electron:serve": "wait-on http-get://localhost:4200/ && npm run electron:serve-tsc && electron . --serve",
+    "electron:local": "npm run build:prod && electron .",
+    "electron:linux": "npm run build:prod && electron-builder build --linux",
+    "electron:windows": "npm run build:prod && electron-builder build --windows",
+    "electron:mac": "npm run build:prod && electron-builder build --mac",
+    "test": "npm run postinstall:web && ng test",
+    "e2e": "npm run build:prod && mocha --timeout 300000 --require ts-node/register e2e/**/*.spec.ts",
+    "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
+    "lint": "ng lint"
   },
   "devDependencies": {
-    "electron": "^4.0.1",
-    "electron-builder": "^20.38.5"
+    "@angular-devkit/build-angular": "0.802.2",
+    "@angular/cli": "8.2.2",
+    "@angular/common": "8.2.2",
+    "@angular/compiler": "8.2.2",
+    "@angular/compiler-cli": "8.2.2",
+    "@angular/core": "8.2.2",
+    "@angular/forms": "8.2.2",
+    "@angular/language-service": "8.2.2",
+    "@angular/platform-browser": "8.2.2",
+    "@angular/platform-browser-dynamic": "8.2.2",
+    "@angular/router": "8.2.2",
+    "@ngx-translate/core": "11.0.1",
+    "@ngx-translate/http-loader": "4.0.0",
+    "@types/file-saver": "^2.0.1",
+    "@types/jasmine": "3.3.16",
+    "@types/jasminewd2": "2.0.6",
+    "@types/lodash": "^4.14.138",
+    "@types/mocha": "5.2.7",
+    "@types/node": "12.6.8",
+    "@types/prismjs": "^1.16.0",
+    "chai": "4.2.0",
+    "codelyzer": "5.1.0",
+    "conventional-changelog-cli": "2.0.21",
+    "core-js": "3.1.4",
+    "electron": "6.0.2",
+    "electron-builder": "21.2.0",
+    "electron-reload": "1.5.0",
+    "jasmine-core": "3.4.0",
+    "jasmine-spec-reporter": "4.2.1",
+    "jsdom-global": "^3.0.2",
+    "karma": "4.2.0",
+    "karma-chrome-launcher": "3.0.0",
+    "karma-coverage-istanbul-reporter": "2.1.0",
+    "karma-jasmine": "2.0.1",
+    "karma-jasmine-html-reporter": "1.4.2",
+    "mocha": "6.2.0",
+    "npm-run-all": "4.1.5",
+    "rxjs": "6.5.2",
+    "spectron": "8.0.0",
+    "ts-node": "8.3.0",
+    "tslint": "5.18.0",
+    "typescript": "3.5.3",
+    "wait-on": "3.3.0",
+    "webdriver-manager": "12.1.5",
+    "zone.js": "0.9.1"
+  },
+  "engines": {
+    "node": ">=10.9.0"
+  },
+  "dependencies": {
+    "@angular/animations": "^8.2.3",
+    "@angular/cdk": "^8.1.4",
+    "@angular/material": "^8.1.4",
+    "@ngx-prism/core": "^2.0.1",
+    "angular-split": "^3.0.2",
+    "blockly": "^2.20190722.1",
+    "bluebird": "^3.5.5",
+    "electron-prompt": "^1.3.1",
+    "file-saver": "^2.0.2",
+    "font-awesome": "^4.7.0",
+    "jasmine": "^3.4.0",
+    "lodash": "^4.17.15",
+    "prismjs": "^1.17.1",
+    "svg-pan-zoom": "^3.6.0",
+    "svg.draggy.js": "^1.1.1",
+    "svg.js": "^2.7.1",
+    "svg.pan-zoom.js": "^2.8.0"
   }
 }

@@ -1,0 +1,38 @@
+/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  margin: 0;
+  padding: 0;
+
+  height: 100%;
+}
+@import '~prismjs/themes/prism.css';
+@import '~prismjs/themes/prism-coy.css';
+@import '~prismjs/plugins/line-numbers/prism-line-numbers.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+pre[class*='language-']:before,
+pre[class*='language-']:after {
+  display: none;
+}
+
+body {
+  overflow: hidden;
+}
+
+// Have to do it here to get it to work
+#virtual-circuit svg svg {
+  cursor: grab;
+}
+
+#virtual-circuit svg svg:active:hover {
+  cursor: grabbing;
+}
+
+.mat-form-field-wrapper,
+.mat-slide-toggle-label {
+  margin-right: 20px;
+}
+#route-container {
+  overflow: hidden;
+}

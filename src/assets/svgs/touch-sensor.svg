@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="362" height="550.48" viewBox="0 0 362 550.48">
+  <title>touch-sensor</title>
+  <g id="text">
+    <text id="title" transform="translate(68.44 20.74)" style="font-size: 24px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold"><tspan style="letter-spacing: -0.06298828125em">T</tspan><tspan x="13.49" y="0">ou</tspan><tspan x="42.48" y="0" style="letter-spacing: -0.02490234375em">c</tspan><tspan x="56.14" y="0">h Sensor 7</tspan></text>
+    <text id="question" transform="translate(30.44 59.74)" style="font-size: 24px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">Sensing a tou<tspan x="157.52" y="0" style="letter-spacing: -0.02490234375em">c</tspan><tspan x="171.19" y="0">h? YES</tspan></text>
+  </g>
+  <g id="touch">
+    <g id="base">
+      <rect x="0.5" y="74.98" width="318" height="390" style="fill: #235577"/>
+      <path d="M359,87V476H42V87H359m1-1H41V477H360V86Z" transform="translate(-41 -11.52)"/>
+    </g>
+    <g id="_1-circle" data-name="1-circle">
+      <path d="M194,107a97,97,0,1,1-97,97,97.1,97.1,0,0,1,97-97m0-3A100,100,0,1,0,294,204,100,100,0,0,0,194,104Z" transform="translate(-41 -11.52)" style="fill: #fff"/>
+    </g>
+    <g id="_2-circle" data-name="2-circle">
+      <path d="M193,128.67a72,72,0,1,1-72,72,72.08,72.08,0,0,1,72-72m0-3a75,75,0,1,0,75,75,75,75,0,0,0-75-75Z" transform="translate(-41 -11.52)" style="fill: #fff"/>
+    </g>
+    <g id="_3-circle" data-name="3-circle">
+      <path d="M193,153.67a47,47,0,1,1-47,47,47,47,0,0,1,47-47m0-3a50,50,0,1,0,50,50,50,50,0,0,0-50-50Z" transform="translate(-41 -11.52)" style="fill: #fff"/>
+    </g>
+    <g id="_4-circle" data-name="4-circle">
+      <path d="M193,178.67a22,22,0,1,1-22,22,22,22,0,0,1,22-22m0-3a25,25,0,1,0,25,25,25,25,0,0,0-25-25Z" transform="translate(-41 -11.52)" style="fill: #fff"/>
+    </g>
+  </g>
+  <g id="wires">
+    <rect id="SIG" x="25" y="465.48" width="29" height="85"/>
+    <rect id="VCC" x="146" y="465.48" width="29" height="85"/>
+    <rect id="GND" x="264" y="465.48" width="29" height="85"/>
+    <text id="SIG_TEXT" transform="translate(47.93 459.51) rotate(-90)" style="font-size: 24px;fill: #fff;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">SIG</text>
+    <text id="VCC_TEXT" transform="translate(167.93 459.51) rotate(-90)" style="font-size: 24px;fill: #fff;font-family: ArialRoundedMTBold, Arial Rounded MT Bold"><tspan style="letter-spacing: -0.01318359375em">V</tspan><tspan x="16.2" y="0">CC</tspan></text>
+    <text id="GND_TEXT" transform="translate(287.93 458.51) rotate(-90)" style="font-size: 24px;fill: #fff;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">GND</text>
+  </g>
+  <g id="finger">
+    <g>
+      <path d="M185,255.5A46.55,46.55,0,0,1,138.5,209,61.57,61.57,0,0,1,200,147.5H402.5v108Z" transform="translate(-41 -11.52)" style="fill: #b26742"/>
+      <path d="M402,148V255H185a46.06,46.06,0,0,1-46-46,61.06,61.06,0,0,1,61-61H402m1-1H200a62,62,0,0,0-62,62h0a47,47,0,0,0,47,47H403V147Z" transform="translate(-41 -11.52)"/>
+    </g>
+    <path d="M214.5,243.61s-52.28,8-55.14-10.56,2.14-40,1.14-53.29,46-27.29,53-18.77S214.5,243.61,214.5,243.61Z" transform="translate(-41 -11.52)" style="fill: #ffe3fe;stroke: #000;stroke-miterlimit: 10"/>
+  </g>
+</svg>
