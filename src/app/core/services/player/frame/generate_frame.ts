@@ -62,7 +62,7 @@ export const generateListOfFrame = async (): Promise<
   ) as ArduinoFrame[];
 
   setupFrames.forEach(currentFrame => frames.push(currentFrame));
-  if (!hasPreSetupFrames) {
+  if (!hasPreSetupFrames && setupFrames[0]) {
     sensorStatesForLoop[0].forEach((sensorComponent) => {
       frames[0].state.components.push(sensorComponent);
     });
@@ -210,7 +210,7 @@ export const getSensorData = (): {
   const timeBlock = Blockly.mainWorkspace
     .getTopBlocks()
     .find(
-      (topBlock: Block) => topBlock.type === 'time_setup_block' && topBlock.isEnabled()
+      (topBlock: Block) => topBlock.type === 'time_setup' && topBlock.isEnabled()
     );
   
   const timeIncrement = timeBlock ? +timeBlock.getFieldValue('time_in_seconds') : .1;

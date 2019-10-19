@@ -16,3 +16,7 @@ Blockly.Arduino['delay_block'] = function(block) {
 
   return 'delay(' + delay + ');\n';
 };
+
+Blockly.Arduino['time_setup'] = function () {
+  return '';
+}

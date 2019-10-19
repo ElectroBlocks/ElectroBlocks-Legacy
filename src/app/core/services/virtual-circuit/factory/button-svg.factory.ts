@@ -15,7 +15,7 @@ export const buttonFactory = async (
   componentState: ButtonState,
   componentOnly = false
 ) => {
-  const buttonSvgString = './assets/svgs/button.svg';
+  const buttonSvgString = './assets/svgs/button-2.svg';
 
   const buttonSvg = new ButtonSvg(componentState, virtualCircuit.baseSVG
     .svg(await fetchSVGXMLData(buttonSvgString))
@@ -40,7 +40,7 @@ export const buttonFactory = async (
     .select(`#${resistorPinHole(componentState.pin)}`)
     .first();
 
-  const positionX = wireHole.ctm().extract().x + wireHole.cx() - 50;
+  const positionX = wireHole.ctm().extract().x + wireHole.cx() - 100;
 
   createGroundWire(
     virtualCircuit,

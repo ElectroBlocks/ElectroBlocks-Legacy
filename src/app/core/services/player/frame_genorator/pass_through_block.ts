@@ -23,3 +23,4 @@ export const bluetooth_setup_block = temp_get_temp_block;
 export const rfid_setup_block = temp_get_temp_block;
 export const push_button_setup_block = temp_get_temp_block;
 export const message_setup_block = temp_get_temp_block;
+export const time_setup_block = temp_get_temp_block;
