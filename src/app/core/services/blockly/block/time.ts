@@ -1,4 +1,6 @@
 import { defineBlocksWithJsonArray } from 'blockly';
+import * as Blockly from 'blockly/core';
+import { loopTimes } from './debug_extensions';
 
 defineBlocksWithJsonArray([
   {
@@ -44,3 +46,39 @@ defineBlocksWithJsonArray([
     helpUrl: ''
   }
 ]);
+
+Blockly.Blocks['time_setup'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField(
+        new Blockly.FieldImage('./assets/blocks/time/time.png', 15, 15, {
+          alt: '*',
+          flipRtl: 'FALSE'
+        })
+      )
+      .appendField('Fake Arduino Time');
+
+    this.appendDummyInput('SHOW_CODE_VIEW').appendField(
+      '-----------------------------------------'
+    );
+    this.appendDummyInput()
+      .appendField('LOOP')
+      .appendField(
+        new Blockly.FieldDropdown(() => {
+          return loopTimes();
+        }),
+        'LOOP'
+      );
+
+    this.appendDummyInput()
+      .appendField('Time In Seconds')
+      .appendField(
+        new Blockly.FieldTextInput('1'),
+        'time_in_seconds'
+      );
+
+    this.setColour(310);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};

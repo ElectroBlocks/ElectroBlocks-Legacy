@@ -11,5 +11,6 @@ export enum ElectricComponentType {
   LED_COLOR = 'LED_COLOR',
   RFID = 'RFID',
   BUTTON = 'BUTTON',
-  MESSAGE = 'MESSAGE'
+  MESSAGE = 'MESSAGE',
+  TIME = 'TIME'
 }
