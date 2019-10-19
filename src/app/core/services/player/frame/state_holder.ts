@@ -65,9 +65,7 @@ export const listOfStateHoldersBlocks: {
       }>,
       loopNumber: number
     ) {
-      const data = listOfInput[loopNumber];
-
-      return new TimeState(data.time);
+      throw new Error('This should be set manually');
     }
   },
   bluetooth_setup_block: {

@@ -14,7 +14,7 @@ export class TimeState extends SensorComponent {
   }
 
   public getFieldValue(dataKeySaveInSetupBlock: string) {
-    return this.timeInSeconds;
+    return this.timeInSeconds.toFixed(5);
   }
 
   public isEqual(state: ElectricAttachmentComponentState): boolean {

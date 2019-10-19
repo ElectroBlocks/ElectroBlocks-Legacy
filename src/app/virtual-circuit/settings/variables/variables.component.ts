@@ -24,6 +24,9 @@ export class VariablesComponent {
   public updateVariables(variables: { [key: string]: Variable }) {
     let variableList = [];
     Object.keys(variables).forEach(key => {
+      if (variables[key].type === 'Number') {
+        variables[key].value = +(+variables[key].value).toFixed(5);
+      }
       variableList.push(variables[key]);
     });
 

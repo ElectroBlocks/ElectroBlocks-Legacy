@@ -3,15 +3,14 @@ import { ArduinoFrame } from '../arduino/arduino_frame';
 import { getInputValue } from '../frame/blockly_helper';
 import { FrameLocation } from '../frame/frame';
 import { ArduinoState } from '../arduino/state/arduino.state';
+import { getSensorData } from '../frame/generate_frame';
+import { TimeState } from '../arduino/state/time.state';
 
 export const delay_block_block = (
   block: Block,
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
-  const copyFrame = previousFrame
-    ? previousFrame.makeCopy(block.id, frameLocation)
-    : ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
   const time = getInputValue(
     block,
@@ -36,4 +35,22 @@ export const delay_block_block = (
   const frame = new ArduinoFrame(block.id, updatedState, frameLocation);
 
   return [frame];
+};
+
+export const time_seconds_block = (
+         block: Block,
+         frameLocation: FrameLocation,
+         previousFrame?: ArduinoFrame
+) => {
+  const timeState = getTimeState(frameLocation);
+
+  return timeState.timeInSeconds;
+};
+
+const getTimeState = (frameLocation: FrameLocation): TimeState => {
+  const data = getSensorData();
+  const loopNumber = frameLocation.iteration;
+  return data[loopNumber].find(
+    (component) => component instanceof TimeState
+  ) as TimeState;
 };

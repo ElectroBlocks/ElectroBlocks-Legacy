@@ -9,6 +9,7 @@ import { ElectricAttachmentComponentState } from '../arduino/state/electric.stat
 import { blockMultipleSetup } from '../../blockly/events/enableDisableBlocks';
 import { ButtonState } from '../arduino/state/button.state';
 import { BluetoothState } from '../arduino/state/bluetooth.state';
+import { TimeState } from '../arduino/state/time.state';
 
 export const generateListOfFrame = async (): Promise<
   ArduinoFrame[] | ARDUINO_UNO_PINS[]
@@ -46,8 +47,9 @@ export const generateListOfFrame = async (): Promise<
         .forEach((currentFrame: ArduinoFrame) => frames.push(currentFrame));
     });
 
-  if (sensorStatesForLoop[0] && frames[0]) {
-    sensorStatesForLoop[0].forEach(sensorComponent => {
+  const hasPreSetupFrames = frames[0] !== undefined;
+  if (sensorStatesForLoop[0] && hasPreSetupFrames) {
+    sensorStatesForLoop[0].forEach((sensorComponent) => {
       frames[0].state.components.push(sensorComponent);
     });
   }
@@ -60,47 +62,52 @@ export const generateListOfFrame = async (): Promise<
   ) as ArduinoFrame[];
 
   setupFrames.forEach(currentFrame => frames.push(currentFrame));
-
-  for (let i = 0; i < numberOfTimesThroughLoop; i += 1) {
-    const loopFrames = generateFrameForInputStatement(
-      arduinoBlock,
-      'loop',
-      { location: 'loop', iteration: i },
-      frames.length === 0 ? null : frames[frames.length - 1]
-    ) as ArduinoFrame[];
-
-    loopFrames.forEach(currentFrame => {
-      sensorStatesForLoop[i].forEach(sensorComponent => {
-        const componentIndex = currentFrame.state.components.findIndex(
-          component => {
-            if (
-              component instanceof ButtonState &&
-              sensorComponent instanceof ButtonState
-            ) {
-              return component.pin === sensorComponent.pin;
-            }
-
-            return (
-              component.electricComponentType ===
-              sensorComponent.electricComponentType
-            );
-          }
-        );
-
-        if (
-          currentFrame.state.components[componentIndex] instanceof
-            BluetoothState &&
-          (currentFrame.state.components[componentIndex] as BluetoothState).sendMessage.length > 0
-        ) {
-          // DON'T SET BLUETOOTH SEND MESSAGE 
-          // SET BY BLOCK FRAME GENERATOR
-          return;
-        }
-          currentFrame.state.components[componentIndex] = sensorComponent;
-      });
-      frames.push(currentFrame);
+  if (!hasPreSetupFrames) {
+    sensorStatesForLoop[0].forEach((sensorComponent) => {
+      frames[0].state.components.push(sensorComponent);
     });
   }
+    for (let i = 0; i < numberOfTimesThroughLoop; i += 1) {
+      const loopFrames = generateFrameForInputStatement(
+        arduinoBlock,
+        'loop',
+        { location: 'loop', iteration: i },
+        frames.length === 0 ? null : frames[frames.length - 1]
+      ) as ArduinoFrame[];
+
+      loopFrames.forEach((currentFrame) => {
+        sensorStatesForLoop[i].forEach((sensorComponent) => {
+          const componentIndex = currentFrame.state.components.findIndex(
+            (component) => {
+              if (
+                component instanceof ButtonState &&
+                sensorComponent instanceof ButtonState
+              ) {
+                return component.pin === sensorComponent.pin;
+              }
+
+              return (
+                component.electricComponentType ===
+                sensorComponent.electricComponentType
+              );
+            }
+          );
+
+          if (
+            currentFrame.state.components[componentIndex] instanceof
+              BluetoothState &&
+            (currentFrame.state.components[componentIndex] as BluetoothState)
+              .sendMessage.length > 0
+          ) {
+            // DON'T SET BLUETOOTH SEND MESSAGE
+            // SET BY BLOCK FRAME GENERATOR
+            return;
+          }
+          currentFrame.state.components[componentIndex] = sensorComponent;
+        });
+        frames.push(currentFrame);
+      });
+    }
 
   console.log(frames, 'frames');
 
@@ -184,6 +191,12 @@ export const getSensorData = (): {
     )
     .forEach(block => {
       const mapData = listOfStateHoldersBlocks[block.type + '_block'];
+
+      if (block.type + '_block' === 'time_setup_block') {
+        // This will be set manually.
+        return;
+      }
+
       for (let i = 0; i < numberOfTimesThroughLoop; i += 1) {
         const component = mapData.convertToState(
           block,
@@ -193,6 +206,18 @@ export const getSensorData = (): {
         sensorStatesForLoop[i].push(component);
       }
     });
+  
+  const timeBlock = Blockly.mainWorkspace
+    .getTopBlocks()
+    .find(
+      (topBlock: Block) => topBlock.type === 'time_setup_block' && topBlock.isEnabled()
+    );
+  
+  const timeIncrement = timeBlock ? +timeBlock.getFieldValue('time_in_seconds') : .1;
+  
+  for (let i = 0; i < numberOfTimesThroughLoop; i += 1) {
+    sensorStatesForLoop[i].push(new TimeState((i + 1) * timeIncrement));
+  }
 
   return sensorStatesForLoop;
 };

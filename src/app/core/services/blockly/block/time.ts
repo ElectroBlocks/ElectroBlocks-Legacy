@@ -5,7 +5,7 @@ import { loopTimes } from './debug_extensions';
 defineBlocksWithJsonArray([
   {
     type: 'time_seconds',
-    message0: '%1 seconds arduino been on.',
+    message0: '%1 seconds arduino been on?%2 has been on for %3 seconds.',
     args0: [
       {
         type: 'field_image',
@@ -14,12 +14,21 @@ defineBlocksWithJsonArray([
         height: 15,
         alt: '*',
         flipRtl: false
+      },
+      {
+        type: 'input_dummy'
+      },
+      {
+        type: 'field_input',
+        name: 'SIMPLE_DEBUG',
+        text: ''
       }
     ],
     output: 'Number',
     colour: 310,
     tooltip: '',
-    helpUrl: ''
+    helpUrl: '',
+    extensions: ['debug']
   },
   {
     type: 'delay_block',
@@ -56,24 +65,12 @@ Blockly.Blocks['time_setup'] = {
           flipRtl: 'FALSE'
         })
       )
-      .appendField('Fake Arduino Time');
-
-    this.appendDummyInput('SHOW_CODE_VIEW').appendField(
-      '-----------------------------------------'
-    );
-    this.appendDummyInput()
-      .appendField('LOOP')
-      .appendField(
-        new Blockly.FieldDropdown(() => {
-          return loopTimes();
-        }),
-        'LOOP'
-      );
+      .appendField('Setup Time');
 
     this.appendDummyInput()
-      .appendField('Time In Seconds')
+      .appendField('How many seconds per loop')
       .appendField(
-        new Blockly.FieldTextInput('1'),
+        new Blockly.FieldNumber(.1, 0, 100000, 0.00001),
         'time_in_seconds'
       );
 

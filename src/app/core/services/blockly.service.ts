@@ -70,54 +70,59 @@ export class BlocklyService {
           .getTopBlocks()
           .filter(block => block.type !== 'arduino_start');
         BlocklyService.DISABLE_READONLY_CHECK = true;
-        topBlocks
-          .filter(block => block.isEnabled())
-          .filter(block =>
-            Object.keys(listOfStateHoldersBlocks).includes(
-              block.type + '_block'
-            )
+        const mapToSetupSensorBlocks = topBlocks
+          .filter((block) => block.isEnabled())
+          .filter((block) =>
+            Object.keys(listOfStateHoldersBlocks).includes(block.type + '_block')
           )
-          .forEach(setupBlock => {
-            const mapToSetupSensorBlock =
-              listOfStateHoldersBlocks[setupBlock.type + '_block'];
+          .map(setupBlock => listOfStateHoldersBlocks[setupBlock.type + '_block']);
+        
+        mapToSetupSensorBlocks.push(listOfStateHoldersBlocks['time_setup_block']);
+          mapToSetupSensorBlocks.forEach((mapToSetupSensorBlock) => {
             const listOfBlockTypes = mapToSetupSensorBlock.fieldsToCollect.map(
-              info => info.sensorBlockType
+              (info) => info.sensorBlockType
             );
-            const setupBlocksIdsParentIds = (blocksInsideInput(this.getArduinoStartBlock(), 'setup') as Block[])
-                        .map(b => b.id);
+            const setupBlocksIdsParentIds = (blocksInsideInput(
+              this.getArduinoStartBlock(),
+              'setup'
+            ) as Block[]).map((b) => b.id);
 
             this.getWorkSpace()
               .getAllBlocks()
-              .filter(possibleBlock =>
+              .filter((possibleBlock) =>
                 listOfBlockTypes.includes(possibleBlock.type)
               )
-              .filter(possibleBlock => {
-                  if (changeFrame.frameLocation.iteration == 0) {
-                    return true;
+              .filter((possibleBlock) => {
+                if (changeFrame.frameLocation.iteration == 0) {
+                  return true;
+                }
+                let statementParent = possibleBlock.getParent();
+                while (statementParent) {
+                  if (
+                    statementParent.getParent() &&
+                    statementParent.getParent().type === 'arduino_start'
+                  ) {
+                    break;
                   }
-                  let statementParent = possibleBlock.getParent();
-                  while (statementParent) {
-                    if (statementParent.getParent() && statementParent.getParent().type === 'arduino_start') {
-                      break;
-                    }
-                    statementParent = statementParent.getParent();
-                  }
+                  statementParent = statementParent.getParent();
+                }
 
-                  return !setupBlocksIdsParentIds.includes(statementParent.id);
+                return !setupBlocksIdsParentIds.includes(statementParent.id);
               })
-              .forEach(sensorBlockToSet => {
+              .forEach((sensorBlockToSet) => {
                 const blockMapInfo = mapToSetupSensorBlock.fieldsToCollect.find(
-                  info => info.sensorBlockType === sensorBlockToSet.type
+                  (info) => info.sensorBlockType === sensorBlockToSet.type
                 );
-                const component = changeFrame.state.components.find(
-                  c => {
-                    if (c instanceof ButtonState) {
-                      return c.pin == sensorBlockToSet.getFieldValue('PIN');
-                    }
+                const component = changeFrame.state.components.find((c) => {
+                  if (c instanceof ButtonState) {
+                    return c.pin == sensorBlockToSet.getFieldValue('PIN');
+                  }
 
-                    return c instanceof SensorComponent &&
-                      mapToSetupSensorBlock.type === c.type
-                  }) as SensorComponent;
+                  return (
+                    c instanceof SensorComponent &&
+                    mapToSetupSensorBlock.type === c.type
+                  );
+                }) as SensorComponent;
                 sensorBlockToSet
                   .getField('SIMPLE_DEBUG')
                   .setValue(component.getFieldValue(blockMapInfo.dataSaveKey));

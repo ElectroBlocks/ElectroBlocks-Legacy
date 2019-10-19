@@ -228,6 +228,7 @@ export const toolbox = `<xml
 
 
 <category colour="330" name="Time">
+<block type="time_setup"></block>
 <block type="delay_block">
 <value name="DELAY">
     <block type="math_number">

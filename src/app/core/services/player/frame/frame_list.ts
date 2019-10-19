@@ -23,7 +23,7 @@ import {
   analog_write_block
 } from '../frame_genorator/input_output';
 
-import { delay_block_block } from '../frame_genorator/time';
+import { delay_block_block, time_seconds_block } from '../frame_genorator/time';
 
 import { rotate_servo_block } from '../frame_genorator/servo';
 
@@ -279,7 +279,9 @@ valueGeneratingBlocks = {
   is_button_pressed_block,
 
   arduino_get_message_block,
-  arduino_receive_message_block
+  arduino_receive_message_block,
+
+  time_seconds_block
 };
 
 export { frameGeneratingBlocks, valueGeneratingBlocks };
