@@ -7,8 +7,7 @@ import { loopTimes } from './debug_extensions';
 defineBlocksWithJsonArray([
   {
     type: 'rfid_scan',
-    message0:
-      '%1 Did RFID read scan a new card? %2 new card? (readonly) %3',
+    message0: '%1 Did RFID read scan a new card? %2 new card? (readonly) %3',
     args0: [
       {
         type: 'field_image',
@@ -19,7 +18,7 @@ defineBlocksWithJsonArray([
         flipRtl: false
       },
       {
-        type: 'input_dummy',
+        type: 'input_dummy'
       },
       {
         type: 'field_checkbox',
@@ -49,7 +48,7 @@ defineBlocksWithJsonArray([
         flipRtl: false
       },
       {
-        type: 'input_dummy',
+        type: 'input_dummy'
       },
       {
         type: 'field_input',
@@ -92,55 +91,74 @@ defineBlocksWithJsonArray([
     colour: 260,
     tooltip: '',
     helpUrl: ''
-  },
-  
+  }
 ]);
 
 Blockly.Blocks['rfid_setup'] = {
   init: function() {
     this.appendDummyInput()
-        .appendField(new Blockly.FieldImage("./assets/blocks/rfid/rfid.png", 15, 15, { alt: "*", flipRtl: "FALSE" }))
-        .appendField("RFID Setup");
+      .appendField(
+        new Blockly.FieldImage('./assets/blocks/rfid/rfid.png', 15, 15, {
+          alt: '*',
+          flipRtl: 'FALSE'
+        })
+      )
+      .appendField('RFID Setup');
     this.appendDummyInput()
-        .appendField("RX Pin#")
-        .appendField(new Blockly.FieldDropdown(selectedBoard().digitalPins), "RX")
-        .appendField("TX Pin#")
-        .appendField(new Blockly.FieldDropdown(selectedBoard().digitalPins), "TX");
-    this.appendDummyInput("SHOW_CODE_VIEW")
-        .appendField("-----------------------------------------");
+      .appendField('RX Pin#')
+      .appendField(new Blockly.FieldDropdown(selectedBoard().digitalPins), 'RX')
+      .appendField('TX Pin#')
+      .appendField(
+        new Blockly.FieldDropdown(selectedBoard().digitalPins),
+        'TX'
+      );
+    this.appendDummyInput('SHOW_CODE_VIEW').appendField(
+      '-----------------------------------------'
+    );
     this.appendDummyInput()
-        .appendField("LOOP")
-        .appendField(new Blockly.FieldDropdown(() => {
+      .appendField('LOOP')
+      .appendField(
+        new Blockly.FieldDropdown(() => {
           return loopTimes();
-        }), "LOOP");
+        }),
+        'LOOP'
+      );
     this.appendDummyInput()
-        .appendField("Scanned Card?")
-        .appendField(new Blockly.FieldCheckbox("TRUE", value => {
-          if ("FALSE" === value) {
+      .appendField('Scanned Card?')
+      .appendField(
+        new Blockly.FieldCheckbox('TRUE', value => {
+          if ('FALSE' === value) {
             this.getField('card_number').setValue('');
             this.getField('tag').setValue('');
           }
           return value;
-        }), "scanned_card");
+        }),
+        'scanned_card'
+      );
     this.appendDummyInput()
-        .appendField("Card #:")
-        .appendField(new Blockly.FieldTextInput("card_number", 
-          value => {
-            if (this.getFieldValue('scanned_card') === 'FALSE') {
-               return null;
-            }
-            return value;
-        }), "card_number");
+      .appendField('Card #:')
+      .appendField(
+        new Blockly.FieldTextInput('card_number', value => {
+          if (this.getFieldValue('scanned_card') === 'FALSE') {
+            return null;
+          }
+          return value;
+        }),
+        'card_number'
+      );
     this.appendDummyInput()
-        .appendField("Tag#:")
-        .appendField(new Blockly.FieldTextInput("tag" , value => {
-            if (this.getFieldValue('scanned_card') === 'FALSE') {
-               return null;
-            }
-            return value;
-          }), "tag");
+      .appendField('Tag#:')
+      .appendField(
+        new Blockly.FieldTextInput('tag', value => {
+          if (this.getFieldValue('scanned_card') === 'FALSE') {
+            return null;
+          }
+          return value;
+        }),
+        'tag'
+      );
     this.setColour(260);
- this.setTooltip("");
- this.setHelpUrl("");
+    this.setTooltip('');
+    this.setHelpUrl('');
   }
 };

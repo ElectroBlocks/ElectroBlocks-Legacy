@@ -23,7 +23,7 @@ import {
   analog_write_block
 } from '../frame_genorator/input_output';
 
-import { delay_block_block } from '../frame_genorator/time';
+import { delay_block_block, time_seconds_block } from '../frame_genorator/time';
 
 import { rotate_servo_block } from '../frame_genorator/servo';
 
@@ -42,7 +42,8 @@ import {
   bluetooth_setup_block,
   rfid_setup_block,
   push_button_setup_block,
-  message_setup_block
+  message_setup_block,
+  time_setup_block
 } from '../frame_genorator/pass_through_block';
 
 import {
@@ -192,6 +193,7 @@ frameGeneratingBlocks = {
   analog_write_block,
 
   delay_block_block,
+  time_setup_block,
 
   arduino_send_message_block,
   rotate_servo_block,
@@ -279,7 +281,10 @@ valueGeneratingBlocks = {
   is_button_pressed_block,
 
   arduino_get_message_block,
-  arduino_receive_message_block
+  arduino_receive_message_block,
+
+  time_seconds_block,
+  
 };
 
 export { frameGeneratingBlocks, valueGeneratingBlocks };

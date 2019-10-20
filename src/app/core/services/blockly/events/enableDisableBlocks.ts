@@ -47,7 +47,8 @@ const standAloneBlocks = [
   'bluetooth_setup',
   'led_color_setup',
   'push_button_setup',
-  'message_setup'
+  'message_setup',
+  'time_setup'
 ];
 
 export const blockMultipleSetup = ['push_button_setup'];

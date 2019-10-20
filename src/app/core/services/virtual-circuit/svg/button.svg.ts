@@ -20,11 +20,11 @@ export class ButtonSvg extends ComponentSvg {
 
     if (btnState.isPressed) {
       this.svg
-        .select('#THUMB_UP')
+        .select('#BUTTON_PRESSED')
         .first()
         .show();
       this.svg
-        .select('#THUMB_DOWN')
+        .select('#BUTTON_NOT_PRESSED')
         .first()
         .hide();
       pressedStateNode.node.textContent = 'Pressed';
@@ -32,11 +32,11 @@ export class ButtonSvg extends ComponentSvg {
     }
 
     this.svg
-      .select('#THUMB_UP')
+      .select('#BUTTON_PRESSED')
       .first()
       .hide();
     this.svg
-      .select('#THUMB_DOWN')
+      .select('#BUTTON_NOT_PRESSED')
       .first()
       .show();
     pressedStateNode.node.textContent = 'Not Pressed';
