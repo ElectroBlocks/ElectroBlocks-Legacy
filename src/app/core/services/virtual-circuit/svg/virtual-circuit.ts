@@ -30,6 +30,8 @@ import { resetBreadBoardWholes } from './next-wire.state';
 import { ButtonState } from '../../player/arduino/state/button.state';
 import { BluetoothState } from '../../player/arduino/state/bluetooth.state';
 import { bluetoothFactory } from '../factory/bluetooth-svg.factory';
+import { MotorState } from '../../player/arduino/state/motor.state';
+import { motorFactory } from '../factory/motor-svg.factory';
 
 export class VirtualCircuit {
   private svgs: ComponentSvg[] = [];
@@ -219,6 +221,17 @@ export class VirtualCircuit {
         )
       );
       return;
+    }
+
+    if (component instanceof MotorState) {
+            this.svgs.push(
+              await motorFactory(
+                this,
+                component,
+                !this.showArduinoComm.getShowArduino()
+              )
+            );
+            return;
     }
 
     if (component instanceof LedMatrixState) {
