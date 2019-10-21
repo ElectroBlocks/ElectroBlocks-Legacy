@@ -59,3 +59,10 @@ export abstract class ComponentSvg extends BaseSvg {
 
   public abstract resetComponent();
 }
+
+export abstract class AnimationSVG extends ComponentSvg {
+  /**
+   * Stops all animations
+   */
+  public abstract stop(): void;
+}

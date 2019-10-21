@@ -1,11 +1,12 @@
-import { ComponentSvg } from './component.svg';
+import { AnimationSVG } from './component.svg';
 import { ArduinoState } from '../../player/arduino/state/arduino.state';
 import { ElectricAttachmentComponentState } from '../../player/arduino/state/electric.state';
-import { Parent, Animation } from 'svg.js';
+import { Parent, Animation, Text } from 'svg.js';
 import { MotorState } from '../../player/arduino/state/motor.state';
 
-export class MotorSvg extends ComponentSvg {
+export class MotorSvg extends AnimationSVG {
   private motorDirection: string;
+  private motorSpeed = 0;
 
   constructor(
     public readonly svg: Parent,
@@ -17,7 +18,7 @@ export class MotorSvg extends ComponentSvg {
   private animationObject: Animation | any;
 
   public matchState(state: ArduinoState): void {
-    const motorState = state.components.find((c) =>
+    const motorState = state.components.find(c =>
       this.isComponent(c)
     ) as MotorState;
 
@@ -34,45 +35,72 @@ export class MotorSvg extends ComponentSvg {
 
     if (
       this.motorDirection === '' ||
-      motorState.direction !== this.motorDirection
+      motorState.direction !== this.motorDirection ||
+      this.motorSpeed !== motorState.speed ||
+      (this.animationObject && !this.animationObject.active)
     ) {
-      this.rotate(motorState.direction.toLowerCase());
+      this.rotate(motorState.direction.toLowerCase(), motorState.speed);
       this.motorDirection = motorState.direction;
+      this.motorSpeed = motorState.speed;
       return;
     }
   }
 
-  private setText(motorState: MotorState) {}
+  private setText(motorState: MotorState) {
+    const motorText = this.svg.select('#motor_info').first() as Text;
+
+    motorText.node.textContent = `Motor ${motorState.motorNumber}`;
+
+    const speedText = this.svg.select('#speed').first() as Text;
+
+    speedText.node.textContent = `Speed ${motorState.speed}`;
+
+    const directionText = this.svg.select('#direction').first() as Text;
+
+    directionText.node.textContent = `Direction ${motorState.direction.toLowerCase()}`;
+  }
 
   public shouldExist(state: ArduinoState): boolean {
-    return state.components.find((c) => this.isComponent(c)) !== undefined;
+    return state.components.find(c => this.isComponent(c)) !== undefined;
   }
 
   public isComponent(component: ElectricAttachmentComponentState): boolean {
     return (
       component instanceof MotorState &&
-      component.motorNumber == this.startingState.motorNumber
+      component.motorNumber === this.startingState.motorNumber
     );
   }
 
-  public resetComponent() {
+  public stop() {
     if (this.animationObject) {
       this.animationObject.stop(true, true);
-      // TODO RESET SPEED
     }
   }
 
-  public rotate(direction = 'forward') {
+  public resetComponent() {
+    this.stop();
+    const speedText = this.svg.select('#speed').first() as Text;
+
+    speedText.node.textContent = `Speed 0`;
+
+    const directionText = this.svg.select('#direction').first() as Text;
+
+    directionText.node.textContent = `Direction`;
+  }
+
+  public rotate(direction = 'forward', speed = 1) {
     const centerCircle = this.svg.select('#inner-circle').first();
     if (this.animationObject) {
       this.animationObject.stop(true, true);
     }
+
+    const timeItTakesToLoop2TimesAround = 700 + 3000 / speed;
     this.animationObject = (this.svg
-      .select('#propellor')
+      .select('#motor')
       .first()
-      .animate(2000, '-')
+      .animate(timeItTakesToLoop2TimesAround, '-')
       .rotate(
-        direction == 'forward' ? 720 : -720,
+        direction === 'forward' ? 720 : -720,
         centerCircle.cx(),
         centerCircle.cy()
       ) as any).loop();

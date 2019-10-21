@@ -360,7 +360,7 @@ export const toolbox = `<xml
 <block type="move_motor">
 <value name="SPEED">
                 <block type="math_number">
-                    <field name="NUM">150</field>
+                    <field name="NUM">5</field>
                 </block>
             </value>
             <value name="MOTOR">

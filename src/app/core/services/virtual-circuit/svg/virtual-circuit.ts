@@ -11,7 +11,7 @@ import { ArduinoState } from '../../player/arduino/state/arduino.state';
 import { ElectricAttachmentComponentState } from '../../player/arduino/state/electric.state';
 import { servoFactory } from '../factory/servo-svg.factory';
 import { ServoState } from '../../player/arduino/state/servo.state';
-import { ComponentSvg } from './component.svg';
+import { ComponentSvg, AnimationSVG } from './component.svg';
 import { NeoPixelStripState } from '../../player/arduino/state/neo_pixel_strip.state';
 import { neoPixelFactory } from '../factory/neopixel-svg.factory';
 import { LedMatrixState } from '../../player/arduino/state/led_matrix.state';
@@ -224,14 +224,14 @@ export class VirtualCircuit {
     }
 
     if (component instanceof MotorState) {
-            this.svgs.push(
-              await motorFactory(
-                this,
-                component,
-                !this.showArduinoComm.getShowArduino()
-              )
-            );
-            return;
+      this.svgs.push(
+        await motorFactory(
+          this,
+          component,
+          !this.showArduinoComm.getShowArduino()
+        )
+      );
+      return;
     }
 
     if (component instanceof LedMatrixState) {
@@ -307,5 +307,11 @@ export class VirtualCircuit {
     });
 
     this.svgs = [];
+  }
+
+  public stopAllAnimations() {
+    this.svgs
+      .filter(svg => svg instanceof AnimationSVG)
+      .forEach((svg: AnimationSVG) => svg.stop());
   }
 }

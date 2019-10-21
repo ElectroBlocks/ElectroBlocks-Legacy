@@ -9,7 +9,7 @@ export const motorFactory = async (
   componentState: MotorState,
   componentOnly = false
 ) => {
-  const motorSvgString = `./assets/svgs/motor.svg`;
+  const motorSvgString = `./assets/svgs/motor-2.svg`;
 
   const motorSvg = new MotorSvg(
     virtualCircuit.baseSVG
