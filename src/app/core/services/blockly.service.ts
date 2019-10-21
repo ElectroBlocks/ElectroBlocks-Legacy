@@ -8,7 +8,9 @@ import './blockly/overrides/FieldVariable.override';
 import './blockly/overrides/variable-flyoutmenu.override';
 import { overrideTrashBlocks } from './blockly/overrides/trashcan.override';
 import { BlocklyPromptOverRide } from './blockly/overrides/BlocklyPrompt.override';
+import { changeFramePopulateSensorBlock } from './blockly/events/changeFramePopulateSensorBlocks';
 
+import * as _ from 'lodash';
 import './blockly/block/index';
 import './blockly/generators/index';
 import { registerListMenu } from './blockly/menu/list.menu';
@@ -24,13 +26,8 @@ import { Router } from '@angular/router';
 import { changeSetupBlockValueBecauseOfLoopChange } from './blockly/events/changeSetupBlockValueBecauseOfLoopChange';
 import { changeLoopNumberInSensorBlocks } from './blockly/events/changeLoopNumberInSensorSetupBlocks';
 import { filter } from 'rxjs/operators';
-import { Block } from 'blockly';
-import { listOfStateHoldersBlocks } from './player/frame/state_holder';
-import * as _ from 'lodash';
-import { SensorComponent } from './player/arduino/state/electric.state';
-import { blocksInsideInput } from './player/frame/blockly_helper';
 import { checkButtonPinSelectionValid } from './blockly/events/checkButtonPinSelectionValid';
-import { ButtonState } from './player/arduino/state/button.state';
+import { Block } from 'blockly';
 
 @Injectable({
   providedIn: 'root'
@@ -65,70 +62,7 @@ export class BlocklyService {
     framePlayer.changeFrame$
       .pipe(filter(() => this.getWorkSpace() !== undefined))
       .subscribe(changeFrame => {
-        console.log('changeFrame', changeFrame);
-        const topBlocks: Block[] = Blockly.mainWorkspace
-          .getTopBlocks()
-          .filter(block => block.type !== 'arduino_start');
-        BlocklyService.DISABLE_READONLY_CHECK = true;
-        const mapToSetupSensorBlocks = topBlocks
-          .filter((block) => block.isEnabled())
-          .filter((block) =>
-            Object.keys(listOfStateHoldersBlocks).includes(block.type + '_block')
-          )
-          .map(setupBlock => listOfStateHoldersBlocks[setupBlock.type + '_block']);
-        
-        mapToSetupSensorBlocks.push(listOfStateHoldersBlocks['time_setup_block']);
-          mapToSetupSensorBlocks.forEach((mapToSetupSensorBlock) => {
-            const listOfBlockTypes = mapToSetupSensorBlock.fieldsToCollect.map(
-              (info) => info.sensorBlockType
-            );
-            const setupBlocksIdsParentIds = (blocksInsideInput(
-              this.getArduinoStartBlock(),
-              'setup'
-            ) as Block[]).map((b) => b.id);
-
-            this.getWorkSpace()
-              .getAllBlocks()
-              .filter((possibleBlock) =>
-                listOfBlockTypes.includes(possibleBlock.type)
-              )
-              .filter((possibleBlock) => {
-                if (changeFrame.frameLocation.iteration == 0) {
-                  return true;
-                }
-                let statementParent = possibleBlock.getParent();
-                while (statementParent) {
-                  if (
-                    statementParent.getParent() &&
-                    statementParent.getParent().type === 'arduino_start'
-                  ) {
-                    break;
-                  }
-                  statementParent = statementParent.getParent();
-                }
-
-                return !setupBlocksIdsParentIds.includes(statementParent.id);
-              })
-              .forEach((sensorBlockToSet) => {
-                const blockMapInfo = mapToSetupSensorBlock.fieldsToCollect.find(
-                  (info) => info.sensorBlockType === sensorBlockToSet.type
-                );
-                const component = changeFrame.state.components.find((c) => {
-                  if (c instanceof ButtonState) {
-                    return c.pin == sensorBlockToSet.getFieldValue('PIN');
-                  }
-
-                  return (
-                    c instanceof SensorComponent &&
-                    mapToSetupSensorBlock.type === c.type
-                  );
-                }) as SensorComponent;
-                sensorBlockToSet
-                  .getField('SIMPLE_DEBUG')
-                  .setValue(component.getFieldValue(blockMapInfo.dataSaveKey));
-              });
-            BlocklyService.DISABLE_READONLY_CHECK = false;
-          });
+        changeFramePopulateSensorBlock(changeFrame, this.getArduinoStartBlock());
       });
   }
 
@@ -253,7 +187,7 @@ export class BlocklyService {
         });
   }
 
-  public getArduinoStartBlock() {
+  public getArduinoStartBlock(): Block|undefined|any {
     return this.getWorkSpace()
       .getAllBlocks()
       .find(block => block.type === 'arduino_start');
