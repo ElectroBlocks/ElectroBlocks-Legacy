@@ -76,7 +76,6 @@ export class FramePlayer {
       await this.skipToFrame(0);
       return;
     }
-    console.log(oldCurrentFrameNumber);
     await this.skipToFrame(oldCurrentFrameNumber);
     return;
   }
@@ -122,6 +121,7 @@ export class FramePlayer {
    */
   public async stop() {
     this.playing = false;
+    this.frameExecutor.stopAmination();
   }
 
   /**
@@ -201,6 +201,7 @@ export class FramePlayer {
 
     if (this.playing && this.isLastFrame()) {
       this.playing = false;
+      this.frameExecutor.stopAmination();
     }
   }
 
@@ -231,7 +232,6 @@ export class FramePlayer {
    */
   private sendFrameOutput() {
     const frame = this.frames[this.currentFrame];
-    console.log(frame, 'frame executing');
     this.changeFrameSubject.next({
       state: frame.state,
       blockId: frame.blockId,

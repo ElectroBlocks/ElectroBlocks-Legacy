@@ -1,5 +1,4 @@
 import { VirtualCircuit } from '../svg/virtual-circuit';
-import { LedMatrixState } from '../../player/arduino/state/led_matrix.state';
 import { Element, Parent } from 'svg.js';
 import { MatrixSvg } from '../svg/matrix.svg';
 import { virtualCircuitPin } from '../svg/arduino.svg';

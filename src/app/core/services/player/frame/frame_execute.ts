@@ -19,6 +19,8 @@ export class ExecuteUSBFrame implements ExecuteFrameInterface {
   public isReady() {
     return true;
   }
+
+  public stopAmination() {}
 }
 
 @Injectable({
@@ -52,6 +54,10 @@ export class ExecuteVirtualCircuitFrame implements ExecuteFrameInterface {
   isReady() {
     return this.virtualCircuit !== undefined;
   }
+
+  public stopAmination() {
+    this.virtualCircuit.stopAllAnimations();
+  }
 }
 
 export class ExecuteDebugFrame implements ExecuteFrameInterface {
@@ -69,6 +75,8 @@ export class ExecuteDebugFrame implements ExecuteFrameInterface {
   isReady() {
     return true;
   }
+
+  public stopAmination() {}
 }
 
 export class ExecuteSilentFrame implements ExecuteFrameInterface {
@@ -85,6 +93,8 @@ export class ExecuteSilentFrame implements ExecuteFrameInterface {
   isReady() {
     return true;
   }
+
+  public stopAmination() {}
 }
 
 export interface ExecuteFrameInterface {
@@ -97,6 +107,8 @@ export interface ExecuteFrameInterface {
   reset(): void;
 
   isReady(): boolean;
+
+  stopAmination(): void;
 }
 
 export const ExecuteFrameProvider = new InjectionToken('ExecuteFrameProvider', {

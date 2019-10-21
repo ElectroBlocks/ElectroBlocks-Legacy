@@ -11,7 +11,7 @@ import { ArduinoState } from '../../player/arduino/state/arduino.state';
 import { ElectricAttachmentComponentState } from '../../player/arduino/state/electric.state';
 import { servoFactory } from '../factory/servo-svg.factory';
 import { ServoState } from '../../player/arduino/state/servo.state';
-import { ComponentSvg } from './component.svg';
+import { ComponentSvg, AnimationSVG } from './component.svg';
 import { NeoPixelStripState } from '../../player/arduino/state/neo_pixel_strip.state';
 import { neoPixelFactory } from '../factory/neopixel-svg.factory';
 import { LedMatrixState } from '../../player/arduino/state/led_matrix.state';
@@ -30,6 +30,8 @@ import { resetBreadBoardWholes } from './next-wire.state';
 import { ButtonState } from '../../player/arduino/state/button.state';
 import { BluetoothState } from '../../player/arduino/state/bluetooth.state';
 import { bluetoothFactory } from '../factory/bluetooth-svg.factory';
+import { MotorState } from '../../player/arduino/state/motor.state';
+import { motorFactory } from '../factory/motor-svg.factory';
 
 export class VirtualCircuit {
   private svgs: ComponentSvg[] = [];
@@ -221,6 +223,17 @@ export class VirtualCircuit {
       return;
     }
 
+    if (component instanceof MotorState) {
+      this.svgs.push(
+        await motorFactory(
+          this,
+          component,
+          !this.showArduinoComm.getShowArduino()
+        )
+      );
+      return;
+    }
+
     if (component instanceof LedMatrixState) {
       this.svgs.push(
         await matrixFactory(this, !this.showArduinoComm.getShowArduino())
@@ -294,5 +307,11 @@ export class VirtualCircuit {
     });
 
     this.svgs = [];
+  }
+
+  public stopAllAnimations() {
+    this.svgs
+      .filter(svg => svg instanceof AnimationSVG)
+      .forEach((svg: AnimationSVG) => svg.stop());
   }
 }

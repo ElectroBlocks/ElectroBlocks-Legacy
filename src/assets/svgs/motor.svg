@@ -1,22 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="162.86" height="265.2" viewBox="0 0 162.86 265.2">
+<svg xmlns="http://www.w3.org/2000/svg" width="162.92" height="265.2" viewBox="0 0 162.92 265.2">
   <title>motor</title>
   <g id="motor">
     <g id="propellor">
-      <path d="M118.39,200S117.55,266.9,97,270.83s10.52-68.34,10.52-68.34Z" transform="translate(-13.57 -6.28)" style="fill: #00c927;stroke: #000;stroke-miterlimit: 10"/>
-      <path d="M116.07,150.61s-1-66.92,19.44-71.41-8.66,68.6-8.66,68.6Z" transform="translate(-13.57 -6.28)" style="fill: #00c927;stroke: #000;stroke-miterlimit: 10"/>
+      <path d="M118.39,200S117.55,266.9,97,270.83s10.52-68.34,10.52-68.34Z" transform="translate(-13.51 -6.28)" fill="#00c927" stroke="#000" stroke-miterlimit="10"/>
+      <path d="M116.07,150.61s-1-66.92,19.44-71.41-8.66,68.6-8.66,68.6Z" transform="translate(-13.51 -6.28)" fill="#00c927" stroke="#000" stroke-miterlimit="10"/>
     </g>
     <g>
-      <path d="M116.93,204.22a29.28,29.28,0,0,1-21.52-9.28,29.58,29.58,0,0,1,21.51-49.87,29.58,29.58,0,1,1,0,59.15Z" transform="translate(-13.57 -6.28)" style="fill: #ffd90a"/>
-      <path d="M116.92,144.57v1h0a28.79,28.79,0,0,1,21.16,9.13,29.08,29.08,0,0,1-21.15,49,29.08,29.08,0,0,1,0-58.15v-1m0,0A30.08,30.08,0,1,0,138.81,154a30,30,0,0,0-21.89-9.45Z" transform="translate(-13.57 -6.28)"/>
+      <path d="M116.93,204.22a29.28,29.28,0,0,1-21.52-9.28,29.58,29.58,0,0,1,21.51-49.87,29.58,29.58,0,1,1,0,59.15Z" transform="translate(-13.51 -6.28)" fill="#ffd90a"/>
+      <path d="M116.92,144.57v1h0a28.79,28.79,0,0,1,21.16,9.13,29.08,29.08,0,0,1-21.15,49,29.08,29.08,0,0,1,0-58.15v-1m0,0A30.08,30.08,0,1,0,138.81,154a30,30,0,0,0-21.89-9.45Z" transform="translate(-13.51 -6.28)"/>
     </g>
     <g id="inner-circle">
-      <path d="M116.93,184.17a9.53,9.53,0,1,1,6.93-16.06,9.52,9.52,0,0,1-6.93,16.06Z" transform="translate(-13.57 -6.28)" style="fill: #ffc794"/>
-      <path d="M116.93,165.62h0a9,9,0,1,1-6.19,2.46,8.92,8.92,0,0,1,6.19-2.46m0-1a10,10,0,1,0,7.29,3.15,10,10,0,0,0-7.29-3.15Z" transform="translate(-13.57 -6.28)"/>
+      <path d="M116.93,184.17a9.53,9.53,0,1,1,6.93-16.06,9.52,9.52,0,0,1-6.93,16.06Z" transform="translate(-13.51 -6.28)" fill="#ffc794"/>
+      <path d="M116.93,165.62h0a9,9,0,1,1-6.19,2.46,8.92,8.92,0,0,1,6.19-2.46m0-1a10,10,0,1,0,7.29,3.15,10,10,0,0,0-7.29-3.15Z" transform="translate(-13.51 -6.28)"/>
     </g>
   </g>
   <g id="text">
-    <text id="motor_info" transform="translate(0 15.55)" style="font-size: 18px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">Motor 1</text>
-    <text id="speed" transform="translate(0.34 39.03) rotate(-1.25)" style="font-size: 18px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">Speed 150</text>
-    <text id="direction" transform="translate(0 61.56)" style="font-size: 18px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">Di<tspan x="18.2" y="0" style="letter-spacing: -0.02490234375em">r</tspan><tspan x="25.64" y="0">ection: </tspan><tspan x="90.16" y="0" style="letter-spacing: -0.0380859375em">F</tspan><tspan x="100.34" y="0">or</tspan><tspan x="119.1" y="0" style="letter-spacing: -0.01318359375em">w</tspan><tspan x="133.5" y="0">a</tspan><tspan x="144.19" y="0" style="letter-spacing: -0.02587890625em">r</tspan><tspan x="151.61" y="0">d</tspan></text>
+    <text id="motor_info" transform="translate(0.05 15.55)" font-size="18" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">Motor 1</text>
+    <text id="speed" transform="translate(0.34 39.05) rotate(-1.25)" font-size="18" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">Speed 150</text>
+    <text id="direction" transform="translate(0.05 61.56)" font-size="18" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">Di<tspan x="18.2" y="0" letter-spacing="-0.02em">r</tspan><tspan x="25.64" y="0">ection: </tspan><tspan x="90.16" y="0" letter-spacing="-0.04em">F</tspan><tspan x="100.34" y="0">or</tspan><tspan x="119.1" y="0" letter-spacing="-0.01em">w</tspan><tspan x="133.5" y="0">a</tspan><tspan x="144.19" y="0" letter-spacing="-0.03em">r</tspan><tspan x="151.61" y="0">d</tspan></text>
   </g>
 </svg>
