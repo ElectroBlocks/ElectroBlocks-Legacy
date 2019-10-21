@@ -4,7 +4,7 @@ import { generateFrameForInputStatement } from './blockly_helper';
 import * as Blockly from 'blockly/core';
 import { Block } from 'blockly';
 import * as _ from 'lodash';
-import { listOfStateHoldersBlocks } from './state_holder';
+import { mapFakeSensorValuesToBlocks } from './map_fake_sensor_values_to_blocks';
 import { ElectricAttachmentComponentState } from '../arduino/state/electric.state';
 import { blockMultipleSetup } from '../../blockly/events/enableDisableBlocks';
 import { ButtonState } from '../arduino/state/button.state';
@@ -187,10 +187,10 @@ export const getSensorData = (): {
   topBlocks
     .filter(block => block.isEnabled())
     .filter(block =>
-      Object.keys(listOfStateHoldersBlocks).includes(block.type + '_block')
+      Object.keys(mapFakeSensorValuesToBlocks).includes(block.type + '_block')
     )
     .forEach(block => {
-      const mapData = listOfStateHoldersBlocks[block.type + '_block'];
+      const mapData = mapFakeSensorValuesToBlocks[block.type + '_block'];
 
       if (block.type + '_block' === 'time_setup_block') {
         // This will be set manually.
