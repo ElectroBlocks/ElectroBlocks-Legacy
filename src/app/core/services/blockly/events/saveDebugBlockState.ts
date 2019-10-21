@@ -1,7 +1,7 @@
 import {
-  listOfStateHoldersBlocks,
+  mapFakeSensorValuesToBlocks,
   FakeInputMap
-} from '../../player/frame/state_holder';
+} from '../../player/frame/map_fake_sensor_values_to_blocks';
 import * as _ from 'lodash';
 import { Block } from 'blockly';
 
@@ -9,12 +9,12 @@ export const saveDebugBlockState = (workspace, numberOfLoops) => {
   const setupBlocks = workspace
     .getAllBlocks(true)
     .filter(block =>
-      Object.keys(listOfStateHoldersBlocks).includes(block.type + '_block')
+      Object.keys(mapFakeSensorValuesToBlocks).includes(block.type + '_block')
     );
 
   setupBlocks.forEach(block => {
     const currentData = block.data ? JSON.parse(block.data) : [];
-    const setupBlockMatch = listOfStateHoldersBlocks[block.type + '_block'];
+    const setupBlockMatch = mapFakeSensorValuesToBlocks[block.type + '_block'];
     if (currentData.length === 0) {
       setInitialData(block, setupBlockMatch.fieldsToCollect, numberOfLoops);
       return;

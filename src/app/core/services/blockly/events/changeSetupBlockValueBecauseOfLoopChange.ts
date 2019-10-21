@@ -1,4 +1,4 @@
-import { listOfStateHoldersBlocks } from '../../player/frame/state_holder';
+import { mapFakeSensorValuesToBlocks } from '../../player/frame/map_fake_sensor_values_to_blocks';
 
 export const changeSetupBlockValueBecauseOfLoopChange = (
   workspace,
@@ -15,11 +15,11 @@ export const changeSetupBlockValueBecauseOfLoopChange = (
 
   const block = workspace.getBlockById(event['blockId']);
   const loopNumber = parseInt(event['newValue'], 0);
-  if (!Object.keys(listOfStateHoldersBlocks).includes(block.type + '_block')) {
+  if (!Object.keys(mapFakeSensorValuesToBlocks).includes(block.type + '_block')) {
     return;
   }
 
-  const mapInfo = listOfStateHoldersBlocks[block.type + '_block'];
+  const mapInfo = mapFakeSensorValuesToBlocks[block.type + '_block'];
   const dataInBlockSaved = JSON.parse(block.data);
   const newValues = dataInBlockSaved[loopNumber - 1];
   mapInfo.fieldsToCollect.forEach(info => {
