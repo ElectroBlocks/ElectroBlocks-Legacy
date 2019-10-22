@@ -1,4 +1,3 @@
-import { DisplaySettingsComponent } from './../settings/display-settings/display-settings.component';
 import { SettingsContainerComponent } from './../settings-container/settings-container.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -13,7 +12,6 @@ import {
 } from '@angular/material';
 import { SvgComponent } from '../svg/svg.component';
 import { VariablesComponent } from '../settings/variables/variables.component';
-import { SensorComponent } from '../settings/sensor/sensor.component';
 
 describe('VirtualCircuitContainerComponent', () => {
   let component: VirtualCircuitContainerComponent;
@@ -26,8 +24,6 @@ describe('VirtualCircuitContainerComponent', () => {
         SvgComponent,
         SettingsContainerComponent,
         VariablesComponent,
-        SensorComponent,
-        DisplaySettingsComponent
       ],
       imports: [
         MatTabsModule,

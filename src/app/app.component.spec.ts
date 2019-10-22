@@ -1,5 +1,4 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DisplaySettingsComponent } from './virtual-circuit/settings/display-settings/display-settings.component';
 import { VariablesComponent } from './virtual-circuit/settings/variables/variables.component';
 import { SettingsContainerComponent } from './virtual-circuit/settings-container/settings-container.component';
 import { VirtualCircuitContainerComponent } from './virtual-circuit/virtual-circuit-container/virtual-circuit-container.component';
@@ -12,7 +11,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ElectronService } from './core/services';
-import { SensorComponent } from './virtual-circuit/settings/sensor/sensor.component';
 import {
   MatTabsModule,
   MatFormFieldModule,
@@ -33,8 +31,6 @@ describe('AppComponent', () => {
         VirtualCircuitContainerComponent,
         SettingsContainerComponent,
         VariablesComponent,
-        SensorComponent,
-        DisplaySettingsComponent
       ],
       providers: [ElectronService],
       imports: [

@@ -1,103 +1,127 @@
 import 'jasmine';
 import { Block } from 'blockly';
-import { analog_write_block, digital_write_block } from "./input_output";
-import { ARDUINO_UNO_PINS, ArduinoFrame } from "../arduino/arduino_frame";
-import { inputState } from "../frame/input_state";
-import * as blockHelper from "../frame/blockly_helper";
-import { ArduinoState } from "../arduino/state/arduino.state";
-import { PIN_TYPE, PinPicture, PinState } from "../arduino/state/pin.state";
+import { analog_write_block, digital_write_block } from './input_output';
+import { ARDUINO_UNO_PINS, ArduinoFrame } from '../arduino/arduino_frame';
+import * as blockHelper from '../frame/blockly_helper';
+import { ArduinoState } from '../arduino/state/arduino.state';
+import { PIN_TYPE, PinPicture, PinState } from '../arduino/state/pin.state';
 
 describe('input output frame generators', () => {
+  let block: any | Block;
 
-	let block: any|Block;
+  let getFieldValueSpy: any | jasmine.Spy;
 
-	let getFieldValueSpy: any|jasmine.Spy;
+  let getInputValueSpy: any | jasmine.Spy;
 
-	let addBlockCallSpy: any|jasmine.Spy;
+  beforeEach(() => {
+    block = {
+      getFieldValue(fieldName: string): any {}
+    };
 
-	let getInputValueSpy: any|jasmine.Spy;
+    getInputValueSpy = spyOn(blockHelper, 'getInputValue');
+    getFieldValueSpy = spyOn(block, 'getFieldValue');
+  });
 
-	beforeEach(() => {
-		block = {
-			getFieldValue( fieldName: string ): any {
-			}
-		};
+  describe('digital_write_block', () => {
+    it(' create a digital write high from block', () => {
+      const state = new ArduinoState(
+        [],
+        {
+          hello: {
+            name: 'hello',
+            type: 'String',
+            value: 'Hello'
+          }
+        },
+        false
+      );
 
-		getInputValueSpy = spyOn( blockHelper, 'getInputValue' );
-		addBlockCallSpy = spyOn(inputState, 'addBlockCall');
-		getFieldValueSpy = spyOn(block, 'getFieldValue');
-	});
+      const previousFrame = new ArduinoFrame('asdf', state, {
+        location: 'loop',
+        iteration: 0
+      });
 
-	describe('digital_write_block', () => {
-		it (' create a digital write high from block', () => {
+      getFieldValueSpy.withArgs('PIN').and.returnValue('3');
+      getFieldValueSpy.withArgs('STATE').and.returnValue('ON');
 
-			const state = new ArduinoState([], {'hello': {
-					name: 'hello', type: 'String', value: 'Hello'
-				}}, false);
+      const [frame] = digital_write_block(
+        block,
+        { location: 'loop', iteration: 3 },
+        previousFrame
+      );
 
-			const previousFrame = new ArduinoFrame('asdf', state,  { location: 'loop', iteration: 0 });
+      const pinState = frame.state.components.find(
+        component => component instanceof PinState
+      ) as PinState;
 
-			getFieldValueSpy.withArgs('PIN').and.returnValue('3');
-			getFieldValueSpy.withArgs('STATE').and.returnValue('ON');
+      expect(pinState.state).toBe(1);
+      expect(pinState.type).toBe(PIN_TYPE.DIGITAL);
+      expect(pinState.pin).toBe(ARDUINO_UNO_PINS.PIN_3);
 
-			const [frame] = digital_write_block(block, {location: 'loop', iteration: 3 }, previousFrame);
+      expect(frame.state.variables['hello'].name).toBe('hello');
+      expect(frame.state.variables['hello'].value).toBe('Hello');
+      expect(frame.state.variables['hello'].type).toBe('String');
+    });
 
-			const pinState = frame.state.components
-				.find(component => component instanceof PinState) as PinState;
+    it('should create a digital write frame that has the led off', () => {
+      getFieldValueSpy.withArgs('PIN').and.returnValue('3');
+      getFieldValueSpy.withArgs('STATE').and.returnValue('OFF');
 
+      const [frame] = digital_write_block(block, {
+        location: 'loop',
+        iteration: 3
+      });
 
-			expect(pinState.state).toBe(1);
-			expect(pinState.type).toBe(PIN_TYPE.DIGITAL);
-			expect(pinState.pin).toBe(ARDUINO_UNO_PINS.PIN_3);
+      const pinState = frame.state.components.find(
+        component => component instanceof PinState
+      ) as PinState;
 
-			expect(frame.state.variables['hello'].name).toBe('hello');
-			expect(frame.state.variables['hello'].value).toBe('Hello');
-			expect(frame.state.variables['hello'].type).toBe('String');
-		});
+      expect(pinState.state).toBe(0);
+      expect(pinState.type).toBe(PIN_TYPE.DIGITAL);
+      expect(pinState.pin).toBe(ARDUINO_UNO_PINS.PIN_3);
+    });
 
-		it('should create a digital write frame that has the led off', () => {
-			getFieldValueSpy.withArgs('PIN').and.returnValue('3');
-			getFieldValueSpy.withArgs('STATE').and.returnValue('OFF');
+    it('should not generate another component but replace the old one if it exists', () => {
+      const frameLocation = { location: 'loop', iteration: 3 };
+      getFieldValueSpy.withArgs('PIN').and.returnValue('A0');
 
-			const [frame] = digital_write_block(block, {location: 'loop', iteration: 3 });
+      const state = new ArduinoState(
+        [
+          new PinState(
+            ARDUINO_UNO_PINS.PIN_A0,
+            PIN_TYPE.ANALOG,
+            30,
+            PinPicture.GENERIC
+          )
+        ],
+        {
+          hello: {
+            name: 'hello',
+            type: 'String',
+            value: 'Hello'
+          }
+        },
+        false
+      );
 
-			const pinState = frame.state.components
-				.find(component => component instanceof PinState) as PinState;
+      const previousFrame = new ArduinoFrame('asdf', state, {
+        location: 'loop',
+        iteration: 0
+      });
 
+      getInputValueSpy
+        .withArgs(block, 'WRITE_VALUE', 0, frameLocation, previousFrame)
+        .and.returnValue(130);
 
-			expect(pinState.state).toBe(0);
-			expect(pinState.type).toBe(PIN_TYPE.DIGITAL);
-			expect(pinState.pin).toBe(ARDUINO_UNO_PINS.PIN_3);
+      const [frame] = analog_write_block(block, frameLocation, previousFrame);
 
+      expect(frame.state.components.length).toBe(1);
 
-		});
+      const pinState = frame.state.components[0] as PinState;
 
-		it ('should not generate another component but replace the old one if it exists', () => {
-
-			const frameLocation = {location: 'loop', iteration: 3 };
-			getFieldValueSpy.withArgs('PIN').and.returnValue('A0');
-
-			const state = new ArduinoState([new PinState(ARDUINO_UNO_PINS.PIN_A0, PIN_TYPE.ANALOG, 30, PinPicture.GENERIC)], {'hello': {
-					name: 'hello', type: 'String', value: 'Hello'
-				}}, false);
-
-
-
-			const previousFrame = new ArduinoFrame('asdf',  state,{ location: 'loop', iteration: 0 });
-
-			getInputValueSpy.withArgs(block, 'WRITE_VALUE', 0, frameLocation,  previousFrame).and.returnValue(130);
-
-			const [frame] =
-				analog_write_block(block, frameLocation, previousFrame);
-
-			expect(frame.state.components.length).toBe(1);
-
-			const pinState = frame.state.components[0] as PinState;
-
-			expect(pinState.state).toBe(130);
-			expect(pinState.type).toBe(PIN_TYPE.ANALOG);
-			expect(pinState.pin).toBe(ARDUINO_UNO_PINS.PIN_A0);
-		});
-	});
-
+      expect(pinState.state).toBe(130);
+      expect(pinState.type).toBe(PIN_TYPE.ANALOG);
+      expect(pinState.pin).toBe(ARDUINO_UNO_PINS.PIN_A0);
+    });
+  });
 });

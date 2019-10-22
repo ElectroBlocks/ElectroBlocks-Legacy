@@ -1,5 +1,4 @@
 import 'jasmine';
-import { inputState } from './input_state';
 import * as blockHelper from './blockly_helper';
 import * as Blockly from 'blockly/core';
 import { ArduinoFrame } from '../arduino/arduino_frame';
@@ -11,7 +10,6 @@ describe('Generate Frames', () => {
   const frameLocation = { location: 'loop', iteration: 3 };
 
   beforeEach(() => {
-    inputState.clearBlockCalls();
 
     blocklyMock = {
       mainWorkspace: {
@@ -66,8 +64,8 @@ describe('Generate Frames', () => {
         ArduinoFrame.makeEmptyFrame('block_id', frameLocation)
       ]);
 
-    expect((await generateListOfFrame(1)).length).toBe(3);
+    expect((await generateListOfFrame()).length).toBe(3);
 
-    expect((await generateListOfFrame(2)).length).toBe(5);
+    expect((await generateListOfFrame()).length).toBe(5);
   });
 });

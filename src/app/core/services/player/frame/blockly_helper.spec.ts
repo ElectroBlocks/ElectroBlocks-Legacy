@@ -5,7 +5,6 @@ import {
   generateFrameForInputStatement,
   getInputValue
 } from './blockly_helper';
-import { inputState } from './input_state';
 import { ArduinoState } from './../arduino/state/arduino.state';
 import { Block, Connection } from 'blockly';
 
@@ -130,9 +129,6 @@ describe('generateFrameForInputStatement', () => {
   });
 
   it('should get the value from the inputState class for debug blcoks', () => {
-    spyOn(inputState, 'addBlockCall')
-      .withArgs('block_id', frameLocation)
-      .and.returnValue({ value: 'awesome' } as any);
 
     const targetBlockContainingValue: Block | any = {
       defaultDebugValue: true,
