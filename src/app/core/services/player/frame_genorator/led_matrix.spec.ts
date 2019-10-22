@@ -7,15 +7,14 @@ import {
 import * as blockHelper from '../frame/blockly_helper';
 import { LedMatrixState } from '../arduino/state/led_matrix.state';
 
-fdescribe('led matrix', () => {
+describe('led matrix', () => {
   const inputListBigBlock = [
     {
       fieldRow: [
         {
           name: 'label',
-          state_: true,
           getValueBoolean() {
-            return this.this.state_;
+            return true;
           }
         }
       ]
@@ -27,7 +26,9 @@ fdescribe('led matrix', () => {
     for (let j = 1; j <= 8; j += 1) {
       fieldRow.push({
         name: `${i},${j}`,
-        state_: i % 2 === 0
+        getValueBoolean() {
+          return i % 2 === 0;
+        }
       });
     }
     inputListBigBlock.push({
@@ -52,13 +53,13 @@ fdescribe('led matrix', () => {
     });
 
     const ledMatrixState1 = frame.state.components.find(
-      component => component instanceof LedMatrixState
+      (component) => component instanceof LedMatrixState
     ) as LedMatrixState;
 
     for (let i = 1; i <= 8; i += 1) {
       for (let j = 1; j <= 8; j += 1) {
         const led = ledMatrixState1.leds.find(
-          led => led.row == i && led.col == j
+          (led) => led.row == i && led.col == j
         );
         expect(led.isOn).toBe(i % 2 == 0);
       }
@@ -93,13 +94,13 @@ fdescribe('led matrix', () => {
       frame
     );
     const ledMatrixState2 = frame2.state.components.find(
-      component => component instanceof LedMatrixState
+      (component) => component instanceof LedMatrixState
     ) as LedMatrixState;
 
     for (let i = 1; i <= 8; i += 1) {
       for (let j = 1; j <= 8; j += 1) {
         const led = ledMatrixState2.leds.find(
-          led => led.row == i && led.col == j
+          (led) => led.row == i && led.col == j
         );
 
         if (i == 1 && j == 1) {

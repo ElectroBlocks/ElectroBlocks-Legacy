@@ -14,10 +14,14 @@ import { ElectronService } from './core/services';
 import {
   MatTabsModule,
   MatFormFieldModule,
-  MatOptionModule,
   MatSelectModule,
-  MatInputModule
+  MatInputModule,
+  MatOptionModule,
+  MatSlideToggleModule,
+  MatIconModule
 } from '@angular/material';
+import { FormsModule } from '@angular/forms';
+import { WebMenuComponent } from './web-menu/web-menu.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -31,6 +35,7 @@ describe('AppComponent', () => {
         VirtualCircuitContainerComponent,
         SettingsContainerComponent,
         VariablesComponent,
+        WebMenuComponent
       ],
       providers: [ElectronService],
       imports: [
@@ -41,7 +46,10 @@ describe('AppComponent', () => {
         MatSelectModule,
         MatInputModule,
         MatOptionModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        FormsModule,
+        MatSlideToggleModule,
+        MatIconModule
       ]
     }).compileComponents();
   }));

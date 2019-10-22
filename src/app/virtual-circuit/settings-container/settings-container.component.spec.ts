@@ -10,7 +10,9 @@ import {
   MatFormFieldModule,
   MatOptionModule,
   MatSelectModule,
-  MatInputModule
+  MatInputModule,
+  MatSlideToggleModule,
+  MatIconModule
 } from '@angular/material';
 
 describe('SettingsContainerComponent', () => {
@@ -31,7 +33,9 @@ describe('SettingsContainerComponent', () => {
         MatFormFieldModule,
         MatSelectModule,
         MatInputModule,
+        MatIconModule,
         MatOptionModule,
+        MatSlideToggleModule,
         BrowserAnimationsModule
       ]
     }).compileComponents();

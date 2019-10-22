@@ -8,10 +8,14 @@ import {
   MatFormFieldModule,
   MatOptionModule,
   MatSelectModule,
-  MatInputModule
+  MatInputModule,
+  MatSlideToggleModule,
+  MatIconModule
 } from '@angular/material';
 import { SvgComponent } from '../svg/svg.component';
 import { VariablesComponent } from '../settings/variables/variables.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BlocklyService } from '../../core/services/blockly.service';
 
 describe('VirtualCircuitContainerComponent', () => {
   let component: VirtualCircuitContainerComponent;
@@ -23,7 +27,7 @@ describe('VirtualCircuitContainerComponent', () => {
         VirtualCircuitContainerComponent,
         SvgComponent,
         SettingsContainerComponent,
-        VariablesComponent,
+        VariablesComponent
       ],
       imports: [
         MatTabsModule,
@@ -31,7 +35,18 @@ describe('VirtualCircuitContainerComponent', () => {
         MatSelectModule,
         MatInputModule,
         MatOptionModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatSlideToggleModule,
+        MatIconModule
+      ],
+      providers: [
+        {
+          provide: BlocklyService,
+          useValue: {
+            resizeWorkspace() {}
+          },
+          multi: false
+        }
       ]
     }).compileComponents();
   }));
