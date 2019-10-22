@@ -1,5 +1,4 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DisplaySettingsComponent } from './virtual-circuit/settings/display-settings/display-settings.component';
 import { VariablesComponent } from './virtual-circuit/settings/variables/variables.component';
 import { SettingsContainerComponent } from './virtual-circuit/settings-container/settings-container.component';
 import { VirtualCircuitContainerComponent } from './virtual-circuit/virtual-circuit-container/virtual-circuit-container.component';
@@ -12,14 +11,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ElectronService } from './core/services';
-import { SensorComponent } from './virtual-circuit/settings/sensor/sensor.component';
 import {
   MatTabsModule,
   MatFormFieldModule,
-  MatOptionModule,
   MatSelectModule,
-  MatInputModule
+  MatInputModule,
+  MatOptionModule,
+  MatSlideToggleModule,
+  MatIconModule
 } from '@angular/material';
+import { FormsModule } from '@angular/forms';
+import { WebMenuComponent } from './web-menu/web-menu.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -33,8 +35,7 @@ describe('AppComponent', () => {
         VirtualCircuitContainerComponent,
         SettingsContainerComponent,
         VariablesComponent,
-        SensorComponent,
-        DisplaySettingsComponent
+        WebMenuComponent
       ],
       providers: [ElectronService],
       imports: [
@@ -45,7 +46,10 @@ describe('AppComponent', () => {
         MatSelectModule,
         MatInputModule,
         MatOptionModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        FormsModule,
+        MatSlideToggleModule,
+        MatIconModule
       ]
     }).compileComponents();
   }));

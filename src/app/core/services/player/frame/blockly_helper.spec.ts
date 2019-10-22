@@ -5,7 +5,6 @@ import {
   generateFrameForInputStatement,
   getInputValue
 } from './blockly_helper';
-import { inputState } from './input_state';
 import { ArduinoState } from './../arduino/state/arduino.state';
 import { Block, Connection } from 'blockly';
 
@@ -48,12 +47,16 @@ describe('generateFrameForInputStatement', () => {
 
     const block3: Block | any = {
       type: 'fake_generate',
-      disabled: true
+      isEnabled: () => {
+        return false;
+      }
     };
 
     const block2: Block | any = {
       type: 'fake_generate_2',
-      disabled: false,
+      isEnabled: () => {
+        return true;
+      },
       nextConnection: {
         targetBlock(): Block {
           return block3;
@@ -63,7 +66,9 @@ describe('generateFrameForInputStatement', () => {
 
     const block1: Block | any = {
       type: 'fake_generate',
-      disabled: false,
+      isEnabled: () => {
+        return true;
+      },
       nextConnection: {
         targetBlock(): Block {
           return block2;
@@ -73,7 +78,9 @@ describe('generateFrameForInputStatement', () => {
 
     const topBlock: Block | any = {
       type: 'fake_generate',
-      disabled: false,
+      isEnabled: () => {
+        return true;
+      },
       nextConnection: {
         targetBlock(): Block {
           return block1;
@@ -84,6 +91,9 @@ describe('generateFrameForInputStatement', () => {
     const containerBlock: Block | any = {
       getInputTargetBlock(statementName: string): Block {
         return topBlock;
+      },
+      isEnabled: () => {
+        return true;
       }
     };
 
@@ -129,14 +139,13 @@ describe('generateFrameForInputStatement', () => {
     expect(getInputValue(parentBlock, 'VALUE', 0, frameLocation)).toBe(4);
   });
 
-  it('should get the value from the inputState class for debug blcoks', () => {
-    spyOn(inputState, 'addBlockCall')
-      .withArgs('block_id', frameLocation)
-      .and.returnValue({ value: 'awesome' } as any);
-
+  it('should get the value from the inputState class for debug blocks', () => {
     const targetBlockContainingValue: Block | any = {
-      defaultDebugValue: true,
-      id: 'block_id'
+      id: 'block_id',
+      type: 'text',
+      getFieldValue(fieldName: string) {
+        return 'awesome';
+      }
     };
 
     const parentBlock: Block | any = {

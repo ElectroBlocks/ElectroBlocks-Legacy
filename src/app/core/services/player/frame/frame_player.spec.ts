@@ -67,14 +67,14 @@ describe('Frame Player', () => {
     const framePlayer = new FramePlayer(new ExecuteSilentFrame());
 
     await framePlayer.setFrames(frames);
-    let numberOfFramesExecuted = 0;
+    let frameNumbers = [];
 
     framePlayer.changeFrame$
-      .pipe(tap(() => (numberOfFramesExecuted += 1)))
+      .pipe(tap((frameChange) => frameNumbers.push(frameChange.frameNumber)))
       .subscribe();
     await framePlayer.play();
 
-    expect(numberOfFramesExecuted).toBe(3);
+    expect(frameNumbers).toEqual([0, 0, 1, 2]);
     expect(framePlayer['currentFrame']).toBe(2);
     expect(framePlayer.isPlaying()).toBeFalsy();
   });
@@ -100,20 +100,8 @@ describe('Frame Player', () => {
   it('should be able to go forward if frames are still available', async () => {
     const framePlayer = new FramePlayer(new ExecuteSilentFrame());
     await framePlayer.setFrames(frames);
-    let numberOfFramesExecuted = 0;
 
-    const sub = framePlayer.changeFrame$
-      .pipe(
-        tap(() => (numberOfFramesExecuted += 1)),
-        filter(() => numberOfFramesExecuted == 2),
-        tap(async () => {
-          await framePlayer.stop();
-          sub.unsubscribe();
-        })
-      )
-      .subscribe();
-
-    await framePlayer.play();
+    await framePlayer.skipToFrame(1);
     expect(framePlayer['currentFrame']).toBe(1);
 
     await framePlayer.next();
@@ -123,20 +111,8 @@ describe('Frame Player', () => {
   it('should be able to go backward if not at frame 0', async () => {
     const framePlayer = new FramePlayer(new ExecuteSilentFrame());
     await framePlayer.setFrames(frames);
-    let numberOfFramesExecuted = 0;
 
-    const sub = framePlayer.changeFrame$
-      .pipe(
-        tap(() => (numberOfFramesExecuted += 1)),
-        filter(() => numberOfFramesExecuted == 2),
-        tap(async () => {
-          await framePlayer.stop();
-          sub.unsubscribe();
-        })
-      )
-      .subscribe();
-
-    await framePlayer.play();
+    await framePlayer.skipToFrame(1);
     expect(framePlayer['currentFrame']).toBe(1);
 
     await framePlayer.previous();

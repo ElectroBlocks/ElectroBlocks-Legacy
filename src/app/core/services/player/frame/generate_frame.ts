@@ -23,6 +23,7 @@ export const generateListOfFrame = async (): Promise<
       return block.type === 'arduino_start';
     })[0];
 
+  console.log(arduinoBlock, 'arduinoBlock');
   const numberOfTimesThroughLoop = arduinoBlock.getFieldValue('LOOP_TIMES');
 
   const sensorStatesForLoop = getSensorData();

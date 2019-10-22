@@ -1,77 +1,83 @@
 import 'jasmine';
 import { Block } from 'blockly';
-import { ARDUINO_UNO_PINS, ArduinoFrame } from "../arduino/arduino_frame";
-import { send_message_block } from "./message";
-import * as blockHelperFunctions from "../frame/blockly_helper";
-import { ArduinoState } from "../arduino/state/arduino.state";
-import { BluetoothState } from "../arduino/state/bluetooth.state";
+import { ArduinoFrame } from '../arduino/arduino_frame';
+import { arduino_send_message_block } from './message';
+import * as blockHelperFunctions from '../frame/blockly_helper';
+import { ArduinoState } from '../arduino/state/arduino.state';
+import { ArduinoMessageState } from '../arduino/state/arduino-message.state';
 
 describe('message', () => {
+  const usbblock: any | Block = {
+    id: 'blockId',
+    type: 'send_message'
+  };
 
-	const usbblock: any|Block = {
-		id: 'blockId',
-		type: 'send_message'
-	};
+  let getInputValueSpy: jasmine.Spy;
 
-	const bluetoothSendMessageBlock: any|Block = {
-		id: 'blockId',
-		type: 'bt_send_message'
-	};
+  const state = new ArduinoState(
+    [new ArduinoMessageState(false, 'hello world')],
+    {
+      fred: {
+        name: 'fred',
+        type: 'String',
+        value: 'blue'
+      }
+    }
+  );
 
-	let getInputValueSpy:  jasmine.Spy;
+  const previousFrame = new ArduinoFrame('block1', state, {
+    location: 'loop',
+    iteration: 1
+  });
 
-	const state = new ArduinoState([new BluetoothState(ARDUINO_UNO_PINS.PIN_6, ARDUINO_UNO_PINS.PIN_7)], {
-		fred: {
-			name: 'fred',
-			type: 'String',
-			value: 'blue'
-		},
-	});
+  beforeEach(() => {
+    getInputValueSpy = spyOn(blockHelperFunctions, 'getInputValue');
+  });
 
-	const previousFrame = new ArduinoFrame('block1', state,
-		{ location: 'loop', iteration: 1 }
-	);
+  it('should have state stored in previous frame if it\'s there.', () => {
+    getInputValueSpy
+      .withArgs(
+        usbblock,
+        'MESSAGE',
+        '',
+        { location: 'loop', iteration: 1 },
+        previousFrame
+      )
+      .and.returnValue('Hello World');
 
-	beforeEach(() => {
-		getInputValueSpy =  spyOn(blockHelperFunctions, 'getInputValue');
-	});
+    const frames = arduino_send_message_block(
+      usbblock,
+      { location: 'loop', iteration: 1 },
+      previousFrame
+    );
 
-	it ('should use the previous frame if available', () => {
+    expect(frames.length).toBe(1);
+    const [frame] = frames;
 
-		getInputValueSpy.withArgs(usbblock, 'MESSAGE', '',{ location: 'loop', iteration: 1 }, previousFrame).and.returnValue('Hello World');
+    expect(frame.state.variables['fred'].value).toBe('blue');
+    expect(frame.state.sendMessage).toBe('Hello World');
+  });
 
-		const frames = send_message_block(usbblock, { location: 'loop', iteration: 1 }, previousFrame);
+  it('should return message attached to the block ', () => {
+    getInputValueSpy
+      .withArgs(
+        usbblock,
+        'MESSAGE',
+        '',
+        { location: 'loop', iteration: 1 },
+        undefined
+      )
+      .and.returnValue('People Cool');
 
-		expect(frames.length).toBe(1);
-		const [frame] = frames;
+    const frames = arduino_send_message_block(usbblock, {
+      location: 'loop',
+      iteration: 1
+    });
 
-		expect(frame.state.variables['fred'].value).toBe('blue');
-		expect(frame.state.sendMessage).toBe('Hello World');
-	});
+    expect(frames.length).toBe(1);
+    const [frame] = frames;
 
-	it ('should to an empty arduino.command frame if previous frame not available', () => {
-
-		getInputValueSpy.withArgs(usbblock, 'MESSAGE', '',{ location: 'loop', iteration: 1 }, undefined).and.returnValue('People Cool');
-
-		const frames = send_message_block(usbblock, { location: 'loop', iteration: 1 });
-
-		expect(frames.length).toBe(1);
-		const [frame] = frames;
-
-		expect(frame.state.variables).toEqual({});
-		expect(frame.state.sendMessage).toBe('People Cool');
-	});
-
-	it ('should be able to do bluetooth block as well', () => {
-
-		const previousFrame = new ArduinoFrame('block_is', new ArduinoState([ new BluetoothState(ARDUINO_UNO_PINS.PIN_7, ARDUINO_UNO_PINS.PIN_9) ], {}), { iteration: 0, location: 'loop' });
-
-		getInputValueSpy.withArgs(bluetoothSendMessageBlock, 'MESSAGE', '',{ location: 'loop', iteration: 1 }, previousFrame).and.returnValue('Blue Cool');
-
-		const [frame] = send_message_block(bluetoothSendMessageBlock, { location: 'loop', iteration: 1 }, previousFrame);
-
-		expect((frame.state.components[0] as BluetoothState).sendMessage).toBe('Blue Cool');
-
-	})
-
+    expect(frame.state.variables).toEqual({});
+    expect(frame.state.sendMessage).toBe('People Cool');
+  });
 });

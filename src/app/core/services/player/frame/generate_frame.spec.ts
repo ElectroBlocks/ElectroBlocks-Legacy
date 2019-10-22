@@ -1,5 +1,4 @@
 import 'jasmine';
-import { inputState } from './input_state';
 import * as blockHelper from './blockly_helper';
 import * as Blockly from 'blockly/core';
 import { ArduinoFrame } from '../arduino/arduino_frame';
@@ -7,27 +6,34 @@ import { generateListOfFrame } from './generate_frame';
 
 describe('Generate Frames', () => {
   let blocklyMock: any | Blockly;
-
+  let numberOfTimesThroughLoop = 3;
   const frameLocation = { location: 'loop', iteration: 3 };
 
   beforeEach(() => {
-    inputState.clearBlockCalls();
-
     blocklyMock = {
       mainWorkspace: {
         getTopBlocks(): any[] {
           return [
             {
               type: 'arduino_start',
-              disabled: false
+              isEnabled: () => {
+                return true;
+              },
+              getFieldValue(fieldName: string) {
+                return numberOfTimesThroughLoop;
+              }
             },
             {
               type: 'procedures_defnoreturn',
-              disabled: false
+              isEnabled: () => {
+                return true;
+              }
             },
             {
               type: 'generate_fake',
-              disabled: true
+              isEnabled: () => {
+                return true;
+              }
             }
           ];
         }
@@ -43,9 +49,10 @@ describe('Generate Frames', () => {
       'generateFrameForInputStatement'
     );
 
+    // SETUP FUNCTION
     generateLoopSpy
       .withArgs(
-        { type: 'arduino_start', disabled: false },
+        jasmine.objectContaining({ type: 'arduino_start' }),
         'setup',
         { location: 'setup', iteration: 0 },
         null
@@ -54,9 +61,10 @@ describe('Generate Frames', () => {
         ArduinoFrame.makeEmptyFrame('block_id', frameLocation)
       ]);
 
+    // LOOP FUNCTION
     generateLoopSpy
       .withArgs(
-        { type: 'arduino_start', disabled: false },
+        jasmine.objectContaining({ type: 'arduino_start' }),
         'loop',
         { location: 'loop', iteration: jasmine.any(Number) },
         jasmine.anything()
@@ -66,8 +74,9 @@ describe('Generate Frames', () => {
         ArduinoFrame.makeEmptyFrame('block_id', frameLocation)
       ]);
 
-    expect((await generateListOfFrame(1)).length).toBe(3);
+    expect((await generateListOfFrame()).length).toBe(7);
 
-    expect((await generateListOfFrame(2)).length).toBe(5);
+    numberOfTimesThroughLoop = 1
+    expect((await generateListOfFrame()).length).toBe(3);
   });
 });

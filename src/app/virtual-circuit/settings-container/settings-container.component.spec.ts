@@ -1,6 +1,4 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DisplaySettingsComponent } from './../settings/display-settings/display-settings.component';
-import { SensorComponent } from './../settings/sensor/sensor.component';
 import { VariablesComponent } from './../settings/variables/variables.component';
 import { VirtualCircuitContainerComponent } from './../virtual-circuit-container/virtual-circuit-container.component';
 import { SvgComponent } from './../svg/svg.component';
@@ -12,7 +10,9 @@ import {
   MatFormFieldModule,
   MatOptionModule,
   MatSelectModule,
-  MatInputModule
+  MatInputModule,
+  MatSlideToggleModule,
+  MatIconModule
 } from '@angular/material';
 
 describe('SettingsContainerComponent', () => {
@@ -26,16 +26,16 @@ describe('SettingsContainerComponent', () => {
         SvgComponent,
         VirtualCircuitContainerComponent,
         SettingsContainerComponent,
-        VariablesComponent,
-        SensorComponent,
-        DisplaySettingsComponent
+        VariablesComponent
       ],
       imports: [
         MatTabsModule,
         MatFormFieldModule,
         MatSelectModule,
         MatInputModule,
+        MatIconModule,
         MatOptionModule,
+        MatSlideToggleModule,
         BrowserAnimationsModule
       ]
     }).compileComponents();

@@ -1,4 +1,3 @@
-import { DisplaySettingsComponent } from './../settings/display-settings/display-settings.component';
 import { SettingsContainerComponent } from './../settings-container/settings-container.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
@@ -9,11 +8,14 @@ import {
   MatFormFieldModule,
   MatOptionModule,
   MatSelectModule,
-  MatInputModule
+  MatInputModule,
+  MatSlideToggleModule,
+  MatIconModule
 } from '@angular/material';
 import { SvgComponent } from '../svg/svg.component';
 import { VariablesComponent } from '../settings/variables/variables.component';
-import { SensorComponent } from '../settings/sensor/sensor.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BlocklyService } from '../../core/services/blockly.service';
 
 describe('VirtualCircuitContainerComponent', () => {
   let component: VirtualCircuitContainerComponent;
@@ -25,9 +27,7 @@ describe('VirtualCircuitContainerComponent', () => {
         VirtualCircuitContainerComponent,
         SvgComponent,
         SettingsContainerComponent,
-        VariablesComponent,
-        SensorComponent,
-        DisplaySettingsComponent
+        VariablesComponent
       ],
       imports: [
         MatTabsModule,
@@ -35,7 +35,18 @@ describe('VirtualCircuitContainerComponent', () => {
         MatSelectModule,
         MatInputModule,
         MatOptionModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        MatSlideToggleModule,
+        MatIconModule
+      ],
+      providers: [
+        {
+          provide: BlocklyService,
+          useValue: {
+            resizeWorkspace() {}
+          },
+          multi: false
+        }
       ]
     }).compileComponents();
   }));
