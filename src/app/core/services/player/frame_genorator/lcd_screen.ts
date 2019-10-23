@@ -137,14 +137,14 @@ export const lcd_screen_simple_print_block = (
     previousFrame
   ).toString();
 
-  const delay = parseInt(
-    getInputValue(block, 'DELAY', 1000, frameLocation, previousFrame).toString()
-  );
+  const delay = parseFloat(
+      getInputValue(block, 'DELAY', 1, frameLocation, previousFrame).toString()
+    ) * 1000;
 
   const state = { ...previousFrame.copyState(), delay };
 
   const lcdScreenState = state.components.find(
-    component => component instanceof LCDScreenState
+    (component) => component instanceof LCDScreenState
   ) as LCDScreenState;
 
   lcdScreenState.rowsOfText[0] = appendSpace(row1, lcdScreenState.columns);
