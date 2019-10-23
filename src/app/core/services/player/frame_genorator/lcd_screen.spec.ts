@@ -121,11 +121,11 @@ describe('LCD Screen', () => {
       .withArgs(
         lcdBlock,
         'DELAY',
-        1000,
+        1,
         { location: 'loop', iteration: 2 },
         previousFrame
       )
-      .and.returnValue(3000);
+      .and.returnValue(3);
 
     const [frame] = lcd_screen_simple_print_block(
       lcdBlock,
@@ -428,11 +428,11 @@ describe('LCD Screen', () => {
       .withArgs(
         lcdBlock,
         'DELAY',
-        1000,
+        1,
         { location: 'loop', iteration: 2 },
         previousFrame
       )
-      .and.returnValue(3000);
+      .and.returnValue(3);
 
     const [frame] = lcd_screen_simple_print_block(
       lcdBlock,
@@ -452,7 +452,7 @@ describe('LCD Screen', () => {
         { location: 'loop', iteration: 2 },
         frame
       )
-      .and.returnValue(1);
+      .and.returnValue(0);
 
     getInputValueSpy
       .withArgs(
