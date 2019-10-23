@@ -58,10 +58,6 @@ export class LedColorSvg extends ComponentSvg {
     selectedColorPart.fill(colorHex);
   }
 
-  shouldExist(state: ArduinoState): boolean {
-    return state.components.find(c => this.isComponent(c)) != undefined;
-  }
-
   updateWires() {
     super.updateWires();
     this.resistors.forEach(resistor => {

@@ -166,10 +166,4 @@ export class LcdSvg extends ComponentSvg {
       this.isBlinkSquareWhite = !this.isBlinkSquareWhite;
     }, 500);
   }
-
-  shouldExist(state: ArduinoState): boolean {
-    return (
-      state.components.find(c => this.isComponent(c)) instanceof LCDScreenState
-    );
-  }
 }

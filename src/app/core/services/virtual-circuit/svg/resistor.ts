@@ -1,44 +1,42 @@
-import { ComponentSvg } from "./component.svg";
-import { Parent } from "svg.js";
-import { ElectricAttachmentComponentState } from "../../player/arduino/state/electric.state";
-import { ArduinoState } from "../../player/arduino/state/arduino.state";
+import { ComponentSvg } from './component.svg';
+import { Parent } from 'svg.js';
+import { ElectricAttachmentComponentState } from '../../player/arduino/state/electric.state';
+import { ArduinoState } from '../../player/arduino/state/arduino.state';
 
 export class Resistor extends ComponentSvg {
+  constructor(
+    public readonly svg: Parent,
+    public readonly breadBoardHole: Parent,
+    public readonly invertY = false
+  ) {
+    super(svg);
+  }
 
-	constructor(public readonly svg: Parent, public readonly breadBoardHole: Parent, public  readonly invertY = false) {
-		super( svg );
-	}
+  isComponent(component: ElectricAttachmentComponentState): boolean {
+    return false;
+  }
 
-	isComponent( component: ElectricAttachmentComponentState ): boolean {
-		return false;
-	}
+  matchState(state: ArduinoState): void {}
 
-	matchState( state: ArduinoState): void {
+  shouldExist(state: ArduinoState): boolean {
+    return true;
+  }
 
-	}
+  updateWires() {
+    const { x, y } = this.breadBoardHole.ctm().extract();
 
-	shouldExist( state: ArduinoState ): boolean {
-		return true;
-	}
+    const innerX = this.breadBoardHole.cx();
+    const innerY = this.breadBoardHole.cy();
 
-	updateWires() {
-		const { x, y } = this.breadBoardHole.ctm().extract();
+    let yPosition = innerY + y - 0.75;
 
-		const innerX = this.breadBoardHole.cx();
-		const innerY = this.breadBoardHole.cy();
+    if (this.invertY) {
+      yPosition -= this.svg.height();
+      yPosition += 1.5;
+    }
 
-		let yPosition = innerY + y - .75;
+    this.svg.move(innerX + x - this.svg.width() / 2, yPosition);
+  }
 
-		if (this.invertY) {
-			yPosition -= this.svg.height();
-			yPosition += 1.5;
-		}
-
-		this.svg.move(innerX + x - (this.svg.width() / 2), yPosition);
-	}
-
-	resetComponent() {
-		
-	}
-
+  resetComponent() {}
 }

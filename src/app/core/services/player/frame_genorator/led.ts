@@ -23,14 +23,14 @@ export const led_block = (
       component instanceof PinState &&
       component.pin === stringToPin(pin) &&
       component.pinPicture === PinPicture.LED &&
-      component.type === PIN_TYPE.DIGITAL
+      component.type === PIN_TYPE.DIGITAL_OUTPUT
   );
 
   if (pinState instanceof PinState) {
     const index = arduinoState.components.indexOf(pinState);
     arduinoState.components[index] = new PinState(
       stringToPin(pin),
-      PIN_TYPE.DIGITAL,
+      PIN_TYPE.DIGITAL_OUTPUT,
       state,
       PinPicture.LED,
       pinState.color
@@ -40,7 +40,7 @@ export const led_block = (
     arduinoState.components.push(
       new PinState(
         stringToPin(pin),
-        PIN_TYPE.DIGITAL,
+        PIN_TYPE.DIGITAL_OUTPUT,
         state,
         PinPicture.LED,
         color
@@ -78,14 +78,14 @@ export const led_fade_block = (
       component instanceof PinState &&
       component.pin === stringToPin(pin) &&
       component.pinPicture === PinPicture.LED &&
-      component.type === PIN_TYPE.ANALOG
+      component.type === PIN_TYPE.ANALOG_OUTPUT
   );
 
   if (pinState instanceof PinState) {
     const index = arduinoState.components.indexOf(pinState);
     arduinoState.components[index] = new PinState(
       stringToPin(pin),
-      PIN_TYPE.ANALOG,
+      PIN_TYPE.ANALOG_OUTPUT,
       fadeNumber,
       PinPicture.LED,
       pinState.color
@@ -95,7 +95,7 @@ export const led_fade_block = (
     arduinoState.components.push(
       new PinState(
         stringToPin(pin),
-        PIN_TYPE.ANALOG,
+        PIN_TYPE.ANALOG_OUTPUT,
         fadeNumber,
         PinPicture.LED,
         color

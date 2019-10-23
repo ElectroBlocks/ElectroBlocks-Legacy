@@ -62,11 +62,11 @@ export const lcd_screen_print_block = (
   ) as LCDScreenState;
 
   let row = parseInt(
-    getInputValue(block, 'ROW', 0, frameLocation, previousFrame).toString()
+    getInputValue(block, 'ROW', 0, frameLocation, previousFrame).toString(), 0
   );
 
   let column = parseInt(
-    getInputValue(block, 'COLUMN', 0, frameLocation, previousFrame).toString()
+    getInputValue(block, 'COLUMN', 0, frameLocation, previousFrame).toString(), 0
   );
 
   row = row <= 0 ? 0 : row - 1;
@@ -137,14 +137,14 @@ export const lcd_screen_simple_print_block = (
     previousFrame
   ).toString();
 
-  const delay = parseInt(
-    getInputValue(block, 'DELAY', 1000, frameLocation, previousFrame).toString()
-  );
+  const delay = parseFloat(
+      getInputValue(block, 'DELAY', 1, frameLocation, previousFrame).toString()
+    ) * 1000;
 
   const state = { ...previousFrame.copyState(), delay };
 
   const lcdScreenState = state.components.find(
-    component => component instanceof LCDScreenState
+    (component) => component instanceof LCDScreenState
   ) as LCDScreenState;
 
   lcdScreenState.rowsOfText[0] = appendSpace(row1, lcdScreenState.columns);
@@ -219,11 +219,11 @@ export const lcd_screen_blink_block = (
   ) as LCDScreenState;
 
   const row = parseInt(
-    getInputValue(block, 'ROW', 0, frameLocation, previousFrame).toString()
+    getInputValue(block, 'ROW', 0, frameLocation, previousFrame).toString(), 0
   );
 
   const column = parseInt(
-    getInputValue(block, 'COLUMN', 0, frameLocation, previousFrame).toString()
+    getInputValue(block, 'COLUMN', 0, frameLocation, previousFrame).toString(), 0
   );
 
   lcdScreenState.blink.blinking = block.getFieldValue('NAME') == 'BLINK';

@@ -53,13 +53,13 @@ describe('led matrix', () => {
     });
 
     const ledMatrixState1 = frame.state.components.find(
-      (component) => component instanceof LedMatrixState
+      component => component instanceof LedMatrixState
     ) as LedMatrixState;
 
     for (let i = 1; i <= 8; i += 1) {
       for (let j = 1; j <= 8; j += 1) {
         const led = ledMatrixState1.leds.find(
-          (led) => led.row == i && led.col == j
+          led => led.row == i && led.col == j
         );
         expect(led.isOn).toBe(i % 2 == 0);
       }
@@ -94,13 +94,13 @@ describe('led matrix', () => {
       frame
     );
     const ledMatrixState2 = frame2.state.components.find(
-      (component) => component instanceof LedMatrixState
+      component => component instanceof LedMatrixState
     ) as LedMatrixState;
 
     for (let i = 1; i <= 8; i += 1) {
       for (let j = 1; j <= 8; j += 1) {
         const led = ledMatrixState2.leds.find(
-          (led) => led.row == i && led.col == j
+          led => led.row == i && led.col == j
         );
 
         if (i == 1 && j == 1) {

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70.42" height="91.65" viewBox="0 0 70.42 91.65">
+  <title>digital_analog_read</title>
+  <g id="WIRES">
+    <line id="POWER" x1="10" y1="78.05" x2="10" y2="90.65" fill="none" stroke="#f73939" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>
+    <line id="GND" x1="60" y1="78.05" x2="60" y2="90.65" fill="none" stroke="#000" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>
+    <line id="PIN" x1="35" y1="79.35" x2="35" y2="90.65" fill="none" stroke="#78f462" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"/>
+  </g>
+  <g id="LIGHT">
+    <path id="BASE" d="M15,35H85V85H15Z" transform="translate(-15 -5.65)" fill="#73ddd3"/>
+    <circle cx="35" cy="29.35" r="17.5"/>
+    <text id="PIN_TEXT" transform="translate(25.09 76.64)" font-size="6" font-family="ArialRoundedMTBold, Arial Rounded MT Bold"><tspan xml:space="preserve"> Pin 7</tspan></text>
+    <text id="VCC_TEXT" transform="translate(3.53 76.64)" font-size="6" font-family="ArialRoundedMTBold, Arial Rounded MT Bold"><tspan letter-spacing="-0.01em">V</tspan><tspan x="4.05" y="0">CC</tspan></text>
+    <text id="GND_TEXT" transform="translate(53.13 76.64)" font-size="6" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">GND</text>
+    <text id="READING_VALUE" transform="translate(3.53 6.05)" font-size="7" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">Sensing <tspan x="29.1" y="0" letter-spacing="-0.04em">P</tspan><tspan x="33.5" y="0" letter-spacing="0em">o</tspan><tspan x="37.73" y="0" letter-spacing="-0.01em">w</tspan><tspan x="43.33" y="0" letter-spacing="0em">e</tspan><tspan x="47.49" y="0" letter-spacing="-0.01em">r</tspan><tspan x="50.46" y="0" letter-spacing="0em">: 120</tspan></text>
+  </g>
+</svg>

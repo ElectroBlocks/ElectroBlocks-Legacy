@@ -43,9 +43,6 @@ export class ButtonSvg extends ComponentSvg {
     return;
   }
 
-  public shouldExist(state: ArduinoState): boolean {
-    return state.components.find(b => this.isComponent(b)) !== undefined;
-  }
   public isComponent(component: ElectricAttachmentComponentState): boolean {
     return component instanceof ButtonState && component.pin === this.state.pin;
   }

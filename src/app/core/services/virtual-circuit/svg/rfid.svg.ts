@@ -37,9 +37,6 @@ export class RFIDSvg extends ComponentSvg {
     tagNode.node.textContent = `Tag: ${tag}`;
   }
 
-  public shouldExist(state: ArduinoState): boolean {
-    return state.components.find(c => this.isComponent(c)) !== undefined;
-  }
   public isComponent(component: ElectricAttachmentComponentState): boolean {
     return (
       component instanceof RFIDState &&

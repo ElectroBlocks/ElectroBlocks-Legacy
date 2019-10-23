@@ -41,10 +41,6 @@ export class MatrixSvg extends ComponentSvg {
     });
   }
 
-  shouldExist(state: ArduinoState): boolean {
-    return state.components.find(this.isComponent) !== undefined;
-  }
-
   public resetComponent() {
     for (let row = 1; row <= 8; row += 1) {
       for (let col = 1; col <= 8; col += 1) {

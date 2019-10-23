@@ -8,7 +8,7 @@ import {
   createGroundWire
 } from '../svg/wire';
 import { virtualCircuitPin } from '../svg/arduino.svg';
-import { resistorPinWhole as resistorPinHole } from './led.factory';
+import { resistorPinWhole as resistorPinHole } from './pin.factory';
 
 export const buttonFactory = async (
   virtualCircuit: VirtualCircuit,

@@ -8,7 +8,11 @@ import {
   PinPicture,
   PinState
 } from '../../player/arduino/state/pin.state';
-import { Color, rgbToHex } from '../../player/frame_genorator/color';
+import {
+  Color,
+  rgbToHex,
+  componentToHex
+} from '../../player/frame_genorator/color';
 import { Resistor } from './resistor';
 
 export class LedSvg extends ComponentSvg {
@@ -34,8 +38,8 @@ export class LedSvg extends ComponentSvg {
   isComponent(component: ElectricAttachmentComponentState): boolean {
     return (
       component instanceof PinState &&
-      component.pinPicture == PinPicture.LED &&
-      component.pin == this.pin
+      component.pinPicture === PinPicture.LED &&
+      component.pin === this.pin
     );
   }
 
@@ -59,7 +63,7 @@ export class LedSvg extends ComponentSvg {
       return;
     }
 
-    if (led.type == PIN_TYPE.DIGITAL && led.state >= 1) {
+    if (led.state >= 1) {
       this.svg
         .select('#ON')
         .first()
@@ -67,7 +71,7 @@ export class LedSvg extends ComponentSvg {
       return;
     }
 
-    if (led.type == PIN_TYPE.DIGITAL && led.state <= 0) {
+    if (led.state <= 0) {
       this.svg
         .select('#ON')
         .first()
@@ -75,9 +79,9 @@ export class LedSvg extends ComponentSvg {
       return;
     }
 
-    if (led.type == PIN_TYPE.ANALOG) {
+    if (led.type === PIN_TYPE.ANALOG_OUTPUT) {
       const brightness = led.state > 255 ? 1 : Math.abs(led.state) / 255;
-
+      // TODO UPDATE NUMBER
       this.svg
         .select('#ON')
         .first()
@@ -85,13 +89,6 @@ export class LedSvg extends ComponentSvg {
         .opacity(brightness);
       return;
     }
-  }
-
-  shouldExist(state: ArduinoState): boolean {
-    return (
-      state.components.find(component => this.isComponent(component)) !==
-      undefined
-    );
   }
 
   remove(): void {

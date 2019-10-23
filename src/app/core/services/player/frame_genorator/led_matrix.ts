@@ -41,15 +41,15 @@ export const led_matrix_make_draw_block = (
             return;
           }
 
-          const row = parseInt(field.name.split(',')[0]);
-          const column = parseInt(field.name.split(',')[1]);
+          const row = parseInt(field.name.split(',')[0], 0);
+          const column = parseInt(field.name.split(',')[1], 0);
           const isOn = field.getValueBoolean();
 
           const ledIndex = ledMatrixComponent.leds.findIndex(led => {
-            return led.row == row && led.col == column;
+            return led.row === row && led.col === column;
           });
 
-          if (ledIndex == -1) {
+          if (ledIndex === -1) {
             ledMatrixComponent.leds.push({ row, col: column, isOn });
             return;
           }
@@ -90,17 +90,17 @@ export const led_matrix_turn_one_on_off_block = (
 
   const isOn = block.getFieldValue('STATE') === 'ON';
   const row = parseInt(
-    getInputValue(block, 'ROW', 1, frameLocation, previousFrame).toString()
+    getInputValue(block, 'ROW', 1, frameLocation, previousFrame).toString(), 0
   );
   const column = parseInt(
-    getInputValue(block, 'COLUMN', 1, frameLocation, previousFrame).toString()
+    getInputValue(block, 'COLUMN', 1, frameLocation, previousFrame).toString(), 0
   );
 
   const index = ledMatrixComponent.leds.findIndex(
-    led => led.col == column && led.row == row
+    led => led.col === column && led.row === row
   );
 
-  if (index == -1) {
+  if (index === -1) {
     ledMatrixComponent.leds.push({ row, col: column, isOn });
   } else {
     ledMatrixComponent.leds[index].isOn = isOn;

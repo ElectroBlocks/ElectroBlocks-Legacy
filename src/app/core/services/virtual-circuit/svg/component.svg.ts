@@ -51,13 +51,15 @@ export abstract class ComponentSvg extends BaseSvg {
 
   public abstract matchState(state: ArduinoState): void;
 
-  public abstract shouldExist(state: ArduinoState): boolean;
-
   public abstract isComponent(
     component: ElectricAttachmentComponentState
   ): boolean;
 
   public abstract resetComponent();
+
+  public shouldExist(state: ArduinoState): boolean {
+    return state.components.find(c => this.isComponent(c)) !== undefined;
+  }
 }
 
 export abstract class AnimationSVG extends ComponentSvg {
