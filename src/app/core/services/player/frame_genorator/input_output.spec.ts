@@ -55,7 +55,7 @@ describe('input output frame generators', () => {
       ) as PinState;
 
       expect(pinState.state).toBe(1);
-      expect(pinState.type).toBe(PIN_TYPE.DIGITAL);
+      expect(pinState.type).toBe(PIN_TYPE.DIGITAL_OUTPUT);
       expect(pinState.pin).toBe(ARDUINO_UNO_PINS.PIN_3);
 
       expect(frame.state.variables['hello'].name).toBe('hello');
@@ -77,7 +77,7 @@ describe('input output frame generators', () => {
       ) as PinState;
 
       expect(pinState.state).toBe(0);
-      expect(pinState.type).toBe(PIN_TYPE.DIGITAL);
+      expect(pinState.type).toBe(PIN_TYPE.DIGITAL_OUTPUT);
       expect(pinState.pin).toBe(ARDUINO_UNO_PINS.PIN_3);
     });
 
@@ -89,7 +89,7 @@ describe('input output frame generators', () => {
         [
           new PinState(
             ARDUINO_UNO_PINS.PIN_A0,
-            PIN_TYPE.ANALOG,
+            PIN_TYPE.ANALOG_OUTPUT,
             30,
             PinPicture.GENERIC
           )
@@ -120,7 +120,7 @@ describe('input output frame generators', () => {
       const pinState = frame.state.components[0] as PinState;
 
       expect(pinState.state).toBe(130);
-      expect(pinState.type).toBe(PIN_TYPE.ANALOG);
+      expect(pinState.type).toBe(PIN_TYPE.ANALOG_OUTPUT);
       expect(pinState.pin).toBe(ARDUINO_UNO_PINS.PIN_A0);
     });
   });

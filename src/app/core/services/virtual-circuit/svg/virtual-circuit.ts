@@ -16,8 +16,12 @@ import { NeoPixelStripState } from '../../player/arduino/state/neo_pixel_strip.s
 import { neoPixelFactory } from '../factory/neopixel-svg.factory';
 import { LedMatrixState } from '../../player/arduino/state/led_matrix.state';
 import { matrixFactory } from '../factory/matrix-svg.factory';
-import { PinState } from '../../player/arduino/state/pin.state';
-import { pinFactory } from '../factory/led.factory';
+import {
+  PinState,
+  PIN_TYPE,
+  PinPicture
+} from '../../player/arduino/state/pin.state';
+import { ledFactory, outputPinFactory } from '../factory/pin.factory';
 import { LedColorState } from '../../player/arduino/state/led_color.state';
 import { rgbLedFactory } from '../factory/led-color.factory';
 import { LCDScreenState } from '../../player/arduino/state/lcd_screen.state';
@@ -241,12 +245,29 @@ export class VirtualCircuit {
       return;
     }
 
-    if (component instanceof PinState) {
-      (await pinFactory(
+    if (
+      component instanceof PinState &&
+      component.pinPicture === PinPicture.LED
+    ) {
+      (await ledFactory(
         this,
         component,
         !this.showArduinoComm.getShowArduino()
       )).forEach(c => this.svgs.push(c));
+      return;
+    }
+
+    if (
+      component instanceof PinState &&
+      [PIN_TYPE.DIGITAL_OUTPUT, PIN_TYPE.ANALOG_OUTPUT].includes(component.type)
+    ) {
+      this.svgs.push(
+        await outputPinFactory(
+          this,
+          component,
+          !this.showArduinoComm.getShowArduino()
+        )
+      );
       return;
     }
 

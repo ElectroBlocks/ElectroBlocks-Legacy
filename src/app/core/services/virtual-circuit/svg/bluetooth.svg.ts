@@ -46,9 +46,7 @@ export class BluetoothSVG extends ComponentSvg {
       .first()
       .hide();
   }
-  public shouldExist(state: ArduinoState): boolean {
-    return state.components.find(c => this.isComponent(c)) !== undefined;
-  }
+  
   public isComponent(component: ElectricAttachmentComponentState): boolean {
     return this.state.isEqual(component);
   }

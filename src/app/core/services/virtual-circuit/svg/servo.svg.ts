@@ -34,15 +34,7 @@ export class ServoSvg extends ComponentSvg {
   }
 
   isComponent(component: ElectricAttachmentComponentState): boolean {
-    return component instanceof ServoState && component.pin == this.pin;
-  }
-
-  public shouldExist(state: ArduinoState): boolean {
-    const servoState = state.components
-      .filter(servo => servo instanceof ServoState)
-      .find((servo: ServoState) => servo.pin == this.pin) as ServoState;
-
-    return servoState !== undefined;
+    return component instanceof ServoState && component.pin === this.pin;
   }
 
   public rotate() {

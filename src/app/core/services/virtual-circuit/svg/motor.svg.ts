@@ -60,10 +60,6 @@ export class MotorSvg extends AnimationSVG {
     directionText.node.textContent = `Direction ${motorState.direction.toLowerCase()}`;
   }
 
-  public shouldExist(state: ArduinoState): boolean {
-    return state.components.find(c => this.isComponent(c)) !== undefined;
-  }
-
   public isComponent(component: ElectricAttachmentComponentState): boolean {
     return (
       component instanceof MotorState &&

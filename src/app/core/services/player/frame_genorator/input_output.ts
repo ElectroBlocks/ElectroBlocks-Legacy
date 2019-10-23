@@ -11,14 +11,14 @@ export const digital_write_block = (
   previousFrame?: ArduinoFrame
 ): ArduinoFrame[] => {
   const pin = block.getFieldValue('PIN');
-  const state = block.getFieldValue('STATE') == 'ON' ? 1 : 0;
+  const state = block.getFieldValue('STATE') === 'ON' ? 1 : 0;
 
   return generatePinFrame(
     block,
     frameLocation,
     pin,
     state,
-    PIN_TYPE.DIGITAL,
+    PIN_TYPE.DIGITAL_OUTPUT,
     previousFrame
   );
 };
@@ -29,20 +29,23 @@ export const analog_write_block = (
   previousFrame?: ArduinoFrame
 ): ArduinoFrame[] => {
   const pin = block.getFieldValue('PIN');
-  const state = parseInt(getInputValue(
-    block,
-    'WRITE_VALUE',
-    0,
-    frameLocation,
-    previousFrame
-  ) as string);
+  const state = parseInt(
+    getInputValue(
+      block,
+      'WRITE_VALUE',
+      0,
+      frameLocation,
+      previousFrame
+    ).toString(),
+    0
+  );
 
   return generatePinFrame(
     block,
     frameLocation,
     pin,
     state,
-    PIN_TYPE.ANALOG,
+    PIN_TYPE.ANALOG_OUTPUT,
     previousFrame
   );
 };
@@ -61,7 +64,7 @@ const generatePinFrame = (
 
   const pinState = arduinoState.components.find(
     component =>
-      component instanceof PinState && component.pin == stringToPin(pin)
+      component instanceof PinState && component.pin === stringToPin(pin)
   );
 
   if (pinState instanceof PinState) {

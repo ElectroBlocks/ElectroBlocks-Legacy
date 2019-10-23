@@ -77,7 +77,7 @@ describe('list generators', () => {
     it('should copy over variables and components', () => {
       const pinComponent = new PinState(
         ARDUINO_UNO_PINS.PIN_1,
-        PIN_TYPE.DIGITAL,
+        PIN_TYPE.DIGITAL_OUTPUT,
         1,
         PinPicture.GENERIC
       );

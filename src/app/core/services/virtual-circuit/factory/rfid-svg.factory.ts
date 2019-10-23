@@ -9,7 +9,7 @@ import {
   createPowerWire
 } from '../svg/wire';
 import { virtualCircuitPin } from '../svg/arduino.svg';
-import { resistorPinWhole as resistorPinHole } from './led.factory';
+import { resistorPinWhole as resistorPinHole } from './pin.factory';
 import { ARDUINO_UNO_PINS } from '../../player/arduino/arduino_frame';
 
 export const rfidFactory = async (
