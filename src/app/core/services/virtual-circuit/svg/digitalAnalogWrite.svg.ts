@@ -20,12 +20,14 @@ export class DigitalAnalogWriteSvg extends ComponentSvg {
       this.isComponent(c)
     ) as PinState;
 
-    this.changeLightBulb(pinState);
-
-    const pinText = this.svg.select('#PIN_TEXT').first() as Text;
-    pinText.node.textContent = `PIN ${pinState.pin}`;
+    if (!pinState) {
+      return;
+    }
 
     const pinStateText = this.svg.select('#STATE_TEXT').first() as Text;
+
+    this.changeLightBulb(pinState);
+
     if (pinState.type === PIN_TYPE.DIGITAL_OUTPUT) {
       pinStateText.node.textContent = `POWER ${
         pinState.state > 0 ? 'ON' : 'OFF'
@@ -78,6 +80,17 @@ export class DigitalAnalogWriteSvg extends ComponentSvg {
     );
   }
   public resetComponent() {
-    throw new Error('Method not implemented.');
+    const pinText = this.svg.select('#PIN_TEXT').first() as Text;
+    const pinStateText = this.svg.select('#STATE_TEXT').first() as Text;
+    const lightBulb = this.svg.select('#LIGHT_BULB').first();
+    const raysElements = (this.svg
+      .select('#RAYS')
+      .first() as Parent).children();
+
+    pinText.node.textContent = `PIN ${this.pin}`;
+    pinStateText.node.textContent = 'POWER OFF';
+
+    lightBulb.fill('#F7F4E7');
+    raysElements.forEach(e => e.hide());
   }
 }

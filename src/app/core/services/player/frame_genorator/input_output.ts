@@ -64,7 +64,9 @@ const generatePinFrame = (
 
   const pinState = arduinoState.components.find(
     component =>
-      component instanceof PinState && component.pin === stringToPin(pin)
+      component instanceof PinState &&
+      component.pin === stringToPin(pin) &&
+      pinType === component.type
   );
 
   if (pinState instanceof PinState) {
