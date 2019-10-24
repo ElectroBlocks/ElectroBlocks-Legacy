@@ -20,7 +20,8 @@ import {
 
 import {
   digital_write_block,
-  analog_write_block
+  analog_write_block,
+  digital_read_block
 } from '../frame_genorator/input_output';
 
 import { delay_block_block, time_seconds_block } from '../frame_genorator/time';
@@ -43,7 +44,8 @@ import {
   rfid_setup_block,
   push_button_setup_block,
   message_setup_block,
-  time_setup_block
+  time_setup_block,
+  digital_read_setup_block
 } from '../frame_genorator/pass_through_block';
 
 import {
@@ -233,7 +235,8 @@ frameGeneratingBlocks = {
 
   rfid_setup_block,
 
-  bluetooth_send_message_block
+  bluetooth_send_message_block,
+  digital_read_setup_block
 };
 
 valueGeneratingBlocks = {
@@ -284,7 +287,7 @@ valueGeneratingBlocks = {
   arduino_receive_message_block,
 
   time_seconds_block,
-  
+  digital_read_block
 };
 
 export { frameGeneratingBlocks, valueGeneratingBlocks };

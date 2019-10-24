@@ -1,9 +1,12 @@
-import { ElectricAttachmentComponentState } from './electric.state';
+import {
+  ElectricAttachmentComponentState,
+  SensorComponent
+} from './electric.state';
 import { ElectricComponentType } from './electric.component.type';
 import { ARDUINO_UNO_PINS } from '../arduino_frame';
 import { Color } from '../../frame_genorator/color';
 
-export class PinState extends ElectricAttachmentComponentState {
+export class PinState extends SensorComponent {
   public readonly electricComponentType = ElectricComponentType.PIN;
 
   public readonly pins = [this.pin];
@@ -26,6 +29,14 @@ export class PinState extends ElectricAttachmentComponentState {
       this.color === state.color &&
       this.pin === state.pin
     );
+  }
+
+  public getFieldValue(dataKeySaveInSetupBlock: string) {
+    if (this.type === PIN_TYPE.DIGITAL_INPUT) {
+      return this.state > 0;
+    }
+
+    return this.state;
   }
 }
 
