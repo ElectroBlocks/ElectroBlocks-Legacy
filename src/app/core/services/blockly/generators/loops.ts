@@ -58,7 +58,7 @@ Blockly.Arduino['controls_for'] = function(block: Block) {
     )
   );
 
-  byNumber = byNumber == 0 ? 1 : byNumber;
+  byNumber = byNumber === 0 ? 1 : byNumber;
 
   const addingSub = startNumber < toNumber ? ' +' : ' -';
   const sign = startNumber < toNumber ? ' <= ' : ' >= ';
@@ -85,7 +85,7 @@ Blockly.Arduino['controls_for'] = function(block: Block) {
 
 Blockly.Arduino['controls_whileUntil'] = function(block: Block) {
   // Do while/until loop.
-  const until = block.getFieldValue('MODE') == 'UNTIL';
+  const until = block.getFieldValue('MODE') === 'UNTIL';
   let argument0 =
     Blockly.Arduino.valueToCode(
       block,

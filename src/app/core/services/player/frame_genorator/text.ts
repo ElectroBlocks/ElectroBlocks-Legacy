@@ -65,7 +65,7 @@ const text_isEmpty_block = (
 ) => {
   return (
     getInputValue(block, 'VALUE', '', frameLocation, previousFrame).toString()
-      .length == 0
+      .length === 0
   );
 };
 
@@ -85,7 +85,7 @@ const number_to_string_block = (
     previousFrame
   ).toString();
 
-  const precision = parseInt(block.getFieldValue('PRECISION'));
+  const precision = parseInt(block.getFieldValue('PRECISION'), 0);
 
   return parseFloat(number)
     .toFixed(precision)
@@ -118,7 +118,7 @@ const parse_string_block_block = (
     previousFrame
   ).toString();
 
-  let position = parseInt(positionString);
+  let position = parseInt(positionString, 0);
 
   position = position >= 1 ? position - 1 : 0;
 
@@ -146,7 +146,7 @@ const text_changeCase_block = (
     previousFrame
   ).toString();
 
-  return op == 'UPPERCASE' ? string.toUpperCase() : string.toLowerCase();
+  return op === 'UPPERCASE' ? string.toUpperCase() : string.toLowerCase();
 };
 
 export {

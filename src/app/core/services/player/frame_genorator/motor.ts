@@ -30,11 +30,11 @@ export const move_motor_block = (
     : ArduinoState.makeEmptyState();
 
   const motor = state.components.find(
-    (c) => c instanceof MotorState && c.motorNumber == motorNumber
+    (c) => c instanceof MotorState && c.motorNumber === motorNumber
   ) as MotorState;
 
   const motorIndex = state.components.findIndex(
-    (c) => c instanceof MotorState && c.motorNumber == motorNumber
+    (c) => c instanceof MotorState && c.motorNumber === motorNumber
   );
 
   if (motor) {

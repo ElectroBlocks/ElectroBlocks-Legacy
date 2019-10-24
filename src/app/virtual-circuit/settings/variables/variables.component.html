@@ -14,9 +14,9 @@
         *ngIf="variable.type !== 'Colour List'"
         [ngStyle]="{
           'background-color':
-            variable.type == 'Colour' ? rgbToHex(variable.value) : 'white'
+            variable.type === 'Colour' ? rgbToHex(variable.value) : 'white'
         }"
-        [ngClass]="{ colorValue: variable.type == 'Colour' }"
+        [ngClass]="{ colorValue: variable.type === 'Colour' }"
       >
         {{ variable.value | json }}
       </td>
@@ -29,7 +29,7 @@
           <span class="colorValue" *ngIf="color !== undefined"
             >{{ i + 1 }}) {{ color | json }} <br />
           </span>
-          <span *ngIf="color == undefined">
+          <span *ngIf="color === undefined">
             {{ i + 1 }}) No Color :) <br />
           </span>
         </div>

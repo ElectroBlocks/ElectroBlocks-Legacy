@@ -121,7 +121,7 @@ export class BlocklyService {
       if (
         event.element === 'disabled' ||
         event.element === 'warningOpen' ||
-        event.blockId == null ||
+        event.blockId === null ||
         event.element === 'click' ||
         event.element === 'selected' ||
         event.name === 'SIMPLE_DEBUG'
@@ -181,7 +181,7 @@ export class BlocklyService {
       .forEach((block) => {
         block.inputList.filter((input) => {
           if (
-            input.fieldRow.find((fieldRow) => fieldRow.name == 'SIMPLE_DEBUG')
+            input.fieldRow.find((fieldRow) => fieldRow.name === 'SIMPLE_DEBUG')
           ) {
             input.setVisible(show);
             block.render();

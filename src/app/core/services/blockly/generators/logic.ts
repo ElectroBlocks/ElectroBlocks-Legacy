@@ -3,7 +3,7 @@ import { Block } from 'blockly';
 
 Blockly.Arduino['logic_boolean'] = function(block: Block) {
   // Boolean values true and false.
-  const code = block.getFieldValue('BOOL') == 'TRUE' ? 'true' : 'false';
+  const code = block.getFieldValue('BOOL') === 'TRUE' ? 'true' : 'false';
   return [code, Blockly.Arduino.ORDER_ATOMIC];
 };
 
@@ -19,7 +19,7 @@ Blockly.Arduino['logic_compare'] = function(block: Block) {
   };
   const operator = OPERATORS[block.getFieldValue('OP')];
   const order =
-    operator == '==' || operator == '!='
+    operator === '==' || operator === '!='
       ? Blockly.Arduino.ORDER_EQUALITY
       : Blockly.Arduino.ORDER_RELATIONAL;
   const argument0 = Blockly.Arduino.valueToCode(block, 'A', order) || '0';
@@ -30,9 +30,9 @@ Blockly.Arduino['logic_compare'] = function(block: Block) {
 
 Blockly.Arduino['logic_operation'] = function(block: Block) {
   // Operations 'and', 'or'.
-  const operator = block.getFieldValue('OP') == 'AND' ? '&&' : '||';
+  const operator = block.getFieldValue('OP') === 'AND' ? '&&' : '||';
   const order =
-    operator == '&&'
+    operator === '&&'
       ? Blockly.Arduino.ORDER_LOGICAL_AND
       : Blockly.Arduino.ORDER_LOGICAL_OR;
   let argument0 = Blockly.Arduino.valueToCode(block, 'A', order);
@@ -43,7 +43,7 @@ Blockly.Arduino['logic_operation'] = function(block: Block) {
     argument1 = 'false';
   } else {
     // Single missing arguments have no effect on the return value.
-    const defaultArgument = operator == '&&' ? 'true' : 'false';
+    const defaultArgument = operator === '&&' ? 'true' : 'false';
     if (!argument0) {
       argument0 = defaultArgument;
     }

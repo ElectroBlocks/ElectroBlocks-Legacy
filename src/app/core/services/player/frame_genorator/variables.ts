@@ -128,7 +128,7 @@ const setVariable = (block: Block, type: string, defaultValue: any, frameLocatio
  * Returns true if we are dealing with a boolean variable that returns false
  */
 const isBooleanVariableReturningValue = (type: string, value: any) => {
-    if (type != 'Boolean') {
+    if (type !== 'Boolean') {
         return false;
     }
 

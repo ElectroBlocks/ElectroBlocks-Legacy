@@ -61,7 +61,7 @@ const getListOfSensorBlocksToSet = (
     .filter(possibleBlock => listOfBlockTypes.includes(possibleBlock.type))
     .filter(possibleBlock => {
       return (
-        changeFrame.frameLocation.iteration == 0 ||
+        changeFrame.frameLocation.iteration === 0 ||
         !isBlockInSetupArduinoFunction(possibleBlock, arduinoStartBlock)
       );
     });

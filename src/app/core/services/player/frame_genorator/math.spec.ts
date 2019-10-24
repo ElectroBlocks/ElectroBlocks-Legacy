@@ -40,11 +40,11 @@ describe('Math', () => {
 		block = {
 			getFieldValue( fieldName: string ): any {
 
-				if (fieldName == 'OP') {
+				if (fieldName === 'OP') {
 					return mathOperation;
 				}
 
-				if (fieldName == 'NUM') {
+				if (fieldName === 'NUM') {
 					return numValue;
 				}
 

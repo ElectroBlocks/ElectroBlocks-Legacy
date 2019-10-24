@@ -43,7 +43,7 @@ Blockly.Arduino.ORDER_LOGICAL_NOT = 4.4; // !
 Blockly.Arduino.ORDER_SHIFT = 5; // << >>
 Blockly.Arduino.ORDER_MODULUS = 5.3; // %
 Blockly.Arduino.ORDER_RELATIONAL = 6; // is is! >= > <= <
-Blockly.Arduino.ORDER_EQUALITY = 7; // == != === !==
+Blockly.Arduino.ORDER_EQUALITY = 7; // === !== === !==
 Blockly.Arduino.ORDER_BITWISE_AND = 8; // &
 Blockly.Arduino.ORDER_BITWISE_XOR = 9; // ^
 Blockly.Arduino.ORDER_BITWISE_OR = 10; // |
@@ -159,7 +159,7 @@ Blockly.Arduino.finish = function(code) {
   code =
     'int simple_loop_variable = 0; \n' +
     'String bluetoothMessageDEV = ""; \n' +
-    'String serialMessageDEV = ""; \n'  +
+    'String serialMessageDEV = ""; \n' +
     'struct RGB { \n' +
     '\tint red;\n' +
     '\tint green;\n' +
@@ -206,7 +206,7 @@ Blockly.Arduino.quote_ = function(string) {
   string = string
     .replace(/\\/g, '\\\\')
     .replace(/\n/g, '\\\n')
-    .replace(/'/g, '\\\'');
+    .replace(/'/g, "\\'");
   return '"' + string + '"';
 };
 
@@ -244,7 +244,7 @@ Blockly.Arduino.scrub_ = function(block, code) {
     // Collect comments for all value arguments.
     // Don't collect comments for nested statements.
     for (let i = 0; i < block.inputList.length; i++) {
-      if (block.inputList[i].type == Blockly.INPUT_VALUE) {
+      if (block.inputList[i].type === Blockly.INPUT_VALUE) {
         const childBlock = block.inputList[i].connection.targetBlock();
         if (childBlock) {
           const comment = Blockly.Arduino.allNestedComments(childBlock);

@@ -20,7 +20,7 @@ export class ArduinoMessageState extends SensorComponent {
       return this.recievingMessage;
     }
 
-    if (dataKeySaveInSetupBlock == 'message') {
+    if (dataKeySaveInSetupBlock === 'message') {
       return this.message;
     }
   }

@@ -248,10 +248,10 @@ const connectedCreatedVariableToStartBlock = function(variableBlock) {
   const arduinoStartBlocks = Blockly.mainWorkspace
     .getTopBlocks()
     .filter(function(block) {
-      return block.type == 'arduino_start';
+      return block.type === 'arduino_start';
     });
 
-  if (arduinoStartBlocks.length == 0) {
+  if (arduinoStartBlocks.length === 0) {
     return;
   }
 

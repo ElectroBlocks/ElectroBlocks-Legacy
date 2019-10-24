@@ -87,7 +87,7 @@ describe('Frame Player', () => {
     framePlayer.changeFrame$
       .pipe(
         tap(() => (numberOfFramesExecuted += 1)),
-        filter(() => numberOfFramesExecuted == 2),
+        filter(() => numberOfFramesExecuted === 2),
         tap(() => framePlayer.stop())
       )
       .subscribe();

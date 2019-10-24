@@ -41,7 +41,7 @@ Blockly.Arduino['led_matrix_turn_one_on_off'] = function(block) {
   column = column > 0 ? column - 1 : 0;
   row = row > 0 ? row - 1 : 0;
 
-  const state = block.getFieldValue('STATE') == 'ON' ? 'true' : 'false';
+  const state = block.getFieldValue('STATE') === 'ON' ? 'true' : 'false';
 
   return '\tlc.setLed(0, ' + row + ', ' + column + ', ' + state + ');\n';
 };

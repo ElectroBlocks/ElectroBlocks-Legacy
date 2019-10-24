@@ -25,8 +25,8 @@ export const lcd_setup_block = (
     'MEMORY_TYPE'
   ) as LCD_SCREEN_MEMORY_TYPE;
 
-  const rows = block.getFieldValue('SIZE') == '16 x 2' ? 2 : 4;
-  const columns = block.getFieldValue('SIZE') == '16 x 2' ? 16 : 20;
+  const rows = block.getFieldValue('SIZE') === '16 x 2' ? 2 : 4;
+  const columns = block.getFieldValue('SIZE') === '16 x 2' ? 16 : 20;
 
   const emptyRowsOfText = [];
 
@@ -150,7 +150,7 @@ export const lcd_screen_simple_print_block = (
   lcdScreenState.rowsOfText[0] = appendSpace(row1, lcdScreenState.columns);
   lcdScreenState.rowsOfText[1] = appendSpace(row2, lcdScreenState.columns);
 
-  if (lcdScreenState.rows == 4) {
+  if (lcdScreenState.rows === 4) {
     lcdScreenState.rowsOfText[2] = appendSpace(row3, lcdScreenState.columns);
     lcdScreenState.rowsOfText[3] = appendSpace(row4, lcdScreenState.columns);
   }
@@ -190,7 +190,7 @@ export const lcd_scroll_block = (
   const direction = block.getFieldValue('DIR');
 
   for (let i = 0; i < lcdScreenState.rows; i += 1) {
-    if (direction == 'RIGHT') {
+    if (direction === 'RIGHT') {
       console.log(lcdScreenState.rowsOfText[i], 'lcd screen text');
       lcdScreenState.rowsOfText[i] =
         ' ' +
@@ -226,7 +226,7 @@ export const lcd_screen_blink_block = (
     getInputValue(block, 'COLUMN', 0, frameLocation, previousFrame).toString(), 0
   );
 
-  lcdScreenState.blink.blinking = block.getFieldValue('NAME') == 'BLINK';
+  lcdScreenState.blink.blinking = block.getFieldValue('NAME') === 'BLINK';
   lcdScreenState.blink.row = row;
   lcdScreenState.blink.column = column;
 
@@ -248,7 +248,7 @@ export const lcd_backlight_block = (
     component => component instanceof LCDScreenState
   );
 
-  const isOn = block.getFieldValue('BACKLIGHT') == 'ON';
+  const isOn = block.getFieldValue('BACKLIGHT') === 'ON';
 
   state.components[componentIndex] = new LCDScreenState(
     lcdScreenState.rows,

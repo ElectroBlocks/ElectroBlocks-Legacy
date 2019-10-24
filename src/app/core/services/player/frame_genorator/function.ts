@@ -80,7 +80,7 @@ const findFunctionDefinitionBlock = (functionName: string): Block => {
 	const functionBlocks = Blockly.mainWorkspace
 		.getTopBlocks()
 		.filter(block => block.type === 'procedures_defnoreturn')
-		.filter(block => block.getProcedureDef()[0] == functionName);
+		.filter(block => block.getProcedureDef()[0] === functionName);
 
 	if (functionBlocks.length === 0) {
 		throw new Error(`No block with that function name ${functionName} found.`);

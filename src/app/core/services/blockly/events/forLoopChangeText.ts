@@ -4,7 +4,7 @@ import { Block } from 'blockly';
 export const forLoopChangeText = workspace => {
   workspace
     .getAllBlocks(true)
-    .filter(block => block.type == 'controls_for')
+    .filter(block => block.type === 'controls_for')
     .forEach(forBlock => {
 
       const toNumber = getInputValue(forBlock, 'TO');

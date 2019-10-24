@@ -23,7 +23,7 @@ export const led_color_setup_block = (
   const redPin = stringToPin(redPinString);
   const bluePin = stringToPin(bluePinString);
   const type =
-    block.getFieldValue('PICTURE_TYPE') == 'BREADBOARD'
+    block.getFieldValue('PICTURE_TYPE') === 'BREADBOARD'
       ? 'BREADBOARD'
       : 'BUILT_IN';
 

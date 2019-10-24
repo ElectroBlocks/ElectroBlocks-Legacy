@@ -1,6 +1,4 @@
 import { VirtualCircuit } from '../svg/virtual-circuit';
-import * as fs from 'fs';
-import * as path from 'path';
 import { Parent } from 'svg.js';
 import { Resistor } from '../svg/resistor';
 import { fetchSVGXMLData } from './fetch.svg';
@@ -11,7 +9,7 @@ export const resistorFactory = async (
   resistorType: 'regular' | 'small' = 'regular'
 ) => {
   const svgName =
-    resistorType == 'regular' ? 'resistor.svg' : 'resistor-small.svg';
+    resistorType === 'regular' ? 'resistor.svg' : 'resistor-small.svg';
 
   const resistorString = `./assets/svgs/${svgName}`;
 

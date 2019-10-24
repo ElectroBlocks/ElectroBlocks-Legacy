@@ -59,7 +59,7 @@ describe('Neo Pixel', () => {
 		const ledStrip = frame1.state.components.find(component => component instanceof NeoPixelStripState) as NeoPixelStripState;
 
 
-		expect(ledStrip.neoPixels.find(pixel => pixel.position == 20).color).toEqual({ red: 140, green: 0, blue: 0 });
+		expect(ledStrip.neoPixels.find(pixel => pixel.position === 20).color).toEqual({ red: 140, green: 0, blue: 0 });
 
 		getInputValueSpy.withArgs(colorBlock, 'COLOR', { red: 33, green: 0, blue: 0 }, {iteration: 0, location: 'loop'}, frame1).and.returnValue({ red: 0, green: 140, blue: 0 });
 
@@ -70,8 +70,8 @@ describe('Neo Pixel', () => {
 		const ledStrip2 = frame2.state.components.find(component => component instanceof NeoPixelStripState) as NeoPixelStripState;
 
 
-		expect(ledStrip2.neoPixels.find(pixel => pixel.position == 20).color).toEqual({ red: 140, green: 0, blue: 0 });
-		expect(ledStrip2.neoPixels.find(pixel => pixel.position == 30).color).toEqual({ red: 0, green: 140, blue: 0 });
+		expect(ledStrip2.neoPixels.find(pixel => pixel.position === 20).color).toEqual({ red: 140, green: 0, blue: 0 });
+		expect(ledStrip2.neoPixels.find(pixel => pixel.position === 30).color).toEqual({ red: 0, green: 140, blue: 0 });
 
 		getInputValueSpy.withArgs(colorBlock, 'COLOR', { red: 33, green: 0, blue: 0 }, {iteration: 0, location: 'loop'}, frame2).and.returnValue({ red: 0, green: 0, blue: 140 });
 
@@ -82,8 +82,8 @@ describe('Neo Pixel', () => {
 		const ledStrip3 = frame3.state.components.find(component => component instanceof NeoPixelStripState) as NeoPixelStripState;
 
 
-		expect(ledStrip3.neoPixels.find(pixel => pixel.position == 20).color).toEqual({ red: 0, green: 0, blue: 140 });
-		expect(ledStrip3.neoPixels.find(pixel => pixel.position == 30).color).toEqual({ red: 0, green: 140, blue: 0 });
+		expect(ledStrip3.neoPixels.find(pixel => pixel.position === 20).color).toEqual({ red: 0, green: 0, blue: 140 });
+		expect(ledStrip3.neoPixels.find(pixel => pixel.position === 30).color).toEqual({ red: 0, green: 140, blue: 0 });
 
 	});
 

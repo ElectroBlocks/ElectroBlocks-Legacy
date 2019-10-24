@@ -25,8 +25,8 @@ Blockly.Arduino['debug_block'] = function(block) {
     '\t\tSerial.println("DEBUG_BLOCK_" + blockNumber + " ");\n\n';
 
   debugFunction +=
-    '\t\twhile (stopDebug != "s") { \n' +
-    '\t\t\tstopDebug = Serial.readStringUntil(\'|\'); \n' +
+    '\t\twhile (stopDebug !== "s") { \n' +
+    "\t\t\tstopDebug = Serial.readStringUntil('|'); \n" +
     '\t\t\tdelay(1000);  \n' +
     '\t\t}\n';
 
@@ -96,7 +96,7 @@ function getArrayVariableSize(variable) {
 
   const block = Blockly.mainWorkspace
     .getBlocksByType(blockType, true)
-    .find(block => block.getFieldValue('VAR') === variableId);
+    .find((block) => block.getFieldValue('VAR') === variableId);
 
   if (!block) {
     return 1;
@@ -110,9 +110,9 @@ function createPrintArrayFuncInC(type) {
     'String printArrayREPLATEWITHTYPE(REPLATEWITHTYPE arr[], int sizeOfArray) {' +
     '\t\tString returnValue = "[";' +
     '\t\tfor (unsigned int i = 0; i < sizeOfArray; i += 1) {\n';
-  if (type.toLowerCase() == 'number') {
+  if (type.toLowerCase() === 'number') {
     func += '\t\treturnValue +=  double2string(arr[i], 5);\n';
-  } else if (type.toLowerCase() == 'boolean') {
+  } else if (type.toLowerCase() === 'boolean') {
     func += '\t\treturnValue += arr[i] ? "TRUE" : "False"; \n';
   } else {
     func += '\t\treturnValue +=  String(arr[i]);\n';
@@ -141,7 +141,7 @@ export function createDoubleToStringCFunc() {
     '\t\t String r = "";                                                 \n' +
     '\t\t int v = n;                                                     \n' +
     '\t\t r += v;     // whole number part                               \n' +
-    '\t\t r += \'.\';   // decimal point                                   \n' +
+    "\t\t r += '.';   // decimal point                                   \n" +
     '\t\t int i;                                                         \n' +
     '\t\t for (i = 0; i < ndec; i++) {                                   \n' +
     '\t\t     // iterate through each decimal digit for 0..ndec          \n' +

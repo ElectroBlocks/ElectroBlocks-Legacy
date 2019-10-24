@@ -51,7 +51,7 @@ describe('servo block frame', () => {
 
 		const servoState = lastArduinoFrame.state.components
 			.filter(servo => servo instanceof ServoState)
-			.find((servo: ServoState) => servo.pin == stringToPin('4')) as ServoState;
+			.find((servo: ServoState) => servo.pin === stringToPin('4')) as ServoState;
 
 		expect(lastArduinoFrame.state.components.length).toBe(1);
 		expect(servoState.pin).toBe(ARDUINO_UNO_PINS.PIN_4);
@@ -73,11 +73,11 @@ describe('servo block frame', () => {
 
 		const servoState1 = lastArduinoFrame.state.components
 			.filter(servo => servo instanceof ServoState)
-			.find((servo: ServoState) => servo.pin == stringToPin('4')) as ServoState;
+			.find((servo: ServoState) => servo.pin === stringToPin('4')) as ServoState;
 
 		const servoState2 = lastArduinoFrame.state.components
 			.filter(servo => servo instanceof ServoState)
-			.find((servo: ServoState) => servo.pin == stringToPin('6')) as ServoState;
+			.find((servo: ServoState) => servo.pin === stringToPin('6')) as ServoState;
 
 
 		expect(servoState1.pin).toBe(ARDUINO_UNO_PINS.PIN_4);

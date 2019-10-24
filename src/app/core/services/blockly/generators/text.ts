@@ -27,11 +27,11 @@ Blockly.Arduino.text.forceString_ = function(value) {
 Blockly.Arduino.text.forceString_.strRegExp = /^\s*'([^']|\\')*'\s*$/;
 
 Blockly.Arduino['text_join'] = function(block: Block | any) {
-  if (block.itemCount_ == 0) {
+  if (block.itemCount_ === 0) {
     return ['""', Blockly.Arduino.ORDER_ATOMIC];
   }
 
-  if (block.itemCount_ == 1) {
+  if (block.itemCount_ === 1) {
     const element =
       Blockly.Arduino.valueToCode(block, 'ADD0', Blockly.Arduino.ORDER_NONE) ||
       '""';
@@ -126,7 +126,7 @@ Blockly.Arduino['text_changeCase'] = function(block: Block | any) {
     Blockly.Arduino.ORDER_ATOMIC
   );
 
-  if (transformType == 'UPPERCASE') {
+  if (transformType === 'UPPERCASE') {
     return ['upperCaseString(' + text + ')', Blockly.Arduino.ORDER_ATOMIC];
   } else {
     return ['lowerCaseString(' + text + ')', Blockly.Arduino.ORDER_ATOMIC];
@@ -143,7 +143,7 @@ Blockly.Arduino['parse_string_block'] = function(block: Block | any) {
     '\t    if(data.charAt(i)==separator || i==maxIndex){    \n' +
     '\t        found++;                      \n' +
     '\t        strIndex[0] = strIndex[1]+1;    \n' +
-    '\t        strIndex[1] = (i == maxIndex) ? i+1 : i;    \n' +
+    '\t        strIndex[1] = (i === maxIndex) ? i+1 : i;    \n' +
     '\t    }                            \n' +
     '\t}                     \n' +
     '\treturn found>index ? data.substring(strIndex[0], strIndex[1]) : ""; \n' +

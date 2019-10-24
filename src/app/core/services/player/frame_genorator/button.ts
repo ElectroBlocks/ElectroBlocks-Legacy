@@ -14,7 +14,7 @@ export const is_button_pressed_block = (
     const data = getSensorData();
 
     return (data[loopNumber].find(
-      component => component instanceof ButtonState && component.pin == block.getFieldValue('PIN')
+      component => component instanceof ButtonState && component.pin === block.getFieldValue('PIN')
     ) as ButtonState).isPressed;
 
   };

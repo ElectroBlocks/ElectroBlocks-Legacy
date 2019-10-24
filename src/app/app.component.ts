@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
   showBottom$ = this.router.events.pipe(
     filter(event => event instanceof ActivationStart),
     filter(
-      (event: ActivationStart) => event.snapshot.data['ignoreBottom'] == false
+      (event: ActivationStart) => event.snapshot.data['ignoreBottom'] === false
     ),
     map((event: ActivationStart) => event.snapshot.data['showBottom'])
   );
