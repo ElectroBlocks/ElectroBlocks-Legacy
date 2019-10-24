@@ -1,22 +1,22 @@
 import 'jasmine';
-import { neo_pixel_set_color_block, neo_pixel_setup_block } from "./neo-pixel";
+import { neo_pixel_set_color_block, neo_pixel_setup_block } from './neo-pixel';
 import { Block } from 'blockly';
-import * as blockHelperFunctions from "../frame/blockly_helper";
-import { NeoPixelStripState } from "../arduino/state/neo_pixel_strip.state";
-import { ARDUINO_UNO_PINS } from "../arduino/arduino_frame";
+import * as blockHelperFunctions from '../frame/blockly_helper';
+import { NeoPixelStripState } from '../arduino/state/neo_pixel_strip.state';
+import { ARDUINO_UNO_PINS } from '../arduino/arduino_frame';
 
 describe('Neo Pixel', () => {
 
 	let getInputValueSpy:  jasmine.Spy;
 	let getFieldValueSetupBlock:  jasmine.Spy;
 
-	let setupBlock : Block|any = {
+	const setupBlock: Block|any = {
 		id: 'setup',
 		getFieldValue( fieldName: string ): any {
 		}
 	};
 
-	let colorBlock : Block|any = {
+	const colorBlock: Block|any = {
 		id: 'color',
 		getFieldValue( fieldName: string ): any {
 		}

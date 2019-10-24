@@ -6,7 +6,7 @@ export const forLoopChangeText = workspace => {
     .getAllBlocks(true)
     .filter(block => block.type == 'controls_for')
     .forEach(forBlock => {
-      
+
       const toNumber = getInputValue(forBlock, 'TO');
       const fromNumber = getInputValue(forBlock, 'FROM');
 
@@ -25,4 +25,4 @@ const getInputValue = (block: Block, inputName: string) => {
    }
 
    return inputBlock.getFieldValue('NUM');
-}
+};

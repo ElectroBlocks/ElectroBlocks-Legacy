@@ -41,7 +41,7 @@ const builtColorLedFactory = async (
   componentState: LedColorState,
   componentOnly = false
 ) => {
-  let ledString = `./assets/svgs/built-in-color-led.svg`;
+  const ledString = `./assets/svgs/built-in-color-led.svg`;
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.bluePin));
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.redPin));
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.greenPin));
@@ -143,7 +143,7 @@ const breadboardRgbLedFactory = async (
   componentState: LedColorState,
   componentOnly = false
 ) => {
-  let ledString = './assets/svgs/rgb-led-no-resistor.svg';
+  const ledString = './assets/svgs/rgb-led-no-resistor.svg';
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.bluePin));
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.redPin));
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.greenPin));

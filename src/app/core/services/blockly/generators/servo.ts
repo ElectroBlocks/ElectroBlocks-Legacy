@@ -9,8 +9,8 @@ function servoSetup(pin) {
 }
 
 Blockly.Arduino['rotate_servo'] = function(block: Block) {
-  var pin = block.getFieldValue('PIN');
-  var degrees = Blockly.Arduino.valueToCode(
+  const pin = block.getFieldValue('PIN');
+  const degrees = Blockly.Arduino.valueToCode(
     block,
     'DEGREE',
     Blockly.Arduino.ORDER_ATOMIC
@@ -21,15 +21,15 @@ Blockly.Arduino['rotate_servo'] = function(block: Block) {
 };
 
 Blockly.Arduino['servo_read_degrees'] = function(block: Block) {
-  var pin = block.getFieldValue('PIN');
+  const pin = block.getFieldValue('PIN');
 
   servoSetup(pin);
   return ['servo_' + pin + '.read()', Blockly.Arduino.ORDER_ATOMIC];
 };
 
 Blockly.Arduino['servo_move_adafruit_tico'] = function(block: Block) {
-  var pin = block.getFieldValue('PIN');
-  var degree = Blockly.Arduino.valueToCode(
+  const pin = block.getFieldValue('PIN');
+  const degree = Blockly.Arduino.valueToCode(
     block,
     'DEGREE',
     Blockly.Arduino.ORDER_ATOMIC

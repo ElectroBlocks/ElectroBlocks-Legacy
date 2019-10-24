@@ -2,11 +2,11 @@ import * as  Blockly  from 'blockly/core';
 import { Block } from 'blockly';
 
 Blockly.Arduino['ir_remote_setup'] = function (block: Block) {
-    var pin =  block.getFieldValue('PIN') || 'A1';
+    const pin =  block.getFieldValue('PIN') || 'A1';
     Blockly.Arduino.libraries_['define_ir_remote'] =
-        "#include <IRremote.h>; \nIRrecv irReceiver(" + pin +  ");\ndecode_results result;\n";
+        '#include <IRremote.h>; \nIRrecv irReceiver(' + pin +  ');\ndecode_results result;\n';
 
-    Blockly.Arduino.setupCode_['setup_ir_remote'] = "\tirReceiver.enableIRIn(); \n";
+    Blockly.Arduino.setupCode_['setup_ir_remote'] = '\tirReceiver.enableIRIn(); \n';
     return '';
 };
 
@@ -21,5 +21,5 @@ Blockly.Arduino['ir_remote_get_code'] = function () {
 };
 
 Blockly.Arduino['ir_remote_scan_again'] = function () {
-    return "irReceiver.resume();\n";
+    return 'irReceiver.resume();\n';
 };

@@ -6,15 +6,15 @@ import * as Blockly from 'blockly/core';
  * @return {!Array.<!Element>} Array of XML block elements.
  */
 Blockly.Procedures.flyoutCategory = workspace => {
-  var xmlList = [];
+  const xmlList = [];
   if (Blockly.Blocks['procedures_defnoreturn']) {
     // <block type="procedures_defnoreturn" gap="16">
     //     <field name="NAME">do something</field>
     // </block>
-    var block = Blockly.utils.xml.createElement('block');
+    const block = Blockly.utils.xml.createElement('block');
     block.setAttribute('type', 'procedures_defnoreturn');
     block.setAttribute('gap', 16);
-    var nameField = Blockly.utils.xml.createElement('field');
+    const nameField = Blockly.utils.xml.createElement('field');
     nameField.setAttribute('name', 'NAME');
     nameField.appendChild(
       Blockly.utils.xml.createTextNode(
@@ -49,22 +49,22 @@ Blockly.Procedures.flyoutCategory = workspace => {
   }
 
   function populateProcedures(procedureList, templateName) {
-    for (var i = 0; i < procedureList.length; i++) {
-      var name = procedureList[i][0];
-      var argsModel = procedureList[i][3]; //  CHANGING TO SUPPORT TYPES
+    for (let i = 0; i < procedureList.length; i++) {
+      const name = procedureList[i][0];
+      const argsModel = procedureList[i][3]; //  CHANGING TO SUPPORT TYPES
       // <block type="procedures_callnoreturn" gap="16">
       //   <mutation name="do something">
       //     <arg name="x" type="Nubmer"></arg>
       //   </mutation>
       // </block>
-      var block = Blockly.utils.xml.createElement('block');
+      const block = Blockly.utils.xml.createElement('block');
       block.setAttribute('type', templateName);
       block.setAttribute('gap', 40);
-      var mutation = Blockly.utils.xml.createElement('mutation');
+      const mutation = Blockly.utils.xml.createElement('mutation');
       mutation.setAttribute('name', name);
       block.appendChild(mutation);
-      for (var j = 0; j < argsModel.length; j++) {
-        var arg = Blockly.utils.xml.createElement('arg');
+      for (let j = 0; j < argsModel.length; j++) {
+        const arg = Blockly.utils.xml.createElement('arg');
         arg.setAttribute('name', argsModel[j].name);
         arg.setAttribute('type', argsModel[j].type); // CHANGE TO GET TYPES
         mutation.appendChild(arg);
@@ -73,7 +73,7 @@ Blockly.Procedures.flyoutCategory = workspace => {
     }
   }
 
-  var tuple = Blockly.Procedures.allProcedures(workspace);
+  const tuple = Blockly.Procedures.allProcedures(workspace);
   populateProcedures(tuple[0], 'procedures_callnoreturn');
   populateProcedures(tuple[1], 'procedures_callreturn');
   return xmlList;

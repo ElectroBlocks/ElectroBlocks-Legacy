@@ -14,7 +14,7 @@ export interface Color {
  * @return {*}
  */
 export const hexToRgb = (hex: string) =>  {
-	let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 	return result ? {
 		red: parseInt(result[1], 16),
 		green: parseInt(result[2], 16),
@@ -24,11 +24,11 @@ export const hexToRgb = (hex: string) =>  {
 
 export const componentToHex = (colorPart: number) => {
 	const  hex = colorPart.toString(16);
-	return hex.length == 1 ? "0" + hex : hex;
+	return hex.length == 1 ? '0' + hex : hex;
 };
 
 export const rgbToHex = (color: Color) => {
-	return "#" + componentToHex(color.red) + componentToHex(color.green) + componentToHex(color.blue);
+	return '#' + componentToHex(color.red) + componentToHex(color.green) + componentToHex(color.blue);
 };
 
 

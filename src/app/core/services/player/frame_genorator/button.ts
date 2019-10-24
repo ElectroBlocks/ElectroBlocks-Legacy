@@ -9,7 +9,7 @@ export const is_button_pressed_block = (
     frameLocation: FrameLocation,
     previousFrame?: ArduinoFrame
   ) => {
-  
+
     const loopNumber = frameLocation.iteration;
     const data = getSensorData();
 

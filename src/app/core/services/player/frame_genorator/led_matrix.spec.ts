@@ -36,12 +36,12 @@ describe('led matrix', () => {
     });
   }
 
-  let bigBlock: any | Block = {
+  const bigBlock: any | Block = {
     id: 'bigBlock',
     inputList: inputListBigBlock
   };
 
-  let simpleBlock: any | Block = {
+  const simpleBlock: any | Block = {
     id: 'simpleblock',
     getFieldValue(fieldName: string): any {}
   };

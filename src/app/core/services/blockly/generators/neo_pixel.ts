@@ -2,8 +2,8 @@ import * as Blockly from 'blockly/core';
 import { Block } from 'blockly';
 
 Blockly.Arduino['neo_pixel_setup'] = function(block) {
-  var numberOfLeds = block.getFieldValue('NUMBER_LEDS');
-  var pin = block.getFieldValue('PIN');
+  const numberOfLeds = block.getFieldValue('NUMBER_LEDS');
+  const pin = block.getFieldValue('PIN');
 
   Blockly.Arduino.libraries_['define_neo_pixel'] =
     '#include <Adafruit_NeoPixel.h>;\n' +
@@ -32,13 +32,13 @@ Blockly.Arduino['neo_pixel_set_color'] = function(block) {
     '\tpixels.show();\n' +
     '}\n';
 
-  var color = Blockly.Arduino.valueToCode(
+  const color = Blockly.Arduino.valueToCode(
     block,
     'COLOR',
     Blockly.Arduino.ORDER_ATOMIC
   );
 
-  var position = Blockly.Arduino.valueToCode(
+  const position = Blockly.Arduino.valueToCode(
     block,
     'POSITION',
     Blockly.Arduino.ORDER_ATOMIC

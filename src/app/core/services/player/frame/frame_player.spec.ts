@@ -67,7 +67,7 @@ describe('Frame Player', () => {
     const framePlayer = new FramePlayer(new ExecuteSilentFrame());
 
     await framePlayer.setFrames(frames);
-    let frameNumbers = [];
+    const frameNumbers = [];
 
     framePlayer.changeFrame$
       .pipe(tap((frameChange) => frameNumbers.push(frameChange.frameNumber)))

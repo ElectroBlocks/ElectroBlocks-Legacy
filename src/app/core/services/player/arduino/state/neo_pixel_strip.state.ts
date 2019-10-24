@@ -1,11 +1,11 @@
-import { ElectricAttachmentComponentState, ElectricComponentState } from "./electric.state";
-import { Color } from "../../frame_genorator/color";
-import { ARDUINO_UNO_PINS } from "../arduino_frame";
-import { ElectricComponentType } from "./electric.component.type";
+import { ElectricAttachmentComponentState, ElectricComponentState } from './electric.state';
+import { Color } from '../../frame_genorator/color';
+import { ARDUINO_UNO_PINS } from '../arduino_frame';
+import { ElectricComponentType } from './electric.component.type';
 
 
 export class NeoPixelStripState extends ElectricAttachmentComponentState  {
-	
+
 
 	public readonly electricComponentType = ElectricComponentType.NEO_PIXEL_STRIP;
 

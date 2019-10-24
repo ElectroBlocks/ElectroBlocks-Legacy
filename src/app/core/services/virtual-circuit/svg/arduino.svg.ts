@@ -6,7 +6,7 @@ import { ArduinoMessageState } from '../../player/arduino/state/arduino-message.
 
 export class ArduinoSvg extends BaseSvg {
   public matchState(state: ArduinoState): void {
-    
+
     if (state.txLedOn) {
     }
 

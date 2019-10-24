@@ -16,7 +16,7 @@ export const lcdFactory = async (
   lcdState: LCDScreenState,
   componentOnly = false
 ) => {
-  let lcdString = `./assets/svgs/LCD.svg`;
+  const lcdString = `./assets/svgs/LCD.svg`;
 
   const lcdSvg = new LcdSvg(
     virtualCircuit.baseSVG

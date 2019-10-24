@@ -1,9 +1,9 @@
 import 'jasmine';
 import { Block } from 'blockly';
-import * as blockHelper from "../frame/blockly_helper";
-import { rotate_servo_block } from "./servo";
-import { ServoState } from "../arduino/state/servo.state";
-import { ARDUINO_UNO_PINS, stringToPin } from "../arduino/arduino_frame";
+import * as blockHelper from '../frame/blockly_helper';
+import { rotate_servo_block } from './servo';
+import { ServoState } from '../arduino/state/servo.state';
+import { ARDUINO_UNO_PINS, stringToPin } from '../arduino/arduino_frame';
 
 describe('servo block frame', () => {
 
@@ -58,7 +58,7 @@ describe('servo block frame', () => {
 		expect(servoState.degree).toBe(120);
 	});
 
-	it ('should generate 2 servos components if the pins are different', () =>{
+	it ('should generate 2 servos components if the pins are different', () => {
 		getFieldValueSpyBlock1.withArgs('PIN').and.returnValue(4);
 		getInputValueSpy.withArgs(block1, 'DEGREE', 0, { location: 'loop', iteration: 1 }, undefined).and.returnValue(30);
 

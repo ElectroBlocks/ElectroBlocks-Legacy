@@ -1,8 +1,8 @@
-import { ArduinoFrame } from "../arduino/arduino_frame";
+import { ArduinoFrame } from '../arduino/arduino_frame';
 import { Block } from 'blockly';
-import { generateFrameForInputStatement, getInputValue } from "../frame/blockly_helper";
-import { Frame, FrameLocation } from "../frame/frame";
-import { ArduinoState } from "../arduino/state/arduino.state";
+import { generateFrameForInputStatement, getInputValue } from '../frame/blockly_helper';
+import { Frame, FrameLocation } from '../frame/frame';
+import { ArduinoState } from '../arduino/state/arduino.state';
 
 
 /**
@@ -16,9 +16,9 @@ const logic_boolean_block = (block: Block, frameLocation: FrameLocation, previou
  * Compares the value of the 2 blocks and returns true or false
  */
 const logic_compare_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
-	let op = block.getFieldValue('OP');
+	const op = block.getFieldValue('OP');
 
-	let aValue = getInputValue(
+	const aValue = getInputValue(
 		block,
 		'A',
 		true,
@@ -26,7 +26,7 @@ const logic_compare_block = (block: Block, frameLocation: FrameLocation, previou
 		previousFrame
 	);
 
-	let bValue = getInputValue(
+	const bValue = getInputValue(
 		block,
 		'B',
 		false,
@@ -56,7 +56,7 @@ const logic_compare_block = (block: Block, frameLocation: FrameLocation, previou
  * Generates the frames for the if block
  */
 const control_if_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): Frame[] => {
-	return generateIfElseFrames(block, false,frameLocation, previousFrame);
+	return generateIfElseFrames(block, false, frameLocation, previousFrame);
 };
 
 /**
@@ -69,7 +69,7 @@ const controls_ifelse_block = (block: Block, frameLocation: FrameLocation, previ
 /**
  * Compares to booleans with a logic operator and returns true or false
  */
-const logic_operation_block = (block: Block,frameLocation: FrameLocation, previousFrame?: ArduinoFrame): boolean => {
+const logic_operation_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): boolean => {
 	const op = block.getFieldValue('OP');
 
 	const aValue = getInputValue(
@@ -102,7 +102,7 @@ const logic_operation_block = (block: Block,frameLocation: FrameLocation, previo
  * Returns the invert boolean value turns true to false and false to true.
  */
 const logic_negate_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
-	let valueToInvert = getInputValue(
+	const valueToInvert = getInputValue(
 		block,
 		'BOOL',
 		 true,
@@ -120,9 +120,9 @@ const generateIfElseFrames = (block: Block, hasElse: boolean, frameLocation: Fra
 
 	const state = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState();
 
-	let ifFrame = new ArduinoFrame(block.id, state, frameLocation);
+	const ifFrame = new ArduinoFrame(block.id, state, frameLocation);
 
-	let executeBlocksInsideIf = getInputValue(
+	const executeBlocksInsideIf = getInputValue(
 		block,
 		'IF0',
 		true,
@@ -136,9 +136,9 @@ const generateIfElseFrames = (block: Block, hasElse: boolean, frameLocation: Fra
 
 	// DO0 is for the if code that is executed if the block is true
 	// ELSE is for if the ELSE block is true
-	let inputStatementName = executeBlocksInsideIf ? 'DO0' : 'ELSE';
+	const inputStatementName = executeBlocksInsideIf ? 'DO0' : 'ELSE';
 
-	let frames = generateFrameForInputStatement(block, inputStatementName, frameLocation, ifFrame);
+	const frames = generateFrameForInputStatement(block, inputStatementName, frameLocation, ifFrame);
 	frames.unshift(ifFrame);
 
 	return frames;
@@ -159,4 +159,4 @@ export {
 	logic_operation_block,
 	control_if_block,
 	controls_ifelse_block
-}
+};

@@ -263,7 +263,7 @@ export const lcd_backlight_block = (
 };
 
 const appendSpace = (printString: string, numberOfColumns: number): string => {
-  let spacesToPrint = numberOfColumns - printString.length;
+  const spacesToPrint = numberOfColumns - printString.length;
 
   for (let i = 0; i < spacesToPrint; i += 1) {
     printString += ' ';

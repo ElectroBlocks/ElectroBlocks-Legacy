@@ -2,15 +2,15 @@ import * as Blockly from 'blockly/core';
 import { Block } from 'blockly';
 
 Blockly.Arduino['move_motor'] = function(block: Block) {
-  var motorNumber = Blockly.Arduino.valueToCode(
+  const motorNumber = Blockly.Arduino.valueToCode(
     block,
     'MOTOR',
     Blockly.Arduino.ORDER_ATOMIC
   );
 
-  var direction = block.getFieldValue('DIRECTION').toUpperCase();
+  const direction = block.getFieldValue('DIRECTION').toUpperCase();
 
-  var speed = Blockly.Arduino.valueToCode(
+  const speed = Blockly.Arduino.valueToCode(
     block,
     'SPEED',
     Blockly.Arduino.ORDER_ATOMIC

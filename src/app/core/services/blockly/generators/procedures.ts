@@ -3,27 +3,27 @@ import { Block } from 'blockly';
 
 Blockly.Arduino['procedures_defreturn'] = function(block: Block | any) {
   // Define a procedure with a return value.
-  var funcName = Blockly.Arduino.variableDB_.getName(
+  const funcName = Blockly.Arduino.variableDB_.getName(
     block.getFieldValue('NAME'),
     Blockly.Procedures.NAME_TYPE
   );
-  var branch = Blockly.Arduino.statementToCode(block, 'STACK');
-  var returnType = block.getFieldValue('RETURN TYPE') || 'void';
+  const branch = Blockly.Arduino.statementToCode(block, 'STACK');
+  const returnType = block.getFieldValue('RETURN TYPE') || 'void';
 
-  var returnValue =
+  let returnValue =
     Blockly.Arduino.valueToCode(block, 'RETURN', Blockly.Arduino.ORDER_NONE) ||
     '';
   if (returnValue) {
     returnValue = Blockly.Arduino.INDENT + 'return ' + returnValue + ';\n';
   }
-  var args = [];
-  for (var i = 0; i < block.argumentVarModels_.length; i++) {
+  const args = [];
+  for (let i = 0; i < block.argumentVarModels_.length; i++) {
     args[i] =
       translateType(block.argumentVarModels_[i].type) +
       ' ' +
       block.argumentVarModels_[i].name;
   }
-  var code =
+  let code =
     translateType(returnType) +
     ' ' +
     funcName +
@@ -59,12 +59,12 @@ Blockly.Arduino['procedures_defnoreturn'] =
 
 Blockly.Arduino['procedures_callreturn'] = function(block: Block | any) {
   // Call a procedure with a return value.
-  var funcName = Blockly.Arduino.variableDB_.getName(
+  const funcName = Blockly.Arduino.variableDB_.getName(
     block.getFieldValue('NAME'),
     Blockly.Procedures.NAME_TYPE
   );
-  var args = [];
-  for (var i = 0; i < block.arguments_.length; i++) {
+  const args = [];
+  for (let i = 0; i < block.arguments_.length; i++) {
     args[i] =
       Blockly.Arduino.valueToCode(
         block,
@@ -72,18 +72,18 @@ Blockly.Arduino['procedures_callreturn'] = function(block: Block | any) {
         Blockly.Arduino.ORDER_COMMA
       ) || 'null';
   }
-  var code = funcName + '(' + args.join(', ') + ')';
+  const code = funcName + '(' + args.join(', ') + ')';
   return [code, Blockly.Arduino.ORDER_ATOMIC];
 };
 
 Blockly.Arduino['procedures_callnoreturn'] = function(block: Block | any) {
   // Call a procedure with no return value.
-  var funcName = Blockly.Arduino.variableDB_.getName(
+  const funcName = Blockly.Arduino.variableDB_.getName(
     block.getFieldValue('NAME'),
     Blockly.Procedures.NAME_TYPE
   );
-  var args = [];
-  for (var i = 0; i < block.arguments_.length; i++) {
+  const args = [];
+  for (let i = 0; i < block.arguments_.length; i++) {
     args[i] =
       Blockly.Arduino.valueToCode(
         block,

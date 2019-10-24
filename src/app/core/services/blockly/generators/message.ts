@@ -32,7 +32,7 @@ Blockly.Arduino['arduino_receive_message'] = function(block) {
 };
 
 Blockly.Arduino['arduino_send_message'] = function(block) {
-  var message = Blockly.Arduino.valueToCode(
+  const message = Blockly.Arduino.valueToCode(
     block,
     'MESSAGE',
     Blockly.Arduino.ORDER_ATOMIC

@@ -22,7 +22,7 @@ const text_join_block = (
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
-  let inputLength = block.inputList.length;
+  const inputLength = block.inputList.length;
   let returnString = '';
 
   for (let i = 0; i < inputLength; i += 1) {
@@ -77,7 +77,7 @@ const number_to_string_block = (
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
-  let number = getInputValue(
+  const number = getInputValue(
     block,
     'NUMBER',
     0,
@@ -85,7 +85,7 @@ const number_to_string_block = (
     previousFrame
   ).toString();
 
-  let precision = parseInt(block.getFieldValue('PRECISION'));
+  const precision = parseInt(block.getFieldValue('PRECISION'));
 
   return parseFloat(number)
     .toFixed(precision)
@@ -122,7 +122,7 @@ const parse_string_block_block = (
 
   position = position >= 1 ? position - 1 : 0;
 
-  let splitTextArray = text.split(delimiter);
+  const splitTextArray = text.split(delimiter);
 
   return splitTextArray[position] || '';
 };

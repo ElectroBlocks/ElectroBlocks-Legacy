@@ -5,8 +5,8 @@ import * as Blockly from 'blockly/core';
 
 export const registerListMenu = (workspace: Blockly.Workspace) => {
   workspace.registerToolboxCategoryCallback('LIST', workspace => {
-    let xmlList = [];
-    let btnCreateNumberList = document.createElement('button');
+    const xmlList = [];
+    const btnCreateNumberList = document.createElement('button');
     btnCreateNumberList.setAttribute('text', 'Create a list of number');
     btnCreateNumberList.setAttribute('callbackKey', 'CREATE_NUMBER_LIST');
     const xmlSerializer = new XMLSerializer();
@@ -17,7 +17,7 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
           if (variableName === null) {
             return;
           }
-          let createListNumberBlock = workspace.newBlock(
+          const createListNumberBlock = workspace.newBlock(
             'create_list_number_block'
           );
           createListNumberBlock.initSvg();
@@ -31,7 +31,7 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
 
     xmlList.push(btnCreateNumberList);
 
-    let btnCreateStringList = document.createElement('button');
+    const btnCreateStringList = document.createElement('button');
     btnCreateStringList.setAttribute('text', 'Create a list of string');
     btnCreateStringList.setAttribute('callbackKey', 'CREATE_STRING_LIST');
 
@@ -42,7 +42,7 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
           if (variableName === null) {
             return;
           }
-          let createListStringBlock = workspace.newBlock(
+          const createListStringBlock = workspace.newBlock(
             'create_list_string_block'
           );
           createListStringBlock.initSvg();
@@ -55,7 +55,7 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
     });
     xmlList.push(btnCreateStringList);
 
-    let btnCreateBooleanList = document.createElement('button');
+    const btnCreateBooleanList = document.createElement('button');
     btnCreateBooleanList.setAttribute('text', 'Create a list of boolean');
     btnCreateBooleanList.setAttribute('callbackKey', 'CREATE_BOOLEAN_LIST');
     workspace.registerButtonCallback('CREATE_BOOLEAN_LIST', () => {
@@ -78,7 +78,7 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
     });
     xmlList.push(btnCreateBooleanList);
 
-    let btnCreateColorList = document.createElement('button');
+    const btnCreateColorList = document.createElement('button');
     btnCreateColorList.setAttribute('text', 'Create a list of colors');
     btnCreateColorList.setAttribute('callbackKey', 'CREATE_COLOUR_LIST');
     workspace.registerButtonCallback('CREATE_COLOUR_LIST', () => {
@@ -88,7 +88,7 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
           if (variableName === null) {
             return;
           }
-          let createColourListBlock = workspace.newBlock(
+          const createColourListBlock = workspace.newBlock(
             'create_list_colour_block'
           );
           createColourListBlock.initSvg();
@@ -101,10 +101,10 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
     });
     xmlList.push(btnCreateColorList);
 
-    let numberListVariables = workspace.getVariablesOfType('List Number');
+    const numberListVariables = workspace.getVariablesOfType('List Number');
 
     if (numberListVariables.length > 0) {
-      let blockNumberListSetText =
+      const blockNumberListSetText =
         '<xml>' +
         '<block type="set_number_list_block" gap="24">' +
         xmlSerializer.serializeToString(
@@ -114,11 +114,11 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
         '<value name="POSITION"> <block type="math_number"> <field name="NUM">1</field></block> </value>' +
         '</block>' +
         '</xml>';
-      let blockSetNumberList = Blockly.Xml.textToDom(blockNumberListSetText)
+      const blockSetNumberList = Blockly.Xml.textToDom(blockNumberListSetText)
         .firstChild;
       xmlList.push(blockSetNumberList);
 
-      let blockTextGetListNum =
+      const blockTextGetListNum =
         '<xml>' +
         '<block type="get_number_from_list" gap="24">' +
         xmlSerializer.serializeToString(
@@ -127,15 +127,15 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
         '<value name="POSITION"> <block type="math_number"> <field name="NUM">1</field></block> </value>' +
         '</block>' +
         '</xml>';
-      let blockGetListNum = Blockly.Xml.textToDom(blockTextGetListNum)
+      const blockGetListNum = Blockly.Xml.textToDom(blockTextGetListNum)
         .firstChild;
       xmlList.push(blockGetListNum);
     }
 
-    let stringListVariables = workspace.getVariablesOfType('List String');
+    const stringListVariables = workspace.getVariablesOfType('List String');
 
     if (stringListVariables.length > 0) {
-      let blockStringListSetText =
+      const blockStringListSetText =
         '<xml>' +
         '<block type="set_string_list_block" gap="24">' +
         xmlSerializer.serializeToString(
@@ -145,11 +145,11 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
         '<value name="POSITION"> <block type="math_number"> <field name="NUM">1</field></block> </value>' +
         '</block>' +
         '</xml>';
-      let blockSetStringList = Blockly.Xml.textToDom(blockStringListSetText)
+      const blockSetStringList = Blockly.Xml.textToDom(blockStringListSetText)
         .firstChild;
       xmlList.push(blockSetStringList);
 
-      let blockTextGetListText =
+      const blockTextGetListText =
         '<xml>' +
         '<block type="get_string_from_list" gap="24">' +
         xmlSerializer.serializeToString(
@@ -158,15 +158,15 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
         '<value name="POSITION"> <block type="math_number"> <field name="NUM">1</field></block> </value>' +
         '</block>' +
         '</xml>';
-      let blockGetListText = Blockly.Xml.textToDom(blockTextGetListText)
+      const blockGetListText = Blockly.Xml.textToDom(blockTextGetListText)
         .firstChild;
       xmlList.push(blockGetListText);
     }
 
-    let booleanListVariables = workspace.getVariablesOfType('List Boolean');
+    const booleanListVariables = workspace.getVariablesOfType('List Boolean');
 
     if (booleanListVariables.length > 0) {
-      let blockBooleanListSetText =
+      const blockBooleanListSetText =
         '<xml>' +
         '<block type="set_boolean_list_block" gap="24">' +
         xmlSerializer.serializeToString(
@@ -176,11 +176,11 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
         '<value name="POSITION"> <block type="math_number"> <field name="NUM">1</field></block> </value>' +
         '</block>' +
         '</xml>';
-      let blockSetBooleanList = Blockly.Xml.textToDom(blockBooleanListSetText)
+      const blockSetBooleanList = Blockly.Xml.textToDom(blockBooleanListSetText)
         .firstChild;
       xmlList.push(blockSetBooleanList);
 
-      let blockTextGetListBoolean =
+      const blockTextGetListBoolean =
         '<xml>' +
         '<block type="get_boolean_from_list" gap="24">' +
         xmlSerializer.serializeToString(
@@ -189,15 +189,15 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
         '<value name="POSITION"> <block type="math_number"> <field name="NUM">1</field></block> </value>' +
         '</block>' +
         '</xml>';
-      let blockGetListBoolean = Blockly.Xml.textToDom(blockTextGetListBoolean)
+      const blockGetListBoolean = Blockly.Xml.textToDom(blockTextGetListBoolean)
         .firstChild;
       xmlList.push(blockGetListBoolean);
     }
 
-    let colourListVariables = workspace.getVariablesOfType('List Colour');
+    const colourListVariables = workspace.getVariablesOfType('List Colour');
 
     if (colourListVariables.length > 0) {
-      let blockColourListSetText =
+      const blockColourListSetText =
         '<xml>' +
         '<block type="set_colour_list_block" gap="24">' +
         xmlSerializer.serializeToString(
@@ -207,11 +207,11 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
         '<value name="POSITION"> <block type="math_number"> <field name="NUM">1</field></block> </value>' +
         '</block>' +
         '</xml>';
-      let blockColourListSet = Blockly.Xml.textToDom(blockColourListSetText)
+      const blockColourListSet = Blockly.Xml.textToDom(blockColourListSetText)
         .firstChild;
       xmlList.push(blockColourListSet);
 
-      let blockTextGetListColor =
+      const blockTextGetListColor =
         '<xml>' +
         '<block type="get_colour_from_list" gap="24">' +
         xmlSerializer.serializeToString(
@@ -220,7 +220,7 @@ export const registerListMenu = (workspace: Blockly.Workspace) => {
         '<value name="POSITION"> <block type="math_number"> <field name="NUM">1</field></block> </value>' +
         '</block>' +
         '</xml>';
-      let blockGetListColor = Blockly.Xml.textToDom(blockTextGetListColor)
+      const blockGetListColor = Blockly.Xml.textToDom(blockTextGetListColor)
         .firstChild;
       xmlList.push(blockGetListColor);
     }

@@ -2,8 +2,8 @@ import * as Blockly from 'blockly/core';
 import { Block } from 'blockly';
 
 Blockly.Arduino['led'] = function(block: Block) {
-  var pin = block.getFieldValue('PIN');
-  var state = block.getFieldValue('STATE');
+  const pin = block.getFieldValue('PIN');
+  const state = block.getFieldValue('STATE');
 
   Blockly.Arduino.setupCode_['led_pin' + pin] =
     '\tpinMode(' + pin + ', OUTPUT); \n';
@@ -12,8 +12,8 @@ Blockly.Arduino['led'] = function(block: Block) {
 };
 
 Blockly.Arduino['led_fade'] = function(block: Block) {
-  var pin = block.getFieldValue('PIN');
-  var fadeNumber = Blockly.Arduino.valueToCode(
+  const pin = block.getFieldValue('PIN');
+  const fadeNumber = Blockly.Arduino.valueToCode(
     block,
     'FADE',
     Blockly.Arduino.ORDER_ATOMIC
@@ -58,7 +58,7 @@ Blockly.Arduino['led_color_setup'] = function(block: Block) {
 };
 
 Blockly.Arduino['set_color_led'] = function(block: Block) {
-  var color = Blockly.Arduino.valueToCode(
+  const color = Blockly.Arduino.valueToCode(
     block,
     'COLOUR',
     Blockly.Arduino.ORDER_ATOMIC

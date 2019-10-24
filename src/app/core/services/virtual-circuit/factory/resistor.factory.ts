@@ -13,7 +13,7 @@ export const resistorFactory = async (
   const svgName =
     resistorType == 'regular' ? 'resistor.svg' : 'resistor-small.svg';
 
-  let resistorString = `./assets/svgs/${svgName}`;
+  const resistorString = `./assets/svgs/${svgName}`;
 
   const resistor = new Resistor(
     virtualCircuit.baseSVG

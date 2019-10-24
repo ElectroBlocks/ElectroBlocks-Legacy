@@ -4,7 +4,7 @@ import { createDoubleToStringCFunc } from './debug';
 
 Blockly.Arduino['text'] = function(block: Block) {
   // Text value.
-  var code = Blockly.Arduino.quote_(block.getFieldValue('TEXT'));
+  const code = Blockly.Arduino.quote_(block.getFieldValue('TEXT'));
   return [code, Blockly.Arduino.ORDER_ATOMIC];
 };
 
@@ -32,7 +32,7 @@ Blockly.Arduino['text_join'] = function(block: Block | any) {
   }
 
   if (block.itemCount_ == 1) {
-    var element =
+    const element =
       Blockly.Arduino.valueToCode(block, 'ADD0', Blockly.Arduino.ORDER_NONE) ||
       '""';
     return [
@@ -41,10 +41,10 @@ Blockly.Arduino['text_join'] = function(block: Block | any) {
     ];
   }
 
-  var parts = [];
+  const parts = [];
 
-  for (var i = 0; i < block.itemCount_; i += 1) {
-    var part = Blockly.Arduino.valueToCode(
+  for (let i = 0; i < block.itemCount_; i += 1) {
+    const part = Blockly.Arduino.valueToCode(
       block,
       'ADD' + i,
       Blockly.Arduino.ORDER_COMMA
@@ -54,7 +54,7 @@ Blockly.Arduino['text_join'] = function(block: Block | any) {
     }
   }
 
-  var code = parts.join(' + ');
+  const code = parts.join(' + ');
 
   return [code, Blockly.Arduino.ORDER_ATOMIC];
 };
@@ -65,7 +65,7 @@ Blockly.Arduino['text_length'] = function(block: Block | any) {
     '\t return (double)str.length(); \n' +
     '}\n';
 
-  var str = Blockly.Arduino.valueToCode(
+  const str = Blockly.Arduino.valueToCode(
     block,
     'VALUE',
     Blockly.Arduino.ORDER_COMMA
@@ -80,7 +80,7 @@ Blockly.Arduino['text_isEmpty'] = function(block: Block | any) {
     '\t return (double)str.length(); \n' +
     '}\n';
 
-  var str = Blockly.Arduino.valueToCode(
+  const str = Blockly.Arduino.valueToCode(
     block,
     'VALUE',
     Blockly.Arduino.ORDER_COMMA
@@ -94,8 +94,8 @@ Blockly.Arduino['number_to_string'] = function(block: Block | any) {
     'double_to_string_debug'
   ] = createDoubleToStringCFunc();
 
-  var numberOfDecimals = block.getFieldValue('PRECISION');
-  var number = Blockly.Arduino.valueToCode(
+  const numberOfDecimals = block.getFieldValue('PRECISION');
+  const number = Blockly.Arduino.valueToCode(
     block,
     'NUMBER',
     Blockly.Arduino.ORDER_ATOMIC
@@ -119,8 +119,8 @@ Blockly.Arduino['text_changeCase'] = function(block: Block | any) {
     '\treturn str;\n' +
     '}\n';
 
-  var transformType = block.getFieldValue('CASE');
-  var text = Blockly.Arduino.valueToCode(
+  const transformType = block.getFieldValue('CASE');
+  const text = Blockly.Arduino.valueToCode(
     block,
     'TEXT',
     Blockly.Arduino.ORDER_ATOMIC
@@ -149,13 +149,13 @@ Blockly.Arduino['parse_string_block'] = function(block: Block | any) {
     '\treturn found>index ? data.substring(strIndex[0], strIndex[1]) : ""; \n' +
     '}\n';
 
-  var text = Blockly.Arduino.valueToCode(
+  const text = Blockly.Arduino.valueToCode(
     block,
     'VALUE',
     Blockly.Arduino.ORDER_ATOMIC
   );
-  var delimiter = "'" + block.getFieldValue('DELIMITER') + "'";
-  var position = +Blockly.Arduino.valueToCode(
+  const delimiter = '\'' + block.getFieldValue('DELIMITER') + '\'';
+  let position = +Blockly.Arduino.valueToCode(
     block,
     'POSITION',
     Blockly.Arduino.ORDER_ATOMIC

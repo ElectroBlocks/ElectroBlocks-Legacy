@@ -12,7 +12,7 @@ export const checkRightPinSelected = (workspace, sensorBlockTypes: string[], set
     if (availablePins.length === 0) {
         return;
     }
-    
+
     buttonBlocks.forEach(block => {
         if (!availablePins.includes(block.getFieldValue('PIN'))) {
             block.getField('PIN').setValue(availablePins[0]);

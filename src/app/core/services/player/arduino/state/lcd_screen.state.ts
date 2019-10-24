@@ -1,6 +1,6 @@
-import { ElectricAttachmentComponentState } from "./electric.state";
-import { ElectricComponentType } from "./electric.component.type";
-import { ARDUINO_UNO_PINS } from "../arduino_frame";
+import { ElectricAttachmentComponentState } from './electric.state';
+import { ElectricComponentType } from './electric.component.type';
+import { ARDUINO_UNO_PINS } from '../arduino_frame';
 
 
 export class LCDScreenState extends ElectricAttachmentComponentState {

@@ -75,7 +75,7 @@ describe('Variables Frame Generators', () => {
     it('Set number variable value and name in frame.', () => {
       mockSetVariable('Number', 'variable_name', 0, 32);
 
-      let [frame] = variables_set_number_block(block, frameLocation);
+      const [frame] = variables_set_number_block(block, frameLocation);
 
       expect(frame.blockId).toBe(block.id);
       expect(frame.state.variables['variable_name'].name).toBe('variable_name');
@@ -88,7 +88,7 @@ describe('Variables Frame Generators', () => {
     it('Set string variable value and name in frame.', () => {
       mockSetVariable('String', 'variable_name', '', 'Hello World');
 
-      let [frame] = variables_set_string_block(block, frameLocation);
+      const [frame] = variables_set_string_block(block, frameLocation);
 
       expect(frame.blockId).toBe(block.id);
       expect(frame.state.variables['variable_name'].name).toBe('variable_name');
@@ -101,7 +101,7 @@ describe('Variables Frame Generators', () => {
     it('Set boolean variable value and name in frame.', () => {
       mockSetVariable('Boolean', 'variable_name', true, true);
 
-      let [frame] = variables_set_boolean_block(block, frameLocation);
+      const [frame] = variables_set_boolean_block(block, frameLocation);
 
       expect(frame.blockId).toBe(block.id);
       expect(frame.state.variables['variable_name'].name).toBe('variable_name');
@@ -114,7 +114,7 @@ describe('Variables Frame Generators', () => {
     it('Set boolean variable to false.', () => {
       mockSetVariable('Boolean', 'variable_name', true, false);
 
-      let [frame] = variables_set_boolean_block(block, frameLocation);
+      const [frame] = variables_set_boolean_block(block, frameLocation);
 
       expect(frame.blockId).toBe(block.id);
       expect(frame.state.variables['variable_name'].name).toBe('variable_name');
@@ -132,7 +132,7 @@ describe('Variables Frame Generators', () => {
         { red: 20, green: 0, blue: 30 }
       );
 
-      let [frame] = variables_set_colour_block(block, frameLocation);
+      const [frame] = variables_set_colour_block(block, frameLocation);
 
       expect(frame.blockId).toBe(block.id);
       expect(frame.state.variables['variable_name'].name).toBe('variable_name');
@@ -155,7 +155,7 @@ describe('Variables Frame Generators', () => {
         }
       });
 
-      let previousFrame = new ArduinoFrame('block_id', state, frameLocation);
+      const previousFrame = new ArduinoFrame('block_id', state, frameLocation);
 
       mockGetVariable('Colour', 'variable_name');
 
@@ -175,7 +175,7 @@ describe('Variables Frame Generators', () => {
         }
       });
 
-      let previousFrame = new ArduinoFrame('block_id', state, frameLocation);
+      const previousFrame = new ArduinoFrame('block_id', state, frameLocation);
 
       mockGetVariable('colour', 'variable_name');
 
@@ -195,7 +195,7 @@ describe('Variables Frame Generators', () => {
         }
       });
 
-      let previousFrame = new ArduinoFrame('block_id', state, frameLocation);
+      const previousFrame = new ArduinoFrame('block_id', state, frameLocation);
 
       mockGetVariable('colour', 'variable_name');
 
@@ -215,7 +215,7 @@ describe('Variables Frame Generators', () => {
         }
       });
 
-      let previousFrame = new ArduinoFrame('block_id', state, frameLocation);
+      const previousFrame = new ArduinoFrame('block_id', state, frameLocation);
 
       mockGetVariable('Boolean', 'variable_name');
 
@@ -234,7 +234,7 @@ describe('Variables Frame Generators', () => {
         null
       );
 
-      let [frame] = variables_set_colour_block(block, frameLocation);
+      const [frame] = variables_set_colour_block(block, frameLocation);
 
       expect(frame.blockId).toBe(block.id);
       expect(frame.state.variables['variable_name'].name).toBe('variable_name');

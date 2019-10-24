@@ -1,21 +1,14 @@
 {
-  "name": "angular-electron",
-  "version": "6.1.0",
-  "description": "Angular 8 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "ElectroBlocks",
+  "productName": "ElectroBlocks A Blockly Based Arduino IDE",
+  "version": "3.0.0",
+  "description": "An ide for developing arduino code with blockly.",
+  "repository": "git@github.com:phptuts/ElectroBlocks.git",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Noah Glaser",
+    "email": "glaserpower@gmail.com"
   },
-  "keywords": [
-    "angular",
-    "angular 8",
-    "electron",
-    "typescript",
-    "sass"
-  ],
   "main": "main.js",
-  "private": true,
   "scripts": {
     "postinstall": "npm run postinstall:electron && electron-builder install-app-deps",
     "postinstall:web": "node postinstall-web",

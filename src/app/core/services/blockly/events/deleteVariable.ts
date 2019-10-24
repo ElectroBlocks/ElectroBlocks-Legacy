@@ -5,14 +5,14 @@ export const deleteVariables = (workspace: Workspace, event: {element: string, n
     if ((event.element === 'mutatorOpen' && !event.newValue) ||
         event.type === Blockly.Events.BLOCK_DELETE) {
 
-        let variables = workspace.getAllVariables();
+        const variables = workspace.getAllVariables();
 
         variables
             .filter(variable => {
                return workspace.getVariableUsesById(variable.getId()).length === 0;
             })
             .forEach(variable => {
-                workspace.deleteVariableById(variable.getId())
+                workspace.deleteVariableById(variable.getId());
             });
     }
-}
+};

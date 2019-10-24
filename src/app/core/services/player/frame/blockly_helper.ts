@@ -59,7 +59,7 @@ export const blocksInsideInput = (
   containerBlock: Block,
   inputName: string
 ): Block[] | any[] => {
-  let blockList = [];
+  const blockList = [];
   let topBlock = containerBlock.getInputTargetBlock(inputName);
 
   if (!topBlock) {
@@ -90,9 +90,9 @@ const generateFrames = (
   let frames = new Array<Frame>();
 
   for (let i = 0; i < blockList.length; i += 1) {
-    let block = blockList[i];
+    const block = blockList[i];
 
-    let currentFrames = frameGeneratingBlocks[block.type + '_block'](
+    const currentFrames = frameGeneratingBlocks[block.type + '_block'](
       block,
       frameLocation,
       previousFrame

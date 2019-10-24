@@ -10,13 +10,13 @@ Blockly.Arduino['debug_block'] = function(block) {
     'double_to_string_debug'
   ] = createDoubleToStringCFunc();
 
-  for (var i = 0; i < VARIABLE_TYPES.length; i += 1) {
+  for (let i = 0; i < VARIABLE_TYPES.length; i += 1) {
     Blockly.Arduino.functionNames_[
       'print_array_' + VARIABLE_TYPES[i].replace(' ', '')
     ] = createPrintArrayFuncInC(VARIABLE_TYPES[i].replace(' ', '')) + '\n\n';
   }
 
-  var debugFunction =
+  let debugFunction =
     '\n\nvoid debug(String blockNumber) { \n' + '\t\tString stopDebug = ""; \n';
 
   debugFunction += createDebugVariable();
@@ -26,7 +26,7 @@ Blockly.Arduino['debug_block'] = function(block) {
 
   debugFunction +=
     '\t\twhile (stopDebug != "s") { \n' +
-    "\t\t\tstopDebug = Serial.readStringUntil('|'); \n" +
+    '\t\t\tstopDebug = Serial.readStringUntil(\'|\'); \n' +
     '\t\t\tdelay(1000);  \n' +
     '\t\t}\n';
 
@@ -38,11 +38,11 @@ Blockly.Arduino['debug_block'] = function(block) {
 };
 
 export function createDebugVariable() {
-  var debugString = '';
+  let debugString = '';
 
-  var allVariables = Blockly.mainWorkspace.getAllVariables();
+  const allVariables = Blockly.mainWorkspace.getAllVariables();
 
-  for (var i = 0; i < allVariables.length; i += 1) {
+  for (let i = 0; i < allVariables.length; i += 1) {
     if (VARIABLE_TYPES.indexOf(allVariables[i].type) > -1) {
       debugString +=
         '\t\tSerial.println("**(|)' +
@@ -106,7 +106,7 @@ function getArrayVariableSize(variable) {
 }
 
 function createPrintArrayFuncInC(type) {
-  var func =
+  let func =
     'String printArrayREPLATEWITHTYPE(REPLATEWITHTYPE arr[], int sizeOfArray) {' +
     '\t\tString returnValue = "[";' +
     '\t\tfor (unsigned int i = 0; i < sizeOfArray; i += 1) {\n';
@@ -141,7 +141,7 @@ export function createDoubleToStringCFunc() {
     '\t\t String r = "";                                                 \n' +
     '\t\t int v = n;                                                     \n' +
     '\t\t r += v;     // whole number part                               \n' +
-    "\t\t r += '.';   // decimal point                                   \n" +
+    '\t\t r += \'.\';   // decimal point                                   \n' +
     '\t\t int i;                                                         \n' +
     '\t\t for (i = 0; i < ndec; i++) {                                   \n' +
     '\t\t     // iterate through each decimal digit for 0..ndec          \n' +
