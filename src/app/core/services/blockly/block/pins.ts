@@ -2,6 +2,7 @@ import { defineBlocksWithJsonArray } from 'blockly';
 import { selectedBoard } from '../types/pins';
 import * as Blockly from 'blockly/core';
 import { loopTimes, getAvialablePinsFromSetupBlock } from './debug_extensions';
+import { BlocklyService } from '../../blockly.service';
 
 defineBlocksWithJsonArray([
   {
@@ -110,8 +111,17 @@ Blockly.Blocks['digital_read'] = {
         'PIN'
       );
     this.appendDummyInput()
-      .appendField('Has Power? ')
-      .appendField(new Blockly.FieldCheckbox('TRUE'), 'SIMPLE_DEBUG');
+      .appendField('Has Electricity? (readonly) ')
+      .appendField(
+        new Blockly.FieldCheckbox('FALSE', (value) => {
+          if (BlocklyService.DISABLE_READONLY_CHECK) {
+            return value;
+          }
+
+          return null;
+        }),
+        'SIMPLE_DEBUG'
+      );
     this.setOutput(true, 'Boolean');
     this.setColour(260);
     this.setTooltip('');

@@ -1,13 +1,13 @@
 
-export const checkButtonPinSelectionValid = workspace => {
-   const buttonBlocks =workspace
-        .getAllBlocks()
-        .filter(block => block.type == 'is_button_pressed');
+export const checkRightPinSelected = (workspace, sensorBlockTypes: string[], setupBlockType: string) => {
+   const buttonBlocks = workspace
+     .getAllBlocks()
+     .filter((block) =>  sensorBlockTypes.includes(block.type));
 
     const availablePins = workspace
-        .getAllBlocks()
-        .filter(block => block.type === 'push_button_setup')
-        .map(block => block.getFieldValue('PIN'));
+      .getAllBlocks()
+      .filter((block) => block.type === setupBlockType)
+      .map((block) => block.getFieldValue('PIN'));
 
     if (availablePins.length === 0) {
         return;
@@ -19,3 +19,5 @@ export const checkButtonPinSelectionValid = workspace => {
         }
     });
 };
+
+// ''

@@ -1,18 +1,18 @@
 import { VirtualCircuit } from '../svg/virtual-circuit';
-import {
-  PinPicture,
-  PinState,
-  PIN_TYPE
-} from '../../player/arduino/state/pin.state';
+import { PinState } from '../../player/arduino/state/pin.state';
 import { Element, Parent } from 'svg.js';
 import { LedSvg } from '../svg/led.svg';
-import { createLedBreadboardWire, createGroundWire } from '../svg/wire';
+import {
+  createLedBreadboardWire,
+  createGroundWire,
+  createPowerWire
+} from '../svg/wire';
 import { connectionToBreadboard, virtualCircuitPin } from '../svg/arduino.svg';
 import { ARDUINO_UNO_PINS } from '../../player/arduino/arduino_frame';
 import { resistorFactory } from './resistor.factory';
-import { ComponentSvg } from '../svg/component.svg';
 import { fetchSVGXMLData } from './fetch.svg';
 import { DigitalAnalogWriteSvg } from '../svg/digitalAnalogWrite.svg';
+import { DigitalAnalogReadSvg } from '../svg/digitalAnalogRead.svg';
 
 export const ledFactory = async (
   virtualCircuit: VirtualCircuit,
@@ -97,6 +97,82 @@ export const ledFactory = async (
     led.hideWires();
   }
   return [led, resistor];
+};
+
+export const inputPinFactory = async (
+  virtualCircuit: VirtualCircuit,
+  componentState: PinState,
+  componentOnly = false
+) => {
+  const svgPath = `./assets/svgs/pins/digital_analog_read.svg`;
+  const svgString = await fetchSVGXMLData(svgPath);
+
+  const inputPinSvg = new DigitalAnalogReadSvg(
+    virtualCircuit.baseSVG
+      .svg(svgString)
+      .children()
+      .pop() as Parent,
+    componentState.type,
+    componentState.pin
+  );
+
+  inputPinSvg.svg.size(200, 200);
+
+  const resistorBreadboardHole = virtualCircuit.baseSVG
+    .select(`#${resistorPinWhole(inputPinSvg.pin)}`)
+    .first();
+
+  const inputPinXPosition =
+    resistorBreadboardHole.ctm().extract().x +
+    resistorBreadboardHole.cx() -
+    inputPinSvg.svg.width() / 2;
+
+  const inputPinYPosition =
+    virtualCircuit.baseSVG
+      .select(`#breadboardbreadboard`)
+      .first()
+      .ctm()
+      .extract().transformedY - 190;
+
+  createGroundWire(
+    virtualCircuit,
+    inputPinSvg,
+    inputPinSvg.svg.select('#GND').first() as Element,
+    inputPinSvg.pin,
+    'right'
+  );
+
+  createLedBreadboardWire(
+    virtualCircuit,
+    inputPinSvg,
+    inputPinSvg.svg.select('#PIN').first() as Element,
+    virtualCircuit.arduino.svg
+      .select(
+        `#${connectionToBreadboard(inputPinSvg.pin)
+          .replace('C', 'E')
+          .replace('H', 'F')}`
+      )
+      .first() as Element,
+    '#00AA00'
+  );
+
+  createPowerWire(
+    virtualCircuit,
+    inputPinSvg,
+    inputPinSvg.svg.select('#POWER').first() as Element,
+    inputPinSvg.pin,
+    'left'
+  );
+
+  virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.pin));
+
+  inputPinSvg.move(inputPinXPosition, inputPinYPosition);
+  inputPinSvg.updateWires();
+
+  virtualCircuit.nodes.add(inputPinSvg.svg);
+  (inputPinSvg.svg as any).draggy();
+
+  return inputPinSvg;
 };
 
 export const outputPinFactory = async (
