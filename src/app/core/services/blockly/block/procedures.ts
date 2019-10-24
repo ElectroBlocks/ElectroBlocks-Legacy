@@ -323,11 +323,12 @@ Blockly.Blocks['procedures_defnoreturn'] = {
    * @this Blockly.Block
    */
   updateVarName: function(variable) {
+    let oldName;
     const newName = variable.name;
     let change = false;
     for (let i = 0; i < this.argumentVarModels_.length; i++) {
       if (this.argumentVarModels_[i].getId() == variable.getId()) {
-        const oldName = this.arguments_[i];
+        oldName = this.arguments_[i];
         this.arguments_[i] = newName;
         change = true;
       }
@@ -738,7 +739,7 @@ Blockly.Blocks['procedures_callnoreturn'] = {
    */
   getProcedureCall: function() {
     // The NAME field is guaranteed to exist, null will never be returned.
-    return /** @type {string} */ (this.getFieldValue('NAME'));
+    return /** @type {string} */ this.getFieldValue('NAME');
   },
   /**
    * Notification that a procedure is renaming.
@@ -884,7 +885,8 @@ Blockly.Blocks['procedures_callnoreturn'] = {
    * @this Blockly.Block
    */
   updateShape_: function() {
-    for (let i = 0; i < this.arguments_.length; i++) {
+    let i = 0;
+    for (i = 0; i < this.arguments_.length; i++) {
       let field = this.getField('ARGNAME' + i);
       const labelString =
         this.argumentVarModels_[i].name +
