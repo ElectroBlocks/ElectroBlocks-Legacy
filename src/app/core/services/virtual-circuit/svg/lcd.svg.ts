@@ -1,4 +1,3 @@
-import { publishReplay } from 'rxjs/operators';
 import { ComponentSvg } from './component.svg';
 import { ElectricAttachmentComponentState } from '../../player/arduino/state/electric.state';
 import { ArduinoState } from '../../player/arduino/state/arduino.state';
@@ -28,7 +27,7 @@ export class LcdSvg extends ComponentSvg {
   private isBlinkSquareWhite = true;
 
   initDisplay() {
-    if (this.columns == 16 && this.rows == 2) {
+    if (this.columns === 16 && this.rows === 2) {
       for (let i = 17; i <= 20; i += 1) {
         this.svg
           .select(`#letter-${i}-1`)
@@ -95,14 +94,14 @@ export class LcdSvg extends ComponentSvg {
   }
 
   public resetComponent() {
-     this.initDisplay();
+    this.initDisplay();
   }
 
   isComponent(component: ElectricAttachmentComponentState): boolean {
     return (
       component instanceof LCDScreenState &&
-      component.rows == this.rows &&
-      component.columns == this.columns
+      component.rows === this.rows &&
+      component.columns === this.columns
     );
   }
 
@@ -117,7 +116,7 @@ export class LcdSvg extends ComponentSvg {
 
     for (let col = 0; col <= this.columns - 1; col += 1) {
       for (let row = 0; row <= this.rows - 1; row += 1) {
-        let currentRow = lcdState.rowsOfText[row];
+        const currentRow = lcdState.rowsOfText[row];
 
         const textSVG = this.svg
           .select(`#letter-${col + 1}-${row + 1}`)
@@ -159,10 +158,10 @@ export class LcdSvg extends ComponentSvg {
     }
 
     this.interval = setInterval(() => {
-      const space = this.svg
+      const letterSpace = this.svg
         .select(`#space-${lcdState.blink.column}-${lcdState.blink.row} rect`)
         .first();
-      space.fill(this.isBlinkSquareWhite ? '#FFFFFF' : '#000000');
+      letterSpace.fill(this.isBlinkSquareWhite ? '#FFFFFF' : '#000000');
       this.isBlinkSquareWhite = !this.isBlinkSquareWhite;
     }, 500);
   }

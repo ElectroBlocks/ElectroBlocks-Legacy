@@ -20,14 +20,14 @@ export class NeopixelSvg extends ComponentSvg {
   isComponent(component: ElectricAttachmentComponentState): boolean {
     return (
       component instanceof NeoPixelStripState &&
-      component.analogPin == this.pin &&
-      component.numberOfLeds == this.numberOfLeds
+      component.analogPin === this.pin &&
+      component.numberOfLeds === this.numberOfLeds
     );
   }
 
   matchState(state: ArduinoState): void {
-    const neoPixelState = state.components.find(state =>
-      this.isComponent(state)
+    const neoPixelState = state.components.find(c =>
+      this.isComponent(c)
     ) as NeoPixelStripState;
 
     if (!this.isComponent(neoPixelState)) {

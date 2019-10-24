@@ -46,7 +46,7 @@ export class BluetoothSVG extends ComponentSvg {
       .first()
       .hide();
   }
-  
+
   public isComponent(component: ElectricAttachmentComponentState): boolean {
     return this.state.isEqual(component);
   }

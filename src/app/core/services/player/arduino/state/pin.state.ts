@@ -21,7 +21,7 @@ export class PinState extends ElectricAttachmentComponentState {
   public isEqual(state: ElectricAttachmentComponentState): boolean {
     return (
       state instanceof PinState &&
-      state.pinPicture == this.pinPicture &&
+      state.pinPicture === this.pinPicture &&
       this.type === state.type &&
       this.color === state.color &&
       this.pin === state.pin
@@ -33,9 +33,8 @@ export enum PIN_TYPE {
   DIGITAL_OUTPUT = 'DIGITAL_OUTPUT',
   ANALOG_OUTPUT = 'ANALOG_OUTPUT',
   ANALOG_INPUT = 'ANALOG_INPUT',
-  DIGITAL_INPUT = 'DIGITAL_INPUT',
+  DIGITAL_INPUT = 'DIGITAL_INPUT'
 }
-
 
 export enum PinPicture {
   LED,
