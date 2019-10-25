@@ -16,7 +16,7 @@ export class DigitalAnalogReadSvg extends ComponentSvg {
   }
 
   public matchState(state: ArduinoState): void {
-    const pinState = state.components.find(c =>
+    const pinState = state.components.find((c) =>
       this.isComponent(c)
     ) as PinState;
 
@@ -37,7 +37,7 @@ export class DigitalAnalogReadSvg extends ComponentSvg {
       pinStateText.node.textContent = `Power level: ${pinState.state}`;
     }
 
-    pinStateText.cx(5 + pinStateText.length() / 2);
+    pinStateText.cx(8 + pinStateText.length() / 2);
   }
 
   public isComponent(component: ElectricAttachmentComponentState): boolean {
