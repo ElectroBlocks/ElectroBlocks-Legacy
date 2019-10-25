@@ -1,4 +1,5 @@
 import * as Blockly from 'blockly/core';
+import * as _ from 'lodash';
 
 /**
  * Arduino code generator.
@@ -146,6 +147,7 @@ Blockly.Arduino.init = function(workspace) {
 Blockly.Arduino.finish = function(code) {
   let libraryCode = '';
   let functionsCode = '';
+  let devVariables = 'int simple_loop_variable = 0; \n';
 
   for (const key in Blockly.Arduino.libraries_) {
     libraryCode += Blockly.Arduino.libraries_[key] + '\n';
@@ -155,11 +157,17 @@ Blockly.Arduino.finish = function(code) {
     functionsCode += Blockly.Arduino.functionNames_[key] + '\n';
   }
 
+  if (!_.isEmpty(Blockly.Arduino.setupCode_['bluetooth_setup'])) {
+    devVariables += 'String bluetoothMessageDEV = ""; \n';
+  }
+
+  if (!_.isEmpty(Blockly.Arduino.setupCode_['serial_begin'])) {
+    devVariables += 'String serialMessageDEV = ""; \n';
+  }
+
   // Convert the definitions dictionary into a list.
   code =
-    'int simple_loop_variable = 0; \n' +
-    'String bluetoothMessageDEV = ""; \n' +
-    'String serialMessageDEV = ""; \n' +
+    devVariables +
     'struct RGB { \n' +
     '\tint red;\n' +
     '\tint green;\n' +

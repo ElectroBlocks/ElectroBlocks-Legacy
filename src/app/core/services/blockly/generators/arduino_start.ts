@@ -1,5 +1,6 @@
 import * as Blockly from 'blockly/core';
 import { Block } from 'blockly';
+import * as _ from 'lodash';
 
 Blockly.Arduino['arduino_start'] = function(block: Block) {
   const statementsSetup = Blockly.Arduino.statementToCode(block, 'setup');
@@ -11,6 +12,22 @@ Blockly.Arduino['arduino_start'] = function(block: Block) {
     preSetupCode += Blockly.Arduino.setupCode_[key] || '';
   }
 
+  let resetBluetoothVariable = '';
+  let resetMessageVariable = '';
+  let resetIrRemoteCode = '';
+
+  if (!_.isEmpty(Blockly.Arduino.setupCode_['bluetooth_setup'])) {
+    resetBluetoothVariable = '\tbluetoothMessageDEV = ""; \n';
+  }
+
+  if (!_.isEmpty(Blockly.Arduino.setupCode_['serial_begin'])) {
+    resetMessageVariable = '\tserialMessageDEV= ""; \n';
+  }
+
+  if (!_.isEmpty(Blockly.Arduino.setupCode_['setup_ir_remote'])) {
+    resetIrRemoteCode = '\tirReceiver.resume(); \n';
+  }
+
   return (
     '\nvoid setup() { \n' +
     preSetupCode +
@@ -19,8 +36,9 @@ Blockly.Arduino['arduino_start'] = function(block: Block) {
     '}\n\n\nvoid loop() { \n' +
     statementsLoop +
     '\n' +
-    '\tbluetoothMessageDEV = ""; \n' +
-    '\tserialMessageDEV= ""; \n' +
+    resetBluetoothVariable +
+    resetMessageVariable +
+    resetIrRemoteCode +
     '}'
   );
 };
