@@ -211,6 +211,7 @@ export const toolbox = `<xml
 <block type="arduino_receive_message"></block>
 </category>
 <category name="Pins" colour="260">
+    <block type="analog_read_setup"></block>
     <block type="digital_read_setup"></block>
     <block type="digital_write"></block>
     <block type="digital_read"></block>

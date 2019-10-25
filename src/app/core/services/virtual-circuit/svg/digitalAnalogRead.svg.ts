@@ -16,7 +16,7 @@ export class DigitalAnalogReadSvg extends ComponentSvg {
   }
 
   public matchState(state: ArduinoState): void {
-    const pinState = state.components.find((c) =>
+    const pinState = state.components.find(c =>
       this.isComponent(c)
     ) as PinState;
 
@@ -30,8 +30,14 @@ export class DigitalAnalogReadSvg extends ComponentSvg {
     const pinStateText = this.svg.select('#READING_VALUE').first() as Text;
     if (pinState.type === PIN_TYPE.DIGITAL_INPUT) {
       const sensingPowerWord = pinState.state > 0 ? 'ON' : 'OFF';
-      pinStateText.node.textContent = `Sensing Power: ${sensingPowerWord}`;
+      pinStateText.node.textContent = `Has power: ${sensingPowerWord}`;
     }
+
+    if (pinState.type === PIN_TYPE.ANALOG_INPUT) {
+      pinStateText.node.textContent = `Power level: ${pinState.state}`;
+    }
+
+    pinStateText.cx(5 + pinStateText.length() / 2);
   }
 
   public isComponent(component: ElectricAttachmentComponentState): boolean {
@@ -44,6 +50,6 @@ export class DigitalAnalogReadSvg extends ComponentSvg {
 
   public resetComponent() {
     const pinStateText = this.svg.select('#READING_VALUE').first() as Text;
-    pinStateText.node.textContent = `Sensing Power: OFF`;
+    pinStateText.node.textContent = ``;
   }
 }

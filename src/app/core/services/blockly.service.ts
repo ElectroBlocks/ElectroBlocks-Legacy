@@ -64,7 +64,7 @@ export class BlocklyService {
     (window as any).Blockly = Blockly;
     framePlayer.changeFrame$
       .pipe(filter(() => this.getWorkSpace() !== undefined))
-      .subscribe((changeFrame) => {
+      .subscribe(changeFrame => {
         changeFramePopulateSensorBlock(
           changeFrame,
           this.getArduinoStartBlock()
@@ -115,7 +115,7 @@ export class BlocklyService {
 
     registerListMenu(this.workspace);
     overrideTrashBlocks(this.workspace);
-    this.workspace.addChangeListener(async (event) => {
+    this.workspace.addChangeListener(async event => {
       this.blocklyEventSubject.next(event);
 
       if (
@@ -140,6 +140,11 @@ export class BlocklyService {
         this.workspace,
         ['digital_read'],
         'digital_read_setup'
+      );
+      checkRightPinSelected(
+        this.workspace,
+        ['analog_read'],
+        'analog_read_setup'
       );
       changeSetupBlockValueBecauseOfLoopChange(this.workspace, event);
       saveDebugBlockState(this.workspace, this.getNumberLoops());
@@ -178,10 +183,10 @@ export class BlocklyService {
 
     this.getWorkSpace()
       .getAllBlocks()
-      .forEach((block) => {
-        block.inputList.filter((input) => {
+      .forEach(block => {
+        block.inputList.filter(input => {
           if (
-            input.fieldRow.find((fieldRow) => fieldRow.name === 'SIMPLE_DEBUG')
+            input.fieldRow.find(fieldRow => fieldRow.name === 'SIMPLE_DEBUG')
           ) {
             input.setVisible(show);
             block.render();
@@ -209,7 +214,7 @@ export class BlocklyService {
   public getArduinoStartBlock(): Block | undefined | any {
     return this.getWorkSpace()
       .getAllBlocks()
-      .find((block) => block.type === 'arduino_start');
+      .find(block => block.type === 'arduino_start');
   }
 
   public nextArduinoCode() {
@@ -263,7 +268,7 @@ export class BlocklyService {
 
     this.getWorkSpace()
       .getAllBlocks()
-      .forEach((blockW) => blockW.setWarningText(null));
+      .forEach(blockW => blockW.setWarningText(null));
 
     if (frames.length === 0) {
       await this.framePlayer.setFrames([], false);
@@ -292,7 +297,7 @@ export class BlocklyService {
     const pinFieldsNames = ['RX', 'TX', 'PIN'];
     this.getWorkSpace()
       .getAllBlocks()
-      .filter((block) => {
+      .filter(block => {
         const duplicatePinFound = pinFieldsNames.reduce(
           (previous, currentPin) => {
             return (
@@ -314,12 +319,12 @@ export class BlocklyService {
         }
 
         return (
-          possibleDuplicatePinsDefinition.pins.filter((pin) =>
+          possibleDuplicatePinsDefinition.pins.filter(pin =>
             duplicatePinList.includes(pin)
           ).length > 0
         );
       })
-      .map((block) => {
+      .map(block => {
         const duplicatePin = pinFieldsNames.reduce((previous, current) => {
           return previous || block.getFieldValue(current);
         }, null);

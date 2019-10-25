@@ -11,6 +11,32 @@ import { PinState, PIN_TYPE, PinPicture } from '../arduino/state/pin.state';
 export const mapFakeSensorValuesToBlocks: {
   [key: string]: SensorBlockMapper;
 } = {
+  analog_read_setup_block: {
+    type: 'any_pin_type_does_not_matter',
+    fieldsToCollect: [
+      {
+        setupBlockFieldName: 'power_level',
+        sensorBlockType: 'analog_read',
+        dataSaveKey: 'power_level',
+        type: 'field_input',
+        defaultValue: 12
+      }
+    ],
+    convertToState(
+      setupBlock: Block,
+      serializedData: Array<{ power_level: number }>,
+      loopNumber: number
+    ) {
+      const data = serializedData[loopNumber];
+      const pin = stringToPin(setupBlock.getFieldValue('PIN'));
+      return new PinState(
+        pin,
+        PIN_TYPE.ANALOG_INPUT,
+        data.power_level,
+        PinPicture.GENERIC
+      );
+    }
+  },
   digital_read_setup_block: {
     type: 'any_pin_type_does_not_matter',
     fieldsToCollect: [

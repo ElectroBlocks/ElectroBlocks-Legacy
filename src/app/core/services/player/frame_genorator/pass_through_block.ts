@@ -25,3 +25,4 @@ export const push_button_setup_block = temp_get_temp_block;
 export const message_setup_block = temp_get_temp_block;
 export const time_setup_block = temp_get_temp_block;
 export const digital_read_setup_block = temp_get_temp_block;
+export const analog_read_setup_block = temp_get_temp_block;

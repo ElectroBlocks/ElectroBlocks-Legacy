@@ -132,7 +132,7 @@ export const inputPinFactory = async (
       .select(`#breadboardbreadboard`)
       .first()
       .ctm()
-      .extract().transformedY - 190;
+      .extract().transformedY - 150;
 
   createGroundWire(
     virtualCircuit,

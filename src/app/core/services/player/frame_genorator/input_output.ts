@@ -51,6 +51,25 @@ export const analog_write_block = (
   );
 };
 
+export const analog_read_block = (
+  block: Block,
+  frameLocation: FrameLocation,
+  previousFrame?: ArduinoFrame
+) => {
+  const data = getSensorData();
+  const loopNumber = frameLocation.iteration;
+
+  const pinState = data[loopNumber].find(c => {
+    return (
+      c instanceof PinState &&
+      c.type === PIN_TYPE.ANALOG_INPUT &&
+      c.pin === stringToPin(block.getFieldValue('PIN'))
+    );
+  }) as PinState;
+
+  return pinState.state;
+};
+
 export const digital_read_block = (
   block: Block,
   frameLocation: FrameLocation,
