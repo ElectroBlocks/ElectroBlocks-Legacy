@@ -16,7 +16,7 @@ export class DigitalAnalogReadSvg extends ComponentSvg {
   }
 
   public matchState(state: ArduinoState): void {
-    const pinState = state.components.find((c) =>
+    const pinState = state.components.find(c =>
       this.isComponent(c)
     ) as PinState;
 
