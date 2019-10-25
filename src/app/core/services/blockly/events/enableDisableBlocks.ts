@@ -15,7 +15,6 @@ const blocksThatRequireSetup = {
   soil_is_raining: 'soil_sensor_setup',
   ir_remote_has_code_receive: 'ir_remote_setup',
   ir_remote_get_code: 'ir_remote_setup',
-  ir_remote_scan_again: 'ir_remote_setup',
   temp_read_temp_humidity: 'temp_setup',
   temp_get_temp: 'temp_setup',
   temp_get_humidity: 'temp_setup',

@@ -62,24 +62,5 @@ defineBlocksWithJsonArray([
     colour: 210,
     tooltip: '',
     helpUrl: ''
-  },
-  {
-    type: 'ir_remote_scan_again',
-    message0: '%1 Rescan for new code',
-    args0: [
-      {
-        type: 'field_image',
-        src: './assets/blocks/ir_remote/ir_remote.png',
-        width: 15,
-        height: 15,
-        alt: '*',
-        flipRtl: false
-      }
-    ],
-    previousStatement: null,
-    nextStatement: null,
-    colour: 210,
-    tooltip: '',
-    helpUrl: ''
   }
 ]);

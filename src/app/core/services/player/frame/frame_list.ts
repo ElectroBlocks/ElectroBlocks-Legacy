@@ -37,7 +37,6 @@ import { debug_block } from '../frame_genorator/debug';
 
 import {
   temp_get_temp_block,
-  ir_remote_scan_again_block,
   temp_setup_block,
   ir_remote_setup_block,
   soil_sensor_setup_block,
@@ -224,7 +223,6 @@ frameGeneratingBlocks = {
   lcd_screen_print_block,
 
   temp_get_temp_block,
-  ir_remote_scan_again_block,
   temp_setup_block,
   ir_remote_setup_block,
   soil_sensor_setup_block,
