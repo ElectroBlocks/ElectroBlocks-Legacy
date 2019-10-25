@@ -2,7 +2,7 @@ import { ShowArduinoCommunicator } from './../../core/services/virtual-circuit/c
 import { VirtualCircuit } from './../../core/services/virtual-circuit/svg/virtual-circuit';
 import { FramePlayer } from './../../core/services/player/frame/frame_player';
 import { ExecuteVirtualCircuitFrame } from '../../core/services/player/frame/frame_execute';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { virtualCircuitFactory } from '../../core/services/virtual-circuit/factory/virtual-circuit.factory';
 import { BlocklyService } from '../../core/services/blockly.service';
 import { AbstractSubComponent } from '../../abstract-sub.component';
@@ -14,13 +14,14 @@ import { MatSlideToggleChange } from '@angular/material';
   templateUrl: './svg.component.html',
   styleUrls: ['./svg.component.scss']
 })
-export class SvgComponent extends AbstractSubComponent implements OnInit {
+export class SvgComponent extends AbstractSubComponent
+  implements OnInit, AfterViewInit {
   private virtualCircuit: VirtualCircuit;
 
   isShowArduinoChecked$ = this.showArduinoComm.showArduino$.pipe(
     startWith(this.showArduinoComm.getShowArduino()),
     share(),
-    tap(show => {
+    tap((show) => {
       if (!this.virtualCircuitElement) {
         return;
       }

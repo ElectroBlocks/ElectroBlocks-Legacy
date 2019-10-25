@@ -19,7 +19,7 @@ export const rgbLedFactory = async (
   componentState: LedColorState,
   componentOnly = false
 ) => {
-  if (componentState.type == 'BREADBOARD') {
+  if (componentState.type === 'BREADBOARD') {
     return await breadboardRgbLedFactory(
       virtualCircuit,
       componentState,
@@ -27,7 +27,7 @@ export const rgbLedFactory = async (
     );
   }
 
-  if (componentState.type == 'BUILT_IN') {
+  if (componentState.type === 'BUILT_IN') {
     return await builtColorLedFactory(
       virtualCircuit,
       componentState,
@@ -41,7 +41,7 @@ const builtColorLedFactory = async (
   componentState: LedColorState,
   componentOnly = false
 ) => {
-  let ledString = `./assets/svgs/built-in-color-led.svg`;
+  const ledString = `./assets/svgs/built-in-color-led.svg`;
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.bluePin));
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.redPin));
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.greenPin));
@@ -88,7 +88,7 @@ const builtColorLedFactory = async (
     '#0000AA'
   );
 
-  if (led.redPin == ARDUINO_UNO_PINS.PIN_11) {
+  if (led.redPin === ARDUINO_UNO_PINS.PIN_11) {
     createGroundWire(
       virtualCircuit,
       led,
@@ -98,7 +98,7 @@ const builtColorLedFactory = async (
     );
   }
 
-  if (led.redPin == ARDUINO_UNO_PINS.PIN_6) {
+  if (led.redPin === ARDUINO_UNO_PINS.PIN_6) {
     createGroundWire(
       virtualCircuit,
       led,
@@ -143,7 +143,7 @@ const breadboardRgbLedFactory = async (
   componentState: LedColorState,
   componentOnly = false
 ) => {
-  let ledString = './assets/svgs/rgb-led-no-resistor.svg';
+  const ledString = './assets/svgs/rgb-led-no-resistor.svg';
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.bluePin));
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.redPin));
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.greenPin));
@@ -198,7 +198,7 @@ const breadboardRgbLedFactory = async (
       connectionToBreadboard(led.redPin)
         .replace('C', '')
         .replace('pin', '')
-    ) + 2;
+    , 0) + 2;
 
   createLedBreadboardWire(
     virtualCircuit,

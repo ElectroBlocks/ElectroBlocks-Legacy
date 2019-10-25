@@ -108,7 +108,7 @@ export const generateListOfFrame = async (): Promise<
           return;
         }
 
-        if (sensorComponent instanceof TimeState && componentIndex == -1) {
+        if (sensorComponent instanceof TimeState && componentIndex === -1) {
           currentFrame.state.components.push(sensorComponent);
           return;
         }

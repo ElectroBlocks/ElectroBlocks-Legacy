@@ -24,7 +24,7 @@ export class ServoSvg extends ComponentSvg {
   public matchState(state: ArduinoState): void {
     const servoState = state.components
       .filter(servo => servo instanceof ServoState)
-      .find((servo: ServoState) => servo.pin == this.pin) as ServoState;
+      .find((servo: ServoState) => servo.pin === this.pin) as ServoState;
 
     if (servoState) {
       this.degree = servoState.degree;

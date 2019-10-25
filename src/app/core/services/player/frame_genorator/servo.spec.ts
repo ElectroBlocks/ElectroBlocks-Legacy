@@ -1,9 +1,9 @@
 import 'jasmine';
 import { Block } from 'blockly';
-import * as blockHelper from "../frame/blockly_helper";
-import { rotate_servo_block } from "./servo";
-import { ServoState } from "../arduino/state/servo.state";
-import { ARDUINO_UNO_PINS, stringToPin } from "../arduino/arduino_frame";
+import * as blockHelper from '../frame/blockly_helper';
+import { rotate_servo_block } from './servo';
+import { ServoState } from '../arduino/state/servo.state';
+import { ARDUINO_UNO_PINS, stringToPin } from '../arduino/arduino_frame';
 
 describe('servo block frame', () => {
 
@@ -51,14 +51,14 @@ describe('servo block frame', () => {
 
 		const servoState = lastArduinoFrame.state.components
 			.filter(servo => servo instanceof ServoState)
-			.find((servo: ServoState) => servo.pin == stringToPin('4')) as ServoState;
+			.find((servo: ServoState) => servo.pin === stringToPin('4')) as ServoState;
 
 		expect(lastArduinoFrame.state.components.length).toBe(1);
 		expect(servoState.pin).toBe(ARDUINO_UNO_PINS.PIN_4);
 		expect(servoState.degree).toBe(120);
 	});
 
-	it ('should generate 2 servos components if the pins are different', () =>{
+	it ('should generate 2 servos components if the pins are different', () => {
 		getFieldValueSpyBlock1.withArgs('PIN').and.returnValue(4);
 		getInputValueSpy.withArgs(block1, 'DEGREE', 0, { location: 'loop', iteration: 1 }, undefined).and.returnValue(30);
 
@@ -73,11 +73,11 @@ describe('servo block frame', () => {
 
 		const servoState1 = lastArduinoFrame.state.components
 			.filter(servo => servo instanceof ServoState)
-			.find((servo: ServoState) => servo.pin == stringToPin('4')) as ServoState;
+			.find((servo: ServoState) => servo.pin === stringToPin('4')) as ServoState;
 
 		const servoState2 = lastArduinoFrame.state.components
 			.filter(servo => servo instanceof ServoState)
-			.find((servo: ServoState) => servo.pin == stringToPin('6')) as ServoState;
+			.find((servo: ServoState) => servo.pin === stringToPin('6')) as ServoState;
 
 
 		expect(servoState1.pin).toBe(ARDUINO_UNO_PINS.PIN_4);

@@ -50,8 +50,8 @@ export class Wire implements Line {
 
   public destroyWire() {
     if (
-      this.connectionInfo.type == 'ground' ||
-      this.connectionInfo.type == 'power'
+      this.connectionInfo.type === 'ground' ||
+      this.connectionInfo.type === 'power'
     ) {
       returnBottomHole(this.connectionInfo.holeNumber);
     }

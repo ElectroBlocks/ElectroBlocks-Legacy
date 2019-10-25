@@ -6,8 +6,8 @@ Blockly.Arduino['ultra_sonic_sensor_motion'] = function(block: Block) {
 };
 
 Blockly.Arduino['ultra_sonic_sensor_setup'] = function(block: Block) {
-  var echoPin = block.getFieldValue('ECHO');
-  var trigPin = block.getFieldValue('TRIG');
+  const echoPin = block.getFieldValue('ECHO');
+  const trigPin = block.getFieldValue('TRIG');
 
   Blockly.Arduino.setupCode_['setup_input_' + echoPin] =
     '\tpinMode(' + echoPin + ', INPUT);\n';

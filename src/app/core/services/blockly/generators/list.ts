@@ -9,15 +9,15 @@ export const setZeroIndexAdjustFunc = () => {
     '}\n';
 };
 
-var initListVariable = function(block: Block, type: string) {
-  
+const initListVariable = function(block: Block, type: string) {
+
   setZeroIndexAdjustFunc();
 
-  var size = block.getFieldValue('SIZE');
+  const size = block.getFieldValue('SIZE');
 
-  var variableId = block.getFieldValue('VAR');
+  const variableId = block.getFieldValue('VAR');
 
-  var variable = Blockly.mainWorkspace.getVariableById(variableId);
+  const variable = Blockly.mainWorkspace.getVariableById(variableId);
 
   Blockly.Arduino.variablesInitCode_ +=
     type + ' ' + variable.name + '[' + size + '];\n';
@@ -25,18 +25,18 @@ var initListVariable = function(block: Block, type: string) {
   return '';
 };
 
-var setListVariable = function(block: Block) {
+const setListVariable = function(block: Block) {
   const position = Blockly.Arduino.valueToCode(
     block,
     'POSITION',
     Blockly.Arduino.ORDER_ATOMIC
   );
 
-  var variableId = block.getFieldValue('VAR');
+  const variableId = block.getFieldValue('VAR');
 
-  var variable = Blockly.mainWorkspace.getVariableById(variableId);
+  const variable = Blockly.mainWorkspace.getVariableById(variableId);
 
-  var value = Blockly.Arduino.valueToCode(
+  const value = Blockly.Arduino.valueToCode(
     block,
     'VALUE',
     Blockly.Arduino.ORDER_ATOMIC
@@ -52,12 +52,12 @@ var setListVariable = function(block: Block) {
   );
 };
 
-var getListVariable = function(block: Block) {
-  var variableId = block.getFieldValue('VAR');
+const getListVariable = function(block: Block) {
+  const variableId = block.getFieldValue('VAR');
 
-  var variable = Blockly.mainWorkspace.getVariableById(variableId);
+  const variable = Blockly.mainWorkspace.getVariableById(variableId);
 
-  var position = Blockly.Arduino.valueToCode(
+  const position = Blockly.Arduino.valueToCode(
     block,
     'POSITION',
     Blockly.Arduino.ORDER_ATOMIC

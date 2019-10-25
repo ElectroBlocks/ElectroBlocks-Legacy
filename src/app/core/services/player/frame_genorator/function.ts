@@ -1,18 +1,18 @@
-import { ArduinoFrame } from "../arduino/arduino_frame";
-import { generateFrameForInputStatement, getInputValue } from "../frame/blockly_helper";
-import { Variable } from "../frame/variable";
-import { FrameLocation } from "../frame/frame";
+import { ArduinoFrame } from '../arduino/arduino_frame';
+import { generateFrameForInputStatement, getInputValue } from '../frame/blockly_helper';
+import { Variable } from '../frame/variable';
+import { FrameLocation } from '../frame/frame';
 import { Block } from 'blockly';
 import * as Blockly from 'blockly/core';
 
 export const procedures_callnoreturn_block = (block: Block| any, frameLocation: FrameLocation,  previousFrame?: ArduinoFrame) => {
 
-	let frames = [];
+	const frames = [];
 
-	let procedureCall = block.getProcedureCall();
-	let functionDefinitionBlock = findFunctionDefinitionBlock(procedureCall);
+	const procedureCall = block.getProcedureCall();
+	const functionDefinitionBlock = findFunctionDefinitionBlock(procedureCall);
 
-	let callBlockFrame = previousFrame ?
+	const callBlockFrame = previousFrame ?
 		previousFrame.makeCopy(block.id, frameLocation) as ArduinoFrame :
 		ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
@@ -28,7 +28,7 @@ export const procedures_callnoreturn_block = (block: Block| any, frameLocation: 
 	const variableModels = procedureDefinition.variableModels;
 
 	for (let i = 0; i < variableModels.length; i += 1) {
-		let value =  getInputValue(
+		const value =  getInputValue(
 			block,
 			'ARG' + i,
 			getVariableDefaultType(variableModels[i].type),
@@ -45,7 +45,7 @@ export const procedures_callnoreturn_block = (block: Block| any, frameLocation: 
 
 	frames.push(definitionBlockFrame);
 
-	let functionFrames = generateFrameForInputStatement(
+	const functionFrames = generateFrameForInputStatement(
 		functionDefinitionBlock,
 		'STACK',
 		frameLocation,
@@ -77,10 +77,10 @@ const getVariableDefaultType = (type: string) => {
 };
 
 const findFunctionDefinitionBlock = (functionName: string): Block => {
-	let functionBlocks = Blockly.mainWorkspace
+	const functionBlocks = Blockly.mainWorkspace
 		.getTopBlocks()
 		.filter(block => block.type === 'procedures_defnoreturn')
-		.filter(block => block.getProcedureDef()[0] == functionName);
+		.filter(block => block.getProcedureDef()[0] === functionName);
 
 	if (functionBlocks.length === 0) {
 		throw new Error(`No block with that function name ${functionName} found.`);
@@ -89,8 +89,8 @@ const findFunctionDefinitionBlock = (functionName: string): Block => {
 	return functionBlocks[0];
 };
 
-const mapProcedureDefinition = (block: Block| any): { "name" : string, variableModels: Array<Variable>} => {
-	let definition =  block.getProcedureDef();
+const mapProcedureDefinition = (block: Block| any): { 'name': string, variableModels: Array<Variable>} => {
+	const definition =  block.getProcedureDef();
 	const variableModels = definition[3];
 
 	return {

@@ -36,12 +36,12 @@ describe('led matrix', () => {
     });
   }
 
-  let bigBlock: any | Block = {
+  const bigBlock: any | Block = {
     id: 'bigBlock',
     inputList: inputListBigBlock
   };
 
-  let simpleBlock: any | Block = {
+  const simpleBlock: any | Block = {
     id: 'simpleblock',
     getFieldValue(fieldName: string): any {}
   };
@@ -59,9 +59,9 @@ describe('led matrix', () => {
     for (let i = 1; i <= 8; i += 1) {
       for (let j = 1; j <= 8; j += 1) {
         const led = ledMatrixState1.leds.find(
-          led => led.row == i && led.col == j
+          led => led.row === i && led.col === j
         );
-        expect(led.isOn).toBe(i % 2 == 0);
+        expect(led.isOn).toBe(i % 2 === 0);
       }
     }
 
@@ -100,15 +100,15 @@ describe('led matrix', () => {
     for (let i = 1; i <= 8; i += 1) {
       for (let j = 1; j <= 8; j += 1) {
         const led = ledMatrixState2.leds.find(
-          led => led.row == i && led.col == j
+          led => led.row === i && led.col === j
         );
 
-        if (i == 1 && j == 1) {
+        if (i === 1 && j === 1) {
           expect(led.isOn).toBeFalsy(); // This is the change we are testing
           continue;
         }
 
-        expect(led.isOn).toBe(i % 2 == 0);
+        expect(led.isOn).toBe(i % 2 === 0);
       }
     }
   });

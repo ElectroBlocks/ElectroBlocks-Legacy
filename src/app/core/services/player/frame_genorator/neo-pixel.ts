@@ -61,7 +61,7 @@ export const neo_pixel_set_color_block = (
   ) as NeoPixelStripState;
 
   const index = neoPixelState.neoPixels.findIndex(
-    pixel => pixel.position == position
+    pixel => pixel.position === position
   );
 
   if (neoPixelState.neoPixels[index]) {

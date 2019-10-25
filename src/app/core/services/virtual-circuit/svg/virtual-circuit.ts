@@ -21,7 +21,11 @@ import {
   PIN_TYPE,
   PinPicture
 } from '../../player/arduino/state/pin.state';
-import { ledFactory, outputPinFactory } from '../factory/pin.factory';
+import {
+  ledFactory,
+  outputPinFactory,
+  inputPinFactory
+} from '../factory/pin.factory';
 import { LedColorState } from '../../player/arduino/state/led_color.state';
 import { rgbLedFactory } from '../factory/led-color.factory';
 import { LCDScreenState } from '../../player/arduino/state/lcd_screen.state';
@@ -77,12 +81,12 @@ export class VirtualCircuit {
 
   public remove() {
     this.arduino.remove();
-    this.svgs.forEach(s => s.remove());
+    this.svgs.forEach((s) => s.remove());
     this.baseSVG.remove();
   }
 
   protected updateWires() {
-    this.svgs.forEach(svg => {
+    this.svgs.forEach((svg) => {
       svg.updateWires();
     });
   }
@@ -119,15 +123,15 @@ export class VirtualCircuit {
   public matchState(state: ArduinoState) {
     this.arduino.matchState(state);
 
-    this.svgs.forEach(svg => {
+    this.svgs.forEach((svg) => {
       svg.matchState(state);
     });
 
-    const resetSvgs = this.svgs.filter(svg => {
+    const resetSvgs = this.svgs.filter((svg) => {
       return !svg.shouldExist(state);
     });
 
-    resetSvgs.forEach(svg => {
+    resetSvgs.forEach((svg) => {
       svg.resetComponent();
     });
   }
@@ -135,14 +139,14 @@ export class VirtualCircuit {
   public hideArduino() {
     this.arduino.hideWires();
     this.arduino.svg.hide();
-    this.svgs.forEach(svg => {
+    this.svgs.forEach((svg) => {
       svg.hideWires();
       if (svg instanceof Resistor) {
         svg.svg.hide();
       }
 
       if (svg instanceof LedColorSvg) {
-        svg.resistors.forEach(resistor => resistor.svg.hide());
+        svg.resistors.forEach((resistor) => resistor.svg.hide());
       }
     });
   }
@@ -155,20 +159,20 @@ export class VirtualCircuit {
     console.log('running final state with', state);
 
     this.runningFinalState = true;
-    this.svgs.forEach(svg => {
+    this.svgs.forEach((svg) => {
       if (!svg.shouldExist(state)) {
         svg.remove();
-        svg.getArduinoPins().forEach(pin => {
+        svg.getArduinoPins().forEach((pin) => {
           this.arduino.hideWire(virtualCircuitPin(pin));
         });
-        this.svgs = this.svgs.filter(svgCompare => svgCompare !== svg);
+        this.svgs = this.svgs.filter((svgCompare) => svgCompare !== svg);
       }
     });
 
     const components = state.components;
     for (let i = 0; i < components.length; i += 1) {
       const doesComponentExist =
-        this.svgs.findIndex(svg => svg.isComponent(components[i])) >= 0;
+        this.svgs.findIndex((svg) => svg.isComponent(components[i])) >= 0;
 
       if (!doesComponentExist) {
         await this.createComponent(components[i]);
@@ -253,7 +257,7 @@ export class VirtualCircuit {
         this,
         component,
         !this.showArduinoComm.getShowArduino()
-      )).forEach(c => this.svgs.push(c));
+      )).forEach((c) => this.svgs.push(c));
       return;
     }
 
@@ -271,6 +275,19 @@ export class VirtualCircuit {
       return;
     }
 
+    if (
+      component instanceof PinState &&
+      [PIN_TYPE.DIGITAL_INPUT, PIN_TYPE.ANALOG_INPUT].includes(component.type)
+    ) {
+      this.svgs.push(
+        await inputPinFactory(
+          this,
+          component,
+          !this.showArduinoComm.getShowArduino()
+        )
+      );
+      return;
+    }
     if (component instanceof LedColorState) {
       this.svgs.push(
         await rgbLedFactory(
@@ -317,13 +334,13 @@ export class VirtualCircuit {
   }
 
   public reset() {
-    this.svgs.forEach(component => {
-      component.getArduinoPins().forEach(pin => {
+    this.svgs.forEach((component) => {
+      component.getArduinoPins().forEach((pin) => {
         this.arduino.hideWire(virtualCircuitPin(pin));
       });
       component.remove();
     });
-    this.svgs.forEach(c => {
+    this.svgs.forEach((c) => {
       c = undefined;
     });
 
@@ -332,7 +349,7 @@ export class VirtualCircuit {
 
   public stopAllAnimations() {
     this.svgs
-      .filter(svg => svg instanceof AnimationSVG)
+      .filter((svg) => svg instanceof AnimationSVG)
       .forEach((svg: AnimationSVG) => svg.stop());
   }
 }

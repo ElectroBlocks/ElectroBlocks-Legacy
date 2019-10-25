@@ -14,11 +14,11 @@ function setupLedMatrix() {
 Blockly.Arduino['led_matrix_make_draw'] = function(block) {
   setupLedMatrix();
 
-  var code = '\n\t//START CODE TO DRAW BLOCK ' + block.id + '\n';
+  let code = '\n\t//START CODE TO DRAW BLOCK ' + block.id + '\n';
 
-  for (var i = 1; i <= 8; i += 1) {
-    for (var j = 1; j <= 8; j += 1) {
-      var lightState = block.getFieldValue(i + ',' + j).toLowerCase();
+  for (let i = 1; i <= 8; i += 1) {
+    for (let j = 1; j <= 8; j += 1) {
+      const lightState = block.getFieldValue(i + ',' + j).toLowerCase();
       code += '\tlc.setLed(0, ' + i + ', ' + j + ', ' + lightState + ');\n';
     }
   }
@@ -31,17 +31,17 @@ Blockly.Arduino['led_matrix_make_draw'] = function(block) {
 Blockly.Arduino['led_matrix_turn_one_on_off'] = function(block) {
   setupLedMatrix();
 
-  var row = parseInt(
+  let row = parseInt(
     Blockly.Arduino.valueToCode(block, 'ROW', Blockly.Arduino.ORDER_ATOMIC)
   );
-  var column = parseInt(
+  let column = parseInt(
     Blockly.Arduino.valueToCode(block, 'COLUMN', Blockly.Arduino.ORDER_ATOMIC)
   );
 
   column = column > 0 ? column - 1 : 0;
   row = row > 0 ? row - 1 : 0;
 
-  var state = block.getFieldValue('STATE') == 'ON' ? 'true' : 'false';
+  const state = block.getFieldValue('STATE') === 'ON' ? 'true' : 'false';
 
   return '\tlc.setLed(0, ' + row + ', ' + column + ', ' + state + ');\n';
 };

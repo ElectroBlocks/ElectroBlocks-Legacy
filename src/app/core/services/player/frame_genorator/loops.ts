@@ -1,10 +1,10 @@
 
-import { ArduinoFrame } from "../arduino/arduino_frame";
-import { generateFrameForInputStatement, getInputValue } from "../frame/blockly_helper";
-import { getVariableName } from "./variables";
+import { ArduinoFrame } from '../arduino/arduino_frame';
+import { generateFrameForInputStatement, getInputValue } from '../frame/blockly_helper';
+import { getVariableName } from './variables';
 import { Block } from 'blockly';
-import { Frame, FrameLocation } from "../frame/frame";
-import { ArduinoState } from "../arduino/state/arduino.state";
+import { Frame, FrameLocation } from '../frame/frame';
+import { ArduinoState } from '../arduino/state/arduino.state';
 
 /**
  * Generates a simple loop block where the user does not have control
@@ -15,13 +15,13 @@ const controls_repeat_ext_block = (block: Block, frameLocation: FrameLocation, p
 	const loopFrame = previousFrame ? previousFrame.makeCopy(block.id, frameLocation) as ArduinoFrame :
 		ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
-	const times = getInputValue(block, 'TIMES', 1, frameLocation,previousFrame) as number;
+	const times = getInputValue(block, 'TIMES', 1, frameLocation, previousFrame) as number;
 
 	if (times <= 0) {
 		return [loopFrame];
 	}
 
-	let frames = generateFrameForInputStatement(block, 'DO',frameLocation, loopFrame) as ArduinoFrame[];
+	let frames = generateFrameForInputStatement(block, 'DO', frameLocation, loopFrame) as ArduinoFrame[];
 	frames.unshift(loopFrame);
 
 	for (let i = 1; i < times; i += 1) {
@@ -72,7 +72,7 @@ const controls_for_block = (block: Block, frameLocation: FrameLocation, previous
 	);
 
 
-	let loopFrame = generateLoopFrame(start, block, frameLocation, previousFrame);
+	const loopFrame = generateLoopFrame(start, block, frameLocation, previousFrame);
 
 	let frames =  <ArduinoFrame[]>generateFrameForInputStatement(
 		block,
@@ -91,8 +91,8 @@ const controls_for_block = (block: Block, frameLocation: FrameLocation, previous
 
 	let index = start + by;
 
-	while(checkLoop(index, to, to > start))  {
-		let nextLoopFrame = generateLoopFrame(index, block,frameLocation, frames[frames.length - 1]);
+	while (checkLoop(index, to, to > start))  {
+		const nextLoopFrame = generateLoopFrame(index, block, frameLocation, frames[frames.length - 1]);
 		frames.push(nextLoopFrame); // so that it copies the value and not the reference
 		frames = frames
 			.concat(
@@ -108,7 +108,7 @@ const controls_for_block = (block: Block, frameLocation: FrameLocation, previous
 /**
  * Checks in the count with block if it should exit it
  */
-const checkLoop = (index: number, to:number, isPositive: boolean) => {
+const checkLoop = (index: number, to: number, isPositive: boolean) => {
 	if (isPositive) {
 		return index <= to;
 	}
@@ -118,7 +118,7 @@ const checkLoop = (index: number, to:number, isPositive: boolean) => {
 
 const generateLoopFrame = (indexValue: number, block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame): ArduinoFrame  => {
 
-	const state = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState()
+	const state = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState();
 	const { variables } = state;
 
 	const indexVariableName = getVariableName(block);
@@ -141,4 +141,4 @@ const generateLoopFrame = (indexValue: number, block: Block, frameLocation: Fram
 export  {
 	controls_for_block,
 	controls_repeat_ext_block
-}
+};

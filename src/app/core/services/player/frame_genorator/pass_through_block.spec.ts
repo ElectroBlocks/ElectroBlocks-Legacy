@@ -1,8 +1,8 @@
 import 'jasmine';
-import { ArduinoFrame } from "../arduino/arduino_frame";
-import { ir_remote_scan_again_block, temp_get_temp_block } from "./pass_through_block";
+import { ArduinoFrame } from '../arduino/arduino_frame';
+import { ir_remote_scan_again_block, temp_get_temp_block } from './pass_through_block';
 import { Block } from 'blockly';
-import { ArduinoState } from "../arduino/state/arduino.state";
+import { ArduinoState } from '../arduino/state/arduino.state';
 
 describe('pass through frame generator', () => {
 

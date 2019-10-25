@@ -22,7 +22,7 @@ export class MotorState extends ElectricAttachmentComponentState {
   }
 
   public isEqual(state: ElectricAttachmentComponentState): boolean {
-    return state instanceof MotorState && state.motorNumber == this.motorNumber;
+    return state instanceof MotorState && state.motorNumber === this.motorNumber;
   }
 }
 

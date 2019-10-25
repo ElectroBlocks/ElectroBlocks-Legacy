@@ -4,17 +4,17 @@ import { Block } from 'blockly';
 Blockly.Arduino['controls_repeat_ext'] = function(block: Block) {
   // Repeat n times.
 
-  var repeats =
+  const repeats =
     Blockly.Arduino.valueToCode(
       block,
       'TIMES',
       Blockly.Arduino.ORDER_ASSIGNMENT
     ) || '0';
 
-  var branch = Blockly.Arduino.statementToCode(block, 'DO');
+  let branch = Blockly.Arduino.statementToCode(block, 'DO');
   branch = Blockly.Arduino.addLoopTrap(branch, block.id);
-  var code = '';
-  var loopVar = 'simple_loop_variable';
+  let code = '';
+  const loopVar = 'simple_loop_variable';
   code +=
     'for (' +
     loopVar +
@@ -32,36 +32,36 @@ Blockly.Arduino['controls_repeat_ext'] = function(block: Block) {
 };
 
 Blockly.Arduino['controls_for'] = function(block: Block) {
-  var loopIndexVariable = Blockly.mainWorkspace.getVariableById(
+  const loopIndexVariable = Blockly.mainWorkspace.getVariableById(
     block.getFieldValue('VAR')
   ).name;
 
-  var branch = Blockly.Arduino.statementToCode(block, 'DO');
+  const branch = Blockly.Arduino.statementToCode(block, 'DO');
 
-  var startNumber =
+  const startNumber =
     Blockly.Arduino.valueToCode(
       block,
       'FROM',
       Blockly.Arduino.ORDER_ASSIGNMENT
     ) || '0';
 
-  var toNumber =
+  const toNumber =
     Blockly.Arduino.valueToCode(
       block,
       'TO',
       Blockly.Arduino.ORDER_ASSIGNMENT
     ) || '0';
 
-  var byNumber = Math.abs(
+  let byNumber = Math.abs(
     parseInt(
       Blockly.Arduino.valueToCode(block, 'BY', Blockly.Arduino.ORDER_ASSIGNMENT)
     )
   );
 
-  byNumber = byNumber == 0 ? 1 : byNumber;
+  byNumber = byNumber === 0 ? 1 : byNumber;
 
-  var addingSub = startNumber < toNumber ? ' +' : ' -';
-  var sign = startNumber < toNumber ? ' <= ' : ' >= ';
+  const addingSub = startNumber < toNumber ? ' +' : ' -';
+  const sign = startNumber < toNumber ? ' <= ' : ' >= ';
 
   return (
     'for (' +
@@ -85,14 +85,14 @@ Blockly.Arduino['controls_for'] = function(block: Block) {
 
 Blockly.Arduino['controls_whileUntil'] = function(block: Block) {
   // Do while/until loop.
-  var until = block.getFieldValue('MODE') == 'UNTIL';
-  var argument0 =
+  const until = block.getFieldValue('MODE') === 'UNTIL';
+  let argument0 =
     Blockly.Arduino.valueToCode(
       block,
       'BOOL',
       Blockly.Arduino.ORDER_LOGICAL_AND
     ) || 'false';
-  var branch = Blockly.Arduino.statementToCode(block, 'DO');
+  let branch = Blockly.Arduino.statementToCode(block, 'DO');
   branch = Blockly.Arduino.addLoopTrap(branch, block.id);
   if (until) {
     argument0 = '!' + argument0;

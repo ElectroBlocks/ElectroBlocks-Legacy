@@ -2,9 +2,9 @@ import 'jasmine';
 import * as blockHelper from '../frame/blockly_helper';
 import { Block, mainWorkspace } from 'blockly';
 import * as Blockly from 'blockly/core';
-import { Variable } from "../frame/variable";
-import { procedures_callnoreturn_block } from "./function";
-import { ArduinoFrame } from "../arduino/arduino_frame";
+import { Variable } from '../frame/variable';
+import { procedures_callnoreturn_block } from './function';
+import { ArduinoFrame } from '../arduino/arduino_frame';
 
 
 describe( 'functions', () => {
@@ -30,7 +30,7 @@ describe( 'functions', () => {
 							value: 'hello'
 						}
 
-					] ]
+					] ];
 				}
 			};
 
@@ -44,7 +44,7 @@ describe( 'functions', () => {
 						return [
 							functionDefinitionBlock,
 							block2
-						]
+						];
 					}
 				}
 			};

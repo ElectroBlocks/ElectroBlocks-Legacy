@@ -19,7 +19,7 @@ export const rfid_scan_block = (
   previousFrame?: ArduinoFrame
 ) => {
   return getRFIDComponent(frameLocation).scannedCard;
-}
+};
 
 export const rfid_tag_block = (
   block: Block,
@@ -27,7 +27,7 @@ export const rfid_tag_block = (
   previousFrame?: ArduinoFrame
 ) => {
   return getRFIDComponent(frameLocation).tag;
-}
+};
 
 const getRFIDComponent = (frameLocation: FrameLocation): RFIDState => {
   const data = getSensorData();

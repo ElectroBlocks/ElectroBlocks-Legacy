@@ -4,6 +4,7 @@ import { FrameLocation } from '../frame/frame';
 import { getInputValue } from '../frame/blockly_helper';
 import { ArduinoState } from '../arduino/state/arduino.state';
 import { Block } from 'blockly';
+import { getSensorData } from '../frame/generate_frame';
 
 export const digital_write_block = (
   block: Block,
@@ -48,6 +49,44 @@ export const analog_write_block = (
     PIN_TYPE.ANALOG_OUTPUT,
     previousFrame
   );
+};
+
+export const analog_read_block = (
+  block: Block,
+  frameLocation: FrameLocation,
+  previousFrame?: ArduinoFrame
+) => {
+  const data = getSensorData();
+  const loopNumber = frameLocation.iteration;
+
+  const pinState = data[loopNumber].find(c => {
+    return (
+      c instanceof PinState &&
+      c.type === PIN_TYPE.ANALOG_INPUT &&
+      c.pin === stringToPin(block.getFieldValue('PIN'))
+    );
+  }) as PinState;
+
+  return pinState.state;
+};
+
+export const digital_read_block = (
+  block: Block,
+  frameLocation: FrameLocation,
+  previousFrame?: ArduinoFrame
+) => {
+  const data = getSensorData();
+  const loopNumber = frameLocation.iteration;
+
+  const pinState = data[loopNumber].find(c => {
+    return (
+      c instanceof PinState &&
+      c.type === PIN_TYPE.DIGITAL_INPUT &&
+      c.pin === stringToPin(block.getFieldValue('PIN'))
+    );
+  }) as PinState;
+
+  return pinState.state > 0;
 };
 
 const generatePinFrame = (

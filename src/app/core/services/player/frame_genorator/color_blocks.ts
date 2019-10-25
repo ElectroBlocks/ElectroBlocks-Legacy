@@ -13,7 +13,7 @@ export const colour_picker_block = (
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ): Color => {
-  let value = block.getFieldValue('COLOUR');
+  const value = block.getFieldValue('COLOUR');
 
   return hexToRgb(value);
 };

@@ -211,6 +211,8 @@ export const toolbox = `<xml
 <block type="arduino_receive_message"></block>
 </category>
 <category name="Pins" colour="260">
+    <block type="analog_read_setup"></block>
+    <block type="digital_read_setup"></block>
     <block type="digital_write"></block>
     <block type="digital_read"></block>
     <block type="analog_read"></block>
@@ -380,7 +382,7 @@ export const toolbox = `<xml
 
 
 <sep></sep>
-  
+
 
 <category name="IR Remote" colour="210">
 <block type="ir_remote_setup"></block>
@@ -406,14 +408,14 @@ export const toolbox = `<xml
     <block type="rfid_scan"></block>
 </category>
 
-  
+
 
   <category name="Soil Sensor" colour="20">
   <block type="soil_sensor_setup_2"></block>
   <block type="soil_sensor_setup"></block>
    <block type="soil_humidity_percentage"></block>
     <block type="soil_humidity_value"></block>
- <block type="soil_is_raining"></block> 
+ <block type="soil_is_raining"></block>
 </category>
 
 <category name="Temp / Humidity" colour="330">
@@ -421,17 +423,17 @@ export const toolbox = `<xml
   <block type="temp_get_temp"></block>
   <block type="temp_get_humidity"></block>
 
-  </category> 
+  </category>
 
 
 
 
 
 
-  
-  
 
- 
-  
+
+
+
+
 </xml>
 `;

@@ -2,8 +2,8 @@ import { ArduinoFrame } from '../arduino/arduino_frame';
 import { Block } from 'blockly';
 import * as Blockly from 'blockly/core';
 import { getInputValue } from '../frame/blockly_helper';
-import { FrameLocation } from "../frame/frame";
-import { ArduinoState } from "../arduino/state/arduino.state";
+import { FrameLocation } from '../frame/frame';
+import { ArduinoState } from '../arduino/state/arduino.state';
 
 
 /**
@@ -42,7 +42,7 @@ const variables_get_colour_block = (block: Block, frameLocation: FrameLocation, 
  * If no block is attached it uses ''
  */
 const variables_set_string_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
-    return setVariable(block, 'String', '',frameLocation, previousFrame);
+    return setVariable(block, 'String', '', frameLocation, previousFrame);
 };
 
 /**
@@ -58,7 +58,7 @@ const variables_get_string_block = (block: Block, frameLocation: FrameLocation, 
  * If no block is attached it uses true
  */
 const variables_set_boolean_block = (block: Block, frameLocation: FrameLocation, previousFrame?: ArduinoFrame) => {
-    return setVariable(block, 'Boolean', true,frameLocation, previousFrame);
+    return setVariable(block, 'Boolean', true, frameLocation, previousFrame);
 };
 
 /**
@@ -77,7 +77,7 @@ const variables_get_boolean_block = (block: Block, frameLocation: FrameLocation,
  */
 const getVariable = (block: Block,  defaultValue: any, previousFrame?: ArduinoFrame) => {
 
-    let variableName = getVariableName(block);
+    const variableName = getVariableName(block);
 
     if (!previousFrame) {
         return defaultValue;
@@ -87,7 +87,7 @@ const getVariable = (block: Block,  defaultValue: any, previousFrame?: ArduinoFr
         return defaultValue;
     }
 
-    let value = previousFrame.state.variables[variableName].value;
+    const value = previousFrame.state.variables[variableName].value;
 
     if (isBooleanVariableReturningValue(getVariableType(block), value)) {
         return value;
@@ -104,9 +104,9 @@ const setVariable = (block: Block, type: string, defaultValue: any, frameLocatio
 
     const state = previousFrame ? previousFrame.copyState() : ArduinoState.makeEmptyState();
 
-    let variableName = getVariableName(block);
+    const variableName = getVariableName(block);
 
-    
+
     let value = getInputValue(block, 'VALUE', defaultValue, frameLocation, previousFrame);
 
     // If the type of variable is boolean we want it to be able to return false
@@ -128,7 +128,7 @@ const setVariable = (block: Block, type: string, defaultValue: any, frameLocatio
  * Returns true if we are dealing with a boolean variable that returns false
  */
 const isBooleanVariableReturningValue = (type: string, value: any) => {
-    if (type != 'Boolean') {
+    if (type !== 'Boolean') {
         return false;
     }
 

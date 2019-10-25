@@ -6,7 +6,7 @@ import { FramePlayer } from './frame_player';
 let player = null;
 
 export const framePlayerFactory = async () => {
-  
+
   if (!player) {
     player = new FramePlayer(
       new ExecuteVirtualCircuitFrame()

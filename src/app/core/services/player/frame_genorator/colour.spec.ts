@@ -1,8 +1,8 @@
 import { Block } from 'blockly';
-import { ArduinoFrame } from "../arduino/arduino_frame";
-import * as blockHelperFunctions from "../frame/blockly_helper";
-import { colour_picker_block, colour_random_block, colour_rgb_block } from "./color_blocks";
-import { ArduinoState } from "../arduino/state/arduino.state";
+import { ArduinoFrame } from '../arduino/arduino_frame';
+import * as blockHelperFunctions from '../frame/blockly_helper';
+import { colour_picker_block, colour_random_block, colour_rgb_block } from './color_blocks';
+import { ArduinoState } from '../arduino/state/arduino.state';
 
 describe('Color Blocks', () => {
 
@@ -70,11 +70,11 @@ describe('Color Blocks', () => {
 	describe('colour_rgb_block', () => {
 
 		it('should get the rgb number values and parse into an object', () => {
-			getInputValueSpy.withArgs(block,'RED', 0, frameLocation, undefined).and.returnValue(90);
+			getInputValueSpy.withArgs(block, 'RED', 0, frameLocation, undefined).and.returnValue(90);
 
-			getInputValueSpy.withArgs(block,'BLUE', 0, frameLocation, undefined).and.returnValue(0);
+			getInputValueSpy.withArgs(block, 'BLUE', 0, frameLocation, undefined).and.returnValue(0);
 
-			getInputValueSpy.withArgs(block,'GREEN', 0, frameLocation, undefined).and.returnValue(150);
+			getInputValueSpy.withArgs(block, 'GREEN', 0, frameLocation, undefined).and.returnValue(150);
 
 			const color = colour_rgb_block(block, frameLocation);
 

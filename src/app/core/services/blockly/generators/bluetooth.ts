@@ -3,8 +3,8 @@ import { Block } from 'blockly';
 import { selectedBoard } from '../types/pins';
 
 Blockly.Arduino['bluetooth_setup'] = function(block) {
-  var rxPin = block.getFieldValue('RX');
-  var txPin = block.getFieldValue('TX');
+  const rxPin = block.getFieldValue('RX');
+  const txPin = block.getFieldValue('TX');
   Blockly.Arduino.libraries_['define_bluetooth'] =
     '\n#include <SoftwareSerial.h>;\nSoftwareSerial blueToothSerial(' +
     txPin +
@@ -43,7 +43,7 @@ Blockly.Arduino['bluetooth_has_message'] = function(block) {
 };
 
 Blockly.Arduino['bluetooth_send_message'] = function(block) {
-  var message = Blockly.Arduino.valueToCode(
+  const message = Blockly.Arduino.valueToCode(
     block,
     'MESSAGE',
     Blockly.Arduino.ORDER_ATOMIC

@@ -10,6 +10,7 @@ import { blocksInsideInput } from '../../player/frame/blockly_helper';
 import { ButtonState } from '../../player/arduino/state/button.state';
 import { BlocklyService } from '../../blockly.service';
 import * as Blockly from 'blockly/core';
+import { PinState } from '../../player/arduino/state/pin.state';
 
 /**
  * Populates all the sensor blocks with fake readonly data.
@@ -23,9 +24,9 @@ export const changeFramePopulateSensorBlock = (
 
   BlocklyService.DISABLE_READONLY_CHECK = true;
 
-  mapToSetupSensorBlocks.forEach((mapToSetupSensorBlock) => {
+  mapToSetupSensorBlocks.forEach(mapToSetupSensorBlock => {
     const listOfBlockTypes = mapToSetupSensorBlock.fieldsToCollect.map(
-      (info) => info.sensorBlockType
+      info => info.sensorBlockType
     );
 
     const sensorBlocksToSetFakeValues = getListOfSensorBlocksToSet(
@@ -34,7 +35,7 @@ export const changeFramePopulateSensorBlock = (
       arduinoStartBlock,
       listOfBlockTypes
     );
-    sensorBlocksToSetFakeValues.forEach((sensorBlockToSet) =>
+    sensorBlocksToSetFakeValues.forEach(sensorBlockToSet =>
       setSensorBlockWithFakeValue(
         changeFrame,
         sensorBlockToSet,
@@ -57,10 +58,10 @@ const getListOfSensorBlocksToSet = (
   listOfBlockTypes: string[]
 ) => {
   return allBlocks
-    .filter((possibleBlock) => listOfBlockTypes.includes(possibleBlock.type))
-    .filter((possibleBlock) => {
+    .filter(possibleBlock => listOfBlockTypes.includes(possibleBlock.type))
+    .filter(possibleBlock => {
       return (
-        changeFrame.frameLocation.iteration == 0 ||
+        changeFrame.frameLocation.iteration === 0 ||
         !isBlockInSetupArduinoFunction(possibleBlock, arduinoStartBlock)
       );
     });
@@ -75,7 +76,7 @@ const setSensorBlockWithFakeValue = (
   mapToSetupSensorBlock: SensorBlockMapper
 ) => {
   const blockMapInfo = mapToSetupSensorBlock.fieldsToCollect.find(
-    (info) => info.sensorBlockType === sensorBlockToSet.type
+    info => info.sensorBlockType === sensorBlockToSet.type
   );
 
   const stateToSetFakeSensor = findSensorState(
@@ -83,7 +84,7 @@ const setSensorBlockWithFakeValue = (
     sensorBlockToSet,
     mapToSetupSensorBlock
   );
-
+  console.log(sensorBlockToSet, 'lol');
   sensorBlockToSet
     .getField('SIMPLE_DEBUG')
     .setValue(stateToSetFakeSensor.getFieldValue(blockMapInfo.dataSaveKey));
@@ -95,15 +96,13 @@ const setSensorBlockWithFakeValue = (
 const getListOfSensorBlockMappings = () => {
   const topBlocks: Block[] = Blockly.mainWorkspace
     .getTopBlocks()
-    .filter((block) => block.type !== 'arduino_start');
+    .filter(block => block.type !== 'arduino_start');
   const mapToSetupSensorBlocks = topBlocks
-    .filter((block) => block.isEnabled())
-    .filter((block) =>
+    .filter(block => block.isEnabled())
+    .filter(block =>
       Object.keys(mapFakeSensorValuesToBlocks).includes(block.type + '_block')
     )
-    .map(
-      (setupBlock) => mapFakeSensorValuesToBlocks[setupBlock.type + '_block']
-    );
+    .map(setupBlock => mapFakeSensorValuesToBlocks[setupBlock.type + '_block']);
 
   // We manually add time no matter what
   mapToSetupSensorBlocks.push(mapFakeSensorValuesToBlocks['time_setup_block']);
@@ -122,7 +121,7 @@ const isBlockInSetupArduinoFunction = (
   const setupBlocksIdsParentIds = (blocksInsideInput(
     arduinoStartBlock,
     'setup'
-  ) as Block[]).map((b) => b.id);
+  ) as Block[]).map(b => b.id);
 
   let statementParent = possibleBlock.getParent();
   while (statementParent) {
@@ -143,9 +142,13 @@ const findSensorState = (
   sensorBlockToSet: Block,
   mapToSetupSensorBlock: SensorBlockMapper
 ) => {
-  return changeFrame.state.components.find((c) => {
+  return changeFrame.state.components.find(c => {
     if (c instanceof ButtonState) {
-      return c.pin == sensorBlockToSet.getFieldValue('PIN');
+      return c.pin === sensorBlockToSet.getFieldValue('PIN');
+    }
+
+    if (c instanceof PinState) {
+      return c.pin === sensorBlockToSet.getFieldValue('PIN');
     }
 
     return (

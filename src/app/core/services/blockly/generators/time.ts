@@ -9,7 +9,7 @@ Blockly.Arduino['time_seconds'] = function(block) {
 };
 
 Blockly.Arduino['delay_block'] = function(block) {
-  var delay =
+  let delay =
     Blockly.Arduino.valueToCode(block, 'DELAY', Blockly.Arduino.ORDER_ATOMIC) ||
     1;
   delay = Math.ceil(Math.abs(delay) * 1000);
@@ -19,4 +19,4 @@ Blockly.Arduino['delay_block'] = function(block) {
 
 Blockly.Arduino['time_setup'] = function () {
   return '';
-}
+};

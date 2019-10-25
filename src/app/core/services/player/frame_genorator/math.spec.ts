@@ -7,11 +7,11 @@ import {
 	math_random_int_block,
 	math_round_block,
 	string_to_number_block
-} from "./math";
+} from './math';
 
 import * as blockHelperFunctions from '../frame/blockly_helper';
-import { ArduinoFrame } from "../arduino/arduino_frame";
-import { ArduinoState } from "../arduino/state/arduino.state";
+import { ArduinoFrame } from '../arduino/arduino_frame';
+import { ArduinoState } from '../arduino/state/arduino.state';
 
 
 describe('Math', () => {
@@ -40,11 +40,11 @@ describe('Math', () => {
 		block = {
 			getFieldValue( fieldName: string ): any {
 
-				if (fieldName == 'OP') {
+				if (fieldName === 'OP') {
 					return mathOperation;
 				}
 
-				if (fieldName == 'NUM') {
+				if (fieldName === 'NUM') {
 					return numValue;
 				}
 
@@ -52,19 +52,19 @@ describe('Math', () => {
 		};
 
 		getInputValueSpy
-			.withArgs(block, 'A', 1,frameLocation, undefined)
+			.withArgs(block, 'A', 1, frameLocation, undefined)
 			.and.callFake(() => aValue);
 
 		getInputValueSpy
-			.withArgs(block, 'B', 1,frameLocation, undefined)
+			.withArgs(block, 'B', 1, frameLocation, undefined)
 			.and.callFake(() => bValue);
 
 		getInputValueSpy
-			.withArgs(block, 'A', 1,frameLocation, previousFrame)
+			.withArgs(block, 'A', 1, frameLocation, previousFrame)
 			.and.callFake(() => aValue);
 
 		getInputValueSpy
-			.withArgs(block, 'B', 1,frameLocation, previousFrame)
+			.withArgs(block, 'B', 1, frameLocation, previousFrame)
 			.and.callFake(() => bValue);
 
 		getInputValueSpy
@@ -72,7 +72,7 @@ describe('Math', () => {
 			.and.callFake(() => numValue);
 
 		getInputValueSpy
-			.withArgs(block, 'NUM', 1,frameLocation, undefined)
+			.withArgs(block, 'NUM', 1, frameLocation, undefined)
 			.and.callFake(() => numValue);
 
 
@@ -187,11 +187,11 @@ describe('Math', () => {
 				.withArgs(block, 'TO', 10, frameLocation, previousFrame)
 				.and.returnValue(10000);
 
-			let randomNumber = math_random_int_block(block, frameLocation, previousFrame);
+			const randomNumber = math_random_int_block(block, frameLocation, previousFrame);
 
 			expect(randomNumber >= 0 && randomNumber <= 100000).toBeTruthy();
 
-			let randomNumber2 = math_random_int_block(block, frameLocation, previousFrame);
+			const randomNumber2 = math_random_int_block(block, frameLocation, previousFrame);
 
 			expect(randomNumber).not.toEqual(randomNumber2);
 		});

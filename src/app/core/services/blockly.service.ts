@@ -18,7 +18,10 @@ import './blockly/menu/variables.menu';
 import { toolbox } from './blockly/toolbox/toolbox';
 import { forLoopChangeText } from './blockly/events/forLoopChangeText';
 import { deleteVariables } from './blockly/events/deleteVariable';
-import { disableEnableBlocks, sensorSetupBlocks } from './blockly/events/enableDisableBlocks';
+import {
+  disableEnableBlocks,
+  sensorSetupBlocks
+} from './blockly/events/enableDisableBlocks';
 import { saveDebugBlockState } from './blockly/events/saveDebugBlockState';
 import { generateListOfFrame } from './player/frame/generate_frame';
 import { duplicatePinWarningTextBlocks } from './player/frame/block-duplicate-pin-warning-text';
@@ -26,7 +29,7 @@ import { Router } from '@angular/router';
 import { changeSetupBlockValueBecauseOfLoopChange } from './blockly/events/changeSetupBlockValueBecauseOfLoopChange';
 import { changeLoopNumberInSensorBlocks } from './blockly/events/changeLoopNumberInSensorSetupBlocks';
 import { filter } from 'rxjs/operators';
-import { checkButtonPinSelectionValid } from './blockly/events/checkButtonPinSelectionValid';
+import { checkRightPinSelected } from './blockly/events/checkButtonPinSelectionValid';
 import { Block } from 'blockly';
 
 @Injectable({
@@ -62,7 +65,10 @@ export class BlocklyService {
     framePlayer.changeFrame$
       .pipe(filter(() => this.getWorkSpace() !== undefined))
       .subscribe(changeFrame => {
-        changeFramePopulateSensorBlock(changeFrame, this.getArduinoStartBlock());
+        changeFramePopulateSensorBlock(
+          changeFrame,
+          this.getArduinoStartBlock()
+        );
       });
   }
 
@@ -71,34 +77,34 @@ export class BlocklyService {
   }
 
   setUpBlock(blocklyDiv: HTMLDivElement) {
-    Blockly.inject(blocklyDiv, { 
-      toolbox : toolbox, 
-      collapse : true, 
-      comments : true, 
-      disable : false, 
-      maxBlocks : Infinity, 
-      trashcan : true, 
-      horizontalLayout : false, 
-      toolboxPosition : 'start', 
-      css : true, 
-      media : 'https://blockly-demo.appspot.com/static/media/', 
-      rtl : false, 
-      scrollbars : true, 
-      sounds : true, 
-      oneBasedIndex : true, 
-      grid : {
-        spacing : 20, 
-        length : 1, 
-        colour : '#888', 
-        snap : false
-      }, 
-      zoom : {
-        controls : true, 
-        wheel : true, 
-        startScale : 1, 
-        maxScale : 3, 
-        minScale : 0.3, 
-        scaleSpeed : 1.2
+    Blockly.inject(blocklyDiv, {
+      toolbox: toolbox,
+      collapse: true,
+      comments: true,
+      disable: false,
+      maxBlocks: Infinity,
+      trashcan: true,
+      horizontalLayout: false,
+      toolboxPosition: 'start',
+      css: true,
+      media: 'https://blockly-demo.appspot.com/static/media/',
+      rtl: false,
+      scrollbars: true,
+      sounds: true,
+      oneBasedIndex: true,
+      grid: {
+        spacing: 20,
+        length: 1,
+        colour: '#888',
+        snap: false
+      },
+      zoom: {
+        controls: true,
+        wheel: true,
+        startScale: 1,
+        maxScale: 3,
+        minScale: 0.3,
+        scaleSpeed: 1.2
       }
     } as Blockly.BlocklyOptions);
     this.workspace = Blockly.getMainWorkspace();
@@ -115,7 +121,7 @@ export class BlocklyService {
       if (
         event.element === 'disabled' ||
         event.element === 'warningOpen' ||
-        event.blockId == null ||
+        event.blockId === null ||
         event.element === 'click' ||
         event.element === 'selected' ||
         event.name === 'SIMPLE_DEBUG'
@@ -125,11 +131,27 @@ export class BlocklyService {
       forLoopChangeText(this.workspace);
       deleteVariables(this.workspace, event);
       disableEnableBlocks(this.workspace);
-      checkButtonPinSelectionValid(this.workspace);
+      checkRightPinSelected(
+        this.workspace,
+        ['is_button_pressed'],
+        'push_button_setp'
+      );
+      checkRightPinSelected(
+        this.workspace,
+        ['digital_read'],
+        'digital_read_setup'
+      );
+      checkRightPinSelected(
+        this.workspace,
+        ['analog_read'],
+        'analog_read_setup'
+      );
       changeSetupBlockValueBecauseOfLoopChange(this.workspace, event);
       saveDebugBlockState(this.workspace, this.getNumberLoops());
       this.nextArduinoCode();
-      this.showDebugMode(this.router.routerState.snapshot.root.firstChild.data.showRunLoopOption)
+      this.showDebugMode(
+        this.router.routerState.snapshot.root.firstChild.data.showRunLoopOption
+      );
       changeLoopNumberInSensorBlocks(this.getWorkSpace(), event);
       await this.generateFrames(event.blockId);
     });
@@ -155,39 +177,41 @@ export class BlocklyService {
   }
 
   public showDebugMode(show: boolean) {
-      if (!this.getWorkSpace()) {
-         return;
-      }
+    if (!this.getWorkSpace()) {
+      return;
+    }
 
-      this.getWorkSpace()
-        .getAllBlocks()
-        .forEach(block => {
-          block.inputList.filter(input => {
-             if (input.fieldRow.find(fieldRow => fieldRow.name == 'SIMPLE_DEBUG')) {
-               input.setVisible(show);
-               block.render();               
-             }
-          });
-          if (sensorSetupBlocks.includes(block.type)) {
-            console.log(block, 'inside loop');
-            let startHide = false;
-            for (let i = 0; i < block.inputList.length; i += 1) {
-              console.log(block.inputList);
-                if (block.inputList[i].name === 'SHOW_CODE_VIEW') {
-                  startHide = true;
-                }
-                if (startHide) {
-                  block.inputList[i].setVisible(show);
-                }
-            }
-            if (startHide) {
-              block.render();
-            }
+    this.getWorkSpace()
+      .getAllBlocks()
+      .forEach(block => {
+        block.inputList.filter(input => {
+          if (
+            input.fieldRow.find(fieldRow => fieldRow.name === 'SIMPLE_DEBUG')
+          ) {
+            input.setVisible(show);
+            block.render();
           }
         });
+        if (sensorSetupBlocks.includes(block.type)) {
+          console.log(block, 'inside loop');
+          let startHide = false;
+          for (let i = 0; i < block.inputList.length; i += 1) {
+            console.log(block.inputList);
+            if (block.inputList[i].name === 'SHOW_CODE_VIEW') {
+              startHide = true;
+            }
+            if (startHide) {
+              block.inputList[i].setVisible(show);
+            }
+          }
+          if (startHide) {
+            block.render();
+          }
+        }
+      });
   }
 
-  public getArduinoStartBlock(): Block|undefined|any {
+  public getArduinoStartBlock(): Block | undefined | any {
     return this.getWorkSpace()
       .getAllBlocks()
       .find(block => block.type === 'arduino_start');
@@ -253,10 +277,7 @@ export class BlocklyService {
     }
 
     if (frames[frames.length - 1] instanceof ArduinoFrame) {
-      await this.framePlayer.setFrames(
-        frames as ArduinoFrame[],
-        false
-      );
+      await this.framePlayer.setFrames(frames as ArduinoFrame[], false);
       this.framesSubject.next(frames as ArduinoFrame[]);
       this.showFrameGeneratorError = true;
       return;

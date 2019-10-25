@@ -53,32 +53,34 @@ export const takeClosestBottomBreadboardHole = (
     0
   );
 
-  const sortedWholes = bottomBreadBoardHoles
+  let sortedHoles = bottomBreadBoardHoles
     .sort((a, b) => {
       return (
         Math.abs(a.position - pinNumber) - Math.abs(b.position - pinNumber)
       );
     })
-    .filter(hole =>
+    .filter((hole) =>
       direction === 'right'
         ? hole.position > pinNumber
         : hole.position < pinNumber
     );
 
-  if (sortedWholes.length == 0) {
-    const sortedWholes = bottomBreadBoardHoles.sort((a, b) => {
-      return (
-        Math.abs(a.position - pinNumber) - Math.abs(b.position - pinNumber)
-      );
-    });
+  if (sortedHoles.length === 0) {
+     sortedHoles = bottomBreadBoardHoles.sort((a, b) => {
+       return (
+         Math.abs(a.position - pinNumber) - Math.abs(b.position - pinNumber)
+       );
+     });
 
-    const selectedHole = sortedWholes.find(hole => hole.status == 'available');
+    const selectedBreadBoardHole = sortedHoles.find(
+      (hole) => hole.status === 'available'
+    );
 
-    selectedHole.status = 'taken';
-    return selectedHole.position;
+    selectedBreadBoardHole.status = 'taken';
+    return selectedBreadBoardHole.position;
   }
 
-  const selectedHole = sortedWholes.find(hole => hole.status == 'available');
+  const selectedHole = sortedHoles.find((hole) => hole.status === 'available');
 
   selectedHole.status = 'taken';
   return selectedHole.position;
@@ -86,7 +88,7 @@ export const takeClosestBottomBreadboardHole = (
 
 export const returnBottomHole = (position: number) => {
   const index = bottomBreadBoardHoles.findIndex(
-    hole => hole.position == position
+    hole => hole.position === position
   );
 
   bottomBreadBoardHoles[index].status = 'available';

@@ -43,7 +43,7 @@ Blockly.Arduino.ORDER_LOGICAL_NOT = 4.4; // !
 Blockly.Arduino.ORDER_SHIFT = 5; // << >>
 Blockly.Arduino.ORDER_MODULUS = 5.3; // %
 Blockly.Arduino.ORDER_RELATIONAL = 6; // is is! >= > <= <
-Blockly.Arduino.ORDER_EQUALITY = 7; // == != === !==
+Blockly.Arduino.ORDER_EQUALITY = 7; // === !== === !==
 Blockly.Arduino.ORDER_BITWISE_AND = 8; // &
 Blockly.Arduino.ORDER_BITWISE_XOR = 9; // ^
 Blockly.Arduino.ORDER_BITWISE_OR = 10; // |
@@ -89,9 +89,9 @@ Blockly.Arduino.init = function(workspace) {
   //         Blockly.Names.DEVELOPER_VARIABLE_TYPE));
   // }
 
-  var doubleVariables = workspace.getVariablesOfType('Number');
-  var i = 0;
-  var variableCode = '';
+  const doubleVariables = workspace.getVariablesOfType('Number');
+  let i = 0;
+  let variableCode = '';
   for (i = 0; i < doubleVariables.length; i += 1) {
     variableCode +=
       'double ' +
@@ -102,7 +102,7 @@ Blockly.Arduino.init = function(workspace) {
       ' = 0; \n\n';
   }
 
-  var stringVariables = workspace.getVariablesOfType('String');
+  const stringVariables = workspace.getVariablesOfType('String');
   for (i = 0; i < stringVariables.length; i += 1) {
     variableCode +=
       'String ' +
@@ -113,7 +113,7 @@ Blockly.Arduino.init = function(workspace) {
       ' = ""; \n\n';
   }
 
-  var booleanVariables = workspace.getVariablesOfType('Boolean');
+  const booleanVariables = workspace.getVariablesOfType('Boolean');
   for (i = 0; i < booleanVariables.length; i += 1) {
     variableCode +=
       'boolean ' +
@@ -124,7 +124,7 @@ Blockly.Arduino.init = function(workspace) {
       ' = false; \n\n';
   }
 
-  var colourVariables = workspace.getVariablesOfType('Colour');
+  const colourVariables = workspace.getVariablesOfType('Colour');
   for (i = 0; i < colourVariables.length; i += 1) {
     variableCode +=
       'RGB ' +
@@ -144,14 +144,14 @@ Blockly.Arduino.init = function(workspace) {
  * @return {string} Completed code.
  */
 Blockly.Arduino.finish = function(code) {
-  var libraryCode = '';
-  var functionsCode = '';
+  let libraryCode = '';
+  let functionsCode = '';
 
-  for (var key in Blockly.Arduino.libraries_) {
+  for (const key in Blockly.Arduino.libraries_) {
     libraryCode += Blockly.Arduino.libraries_[key] + '\n';
   }
 
-  for (var key in Blockly.Arduino.functionNames_) {
+  for (const key in Blockly.Arduino.functionNames_) {
     functionsCode += Blockly.Arduino.functionNames_[key] + '\n';
   }
 
@@ -159,7 +159,7 @@ Blockly.Arduino.finish = function(code) {
   code =
     'int simple_loop_variable = 0; \n' +
     'String bluetoothMessageDEV = ""; \n' +
-    'String serialMessageDEV = ""; \n'  +
+    'String serialMessageDEV = ""; \n' +
     'struct RGB { \n' +
     '\tint red;\n' +
     '\tint green;\n' +
@@ -221,11 +221,11 @@ Blockly.Arduino.quote_ = function(string) {
  * @private
  */
 Blockly.Arduino.scrub_ = function(block, code) {
-  var commentCode = '';
+  let commentCode = '';
   // Only collect comments for blocks that aren't inline.
   if (!block.outputConnection || !block.outputConnection.targetConnection) {
     // Collect comment for this block.
-    var comment = block.getCommentText();
+    let comment = block.getCommentText();
     comment = Blockly.utils.string.wrap(
       comment,
       Blockly.Arduino.COMMENT_WRAP - 3
@@ -243,11 +243,11 @@ Blockly.Arduino.scrub_ = function(block, code) {
     }
     // Collect comments for all value arguments.
     // Don't collect comments for nested statements.
-    for (var i = 0; i < block.inputList.length; i++) {
-      if (block.inputList[i].type == Blockly.INPUT_VALUE) {
-        var childBlock = block.inputList[i].connection.targetBlock();
+    for (let i = 0; i < block.inputList.length; i++) {
+      if (block.inputList[i].type === Blockly.INPUT_VALUE) {
+        const childBlock = block.inputList[i].connection.targetBlock();
         if (childBlock) {
-          var comment = Blockly.Arduino.allNestedComments(childBlock);
+          const comment = Blockly.Arduino.allNestedComments(childBlock);
           if (comment) {
             commentCode += Blockly.Arduino.prefixLines(comment, '// ');
           }
@@ -255,8 +255,8 @@ Blockly.Arduino.scrub_ = function(block, code) {
       }
     }
   }
-  var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
-  var nextCode = Blockly.Arduino.blockToCode(nextBlock);
+  const nextBlock = block.nextConnection && block.nextConnection.targetBlock();
+  const nextCode = Blockly.Arduino.blockToCode(nextBlock);
   return commentCode + code + nextCode;
 };
 
@@ -264,7 +264,7 @@ Blockly.Arduino.scrub_ = function(block, code) {
  * Arduino Board profiles
  *
  */
-var profile = {
+const profile = {
   arduino_uno: {
     description: 'Arduino standard-compatible board',
     digital: [
@@ -314,4 +314,4 @@ var profile = {
   }
 };
 
-var selectedBoard = profile.arduino_uno;
+const selectedBoard = profile.arduino_uno;

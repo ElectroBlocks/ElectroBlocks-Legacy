@@ -23,7 +23,7 @@ export const rotate_servo_block = (
 
   const servoState = state.components.find(
     component =>
-      component instanceof ServoState && component.pin == stringToPin(pin)
+      component instanceof ServoState && component.pin === stringToPin(pin)
   );
 
   if (servoState instanceof ServoState) {

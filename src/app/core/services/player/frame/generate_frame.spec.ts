@@ -76,7 +76,7 @@ describe('Generate Frames', () => {
 
     expect((await generateListOfFrame()).length).toBe(7);
 
-    numberOfTimesThroughLoop = 1
+    numberOfTimesThroughLoop = 1;
     expect((await generateListOfFrame()).length).toBe(3);
   });
 });

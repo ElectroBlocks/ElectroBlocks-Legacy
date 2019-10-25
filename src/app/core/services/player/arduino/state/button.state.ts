@@ -18,7 +18,7 @@ export class ButtonState extends SensorComponent {
   }
 
   public getFieldValue(dataKeySaveInSetupBlock: string) {
-    if (dataKeySaveInSetupBlock == 'is_button_pressed') {
+    if (dataKeySaveInSetupBlock === 'is_button_pressed') {
       return this.isPressed;
     }
 

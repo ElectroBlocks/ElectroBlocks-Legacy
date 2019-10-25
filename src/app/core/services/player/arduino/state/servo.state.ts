@@ -15,6 +15,6 @@ export class ServoState extends ElectricAttachmentComponentState {
   }
 
   public isEqual(state: ElectricAttachmentComponentState): boolean {
-    return state instanceof ServoState && state.pin == this.pin;
+    return state instanceof ServoState && state.pin === this.pin;
   }
 }

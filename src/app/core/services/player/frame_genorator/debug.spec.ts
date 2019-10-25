@@ -1,8 +1,8 @@
 import 'jasmine';
 import { Block } from 'blockly';
-import { ArduinoFrame } from "../arduino/arduino_frame";
-import { debug_block } from "./debug";
-import { ArduinoState } from "../arduino/state/arduino.state";
+import { ArduinoFrame } from '../arduino/arduino_frame';
+import { debug_block } from './debug';
+import { ArduinoState } from '../arduino/state/arduino.state';
 
 
 describe('debug', () => {
@@ -19,7 +19,7 @@ describe('debug', () => {
 		},
 	}, false);
 
-	const previousFrame = new ArduinoFrame('block1', state,{ location: 'loop', iteration: 1 }
+	const previousFrame = new ArduinoFrame('block1', state, { location: 'loop', iteration: 1 }
 	);
 
 

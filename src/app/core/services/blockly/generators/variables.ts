@@ -1,13 +1,13 @@
 import * as Blockly from 'blockly/core';
 import { Block } from 'blockly';
 
-var setVariableFunction = function(defaultValue) {
+const setVariableFunction = function(defaultValue) {
   return function(block) {
-    var variableName = Blockly.Arduino.variableDB_.getName(
+    const variableName = Blockly.Arduino.variableDB_.getName(
       block.getFieldValue('VAR'),
       Blockly.Variables.NAME_TYPE
     );
-    var variableValue = Blockly.Arduino.valueToCode(
+    const variableValue = Blockly.Arduino.valueToCode(
       block,
       'VALUE',
       Blockly.Arduino.ORDER_ATOMIC
@@ -17,8 +17,8 @@ var setVariableFunction = function(defaultValue) {
   };
 };
 
-var getVariableFunction = function(block) {
-  var variableName = Blockly.Arduino.variableDB_.getName(
+const getVariableFunction = function(block) {
+  const variableName = Blockly.Arduino.variableDB_.getName(
     block.getFieldValue('VAR'),
     Blockly.Variables.NAME_TYPE
   );

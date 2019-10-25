@@ -1,14 +1,14 @@
 import 'jasmine';
 import { Block } from 'blockly';
-import * as blockHelper from "../frame/blockly_helper";
-import * as variableHelper from "./variables";
+import * as blockHelper from '../frame/blockly_helper';
+import * as variableHelper from './variables';
 import {
 	number_to_string_block, parse_string_block_block,
 	text_block,
 	text_changeCase_block,
 	text_isEmpty_block,
 	text_join_block
-} from "./text";
+} from './text';
 
 describe('text', () => {
 
@@ -52,18 +52,18 @@ describe('text', () => {
 	describe('text_join_block', () => {
 
 		it ('should join multiple text string', () => {
-			block.inputList = [1,2,3];
+			block.inputList = [1, 2, 3];
 
 			getInputValueSpy
-				.withArgs(block,'ADD0', '', frameLocation, undefined)
+				.withArgs(block, 'ADD0', '', frameLocation, undefined)
 				.and.returnValue('HELLO');
 
 			getInputValueSpy
-				.withArgs(block,'ADD1', '',frameLocation, undefined)
+				.withArgs(block, 'ADD1', '', frameLocation, undefined)
 				.and.returnValue(' ');
 
 			getInputValueSpy
-				.withArgs(block,'ADD2', '', frameLocation, undefined)
+				.withArgs(block, 'ADD2', '', frameLocation, undefined)
 				.and.returnValue('WORLD!');
 
 			expect(text_join_block(block, frameLocation)).toBe('HELLO WORLD!');
@@ -76,7 +76,7 @@ describe('text', () => {
 		it('should change to upper case', () => {
 			blockSpy.withArgs('CASE').and.returnValue('UPPERCASE');
 			getInputValueSpy
-				.withArgs(block,'TEXT', '',frameLocation, undefined)
+				.withArgs(block, 'TEXT', '', frameLocation, undefined)
 				.and.returnValue('world!');
 
 			expect(text_changeCase_block(block, frameLocation)).toBe('WORLD!');
@@ -86,7 +86,7 @@ describe('text', () => {
 		it('should change to lower case', () => {
 			blockSpy.withArgs('CASE').and.returnValue('lowercase');
 			getInputValueSpy
-				.withArgs(block,'TEXT', '',frameLocation, undefined)
+				.withArgs(block, 'TEXT', '', frameLocation, undefined)
 				.and.returnValue('WORLD!');
 
 			expect(text_changeCase_block(block, frameLocation)).toBe('world!');
@@ -99,7 +99,7 @@ describe('text', () => {
 
 		it('should return true for empty text', () => {
 			getInputValueSpy
-				.withArgs(block,'VALUE', '',frameLocation, undefined)
+				.withArgs(block, 'VALUE', '', frameLocation, undefined)
 				.and.returnValue('');
 
 			expect(text_isEmpty_block(block, frameLocation)).toBeTruthy();
@@ -108,7 +108,7 @@ describe('text', () => {
 
 		it('should return false for regular text', () => {
 			getInputValueSpy
-				.withArgs(block,'VALUE', '',frameLocation, undefined)
+				.withArgs(block, 'VALUE', '', frameLocation, undefined)
 				.and.returnValue('HELLO');
 
 			expect(text_isEmpty_block(block, frameLocation)).toBeFalsy();
@@ -123,7 +123,7 @@ describe('text', () => {
 			blockSpy.withArgs('PRECISION').and.returnValue('2');
 
 			getInputValueSpy
-				.withArgs(block, 'NUMBER', 0,frameLocation, undefined)
+				.withArgs(block, 'NUMBER', 0, frameLocation, undefined)
 				.and.returnValue(3.23343);
 
 			expect(number_to_string_block(block, frameLocation)).toBe('3.23');
@@ -133,7 +133,7 @@ describe('text', () => {
 	describe('parse_string_block_block', () => {
 		it('should take position 3 and change it to 2 position in the string list', () => {
 			getInputValueSpy
-				.withArgs(block, 'VALUE', '',frameLocation, undefined)
+				.withArgs(block, 'VALUE', '', frameLocation, undefined)
 				.and.returnValue('blue,red,yellow');
 
 			blockSpy.withArgs('DELIMITER').and.returnValue(',');
@@ -156,7 +156,7 @@ describe('text', () => {
 
 
 			getInputValueSpy
-				.withArgs(block, 'POSITION', 0,frameLocation, undefined)
+				.withArgs(block, 'POSITION', 0, frameLocation, undefined)
 				.and.returnValue(0);
 
 

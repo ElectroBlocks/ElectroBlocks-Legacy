@@ -67,7 +67,7 @@ describe('Frame Player', () => {
     const framePlayer = new FramePlayer(new ExecuteSilentFrame());
 
     await framePlayer.setFrames(frames);
-    let frameNumbers = [];
+    const frameNumbers = [];
 
     framePlayer.changeFrame$
       .pipe(tap((frameChange) => frameNumbers.push(frameChange.frameNumber)))
@@ -87,7 +87,7 @@ describe('Frame Player', () => {
     framePlayer.changeFrame$
       .pipe(
         tap(() => (numberOfFramesExecuted += 1)),
-        filter(() => numberOfFramesExecuted == 2),
+        filter(() => numberOfFramesExecuted === 2),
         tap(() => framePlayer.stop())
       )
       .subscribe();

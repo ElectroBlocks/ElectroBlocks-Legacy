@@ -26,7 +26,9 @@ const blocksThatRequireSetup = {
   is_button_pressed: 'push_button_setup',
   arduino_send_message: 'message_setup',
   arduino_get_message: 'message_setup',
-  arduino_receive_message: 'message_setup'
+  arduino_receive_message: 'message_setup',
+  digital_read: 'digital_read_setup',
+  analog_read: 'analog_read_setup'
 };
 
 const standAloneBlocks = [
@@ -48,16 +50,24 @@ const standAloneBlocks = [
   'led_color_setup',
   'push_button_setup',
   'message_setup',
-  'time_setup'
+  'time_setup',
+  'analog_read_setup',
+  'digital_read_setup'
 ];
 
-export const blockMultipleSetup = ['push_button_setup'];
+export const blockMultipleSetup = [
+  'push_button_setup',
+  'digital_read_setup',
+  'analog_read_setup'
+];
 
 export const sensorSetupBlocks = [
   'rfid_setup',
   'push_button_setup',
   'bluetooth_setup',
-  'message_setup'
+  'message_setup',
+  'digital_read_setup',
+  'analog_read_setup'
 ];
 
 const disableBlockForNotHavingRequiredSetupBlock = (blocks, testBlock) => {
