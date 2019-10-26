@@ -29,7 +29,7 @@ export class IRRemoteSvg extends ComponentSvg {
       .first()
       .show();
     const codeText = this.svg.select('#code').first() as Text;
-    codeText.node.textContent = irRemote.code;
+    codeText.node.textContent = irRemote.code || 'NOT SET';
     codeText.show();
     codeText.x((79 - codeText.length()) / 2);
 

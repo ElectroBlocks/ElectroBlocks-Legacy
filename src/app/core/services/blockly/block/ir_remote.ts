@@ -90,9 +90,9 @@ Blockly.Blocks['ir_remote_setup'] = {
         'LOOP'
       );
     this.appendDummyInput()
-      .appendField('Scan New Code')
+      .appendField('Scan New Code? ')
       .appendField(
-        new Blockly.FieldCheckbox('TRUE', value => {
+        new Blockly.FieldCheckbox('TRUE', (value) => {
           if ('FALSE' === value) {
             this.getField('code').setValue('');
           }
@@ -103,7 +103,7 @@ Blockly.Blocks['ir_remote_setup'] = {
     this.appendDummyInput()
       .appendField('Code')
       .appendField(
-        new Blockly.FieldTextInput('E932B', value => {
+        new Blockly.FieldTextInput('E932B', (value) => {
           if (this.getFieldValue('scanned_new_code') === 'FALSE') {
             return null;
           }
