@@ -13,5 +13,6 @@ export enum ElectricComponentType {
   BUTTON = 'BUTTON',
   MESSAGE = 'MESSAGE',
   TIME = 'TIME',
-  IR_REMOTE = 'IR_REMOTE'
+  IR_REMOTE = 'IR_REMOTE',
+  ULTRASONICE_SENSOR = 'ULTRASONICE_SENSOR'
 }

@@ -27,7 +27,8 @@ const blocksThatRequireSetup = {
   arduino_get_message: 'message_setup',
   arduino_receive_message: 'message_setup',
   digital_read: 'digital_read_setup',
-  analog_read: 'analog_read_setup'
+  analog_read: 'analog_read_setup',
+  ultra_sonic_sensor_motion: 'ultra_sonic_sensor_setup'
 };
 
 const standAloneBlocks = [
@@ -51,7 +52,8 @@ const standAloneBlocks = [
   'message_setup',
   'time_setup',
   'analog_read_setup',
-  'digital_read_setup'
+  'digital_read_setup',
+  'ultra_sonic_sensor_setup'
 ];
 
 export const blockMultipleSetup = [
@@ -67,7 +69,8 @@ export const sensorSetupBlocks = [
   'message_setup',
   'digital_read_setup',
   'analog_read_setup',
-  'ir_remote_setup'
+  'ir_remote_setup',
+  'ultra_sonic_sensor_setup'
 ];
 
 const disableBlockForNotHavingRequiredSetupBlock = (blocks, testBlock) => {
@@ -77,7 +80,7 @@ const disableBlockForNotHavingRequiredSetupBlock = (blocks, testBlock) => {
 
   console.log(blocks);
   return (
-    blocks.findIndex(potentialSetupBlock => {
+    blocks.findIndex((potentialSetupBlock) => {
       return (
         potentialSetupBlock.type === blocksThatRequireSetup[testBlock.type]
       );
@@ -94,16 +97,16 @@ const toggleDisableChildBlocks = (parentBlock, disable) => {
   }
 };
 
-export const disableEnableBlocks = workspace => {
+export const disableEnableBlocks = (workspace) => {
   const blocks = workspace.getAllBlocks();
 
   // Disables duplicate setup blocks
   blocks
-    .filter(block => standAloneBlocks.includes(block.type))
-    .forEach(setupBlock => {
+    .filter((block) => standAloneBlocks.includes(block.type))
+    .forEach((setupBlock) => {
       const disableSetupBlock =
         blocks.filter(
-          block =>
+          (block) =>
             block.type === setupBlock.type &&
             setupBlock.type !== 'arduino_start'
         ).length > 1;
@@ -114,11 +117,11 @@ export const disableEnableBlocks = workspace => {
 
   // Disables / Enables Blocks that don't have the required setup blocks
   blocks
-    .filter(block => {
+    .filter((block) => {
       // Exclude all stand alone blocks
       return !standAloneBlocks.includes(block.type);
     })
-    .forEach(block => {
+    .forEach((block) => {
       if (disableBlockForNotHavingRequiredSetupBlock(blocks, block)) {
         block.setEnabled(false);
         toggleDisableChildBlocks(block, true);

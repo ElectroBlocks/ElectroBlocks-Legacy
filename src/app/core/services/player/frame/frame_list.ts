@@ -6,6 +6,8 @@ import { Color } from '../frame_genorator/color';
 
 import { is_button_pressed_block } from '../frame_genorator/button';
 
+import { ultra_sonic_sensor_motion_block } from '../frame_genorator/motionsensor';
+
 import {
   bluetooth_get_message_block,
   bluetooth_has_message_block,
@@ -51,7 +53,8 @@ import {
   message_setup_block,
   time_setup_block,
   digital_read_setup_block,
-  analog_read_setup_block
+  analog_read_setup_block,
+  ultra_sonic_sensor_setup_block
 } from '../frame_genorator/pass_through_block';
 
 import {
@@ -242,7 +245,9 @@ frameGeneratingBlocks = {
 
   bluetooth_send_message_block,
   digital_read_setup_block,
-  analog_read_setup_block
+  analog_read_setup_block,
+
+  ultra_sonic_sensor_setup_block
 };
 
 valueGeneratingBlocks = {
@@ -297,7 +302,9 @@ valueGeneratingBlocks = {
   analog_read_block,
 
   ir_remote_get_code_block,
-  ir_remote_has_code_receive_block
+  ir_remote_has_code_receive_block,
+
+  ultra_sonic_sensor_motion_block
 };
 
 export { frameGeneratingBlocks, valueGeneratingBlocks };
