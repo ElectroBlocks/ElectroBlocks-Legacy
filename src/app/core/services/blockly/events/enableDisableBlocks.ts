@@ -66,7 +66,8 @@ export const sensorSetupBlocks = [
   'bluetooth_setup',
   'message_setup',
   'digital_read_setup',
-  'analog_read_setup'
+  'analog_read_setup',
+  'ir_remote_setup'
 ];
 
 const disableBlockForNotHavingRequiredSetupBlock = (blocks, testBlock) => {
