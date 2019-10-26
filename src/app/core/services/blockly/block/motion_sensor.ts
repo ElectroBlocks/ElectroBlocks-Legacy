@@ -1,28 +1,13 @@
 import { defineBlocksWithJsonArray } from 'blockly';
 import { selectedBoard } from '../types/pins';
+import * as Blockly from 'blockly/core';
+import { loopTimes } from './debug_extensions';
 
 defineBlocksWithJsonArray([
   {
     type: 'ultra_sonic_sensor_motion',
-    message0: '%1 Ultra Sonic Sensor (Distance in cm)',
-    args0: [
-      {
-        type: 'field_image',
-        src: './assets/blocks/motion_sensor/ultrasonic_sensor.png',
-        width: 30,
-        height: 15,
-        alt: '*',
-        flipRtl: false
-      }
-    ],
-    output: 'Number',
-    colour: 230,
-    tooltip: '',
-    helpUrl: ''
-  },
-  {
-    type: 'ultra_sonic_sensor_setup',
-    message0: '%1 Setup Ultrasonic Sensor %2 TRIG %3 ECHO %4',
+    message0:
+      '%1 Ultrasonic sensor distance (cm)%2 Distance in cm (readonly) %3',
     args0: [
       {
         type: 'field_image',
@@ -36,18 +21,53 @@ defineBlocksWithJsonArray([
         type: 'input_dummy'
       },
       {
-        type: 'field_dropdown',
-        name: 'TRIG',
-        options: selectedBoard().digitalPins
-      },
-      {
-        type: 'field_dropdown',
-        name: 'ECHO',
-        options: selectedBoard().digitalPins
+        type: 'field_input',
+        name: 'SIMPLE_DEBUG',
+        checked: false
       }
     ],
+    output: 'Number',
     colour: 230,
     tooltip: '',
-    helpUrl: ''
+    helpUrl: '',
+    extensions: ['debug']
   }
 ]);
+
+Blockly.Blocks['ultra_sonic_sensor_setup'] = {
+  init: function() {
+    this.appendDummyInput()
+      .appendField(
+        new Blockly.FieldImage(
+          './assets/blocks/motion_sensor/ultrasonic_sensor.png',
+          15,
+          15,
+          { alt: '*', flipRtl: 'FALSE' }
+        )
+      )
+      .appendField('Setup Ultrasonic Sensor');
+    this.appendDummyInput()
+      .appendField('Trig Pin# ')
+      .appendField(
+        new Blockly.FieldDropdown(selectedBoard().digitalPins),
+        'TRIG'
+      )
+      .appendField('Echo Pin# ')
+      .appendField(
+        new Blockly.FieldDropdown(selectedBoard().digitalPins),
+        'ECHO'
+      );
+    this.appendDummyInput('SHOW_CODE_VIEW').appendField(
+      '------------------------------------------------'
+    );
+    this.appendDummyInput()
+      .appendField('Loop')
+      .appendField(new Blockly.FieldDropdown(() => loopTimes()), 'LOOP');
+    this.appendDummyInput()
+      .appendField('Distance In CMs')
+      .appendField(new Blockly.FieldNumber(1, 0.1, 500, 0.00001), 'cm');
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};

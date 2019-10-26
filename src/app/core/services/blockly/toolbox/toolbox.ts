@@ -391,8 +391,8 @@ export const toolbox = `<xml
 </category>
 <category name="Motion Sensor" colour="230">
 <block type="ultra_sonic_sensor_setup">
-  <field name="TRIG">12</field>
-  <field name="ECHO">13</field>
+  <field name="TRIG">11</field>
+  <field name="ECHO">10</field>
 </block>
 <block type="ultra_sonic_sensor_motion"></block>
 </category>

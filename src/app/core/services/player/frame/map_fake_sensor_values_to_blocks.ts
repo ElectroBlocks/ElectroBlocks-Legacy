@@ -5,13 +5,36 @@ import { Block } from 'blockly';
 import { stringToPin, ARDUINO_UNO_PINS } from '../arduino/arduino_frame';
 import { BluetoothState } from '../arduino/state/bluetooth.state';
 import { ArduinoMessageState } from '../arduino/state/arduino-message.state';
-import { loopTimes } from '../../blockly/block/debug_extensions';
+import { UltraSonicSensorState } from '../arduino/state/ultrasonic-sensor.state';
 import { PinState, PIN_TYPE, PinPicture } from '../arduino/state/pin.state';
 import { IRRemoteState } from '../arduino/state/ir_remote.state';
 
 export const mapFakeSensorValuesToBlocks: {
   [key: string]: SensorBlockMapper;
 } = {
+  ultra_sonic_sensor_setup_block: {
+    type: 'ultrasonic_sensor_component',
+    fieldsToCollect: [
+      {
+        setupBlockFieldName: 'cm',
+        sensorBlockType: 'ultra_sonic_sensor_motion',
+        dataSaveKey: 'cm',
+        type: 'field_input',
+        defaultValue: 1
+      }
+    ],
+    convertToState(
+      setupBlock: Block,
+      serializedData: Array<{ cm: number }>,
+      loopNumber: number
+    ) {
+      const data = serializedData[loopNumber];
+      const echoPin = stringToPin(setupBlock.getFieldValue('ECHO'));
+      const trigPin = stringToPin(setupBlock.getFieldValue('TRIG'));
+
+      return new UltraSonicSensorState(data.cm, trigPin, echoPin);
+    }
+  },
   ir_remote_setup_block: {
     type: 'ir_remote_component',
     fieldsToCollect: [

@@ -28,7 +28,8 @@ defineBlocksWithJsonArray([
     output: 'Boolean',
     colour: 20,
     tooltip: '',
-    helpUrl: ''
+    helpUrl: '',
+    extensions: ['debug']
   },
   {
     type: 'arduino_get_message',
@@ -54,7 +55,8 @@ defineBlocksWithJsonArray([
     output: 'String',
     colour: 20,
     tooltip: '',
-    helpUrl: ''
+    helpUrl: '',
+    extensions: ['debug']
   },
   {
     type: 'arduino_send_message',
@@ -86,12 +88,10 @@ Blockly.Blocks['message_setup'] = {
   init: function() {
     this.appendDummyInput()
       .appendField(
-        new Blockly.FieldImage(
-          './assets/blocks/message/message.png',
-          15,
-          15,
-          { alt: '*', flipRtl: 'FALSE' }
-        )
+        new Blockly.FieldImage('./assets/blocks/message/message.png', 15, 15, {
+          alt: '*',
+          flipRtl: 'FALSE'
+        })
       )
       .appendField('Message Setup');
 
@@ -104,7 +104,7 @@ Blockly.Blocks['message_setup'] = {
     this.appendDummyInput()
       .appendField('Receiving Message? ')
       .appendField(
-        new Blockly.FieldCheckbox('TRUE', value => {
+        new Blockly.FieldCheckbox('TRUE', (value) => {
           if ('FALSE' === value) {
             this.getField('message').setValue('');
           }
@@ -115,7 +115,7 @@ Blockly.Blocks['message_setup'] = {
     this.appendDummyInput()
       .appendField('Message:')
       .appendField(
-        new Blockly.FieldTextInput('message', value => {
+        new Blockly.FieldTextInput('message', (value) => {
           if (this.getFieldValue('receiving_message') === 'FALSE') {
             return null;
           }
