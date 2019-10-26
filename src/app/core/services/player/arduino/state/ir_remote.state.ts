@@ -17,6 +17,7 @@ export class IRRemoteState extends SensorComponent {
     public readonly analogPin: ARDUINO_UNO_PINS
   ) {
     super();
+    this.pins.push(analogPin);
   }
 
   public getFieldValue(dataKeySaveInSetupBlock: string) {

@@ -43,7 +43,7 @@ export const servoFactory = async (
   ).getHoleXY();
 
   console.log(positionX, 'positionX');
-  servoSvg.move(positionX - 60, -200);
+  servoSvg.move(positionX - 60, -150);
   servoSvg.updateWires();
 
   if (
