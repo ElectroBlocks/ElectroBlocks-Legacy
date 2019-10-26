@@ -19,7 +19,3 @@ Blockly.Arduino['ir_remote_get_code'] = function () {
 
     return ['String(result.value, HEX)', Blockly.Arduino.ORDER_ATOMIC];
 };
-
-Blockly.Arduino['ir_remote_scan_again'] = function () {
-    return 'irReceiver.resume();\n';
-};

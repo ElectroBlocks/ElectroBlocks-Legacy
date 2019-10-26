@@ -36,8 +36,12 @@ import { led_block, led_fade_block } from '../frame_genorator/led';
 import { debug_block } from '../frame_genorator/debug';
 
 import {
+  ir_remote_get_code_block,
+  ir_remote_has_code_receive_block
+} from '../frame_genorator/ir_remote';
+
+import {
   temp_get_temp_block,
-  ir_remote_scan_again_block,
   temp_setup_block,
   ir_remote_setup_block,
   soil_sensor_setup_block,
@@ -224,7 +228,6 @@ frameGeneratingBlocks = {
   lcd_screen_print_block,
 
   temp_get_temp_block,
-  ir_remote_scan_again_block,
   temp_setup_block,
   ir_remote_setup_block,
   soil_sensor_setup_block,
@@ -291,7 +294,10 @@ valueGeneratingBlocks = {
 
   time_seconds_block,
   digital_read_block,
-  analog_read_block
+  analog_read_block,
+
+  ir_remote_get_code_block,
+  ir_remote_has_code_receive_block
 };
 
 export { frameGeneratingBlocks, valueGeneratingBlocks };

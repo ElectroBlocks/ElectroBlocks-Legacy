@@ -15,7 +15,6 @@ export const temp_get_temp_block = (
   return [new ArduinoFrame(block.id, state, frameLocation)];
 };
 
-export const ir_remote_scan_again_block = temp_get_temp_block;
 export const temp_setup_block = temp_get_temp_block;
 export const ir_remote_setup_block = temp_get_temp_block;
 export const soil_sensor_setup_block = temp_get_temp_block;

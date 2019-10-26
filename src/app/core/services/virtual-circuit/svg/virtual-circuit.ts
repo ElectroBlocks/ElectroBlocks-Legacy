@@ -16,6 +16,7 @@ import { NeoPixelStripState } from '../../player/arduino/state/neo_pixel_strip.s
 import { neoPixelFactory } from '../factory/neopixel-svg.factory';
 import { LedMatrixState } from '../../player/arduino/state/led_matrix.state';
 import { matrixFactory } from '../factory/matrix-svg.factory';
+import { irRemoteFactory } from '../factory/ir_remote-svg.factory';
 import {
   PinState,
   PIN_TYPE,
@@ -40,6 +41,7 @@ import { BluetoothState } from '../../player/arduino/state/bluetooth.state';
 import { bluetoothFactory } from '../factory/bluetooth-svg.factory';
 import { MotorState } from '../../player/arduino/state/motor.state';
 import { motorFactory } from '../factory/motor-svg.factory';
+import { IRRemoteState } from '../../player/arduino/state/ir_remote.state';
 
 export class VirtualCircuit {
   private svgs: ComponentSvg[] = [];
@@ -81,12 +83,12 @@ export class VirtualCircuit {
 
   public remove() {
     this.arduino.remove();
-    this.svgs.forEach((s) => s.remove());
+    this.svgs.forEach(s => s.remove());
     this.baseSVG.remove();
   }
 
   protected updateWires() {
-    this.svgs.forEach((svg) => {
+    this.svgs.forEach(svg => {
       svg.updateWires();
     });
   }
@@ -123,15 +125,15 @@ export class VirtualCircuit {
   public matchState(state: ArduinoState) {
     this.arduino.matchState(state);
 
-    this.svgs.forEach((svg) => {
+    this.svgs.forEach(svg => {
       svg.matchState(state);
     });
 
-    const resetSvgs = this.svgs.filter((svg) => {
+    const resetSvgs = this.svgs.filter(svg => {
       return !svg.shouldExist(state);
     });
 
-    resetSvgs.forEach((svg) => {
+    resetSvgs.forEach(svg => {
       svg.resetComponent();
     });
   }
@@ -139,14 +141,14 @@ export class VirtualCircuit {
   public hideArduino() {
     this.arduino.hideWires();
     this.arduino.svg.hide();
-    this.svgs.forEach((svg) => {
+    this.svgs.forEach(svg => {
       svg.hideWires();
       if (svg instanceof Resistor) {
         svg.svg.hide();
       }
 
       if (svg instanceof LedColorSvg) {
-        svg.resistors.forEach((resistor) => resistor.svg.hide());
+        svg.resistors.forEach(resistor => resistor.svg.hide());
       }
     });
   }
@@ -159,20 +161,20 @@ export class VirtualCircuit {
     console.log('running final state with', state);
 
     this.runningFinalState = true;
-    this.svgs.forEach((svg) => {
+    this.svgs.forEach(svg => {
       if (!svg.shouldExist(state)) {
         svg.remove();
-        svg.getArduinoPins().forEach((pin) => {
+        svg.getArduinoPins().forEach(pin => {
           this.arduino.hideWire(virtualCircuitPin(pin));
         });
-        this.svgs = this.svgs.filter((svgCompare) => svgCompare !== svg);
+        this.svgs = this.svgs.filter(svgCompare => svgCompare !== svg);
       }
     });
 
     const components = state.components;
     for (let i = 0; i < components.length; i += 1) {
       const doesComponentExist =
-        this.svgs.findIndex((svg) => svg.isComponent(components[i])) >= 0;
+        this.svgs.findIndex(svg => svg.isComponent(components[i])) >= 0;
 
       if (!doesComponentExist) {
         await this.createComponent(components[i]);
@@ -257,7 +259,7 @@ export class VirtualCircuit {
         this,
         component,
         !this.showArduinoComm.getShowArduino()
-      )).forEach((c) => this.svgs.push(c));
+      )).forEach(c => this.svgs.push(c));
       return;
     }
 
@@ -288,6 +290,17 @@ export class VirtualCircuit {
       );
       return;
     }
+
+    if (component instanceof IRRemoteState) {
+      return this.svgs.push(
+        await irRemoteFactory(
+          this,
+          component,
+          !this.showArduinoComm.getShowArduino()
+        )
+      );
+    }
+
     if (component instanceof LedColorState) {
       this.svgs.push(
         await rgbLedFactory(
@@ -334,13 +347,13 @@ export class VirtualCircuit {
   }
 
   public reset() {
-    this.svgs.forEach((component) => {
-      component.getArduinoPins().forEach((pin) => {
+    this.svgs.forEach(component => {
+      component.getArduinoPins().forEach(pin => {
         this.arduino.hideWire(virtualCircuitPin(pin));
       });
       component.remove();
     });
-    this.svgs.forEach((c) => {
+    this.svgs.forEach(c => {
       c = undefined;
     });
 
@@ -349,7 +362,7 @@ export class VirtualCircuit {
 
   public stopAllAnimations() {
     this.svgs
-      .filter((svg) => svg instanceof AnimationSVG)
+      .filter(svg => svg instanceof AnimationSVG)
       .forEach((svg: AnimationSVG) => svg.stop());
   }
 }

@@ -12,5 +12,6 @@ export enum ElectricComponentType {
   RFID = 'RFID',
   BUTTON = 'BUTTON',
   MESSAGE = 'MESSAGE',
-  TIME = 'TIME'
+  TIME = 'TIME',
+  IR_REMOTE = 'IR_REMOTE'
 }

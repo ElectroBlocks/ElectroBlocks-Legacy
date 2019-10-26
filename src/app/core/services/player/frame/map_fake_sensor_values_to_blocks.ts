@@ -7,10 +7,40 @@ import { BluetoothState } from '../arduino/state/bluetooth.state';
 import { ArduinoMessageState } from '../arduino/state/arduino-message.state';
 import { loopTimes } from '../../blockly/block/debug_extensions';
 import { PinState, PIN_TYPE, PinPicture } from '../arduino/state/pin.state';
+import { IRRemoteState } from '../arduino/state/ir_remote.state';
 
 export const mapFakeSensorValuesToBlocks: {
   [key: string]: SensorBlockMapper;
 } = {
+  ir_remote_setup_block: {
+    type: 'ir_remote_component',
+    fieldsToCollect: [
+      {
+        setupBlockFieldName: 'scanned_new_code',
+        sensorBlockType: 'ir_remote_has_code_receive',
+        dataSaveKey: 'has_code',
+        type: 'field_checkbox',
+        defaultValue: false
+      },
+      {
+        setupBlockFieldName: 'code',
+        sensorBlockType: 'ir_remote_get_code',
+        dataSaveKey: 'code',
+        type: 'field_input',
+        defaultValue: 'E932B'
+      }
+    ],
+    convertToState(
+      setupBlock: Block,
+      serializedData: Array<{ has_code: boolean; code: string }>,
+      loopNumber: number
+    ) {
+      const data = serializedData[loopNumber];
+      const pin = stringToPin(setupBlock.getFieldValue('PIN'));
+
+      return new IRRemoteState(data.has_code, data.code, pin);
+    }
+  },
   analog_read_setup_block: {
     type: 'any_pin_type_does_not_matter',
     fieldsToCollect: [

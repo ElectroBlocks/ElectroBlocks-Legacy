@@ -388,7 +388,6 @@ export const toolbox = `<xml
 <block type="ir_remote_setup"></block>
 <block type="ir_remote_has_code_receive"></block>
 <block type="ir_remote_get_code"></block>
-<block type="ir_remote_scan_again"></block>
 </category>
 <category name="Motion Sensor" colour="230">
 <block type="ultra_sonic_sensor_setup">
