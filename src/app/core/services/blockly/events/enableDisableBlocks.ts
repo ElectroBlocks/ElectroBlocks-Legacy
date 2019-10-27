@@ -15,7 +15,6 @@ const blocksThatRequireSetup = {
   soil_is_raining: 'soil_sensor_setup',
   ir_remote_has_code_receive: 'ir_remote_setup',
   ir_remote_get_code: 'ir_remote_setup',
-  temp_read_temp_humidity: 'temp_setup',
   temp_get_temp: 'temp_setup',
   temp_get_humidity: 'temp_setup',
   set_color_led: 'led_color_setup',
@@ -53,7 +52,7 @@ const standAloneBlocks = [
   'time_setup',
   'analog_read_setup',
   'digital_read_setup',
-  'ultra_sonic_sensor_setup'
+  'ultra_sonic_sensor_setup',
 ];
 
 export const blockMultipleSetup = [
@@ -70,7 +69,8 @@ export const sensorSetupBlocks = [
   'digital_read_setup',
   'analog_read_setup',
   'ir_remote_setup',
-  'ultra_sonic_sensor_setup'
+  'ultra_sonic_sensor_setup',
+  'temp_setup'
 ];
 
 const disableBlockForNotHavingRequiredSetupBlock = (blocks, testBlock) => {

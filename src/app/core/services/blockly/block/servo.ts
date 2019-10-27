@@ -1,4 +1,4 @@
-import { defineBlocksWithJsonArray, selected } from 'blockly';
+import { defineBlocksWithJsonArray } from 'blockly';
 import { selectedBoard } from '../types/pins';
 
 defineBlocksWithJsonArray([

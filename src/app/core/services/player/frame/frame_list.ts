@@ -44,6 +44,10 @@ import {
 
 import {
   temp_get_temp_block,
+  temp_get_humidity_block
+} from '../frame_genorator/temp';
+
+import {
   temp_setup_block,
   ir_remote_setup_block,
   soil_sensor_setup_block,
@@ -230,7 +234,7 @@ frameGeneratingBlocks = {
   lcd_scroll_block,
   lcd_screen_print_block,
 
-  temp_get_temp_block,
+  temp_get_temp_block: temp_setup_block,
   temp_setup_block,
   ir_remote_setup_block,
   soil_sensor_setup_block,
@@ -304,7 +308,9 @@ valueGeneratingBlocks = {
   ir_remote_get_code_block,
   ir_remote_has_code_receive_block,
 
-  ultra_sonic_sensor_motion_block
+  ultra_sonic_sensor_motion_block,
+  temp_get_temp_block,
+  temp_get_humidity_block
 };
 
 export { frameGeneratingBlocks, valueGeneratingBlocks };

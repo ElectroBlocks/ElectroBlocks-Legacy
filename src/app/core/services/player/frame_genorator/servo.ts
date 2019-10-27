@@ -18,11 +18,12 @@ export const rotate_servo_block = (
   const pin = block.getFieldValue('PIN').toString();
 
   const angle = parseInt(
-    getInputValue(block, 'DEGREE', 0, frameLocation, previousFrame).toString()
+    getInputValue(block, 'DEGREE', 0, frameLocation, previousFrame).toString(),
+    0
   );
 
   const servoState = state.components.find(
-    component =>
+    (component) =>
       component instanceof ServoState && component.pin === stringToPin(pin)
   );
 
