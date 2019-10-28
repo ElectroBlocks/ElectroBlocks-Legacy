@@ -15,6 +15,7 @@ Blockly.Arduino['arduino_start'] = function(block: Block) {
   let resetBluetoothVariable = '';
   let resetMessageVariable = '';
   let resetIrRemoteCode = '';
+  let getNewTempReading = '';
 
   if (!_.isEmpty(Blockly.Arduino.setupCode_['bluetooth_setup'])) {
     resetBluetoothVariable = '\tbluetoothMessageDEV = ""; \n';
@@ -28,6 +29,9 @@ Blockly.Arduino['arduino_start'] = function(block: Block) {
     resetIrRemoteCode = '\tirReceiver.resume(); \n';
   }
 
+  if (!_.isEmpty(Blockly.Arduino.functionNames_['takeTempReading'])) {
+    getNewTempReading = '\ttakeTempReading(); \n';
+  }
   return (
     '\nvoid setup() { \n' +
     preSetupCode +
@@ -39,6 +43,7 @@ Blockly.Arduino['arduino_start'] = function(block: Block) {
     resetBluetoothVariable +
     resetMessageVariable +
     resetIrRemoteCode +
+    getNewTempReading +
     '}'
   );
 };

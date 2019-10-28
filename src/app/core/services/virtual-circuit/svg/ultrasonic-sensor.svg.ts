@@ -1,6 +1,5 @@
 import { Parent, Text } from 'svg.js';
 import { ArduinoState } from '../../player/arduino/state/arduino.state';
-import { ServoState } from '../../player/arduino/state/servo.state';
 import { ElectricAttachmentComponentState } from '../../player/arduino/state/electric.state';
 import { ComponentSvg } from './component.svg';
 import { ARDUINO_UNO_PINS } from '../../player/arduino/arduino_frame';

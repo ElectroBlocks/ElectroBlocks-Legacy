@@ -1,7 +1,7 @@
 import 'jasmine';
 import { ArduinoFrame } from '../arduino/arduino_frame';
 import {
-  temp_get_temp_block
+  temp_setup_block
 } from './pass_through_block';
 import { Block } from 'blockly';
 import { ArduinoState } from '../arduino/state/arduino.state';
@@ -24,7 +24,7 @@ describe('pass through frame generator', () => {
   };
 
   it('should use the previous frame if defined', () => {
-    const [frame] = temp_get_temp_block(
+    const [frame] = temp_setup_block(
       block,
       { iteration: 1, location: 'loop' },
       previousFrame

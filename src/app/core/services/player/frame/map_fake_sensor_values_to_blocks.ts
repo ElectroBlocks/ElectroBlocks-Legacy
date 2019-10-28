@@ -8,10 +8,40 @@ import { ArduinoMessageState } from '../arduino/state/arduino-message.state';
 import { UltraSonicSensorState } from '../arduino/state/ultrasonic-sensor.state';
 import { PinState, PIN_TYPE, PinPicture } from '../arduino/state/pin.state';
 import { IRRemoteState } from '../arduino/state/ir_remote.state';
+import { TemperatureState } from '../arduino/state/temperature.state';
 
 export const mapFakeSensorValuesToBlocks: {
   [key: string]: SensorBlockMapper;
 } = {
+  temp_setup_block: {
+    type: 'temp_component',
+    fieldsToCollect: [
+      {
+        setupBlockFieldName: 'temp',
+        sensorBlockType: 'temp_get_temp',
+        dataSaveKey: 'temp',
+        type: 'field_input',
+        defaultValue: 20
+      },
+      {
+        setupBlockFieldName: 'humidity',
+        sensorBlockType: 'temp_get_humidity',
+        dataSaveKey: 'humidity',
+        type: 'field_input',
+        defaultValue: 5
+      }
+    ],
+    convertToState(
+      setupBlock: Block,
+      serializedData: Array<{ temp: number; humidity: number }>,
+      loopNumber: number
+    ) {
+      const data = serializedData[loopNumber];
+      const pin = stringToPin(setupBlock.getFieldValue('PIN'));
+
+      return new TemperatureState(pin, data.temp, data.humidity);
+    }
+  },
   ultra_sonic_sensor_setup_block: {
     type: 'ultrasonic_sensor_component',
     fieldsToCollect: [
