@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="174.14" height="391.42" viewBox="0 0 174.14 391.42">
   <title>temp-humidity</title>
   <g id="WIRE">
-    <g id="GND">
+    <g id="VCC">
       <line x1="34.74" y1="337.92" x2="34.74" y2="387.92" fill="none" stroke="#a3a29f" stroke-linecap="round" stroke-miterlimit="10" stroke-width="6"/>
     </g>
     <g id="SIG">
       <line x1="83.11" y1="338.42" x2="83.11" y2="388.42" fill="none" stroke="#a3a29f" stroke-linecap="round" stroke-miterlimit="10" stroke-width="6"/>
     </g>
-    <g id="VCC">
+    <g id="GND">
       <line x1="129.24" y1="338.42" x2="129.24" y2="388.42" fill="none" stroke="#a3a29f" stroke-linecap="round" stroke-miterlimit="10" stroke-width="6"/>
     </g>
   </g>

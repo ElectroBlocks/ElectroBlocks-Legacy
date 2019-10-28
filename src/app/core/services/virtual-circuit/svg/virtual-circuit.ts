@@ -44,6 +44,8 @@ import { MotorState } from '../../player/arduino/state/motor.state';
 import { motorFactory } from '../factory/motor-svg.factory';
 import { IRRemoteState } from '../../player/arduino/state/ir_remote.state';
 import { UltraSonicSensorState } from '../../player/arduino/state/ultrasonic-sensor.state';
+import { TemperatureState } from '../../player/arduino/state/temperature.state';
+import { tempSensorFactory } from '../factory/temp_sensor-svg.factory';
 
 export class VirtualCircuit {
   private svgs: ComponentSvg[] = [];
@@ -316,6 +318,17 @@ export class VirtualCircuit {
     if (component instanceof LedColorState) {
       this.svgs.push(
         await rgbLedFactory(
+          this,
+          component,
+          !this.showArduinoComm.getShowArduino()
+        )
+      );
+      return;
+    }
+
+    if (component instanceof TemperatureState) {
+      this.svgs.push(
+        await tempSensorFactory(
           this,
           component,
           !this.showArduinoComm.getShowArduino()
