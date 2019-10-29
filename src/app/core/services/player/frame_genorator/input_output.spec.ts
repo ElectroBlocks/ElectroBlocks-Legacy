@@ -91,7 +91,7 @@ describe('input output frame generators', () => {
             ARDUINO_UNO_PINS.PIN_A0,
             PIN_TYPE.ANALOG_OUTPUT,
             30,
-            PinPicture.GENERIC
+            PinPicture.SENSOR
           )
         ],
         {

@@ -1,7 +1,11 @@
 import { ComponentSvg } from './component.svg';
 import { ArduinoState } from '../../player/arduino/state/arduino.state';
 import { ElectricAttachmentComponentState } from '../../player/arduino/state/electric.state';
-import { PinState, PIN_TYPE } from '../../player/arduino/state/pin.state';
+import {
+  PinState,
+  PIN_TYPE,
+  PinPicture
+} from '../../player/arduino/state/pin.state';
 import { Parent, Text } from 'svg.js';
 import { ARDUINO_UNO_PINS } from '../../player/arduino/arduino_frame';
 
@@ -9,14 +13,15 @@ export class DigitalAnalogReadSvg extends ComponentSvg {
   constructor(
     public readonly svg: Parent,
     public readonly pinType: PIN_TYPE,
-    public readonly pin: ARDUINO_UNO_PINS
+    public readonly pin: ARDUINO_UNO_PINS,
+    public readonly pictureType: PinPicture
   ) {
     super(svg);
     this.arduinoPins.push(this.pin);
   }
 
   public matchState(state: ArduinoState): void {
-    const pinState = state.components.find(c =>
+    const pinState = state.components.find((c) =>
       this.isComponent(c)
     ) as PinState;
 
@@ -28,12 +33,18 @@ export class DigitalAnalogReadSvg extends ComponentSvg {
     pinText.node.textContent = `Pin ${this.pin}`;
 
     const pinStateText = this.svg.select('#READING_VALUE').first() as Text;
-    if (pinState.type === PIN_TYPE.DIGITAL_INPUT) {
+    if (
+      pinState.type === PIN_TYPE.DIGITAL_INPUT &&
+      pinState.pinPicture === PinPicture.SENSOR
+    ) {
       const sensingPowerWord = pinState.state > 0 ? 'ON' : 'OFF';
       pinStateText.node.textContent = `Has power: ${sensingPowerWord}`;
     }
 
-    if (pinState.type === PIN_TYPE.ANALOG_INPUT) {
+    if (
+      pinState.type === PIN_TYPE.ANALOG_INPUT &&
+      pinState.pinPicture === PinPicture.SENSOR
+    ) {
       pinStateText.node.textContent = `Power level: ${pinState.state}`;
     }
 
@@ -44,7 +55,8 @@ export class DigitalAnalogReadSvg extends ComponentSvg {
     return (
       component instanceof PinState &&
       this.pinType === component.type &&
-      this.pin === component.pin
+      this.pin === component.pin &&
+      this.pictureType === component.pinPicture
     );
   }
 

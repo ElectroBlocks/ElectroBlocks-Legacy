@@ -79,7 +79,7 @@ describe('list generators', () => {
         ARDUINO_UNO_PINS.PIN_1,
         PIN_TYPE.DIGITAL_OUTPUT,
         1,
-        PinPicture.GENERIC
+        PinPicture.SENSOR
       );
 
       const state = new ArduinoState(

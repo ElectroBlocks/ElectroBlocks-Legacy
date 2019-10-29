@@ -114,11 +114,11 @@ const generatePinFrame = (
       stringToPin(pin),
       pinType,
       state,
-      PinPicture.GENERIC
+      PinPicture.SENSOR
     );
   } else {
     arduinoState.components.push(
-      new PinState(stringToPin(pin), pinType, state, PinPicture.GENERIC)
+      new PinState(stringToPin(pin), pinType, state, PinPicture.SENSOR)
     );
   }
 

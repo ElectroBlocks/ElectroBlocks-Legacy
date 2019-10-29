@@ -1,5 +1,5 @@
 import { VirtualCircuit } from '../svg/virtual-circuit';
-import { PinState } from '../../player/arduino/state/pin.state';
+import { PinState, PinPicture } from '../../player/arduino/state/pin.state';
 import { Element, Parent } from 'svg.js';
 import { LedSvg } from '../svg/led.svg';
 import {
@@ -104,7 +104,17 @@ export const inputPinFactory = async (
   componentState: PinState,
   componentOnly = false
 ) => {
-  const svgPath = `./assets/svgs/pins/digital_analog_read.svg`;
+  let svgPath = `./assets/svgs/pins/digital_analog_read.svg`;
+
+  if (componentState.pinPicture === PinPicture.SOIL_SENSOR) {
+    svgPath = `./assets/svgs/soil-sensor.svg`;
+  }
+
+  if (componentState.pinPicture === PinPicture.PHOTO_SENSOR) {
+    svgPath = `./assets/svgs/photosensor.svg`;
+  }
+
+  console.log(svgPath, 'svgPath');
   const svgString = await fetchSVGXMLData(svgPath);
 
   const inputPinSvg = new DigitalAnalogReadSvg(
@@ -113,7 +123,8 @@ export const inputPinFactory = async (
       .children()
       .pop() as Parent,
     componentState.type,
-    componentState.pin
+    componentState.pin,
+    componentState.pinPicture
   );
 
   inputPinSvg.svg.size(200, 200);
@@ -134,35 +145,70 @@ export const inputPinFactory = async (
       .ctm()
       .extract().transformedY - 150;
 
-  createGroundWire(
-    virtualCircuit,
-    inputPinSvg,
-    inputPinSvg.svg.select('#GND').first() as Element,
-    inputPinSvg.pin,
-    'right'
-  );
+  if (componentState.pinPicture === PinPicture.SENSOR) {
+    createPowerWire(
+      virtualCircuit,
+      inputPinSvg,
+      inputPinSvg.svg.select('#POWER').first() as Element,
+      inputPinSvg.pin,
+      'left'
+    );
+    createLedBreadboardWire(
+      virtualCircuit,
+      inputPinSvg,
+      inputPinSvg.svg.select('#PIN').first() as Element,
+      virtualCircuit.arduino.svg
+        .select(
+          `#${connectionToBreadboard(inputPinSvg.pin)
+            .replace('C', 'E')
+            .replace('H', 'F')}`
+        )
+        .first() as Element,
+      '#00AA00'
+    );
 
-  createLedBreadboardWire(
-    virtualCircuit,
-    inputPinSvg,
-    inputPinSvg.svg.select('#PIN').first() as Element,
-    virtualCircuit.arduino.svg
-      .select(
-        `#${connectionToBreadboard(inputPinSvg.pin)
-          .replace('C', 'E')
-          .replace('H', 'F')}`
-      )
-      .first() as Element,
-    '#00AA00'
-  );
+    createGroundWire(
+      virtualCircuit,
+      inputPinSvg,
+      inputPinSvg.svg.select('#GND').first() as Element,
+      inputPinSvg.pin,
+      'right'
+    );
+  }
 
-  createPowerWire(
-    virtualCircuit,
-    inputPinSvg,
-    inputPinSvg.svg.select('#POWER').first() as Element,
-    inputPinSvg.pin,
-    'left'
-  );
+  if (componentState.pinPicture === PinPicture.SOIL_SENSOR) {
+    createLedBreadboardWire(
+      virtualCircuit,
+      inputPinSvg,
+      inputPinSvg.svg.select('#PIN').first() as Element,
+      virtualCircuit.arduino.svg
+        .select(
+          `#${connectionToBreadboard(inputPinSvg.pin)
+            .replace('C', 'E')
+            .replace('H', 'F')}`
+        )
+        .first() as Element,
+      '#00AA00'
+    );
+
+    createGroundWire(
+      virtualCircuit,
+      inputPinSvg,
+      inputPinSvg.svg.select('#GND').first() as Element,
+      inputPinSvg.pin,
+      'right'
+    );
+    createPowerWire(
+      virtualCircuit,
+      inputPinSvg,
+      inputPinSvg.svg.select('#POWER').first() as Element,
+      inputPinSvg.pin,
+      'right'
+    );
+  }
+
+  if (componentState.pinPicture === PinPicture.PHOTO_SENSOR) {
+  }
 
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.pin));
 

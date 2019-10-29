@@ -48,6 +48,9 @@ export enum PIN_TYPE {
 }
 
 export enum PinPicture {
-  LED,
-  GENERIC
+  LED = 'LED',
+  SENSOR = 'SENSOR',
+  PHOTO_SENSOR = 'PHOTO_SENSOR',
+  TOUCH_SENSOR = 'TOUCH_SENSOR',
+  SOIL_SENSOR = 'SOIL_SENSOR'
 }
