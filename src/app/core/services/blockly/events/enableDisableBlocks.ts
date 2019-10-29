@@ -31,7 +31,6 @@ const blocksThatRequireSetup = {
 };
 
 const standAloneBlocks = [
-  'soil_sensor_setup_2',
   'rfid_setup',
   'arduino_start',
   'create_list_number_block',
@@ -52,7 +51,7 @@ const standAloneBlocks = [
   'time_setup',
   'analog_read_setup',
   'digital_read_setup',
-  'ultra_sonic_sensor_setup',
+  'ultra_sonic_sensor_setup'
 ];
 
 export const blockMultipleSetup = [
@@ -70,7 +69,8 @@ export const sensorSetupBlocks = [
   'analog_read_setup',
   'ir_remote_setup',
   'ultra_sonic_sensor_setup',
-  'temp_setup'
+  'temp_setup',
+  'soil_sensor_setup'
 ];
 
 const disableBlockForNotHavingRequiredSetupBlock = (blocks, testBlock) => {
@@ -80,7 +80,7 @@ const disableBlockForNotHavingRequiredSetupBlock = (blocks, testBlock) => {
 
   console.log(blocks);
   return (
-    blocks.findIndex((potentialSetupBlock) => {
+    blocks.findIndex(potentialSetupBlock => {
       return (
         potentialSetupBlock.type === blocksThatRequireSetup[testBlock.type]
       );
@@ -97,16 +97,16 @@ const toggleDisableChildBlocks = (parentBlock, disable) => {
   }
 };
 
-export const disableEnableBlocks = (workspace) => {
+export const disableEnableBlocks = workspace => {
   const blocks = workspace.getAllBlocks();
 
   // Disables duplicate setup blocks
   blocks
-    .filter((block) => standAloneBlocks.includes(block.type))
-    .forEach((setupBlock) => {
+    .filter(block => standAloneBlocks.includes(block.type))
+    .forEach(setupBlock => {
       const disableSetupBlock =
         blocks.filter(
-          (block) =>
+          block =>
             block.type === setupBlock.type &&
             setupBlock.type !== 'arduino_start'
         ).length > 1;
@@ -117,11 +117,11 @@ export const disableEnableBlocks = (workspace) => {
 
   // Disables / Enables Blocks that don't have the required setup blocks
   blocks
-    .filter((block) => {
+    .filter(block => {
       // Exclude all stand alone blocks
       return !standAloneBlocks.includes(block.type);
     })
-    .forEach((block) => {
+    .forEach(block => {
       if (disableBlockForNotHavingRequiredSetupBlock(blocks, block)) {
         block.setEnabled(false);
         toggleDisableChildBlocks(block, true);
