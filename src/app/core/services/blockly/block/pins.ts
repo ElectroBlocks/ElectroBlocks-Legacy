@@ -72,7 +72,7 @@ defineBlocksWithJsonArray([
       {
         type: 'field_dropdown',
         name: 'PIN',
-        options: selectedBoard().analogPins
+        options: selectedBoard().pwmPins
       },
       {
         type: 'input_dummy'
