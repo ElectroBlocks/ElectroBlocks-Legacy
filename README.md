@@ -6,10 +6,6 @@ I created a "drag and drop" app for programming the Arduino.   You use this with
 
 You can also save and see the code view as well.  I will have a much more in through tour real soon.  I am working on updating my all the lessons and finishing everything off. 
 
-## Build & Tests
-[![Build Status](https://travis-ci.com/phptuts/ElectroBlocks.svg?branch=master)](https://travis-ci.com/phptuts/ElectroBlocks)
-[![codecov](https://codecov.io/gh/phptuts/ElectroBlocks/branch/master/graph/badge.svg)](https://codecov.io/gh/phptuts/ElectroBlocks)
-
 ## Downloads
 
 Windows: 
@@ -28,3 +24,8 @@ http://codingwithnoah.com/arduino-blockly-ide-setup/
 ### Windows Users
 
 I got the app signed by DigiCert, but because I am not an organization, thus I can not get the EV Code Sign Cert.   This means you will have to click on the more information the windows defender SmartScreen and click run anyways.
+
+
+## Build & Tests
+[![Build Status](https://travis-ci.com/phptuts/ElectroBlocks.svg?branch=master)](https://travis-ci.com/phptuts/ElectroBlocks)
+[![codecov](https://codecov.io/gh/phptuts/ElectroBlocks/branch/master/graph/badge.svg)](https://codecov.io/gh/phptuts/ElectroBlocks)
