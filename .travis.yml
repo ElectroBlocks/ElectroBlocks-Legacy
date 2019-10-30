@@ -15,9 +15,9 @@ before_script:
   - export DISPLAY=:99.0
 install:
   - npm set progress=false
-  - npm install -g @angular/cli 
-  - npm install -g angular-cli-ghpages 
+  - npm install -g @angular/cli
+  - npm install -g angular-cli-ghpages
   - npm install
 script:
-  - npm run test
+  - npm test
   - ng build --prod --base-href "https://phptuts.github.io/ElectroBlocks/"
