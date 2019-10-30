@@ -56,7 +56,7 @@ describe('VirtualCircuitContainerComponent', () => {
     }).compileComponents();
   }));
 
-  beforeEach(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(VirtualCircuitContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -19,5 +19,5 @@ install:
   - npm install -g angular-cli-ghpages
   - npm install
 script:
-  - npm test
+  - npm test --verbose
   - ng build --prod --base-href "https://phptuts.github.io/ElectroBlocks/"
