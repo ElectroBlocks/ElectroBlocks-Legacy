@@ -11,14 +11,19 @@ import {
   MatIconModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
 import { BlocklyService } from '../../core/services/blockly.service';
+import * as vsFactory from '../../core/services/virtual-circuit/factory/virtual-circuit.factory';
+import { VirtualCircuit } from '../../core/services/virtual-circuit/svg/virtual-circuit';
 
 describe('SvgComponent', () => {
   let component: SvgComponent;
   let fixture: ComponentFixture<SvgComponent>;
 
   beforeEach(async(() => {
+    spyOn(vsFactory, 'virtualCircuitFactory').and.callFake(async (ex) => {
+      console.log('testing call fake virtual circuit');
+      return {} as VirtualCircuit;
+    });
     TestBed.configureTestingModule({
       declarations: [SvgComponent],
       imports: [

@@ -14,14 +14,19 @@ import {
 } from '@angular/material';
 import { SvgComponent } from '../svg/svg.component';
 import { VariablesComponent } from '../settings/variables/variables.component';
-import { RouterTestingModule } from '@angular/router/testing';
 import { BlocklyService } from '../../core/services/blockly.service';
+import * as vsFactory from '../../core/services/virtual-circuit/factory/virtual-circuit.factory';
+import { VirtualCircuit } from '../../core/services/virtual-circuit/svg/virtual-circuit';
 
 describe('VirtualCircuitContainerComponent', () => {
   let component: VirtualCircuitContainerComponent;
   let fixture: ComponentFixture<VirtualCircuitContainerComponent>;
 
   beforeEach(async(() => {
+    spyOn(vsFactory, 'virtualCircuitFactory').and.callFake(async (ex) => {
+      console.log('testing call fake virtual circuit');
+      return {} as VirtualCircuit;
+    });
     TestBed.configureTestingModule({
       declarations: [
         VirtualCircuitContainerComponent,

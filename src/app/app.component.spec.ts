@@ -22,9 +22,15 @@ import {
 } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { WebMenuComponent } from './web-menu/web-menu.component';
+import * as vsFactory from './core/services/virtual-circuit/factory/virtual-circuit.factory';
+import { VirtualCircuit } from './core/services/virtual-circuit/svg/virtual-circuit';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
+    spyOn(vsFactory, 'virtualCircuitFactory').and.callFake(async (ex) => {
+      console.log('testing call fake virtual circuit');
+      return {} as VirtualCircuit;
+    });
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
