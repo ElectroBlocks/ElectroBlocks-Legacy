@@ -17,6 +17,8 @@ install:
   - npm set progress=false
   - npm install -g @angular/cli
   - npm install -g angular-cli-ghpages
+  - npm install codecov -g
   - npm install
 script:
   - npm test --verbose
+  - codecov
