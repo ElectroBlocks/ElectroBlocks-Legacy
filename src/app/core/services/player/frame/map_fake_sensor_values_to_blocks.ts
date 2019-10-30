@@ -112,11 +112,12 @@ export const mapFakeSensorValuesToBlocks: {
     ) {
       const data = serializedData[loopNumber];
       const pin = stringToPin(setupBlock.getFieldValue('PIN'));
+      const pictureType = setupBlock.getFieldValue('TYPE') as PinPicture;
       return new PinState(
         pin,
         PIN_TYPE.ANALOG_INPUT,
         data.power_level,
-        PinPicture.GENERIC
+        pictureType
       );
     }
   },
@@ -138,12 +139,13 @@ export const mapFakeSensorValuesToBlocks: {
     ) {
       const data = serializedData[loopNumber];
       const pin = stringToPin(setupBlock.getFieldValue('PIN'));
+      const pictureType = setupBlock.getFieldValue('TYPE') as PinPicture;
 
       return new PinState(
         pin,
         PIN_TYPE.DIGITAL_INPUT,
         data.has_power ? 1 : 0,
-        PinPicture.GENERIC
+        pictureType
       );
     }
   },

@@ -18,7 +18,6 @@ import './push_button';
 import './procedures';
 import './rfid';
 import './servo';
-import './soil_sensor';
 import './temp';
 import './text';
 import './time';

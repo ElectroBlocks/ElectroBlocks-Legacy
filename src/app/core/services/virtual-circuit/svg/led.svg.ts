@@ -51,7 +51,7 @@ export class LedSvg extends ComponentSvg {
   }
 
   matchState(state: ArduinoState): void {
-    const led = state.components.find(component =>
+    const led = state.components.find((component) =>
       this.isComponent(component)
     ) as PinState;
 
@@ -60,6 +60,17 @@ export class LedSvg extends ComponentSvg {
         .select('#ON')
         .first()
         .hide();
+      return;
+    }
+
+    if (led.type === PIN_TYPE.ANALOG_OUTPUT) {
+      const brightness = led.state > 255 ? 1 : Math.abs(led.state) / 255;
+      // TODO UPDATE NUMBER
+      this.svg
+        .select('#ON')
+        .first()
+        .show()
+        .opacity(brightness);
       return;
     }
 
@@ -76,17 +87,6 @@ export class LedSvg extends ComponentSvg {
         .select('#ON')
         .first()
         .hide();
-      return;
-    }
-
-    if (led.type === PIN_TYPE.ANALOG_OUTPUT) {
-      const brightness = led.state > 255 ? 1 : Math.abs(led.state) / 255;
-      // TODO UPDATE NUMBER
-      this.svg
-        .select('#ON')
-        .first()
-        .show()
-        .opacity(brightness);
       return;
     }
   }

@@ -1,28 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="235.16" height="538.46" viewBox="0 0 235.16 538.46">
+<svg xmlns="http://www.w3.org/2000/svg" width="274.36" height="322.46" viewBox="0 0 274.36 322.46">
   <title>photosensor</title>
   <g id="sensor-text">
-    <text id="question" transform="translate(0 31.1)" style="font-size: 36px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">Photo Sensor</text>
-    <text id="title" transform="translate(6 69.1)" style="font-size: 24px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">Sensing light <tspan x="156.77" y="0" style="letter-spacing: -0.02490234375em">a</tspan><tspan x="170.44" y="0">t 109</tspan></text>
+    <text id="READING_VALUE" transform="translate(0 31.1)" font-size="36" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">Light L<tspan x="119.23" y="0" letter-spacing="-0.02em">e</tspan><tspan x="139.73" y="0" letter-spacing="-0.01em">v</tspan><tspan x="158.77" y="0">el: 332</tspan></text>
+  </g>
+  <g id="wire">
+    <path id="POWER" d="M60.27,295.46h8a0,0,0,0,1,0,0v23a4,4,0,0,1-4,4h0a4,4,0,0,1-4-4v-23A0,0,0,0,1,60.27,295.46Z" fill="#898883"/>
+    <path id="GND" d="M124.27,295.46h8a0,0,0,0,1,0,0v23a4,4,0,0,1-4,4h0a4,4,0,0,1-4-4v-23A0,0,0,0,1,124.27,295.46Z" fill="#898883"/>
+    <path id="PIN" d="M190.57,295.46h8a0,0,0,0,1,0,0v23a4,4,0,0,1-4,4h0a4,4,0,0,1-4-4v-23A0,0,0,0,1,190.57,295.46Z" fill="#898883"/>
   </g>
   <g id="sensor">
     <g>
-      <rect x="24.86" y="95.7" width="169.15" height="396.12" style="fill: #d9f4e0"/>
-      <path d="M59.48,117.75H227.63V512.86H59.48V117.75m-1-1V513.86H228.63V116.75Z" transform="translate(-34.12 -21.54)"/>
+      <rect x="43.86" y="44.96" width="169.15" height="250.86" fill="#d9f4e0"/>
+      <path d="M59.48,98H227.63V347.86H59.48V98m-1-1V348.86H228.63V97Z" transform="translate(-15.12 -52.54)"/>
     </g>
     <g>
-      <path d="M140.77,192.84a26.73,26.73,0,0,1-.5-53.44h.49a26.73,26.73,0,0,1,.51,53.44Z" transform="translate(-34.12 -21.54)" style="fill: #f4bd87"/>
-      <path d="M140.77,139.89a26.3,26.3,0,0,1,18.64,44.43,25.55,25.55,0,0,1-18.15,8h-.49a26.3,26.3,0,0,1-18.64-44.43,25.49,25.49,0,0,1,18.15-8h.49m0-1h-.5a27.23,27.23,0,0,0,.51,54.44h.51a27.23,27.23,0,0,0-.52-54.44Z" transform="translate(-34.12 -21.54)"/>
+      <path d="M140.77,176.84a26.73,26.73,0,0,1-.5-53.44h.49a26.73,26.73,0,0,1,.51,53.44Z" transform="translate(-15.12 -52.54)" fill="#f4bd87"/>
+      <path d="M140.77,123.89a26.3,26.3,0,0,1,18.64,44.43,25.55,25.55,0,0,1-18.15,8h-.49a26.3,26.3,0,0,1-18.64-44.43,25.49,25.49,0,0,1,18.15-8h.49m0-1h-.5a27.23,27.23,0,0,0,.51,54.44h.51a27.23,27.23,0,0,0-.52-54.44Z" transform="translate(-15.12 -52.54)"/>
     </g>
-    <line x1="91.21" y1="131.46" x2="122.21" y2="131.46" style="stroke: #000;stroke-miterlimit: 10;stroke-width: 3px"/>
-    <line x1="85.71" y1="142.96" x2="127.71" y2="142.96" style="stroke: #000;stroke-miterlimit: 10;stroke-width: 3px"/>
-    <line x1="91.21" y1="155.96" x2="122.21" y2="155.96" style="stroke: #000;stroke-miterlimit: 10;stroke-width: 3px"/>
-  </g>
-  <g id="wire">
-    <text transform="translate(51.14 488.81) rotate(-90)" style="font-size: 18px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold"><tspan style="letter-spacing: -0.01318359375em">V</tspan><tspan x="12.15" y="0">CC</tspan></text>
-    <text transform="translate(115.14 487.81) rotate(-90)" style="font-size: 18px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">GND</text>
-    <text transform="translate(181.14 487.81) rotate(-90)" style="font-size: 18px;font-family: ArialRoundedMTBold, Arial Rounded MT Bold">DO</text>
-    <path id="VCC" d="M37.27,491.46h16a0,0,0,0,1,0,0v47a0,0,0,0,1,0,0h-15a1,1,0,0,1-1-1v-46A0,0,0,0,1,37.27,491.46Z"/>
-    <rect id="GND" x="101.27" y="491.46" width="16" height="47"/>
-    <rect id="DO" x="167.88" y="491.46" width="16" height="47"/>
+    <line x1="110.21" y1="84.46" x2="141.21" y2="84.46" stroke="#000" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="104.71" y1="95.96" x2="146.71" y2="95.96" stroke="#000" stroke-miterlimit="10" stroke-width="3"/>
+    <line x1="110.21" y1="108.96" x2="141.21" y2="108.96" stroke="#000" stroke-miterlimit="10" stroke-width="3"/>
+    <text transform="translate(70.14 292.81) rotate(-90)" font-size="18" font-family="ArialRoundedMTBold, Arial Rounded MT Bold"><tspan letter-spacing="-0.01em">V</tspan><tspan x="12.15" y="0">CC</tspan></text>
+    <text transform="translate(134.14 291.81) rotate(-90)" font-size="18" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">GND</text>
+    <text id="PIN_TEXT" transform="translate(200.45 291.81) rotate(-90)" font-size="18" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">DO</text>
   </g>
 </svg>

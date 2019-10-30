@@ -407,31 +407,11 @@ export const toolbox = `<xml
     <block type="rfid_scan"></block>
 </category>
 
-
-
-  <category name="Soil Sensor" colour="20">
-  <block type="soil_sensor_setup_2"></block>
-  <block type="soil_sensor_setup"></block>
-   <block type="soil_humidity_percentage"></block>
-    <block type="soil_humidity_value"></block>
- <block type="soil_is_raining"></block>
-</category>
-
 <category name="Temp / Humidity" colour="330">
   <block type="temp_setup"></block>
   <block type="temp_get_temp"></block>
   <block type="temp_get_humidity"></block>
-
-  </category>
-
-
-
-
-
-
-
-
-
+</category>
 
 
 </xml>

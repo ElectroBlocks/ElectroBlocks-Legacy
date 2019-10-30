@@ -113,7 +113,7 @@ Blockly.Blocks['analog_read'] = {
     this.appendDummyInput()
       .appendField('Power Level (readonly)')
       .appendField(
-        new Blockly.FieldTextInput('', value => {
+        new Blockly.FieldTextInput('', (value) => {
           if (BlocklyService.DISABLE_READONLY_CHECK) {
             return value;
           }
@@ -150,7 +150,7 @@ Blockly.Blocks['digital_read'] = {
     this.appendDummyInput()
       .appendField('Has Electricity? (readonly) ')
       .appendField(
-        new Blockly.FieldCheckbox('FALSE', value => {
+        new Blockly.FieldCheckbox('FALSE', (value) => {
           if (BlocklyService.DISABLE_READONLY_CHECK) {
             return value;
           }
@@ -184,9 +184,17 @@ Blockly.Blocks['digital_read_setup'] = {
         new Blockly.FieldDropdown(selectedBoard().digitalPins),
         'PIN'
       );
-    this.appendDummyInput('SHOW_CODE_VIEW').appendField(
-      '------------------------------------'
-    );
+
+    this.appendDummyInput('SHOW_CODE_VIEW')
+      .appendField('Type')
+      .appendField(
+        new Blockly.FieldDropdown([
+          ['Touch Sensor', 'TOUCH_SENSOR'],
+          ['Sensor', 'SENSOR']
+        ]),
+        'TYPE'
+      );
+    this.appendDummyInput().appendField('------------------------------------');
     this.appendDummyInput('LOOP_TIMES')
       .appendField('Loop')
       .appendField(
@@ -222,6 +230,16 @@ Blockly.Blocks['analog_read_setup'] = {
         new Blockly.FieldDropdown(selectedBoard().analogPins),
         'PIN'
       );
+    this.appendDummyInput('SHOW_CODE_VIEW')
+      .appendField('Type')
+      .appendField(
+        new Blockly.FieldDropdown([
+          ['Photo Sensor', 'PHOTO_SENSOR'],
+          ['Soil Sensor', 'SOIL_SENSOR'],
+          ['Sensor', 'SENSOR']
+        ]),
+        'TYPE'
+      );
     this.appendDummyInput().appendField('------------------------------------');
     this.appendDummyInput('LOOP_TIMES')
       .appendField('Loop')
@@ -231,10 +249,11 @@ Blockly.Blocks['analog_read_setup'] = {
         }),
         'LOOP'
       );
+
     this.appendDummyInput()
       .appendField('Power Level')
       .appendField(
-        new Blockly.FieldNumber(10, 0, 256, 0.000001),
+        new Blockly.FieldNumber(10, 0, 1024, 0.000001),
         'power_level'
       );
     this.setColour(260);

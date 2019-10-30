@@ -16,13 +16,9 @@ export const neo_pixel_setup_block = (
     ? previousFrame.copyState()
     : ArduinoState.makeEmptyState();
 
-  if (state.components.find(c => c instanceof NeoPixelStripState)) {
-    return [];
-  }
-
   const pin = stringToPin(block.getFieldValue('PIN').toString());
 
-  const numberOfPixels = parseInt(block.getFieldValue('NUMBER_LEDS'));
+  const numberOfPixels = parseInt(block.getFieldValue('NUMBER_LEDS'), 0);
 
   const leds: Array<{ position: number; color: Color }> = [];
 
@@ -51,17 +47,24 @@ export const neo_pixel_set_color_block = (
   ) as Color;
 
   const position = parseInt(
-    getInputValue(block, 'POSITION', 1, frameLocation, previousFrame).toString()
+    getInputValue(
+      block,
+      'POSITION',
+      1,
+      frameLocation,
+      previousFrame
+    ).toString(),
+    0
   );
 
   const state = previousFrame.copyState();
 
   const neoPixelState = state.components.find(
-    c => c instanceof NeoPixelStripState
+    (c) => c instanceof NeoPixelStripState
   ) as NeoPixelStripState;
 
   const index = neoPixelState.neoPixels.findIndex(
-    pixel => pixel.position === position
+    (pixel) => pixel.position === position
   );
 
   if (neoPixelState.neoPixels[index]) {

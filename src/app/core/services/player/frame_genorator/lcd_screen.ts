@@ -14,13 +14,6 @@ export const lcd_setup_block = (
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ): ArduinoFrame[] => {
-  if (
-    previousFrame &&
-    previousFrame.state.components.find(c => c instanceof LCDScreenState)
-  ) {
-    return;
-  }
-
   const memoryType = block.getFieldValue(
     'MEMORY_TYPE'
   ) as LCD_SCREEN_MEMORY_TYPE;
@@ -42,11 +35,11 @@ export const lcd_setup_block = (
     { row: -1, column: -1, blinking: false },
     true
   );
-
   const state = previousFrame
     ? previousFrame.copyState()
     : ArduinoState.makeEmptyState();
 
+  console.log(state, previousFrame, 'arduino state log');
   state.components.push(lcdComponent);
 
   return [new ArduinoFrame(block.id, state, frameLocation)];
@@ -58,15 +51,17 @@ export const lcd_screen_print_block = (
   previousFrame?: ArduinoFrame
 ): ArduinoFrame[] => {
   const lcdScreenState = previousFrame.state.components.find(
-    component => component instanceof LCDScreenState
+    (component) => component instanceof LCDScreenState
   ) as LCDScreenState;
 
   let row = parseInt(
-    getInputValue(block, 'ROW', 0, frameLocation, previousFrame).toString(), 0
+    getInputValue(block, 'ROW', 0, frameLocation, previousFrame).toString(),
+    0
   );
 
   let column = parseInt(
-    getInputValue(block, 'COLUMN', 0, frameLocation, previousFrame).toString(), 0
+    getInputValue(block, 'COLUMN', 0, frameLocation, previousFrame).toString(),
+    0
   );
 
   row = row <= 0 ? 0 : row - 1;
@@ -92,7 +87,7 @@ export const lcd_screen_print_block = (
   const state = previousFrame.copyState();
 
   (state.components.find(
-    component => component instanceof LCDScreenState
+    (component) => component instanceof LCDScreenState
   ) as LCDScreenState).rowsOfText[row <= 0 ? 0 : row - 1] = stringToPrint.join(
     ''
   );
@@ -137,7 +132,8 @@ export const lcd_screen_simple_print_block = (
     previousFrame
   ).toString();
 
-  const delay = parseFloat(
+  const delay =
+    parseFloat(
       getInputValue(block, 'DELAY', 1, frameLocation, previousFrame).toString()
     ) * 1000;
 
@@ -166,7 +162,7 @@ export const lcd_screen_clear_block = (
   const state = previousFrame.copyState();
 
   const lcdScreenState = state.components.find(
-    component => component instanceof LCDScreenState
+    (component) => component instanceof LCDScreenState
   ) as LCDScreenState;
 
   for (let i = 0; i < lcdScreenState.rows; i += 1) {
@@ -184,7 +180,7 @@ export const lcd_scroll_block = (
   const state = previousFrame.copyState();
 
   const lcdScreenState = state.components.find(
-    component => component instanceof LCDScreenState
+    (component) => component instanceof LCDScreenState
   ) as LCDScreenState;
 
   const direction = block.getFieldValue('DIR');
@@ -215,15 +211,17 @@ export const lcd_screen_blink_block = (
   const state = previousFrame.copyState();
 
   const lcdScreenState = state.components.find(
-    component => component instanceof LCDScreenState
+    (component) => component instanceof LCDScreenState
   ) as LCDScreenState;
 
   const row = parseInt(
-    getInputValue(block, 'ROW', 0, frameLocation, previousFrame).toString(), 0
+    getInputValue(block, 'ROW', 0, frameLocation, previousFrame).toString(),
+    0
   );
 
   const column = parseInt(
-    getInputValue(block, 'COLUMN', 0, frameLocation, previousFrame).toString(), 0
+    getInputValue(block, 'COLUMN', 0, frameLocation, previousFrame).toString(),
+    0
   );
 
   lcdScreenState.blink.blinking = block.getFieldValue('NAME') === 'BLINK';
@@ -241,11 +239,11 @@ export const lcd_backlight_block = (
   const state = previousFrame.copyState();
 
   const lcdScreenState = state.components.find(
-    component => component instanceof LCDScreenState
+    (component) => component instanceof LCDScreenState
   ) as LCDScreenState;
 
   const componentIndex = state.components.findIndex(
-    component => component instanceof LCDScreenState
+    (component) => component instanceof LCDScreenState
   );
 
   const isOn = block.getFieldValue('BACKLIGHT') === 'ON';
