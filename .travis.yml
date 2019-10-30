@@ -22,3 +22,11 @@ install:
 script:
   - npm test --verbose
   - codecov
+  - ng build --prod --base-href "https://phptuts.github.io/ElectroBlocks/"
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist
+  on:
+    branch: master
