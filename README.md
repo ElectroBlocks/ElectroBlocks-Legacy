@@ -6,6 +6,10 @@ I created a "drag and drop" app for programming the Arduino.   You use this with
 
 You can also save and see the code view as well.  I will have a much more in through tour real soon.  I am working on updating my all the lessons and finishing everything off. 
 
+## Build & Tests
+[![Build Status](https://travis-ci.com/phptuts/ElectroBlocks.svg?branch=master)](https://travis-ci.com/phptuts/ElectroBlocks)
+[![codecov](https://codecov.io/gh/phptuts/ElectroBlocks/branch/master/graph/badge.svg)](https://codecov.io/gh/phptuts/ElectroBlocks)
+
 ## Downloads
 
 Windows: 
