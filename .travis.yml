@@ -20,4 +20,3 @@ install:
   - npm install
 script:
   - npm test --verbose
-  - ng build --prod --base-href "https://phptuts.github.io/ElectroBlocks/"
