@@ -253,7 +253,7 @@ Blockly.Blocks['analog_read_setup'] = {
     this.appendDummyInput()
       .appendField('Power Level')
       .appendField(
-        new Blockly.FieldNumber(10, 0, 256, 0.000001),
+        new Blockly.FieldNumber(10, 0, 1024, 0.000001),
         'power_level'
       );
     this.setColour(260);

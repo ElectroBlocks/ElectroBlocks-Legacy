@@ -17,7 +17,7 @@
       <text transform="translate(341.32 276.47) rotate(-90)" font-size="12" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">DO (Digital Pin)</text>
       <text transform="translate(364.32 276.47) rotate(-90)" font-size="12" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">GND</text>
       <text transform="translate(386.32 276.47) rotate(-90)" font-size="12" font-family="ArialRoundedMTBold, Arial Rounded MT Bold"><tspan letter-spacing="-0.01em">V</tspan><tspan x="8.1" y="0">CC</tspan></text>
-      <text transform="translate(317.32 276.47) rotate(-90)" font-size="12" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">A0 (Analog Pin)</text>
+      <text id="PIN_TEXT" transform="translate(317.32 276.47) rotate(-90)" font-size="12" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">A0 (Analog Pin)</text>
     </g>
   </g>
   <g id="sensor_text">

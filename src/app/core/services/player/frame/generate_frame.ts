@@ -54,10 +54,13 @@ export const generateListOfFrame = async (): Promise<
   const hasPreSetupFrames = frames[0] !== undefined;
   if (sensorStatesForLoop[0] && hasPreSetupFrames) {
     sensorStatesForLoop[0].forEach((sensorComponent) => {
-      frames[0].state.components.push(sensorComponent);
+      frames.forEach((frame) => {
+        if (!frame.state.components.find((c) => c.isEqual(sensorComponent))) {
+          frame.state.components.push(sensorComponent);
+        }
+      });
     });
   }
-
   const setupFrames = generateFrameForInputStatement(
     arduinoBlock,
     'setup',
@@ -68,7 +71,11 @@ export const generateListOfFrame = async (): Promise<
   setupFrames.forEach((currentFrame) => frames.push(currentFrame));
   if (!hasPreSetupFrames && setupFrames[0]) {
     sensorStatesForLoop[0].forEach((sensorComponent) => {
-      frames[0].state.components.push(sensorComponent);
+      frames.forEach((frame) => {
+        if (!frame.state.components.find((c) => c.isEqual(sensorComponent))) {
+          frame.state.components.push(sensorComponent);
+        }
+      });
     });
   }
   for (let i = 0; i < numberOfTimesThroughLoop; i += 1) {

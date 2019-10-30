@@ -114,6 +114,10 @@ export const inputPinFactory = async (
     svgPath = `./assets/svgs/photosensor.svg`;
   }
 
+  if (componentState.pinPicture === PinPicture.TOUCH_SENSOR) {
+    svgPath = `./assets/svgs/touch-sensor.svg`;
+  }
+
   console.log(svgPath, 'svgPath');
   const svgString = await fetchSVGXMLData(svgPath);
 
@@ -133,7 +137,7 @@ export const inputPinFactory = async (
     .select(`#${resistorPinWhole(inputPinSvg.pin)}`)
     .first();
 
-  const inputPinXPosition =
+  let inputPinXPosition =
     resistorBreadboardHole.ctm().extract().x +
     resistorBreadboardHole.cx() -
     inputPinSvg.svg.width() / 2;
@@ -143,7 +147,7 @@ export const inputPinFactory = async (
       .select(`#breadboardbreadboard`)
       .first()
       .ctm()
-      .extract().transformedY - 150;
+      .extract().transformedY - 170;
 
   if (componentState.pinPicture === PinPicture.SENSOR) {
     createPowerWire(
@@ -208,6 +212,65 @@ export const inputPinFactory = async (
   }
 
   if (componentState.pinPicture === PinPicture.PHOTO_SENSOR) {
+    createLedBreadboardWire(
+      virtualCircuit,
+      inputPinSvg,
+      inputPinSvg.svg.select('#PIN').first() as Element,
+      virtualCircuit.arduino.svg
+        .select(
+          `#${connectionToBreadboard(inputPinSvg.pin)
+            .replace('C', 'E')
+            .replace('H', 'F')}`
+        )
+        .first() as Element,
+      '#00AA00'
+    );
+
+    createGroundWire(
+      virtualCircuit,
+      inputPinSvg,
+      inputPinSvg.svg.select('#GND').first() as Element,
+      inputPinSvg.pin,
+      'left'
+    );
+    createPowerWire(
+      virtualCircuit,
+      inputPinSvg,
+      inputPinSvg.svg.select('#POWER').first() as Element,
+      inputPinSvg.pin,
+      'left'
+    );
+    inputPinXPosition -= 50;
+  }
+
+  if (componentState.pinPicture === PinPicture.TOUCH_SENSOR) {
+    createLedBreadboardWire(
+      virtualCircuit,
+      inputPinSvg,
+      inputPinSvg.svg.select('#PIN').first() as Element,
+      virtualCircuit.arduino.svg
+        .select(
+          `#${connectionToBreadboard(inputPinSvg.pin)
+            .replace('C', 'E')
+            .replace('H', 'F')}`
+        )
+        .first() as Element,
+      '#00AA00'
+    );
+    createPowerWire(
+      virtualCircuit,
+      inputPinSvg,
+      inputPinSvg.svg.select('#POWER').first() as Element,
+      inputPinSvg.pin,
+      'right'
+    );
+    createGroundWire(
+      virtualCircuit,
+      inputPinSvg,
+      inputPinSvg.svg.select('#GND').first() as Element,
+      inputPinSvg.pin,
+      'right'
+    );
   }
 
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.pin));

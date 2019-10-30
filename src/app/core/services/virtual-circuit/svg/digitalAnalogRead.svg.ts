@@ -48,7 +48,33 @@ export class DigitalAnalogReadSvg extends ComponentSvg {
       pinStateText.node.textContent = `Power level: ${pinState.state}`;
     }
 
-    pinStateText.cx(8 + pinStateText.length() / 2);
+    if (pinState.pinPicture === PinPicture.SOIL_SENSOR) {
+      pinStateText.node.textContent = `Humidity Level: ${pinState.state}`;
+    }
+
+    if (pinState.pinPicture === PinPicture.PHOTO_SENSOR) {
+      pinStateText.node.textContent = `Light Level: ${pinState.state}`;
+    }
+
+    if (pinState.pinPicture === PinPicture.TOUCH_SENSOR) {
+      pinStateText.node.textContent = `Sensing a touch? ${
+        pinState.state === 1 ? 'YES' : 'NO'
+      }`;
+
+      if (pinState.state === 1) {
+        this.svg
+          .select('#finger')
+          .first()
+          .show();
+      } else {
+        this.svg
+          .select('#finger')
+          .first()
+          .hide();
+      }
+    }
+
+    pinStateText.cx(0 + pinStateText.length() / 2);
   }
 
   public isComponent(component: ElectricAttachmentComponentState): boolean {
