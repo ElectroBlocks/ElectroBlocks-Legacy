@@ -24,6 +24,7 @@ import { FormsModule } from '@angular/forms';
 import { WebMenuComponent } from './web-menu/web-menu.component';
 import * as vsFactory from './core/services/virtual-circuit/factory/virtual-circuit.factory';
 import { VirtualCircuit } from './core/services/virtual-circuit/svg/virtual-circuit';
+import { BlocklyService } from './core/services/blockly.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -43,7 +44,16 @@ describe('AppComponent', () => {
         VariablesComponent,
         WebMenuComponent
       ],
-      providers: [ElectronService],
+      providers: [
+        ElectronService,
+        {
+          provide: BlocklyService,
+          useValue: {
+            resizeWorkspace() {}
+          },
+          multi: false
+        }
+      ],
       imports: [
         RouterTestingModule,
         TranslateModule.forRoot(),
