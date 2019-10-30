@@ -1,5 +1,4 @@
 os:
-  - linux
   - osx
 language: node_js
 node_js:
@@ -16,9 +15,9 @@ before_script:
   - export DISPLAY=:99.0
 install:
   - npm set progress=false
+  - npm install -g @angular/cli 
+  - npm install -g angular-cli-ghpages 
   - npm install
 script:
-  - ng lint
   - npm run test
-  - npm run e2e
-  - npm run build
+  - ng build --prod --base-href "https://phptuts.github.io/ElectroBlocks/"
