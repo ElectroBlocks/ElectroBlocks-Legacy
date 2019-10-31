@@ -33,6 +33,6 @@ export class WebMenuComponent implements OnInit {
   }
 
   help() {
-    alert('not up yet. :)');
+    alert('not up yet. :) should show up :)');
   }
 }
