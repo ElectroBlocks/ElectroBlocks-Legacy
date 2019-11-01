@@ -149,3 +149,7 @@
 #frameInfo {
   width: 25%;
 }
+
+input:invalid {
+  box-shadow: none;
+}

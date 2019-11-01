@@ -158,33 +158,37 @@ export class VirtualCircuit {
   }
 
   async matchFinalState(state: ArduinoState, runSetup: boolean) {
-    if (!runSetup || this.runningFinalState) {
-      console.log('not running final state with', state);
-      return;
-    }
-    console.log('running final state with', state);
-
-    this.runningFinalState = true;
-    this.svgs.forEach((svg) => {
-      if (!svg.shouldExist(state)) {
-        svg.remove();
-        svg.getArduinoPins().forEach((pin) => {
-          this.arduino.hideWire(virtualCircuitPin(pin));
-        });
-        this.svgs = this.svgs.filter((svgCompare) => svgCompare !== svg);
+    try {
+      if (!runSetup || this.runningFinalState) {
+        console.log('not running final state with', state);
+        return;
       }
-    });
+      console.log('running final state with', state);
 
-    const components = state.components;
-    for (let i = 0; i < components.length; i += 1) {
-      const doesComponentExist =
-        this.svgs.findIndex((svg) => svg.isComponent(components[i])) >= 0;
+      this.runningFinalState = true;
+      this.svgs.forEach((svg) => {
+        if (!svg.shouldExist(state)) {
+          svg.remove();
+          svg.getArduinoPins().forEach((pin) => {
+            this.arduino.hideWire(virtualCircuitPin(pin));
+          });
+          this.svgs = this.svgs.filter((svgCompare) => svgCompare !== svg);
+        }
+      });
 
-      if (!doesComponentExist) {
-        await this.createComponent(components[i]);
+      const components = state.components;
+      for (let i = 0; i < components.length; i += 1) {
+        const doesComponentExist =
+          this.svgs.findIndex((svg) => svg.isComponent(components[i])) >= 0;
+
+        if (!doesComponentExist) {
+          await this.createComponent(components[i]);
+        }
       }
+      this.runningFinalState = false;
+    } catch (e) {
+      this.runningFinalState = false;
     }
-    this.runningFinalState = false;
   }
 
   public moveRight() {
@@ -203,7 +207,7 @@ export class VirtualCircuit {
     this.zoom.setPosition(this.zoom.transform.x, this.zoom.transform.y + 5);
   }
 
-  async createComponent(component: ElectricAttachmentComponentState) {
+  private async createComponent(component: ElectricAttachmentComponentState) {
     if (component instanceof ServoState) {
       this.svgs.push(
         await servoFactory(
