@@ -1,9 +1,9 @@
 import {
   rgbToHex,
   Color
-} from '../core/services/player/frame_genorator/color';
-import { Variable } from '../core/services/player/frame/variable';
-import { FramePlayer } from '../core/services/player/frame/frame_player';
+} from '../../core/services/player/frame_genorator/color';
+import { Variable } from '../../core/services/player/frame/variable';
+import { FramePlayer } from '../../core/services/player/frame/frame_player';
 import { Component } from '@angular/core';
 import { map, startWith } from 'rxjs/operators';
 

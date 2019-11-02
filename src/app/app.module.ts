@@ -20,7 +20,7 @@ import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
 import { SvgComponent } from './virtual-circuit/svg/svg.component';
 import { VirtualCircuitContainerComponent } from './virtual-circuit/virtual-circuit-container/virtual-circuit-container.component';
-import { VariablesComponent } from './variables/variables.component';
+import { VariablesComponent } from './virtual-circuit/variables/variables.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
