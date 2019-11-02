@@ -20,8 +20,7 @@ import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
 import { SvgComponent } from './virtual-circuit/svg/svg.component';
 import { VirtualCircuitContainerComponent } from './virtual-circuit/virtual-circuit-container/virtual-circuit-container.component';
-import { SettingsContainerComponent } from './virtual-circuit/settings-container/settings-container.component';
-import { VariablesComponent } from './virtual-circuit/settings/variables/variables.component';
+import { VariablesComponent } from './variables/variables.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -51,7 +50,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     PlayerComponent,
     SvgComponent,
     VirtualCircuitContainerComponent,
-    SettingsContainerComponent,
     VariablesComponent,
     WebMenuComponent
   ],

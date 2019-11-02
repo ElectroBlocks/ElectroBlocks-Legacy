@@ -1,11 +1,10 @@
-import { FrameOutput } from './../../../core/services/player/frame/frame_output';
 import {
   rgbToHex,
   Color
-} from './../../../core/services/player/frame_genorator/color';
-import { Variable } from './../../../core/services/player/frame/variable';
-import { FramePlayer } from './../../../core/services/player/frame/frame_player';
-import { Component, OnInit, NgZone } from '@angular/core';
+} from '../core/services/player/frame_genorator/color';
+import { Variable } from '../core/services/player/frame/variable';
+import { FramePlayer } from '../core/services/player/frame/frame_player';
+import { Component } from '@angular/core';
 import { map, startWith } from 'rxjs/operators';
 
 @Component({
