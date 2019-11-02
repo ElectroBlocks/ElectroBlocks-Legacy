@@ -15,14 +15,14 @@ export class BlocklyPromptOverRide {
     if (!this.electronService.isElectron) {
       return;
     }
-    const prompt = this.electronService.remote.require('prompt');
+    const prompt = this.electronService.remote.require('electron-prompt');
 
     Blockly.prompt = function(message, defaultValue, callback) {
       prompt({
         title: message,
         value: defaultValue,
         type: 'input'
-      }).then(value => {
+      }).then((value) => {
         callback(value);
       });
     };
