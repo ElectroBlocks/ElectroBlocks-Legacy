@@ -32,10 +32,15 @@ import {
   MatIconModule,
   MatSliderModule,
   MatGridListModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatToolbarModule,
+  MatSidenavModule,
+  MatListModule
 } from '@angular/material';
 import { FramePlayer } from './core/services/player/frame/frame_player';
 import { WebMenuComponent } from './web-menu/web-menu.component';
+import { ElectronMenuComponent } from './electron-menu/electron-menu.component';
+import { SettingsComponent } from './settings/settings.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -51,7 +56,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     SvgComponent,
     VirtualCircuitContainerComponent,
     VariablesComponent,
-    WebMenuComponent
+    WebMenuComponent,
+    ElectronMenuComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -71,6 +78,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatGridListModule,
     MatButtonModule,
     MatSlideToggleModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

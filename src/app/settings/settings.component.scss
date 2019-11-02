@@ -1,0 +1,12 @@
+#setting-menu {
+  display: flex;
+  flex-direction: column;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+#setting-menu > * {
+  width: 95%;
+  margin: 0 auto;
+  min-width: 300px;
+  margin-top: 20px;
+}

@@ -14,7 +14,7 @@ import { startWith, share, tap, map, delay } from 'rxjs/operators';
 })
 export class CodeComponent {
   public code$ = this.blocklyService.code$.pipe(
-    map(code => this.escapeHTML(code)),
+    map((code) => this.escapeHTML(code)),
     share(),
     startWith(''),
     delay(10),

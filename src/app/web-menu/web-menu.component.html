@@ -24,7 +24,10 @@
     ><i class="fa fa-download"></i
   ></span>
 
-  <span (click)="help()" class="active" href="#"
-    ><i class="fa fa-question-circle"></i
+  <span
+    [routerLink]="['/settings']"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    ><i class="fa fa-cog"></i
   ></span>
 </div>
