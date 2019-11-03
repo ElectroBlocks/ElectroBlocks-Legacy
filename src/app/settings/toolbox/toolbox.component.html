@@ -1,0 +1,9 @@
+<h3>ToolBox Selector</h3>
+<mat-selection-list #toolBoxOption>
+  <mat-list-option
+    *ngFor="let menu of currentToolbox"
+    [selected]="menu.isChecked"
+  >
+    {{ menu.name }}
+  </mat-list-option>
+</mat-selection-list>

@@ -41,6 +41,10 @@ import { FramePlayer } from './core/services/player/frame/frame_player';
 import { WebMenuComponent } from './web-menu/web-menu.component';
 import { ElectronMenuComponent } from './electron-menu/electron-menu.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ToolboxComponent } from './settings/toolbox/toolbox.component';
+import { HelpComponent } from './settings/help/help.component';
+import { AboutComponent } from './settings/about/about.component';
+import { BugComponent } from './settings/bug/bug.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -58,7 +62,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     VariablesComponent,
     WebMenuComponent,
     ElectronMenuComponent,
-    SettingsComponent
+    SettingsComponent,
+    ToolboxComponent,
+    HelpComponent,
+    AboutComponent,
+    BugComponent
   ],
   imports: [
     BrowserModule,
