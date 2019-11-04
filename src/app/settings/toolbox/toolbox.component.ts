@@ -7,53 +7,37 @@ import * as _ from 'lodash';
   styleUrls: ['./toolbox.component.scss']
 })
 export class ToolboxComponent implements OnInit {
-  readonly defaultToolbox = [
-    { name: 'Logic', isChecked: true },
-    { name: 'Loops', isChecked: true },
-    { name: 'List', isChecked: true },
-    { name: 'Variables', isChecked: true },
-    { name: 'Functions', isChecked: true },
-    { name: 'Color', isChecked: true },
-    { name: 'Math', isChecked: true },
-    { name: 'Text', isChecked: true },
-    { name: 'Bluetooth', isChecked: true },
-    { name: 'Buttons', isChecked: true },
-    { name: 'Message', isChecked: true },
-    { name: 'Pins', isChecked: true },
-    { name: 'Time', isChecked: true },
-    { name: 'LCD Screen', isChecked: true },
-    { name: 'Led', isChecked: true },
-    { name: 'Led Light Strip', isChecked: true },
-    { name: 'Led Matrix', isChecked: true },
-    { name: 'Motor / Servo', isChecked: true },
-    { name: 'IR Remote', isChecked: true },
-    { name: 'Motion Sensors', isChecked: true },
-    { name: 'RFID', isChecked: true },
-    { name: 'Temp / Humidity', isChecked: true }
-  ];
+  currentToolbox = Object.entries({
+    ...defaultToolbox,
+    ...JSON.parse(localStorage.getItem('toolBox'))
+  });
 
-  currentToolbox = [];
-
-  constructor() {
-    if (localStorage.getItem('toolBox')) {
-      const storedMenuList = JSON.parse(
-        localStorage.getItem('toolBox')
-      ) as Array<{ name: string; isChecked: boolean }>;
-      this.currentToolbox = this.defaultToolbox.map((menuOption) => {
-        const storedMenuOption = storedMenuList.find(
-          (o) => o.name === menuOption.name
-        );
-        if (storedMenuOption === undefined) {
-          return menuOption;
-        }
-
-        return { name: menuOption.name, isChecked: storedMenuOption.isChecked };
-      });
-      console.log(this.currentToolbox, 'currentToolbox');
-    } else {
-      this.currentToolbox = this.defaultToolbox;
-    }
-  }
+  constructor() {}
 
   ngOnInit() {}
 }
+
+const defaultToolbox = {
+  Logic: { isChecked: true },
+  Loops: { isChecked: true },
+  List: { isChecked: true },
+  Variables: { isChecked: true },
+  Functions: { isChecked: true },
+  Color: { isChecked: true },
+  Math: { isChecked: true },
+  Text: { isChecked: true },
+  Bluetooth: { isChecked: true },
+  Buttons: { isChecked: true },
+  Message: { isChecked: true },
+  Pins: { isChecked: true },
+  Time: { isChecked: true },
+  'LCD Screen': { isChecked: true },
+  Led: { isChecked: true },
+  'Led Light Strip': { isChecked: true },
+  'Led Matrix': { isChecked: true },
+  'Motor / Servo': { isChecked: true },
+  'IR Remote': { isChecked: true },
+  'Motion Sensors': { isChecked: true },
+  RFID: { isChecked: true },
+  'Temp / Humidity': { isChecked: true }
+};

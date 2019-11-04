@@ -3,6 +3,7 @@ import { selectedBoard } from '../types/pins';
 import * as Blockly from 'blockly/core';
 import { BlocklyService } from '../../blockly.service';
 import { getAvialablePinsFromSetupBlock } from './debug_extensions';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   {
@@ -43,7 +44,7 @@ defineBlocksWithJsonArray([
         checked: true
       }
     ],
-    colour: 260,
+    colour: COLOR_THEME.SENSOR,
     tooltip: '',
     helpUrl: '',
     extensions: ['debug-setup']
@@ -86,7 +87,7 @@ Blockly.Blocks['is_button_pressed'] = {
     this.setOutput(true, 'Boolean');
 
     console.log(this);
-    this.setColour(260);
+    this.setColour(COLOR_THEME.SENSOR);
     this.setTooltip('');
     this.setHelpUrl('');
   }

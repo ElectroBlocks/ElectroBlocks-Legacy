@@ -2,6 +2,7 @@ import { defineBlocksWithJsonArray } from 'blockly';
 import { selectedBoard } from '../types/pins';
 import * as Blockly from 'blockly/core';
 import { loopTimes } from './debug_extensions';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   {
@@ -27,7 +28,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'Number',
-    colour: 230,
+    colour: COLOR_THEME.SENSOR,
     tooltip: '',
     helpUrl: '',
     extensions: ['debug']
@@ -40,7 +41,7 @@ Blockly.Blocks['ultra_sonic_sensor_setup'] = {
       .appendField(
         new Blockly.FieldImage(
           './assets/blocks/motion_sensor/ultrasonic_sensor.png',
-          15,
+          30,
           15,
           { alt: '*', flipRtl: 'FALSE' }
         )
@@ -66,7 +67,7 @@ Blockly.Blocks['ultra_sonic_sensor_setup'] = {
     this.appendDummyInput()
       .appendField('Distance In CMs')
       .appendField(new Blockly.FieldNumber(1, 0.1, 500, 0.00001), 'cm');
-    this.setColour(230);
+    this.setColour(COLOR_THEME.SENSOR);
     this.setTooltip('');
     this.setHelpUrl('');
   }

@@ -2,6 +2,7 @@ import { defineBlocksWithJsonArray } from 'blockly';
 import { selectedBoard } from '../types/pins';
 import * as Blockly from 'blockly/core';
 import { loopTimes } from './debug_extensions';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   {
@@ -26,7 +27,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'Boolean',
-    colour: 210,
+    colour: COLOR_THEME.SENSOR,
     tooltip: '',
     helpUrl: '',
     extensions: ['debug']
@@ -53,7 +54,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'String',
-    colour: 210,
+    colour: COLOR_THEME.SENSOR,
     tooltip: '',
     helpUrl: '',
     extensions: ['debug']
@@ -111,7 +112,7 @@ Blockly.Blocks['ir_remote_setup'] = {
         }),
         'code'
       );
-    this.setColour(210);
+    this.setColour(COLOR_THEME.SENSOR);
     this.setTooltip('');
     this.setHelpUrl('');
   }

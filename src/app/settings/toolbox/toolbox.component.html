@@ -2,8 +2,10 @@
 <mat-selection-list #toolBoxOption>
   <mat-list-option
     *ngFor="let menu of currentToolbox"
-    [selected]="menu.isChecked"
+    [selected]="menu[1].isChecked"
   >
-    {{ menu.name }}
+    {{ menu[0] }}
   </mat-list-option>
 </mat-selection-list>
+
+{{ currentToolbox | json }}

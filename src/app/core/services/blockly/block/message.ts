@@ -1,6 +1,7 @@
 import { defineBlocksWithJsonArray } from 'blockly';
 import * as Blockly from 'blockly/core';
 import { loopTimes } from './debug_extensions';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   {
@@ -26,7 +27,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'Boolean',
-    colour: 20,
+    colour: COLOR_THEME.ARDUINO,
     tooltip: '',
     helpUrl: '',
     extensions: ['debug']
@@ -53,7 +54,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'String',
-    colour: 20,
+    colour: COLOR_THEME.ARDUINO,
     tooltip: '',
     helpUrl: '',
     extensions: ['debug']
@@ -78,7 +79,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: 20,
+    colour: COLOR_THEME.ARDUINO,
     tooltip: '',
     helpUrl: ''
   }
@@ -123,7 +124,7 @@ Blockly.Blocks['message_setup'] = {
         }),
         'message'
       );
-    this.setColour(20);
+    this.setColour(COLOR_THEME.ARDUINO);
     this.setTooltip('');
     this.setHelpUrl('');
   }

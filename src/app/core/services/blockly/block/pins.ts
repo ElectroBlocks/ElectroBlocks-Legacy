@@ -3,6 +3,7 @@ import { selectedBoard } from '../types/pins';
 import * as Blockly from 'blockly/core';
 import { loopTimes, getAvialablePinsFromSetupBlock } from './debug_extensions';
 import { BlocklyService } from '../../blockly.service';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   {
@@ -30,7 +31,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: 260,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   },
@@ -53,7 +54,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'Number',
-    colour: 260,
+    colour: COLOR_THEME.SENSOR,
     tooltip: '',
     helpUrl: ''
   },
@@ -86,7 +87,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: 260,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   }
@@ -123,7 +124,7 @@ Blockly.Blocks['analog_read'] = {
         'SIMPLE_DEBUG'
       );
     this.setOutput(true, 'Number');
-    this.setColour(260);
+    this.setColour(COLOR_THEME.SENSOR);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -160,7 +161,7 @@ Blockly.Blocks['digital_read'] = {
         'SIMPLE_DEBUG'
       );
     this.setOutput(true, 'Boolean');
-    this.setColour(260);
+    this.setColour(COLOR_THEME.SENSOR);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -206,7 +207,7 @@ Blockly.Blocks['digital_read_setup'] = {
     this.appendDummyInput()
       .appendField('Has Power? ')
       .appendField(new Blockly.FieldCheckbox('TRUE'), 'has_power');
-    this.setColour(260);
+    this.setColour(COLOR_THEME.SENSOR);
     this.setTooltip('');
     this.setHelpUrl('');
   }
@@ -256,7 +257,7 @@ Blockly.Blocks['analog_read_setup'] = {
         new Blockly.FieldNumber(10, 0, 1024, 0.000001),
         'power_level'
       );
-    this.setColour(260);
+    this.setColour(COLOR_THEME.SENSOR);
     this.setTooltip('');
     this.setHelpUrl('');
   }

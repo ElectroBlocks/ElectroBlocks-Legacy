@@ -1,4 +1,5 @@
 import { defineBlocksWithJsonArray } from 'blockly';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   {
@@ -32,7 +33,7 @@ defineBlocksWithJsonArray([
         options: [['16 x 2', '16 x 2'], ['20 x 4', '20 x 4']]
       }
     ],
-    colour: 290,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   },
@@ -56,7 +57,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: 290,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   },
@@ -95,7 +96,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: 290,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   },
@@ -148,7 +149,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: 290,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   },
@@ -172,7 +173,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: 290,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   },
@@ -212,7 +213,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: 290,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   },
@@ -231,7 +232,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: 290,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   }

@@ -2,6 +2,7 @@ import { selectedBoard } from '../types/pins';
 import { defineBlocksWithJsonArray } from 'blockly';
 import * as Blockly from 'blockly/core';
 import { loopTimes } from './debug_extensions';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   {
@@ -26,7 +27,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'Number',
-    colour: 330,
+    colour: COLOR_THEME.SENSOR,
     tooltip: '',
     helpUrl: ''
   },
@@ -53,7 +54,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'Number',
-    colour: 330,
+    colour: COLOR_THEME.SENSOR,
     tooltip: '',
     helpUrl: ''
   }
@@ -92,7 +93,7 @@ Blockly.Blocks['temp_setup'] = {
     this.appendDummyInput()
       .appendField('Humidity ')
       .appendField(new Blockly.FieldNumber(5, 0, 300), 'humidity');
-    this.setColour(330);
+    this.setColour(COLOR_THEME.SENSOR);
     this.setTooltip('');
     this.setHelpUrl('');
   }
