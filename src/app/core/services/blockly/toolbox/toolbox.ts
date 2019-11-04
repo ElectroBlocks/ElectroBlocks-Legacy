@@ -5,7 +5,7 @@ export const toolbox = `<xml
   id="toolbox-simple"
   style="display: none"
 >
-  <category name="Logic" colour="%{BKY_LOGIC_HUE}">
+  <category name="Logic" colour="${COLOR_THEME.CONTROL}">
     <block type="control_if"></block>
     <block type="controls_ifelse"></block>
     <block type="logic_compare"></block>
@@ -14,7 +14,7 @@ export const toolbox = `<xml
     <block type="logic_boolean"></block>
   </category>
 
-  <category name="Loops" colour="%{BKY_LOOPS_HUE}">
+  <category name="Loops" colour="${COLOR_THEME.CONTROL}">
   <block type="controls_repeat_ext">
     <value name="TIMES">
       <block type="math_number">
@@ -42,15 +42,15 @@ export const toolbox = `<xml
 </category>
   <category
   name="Functions"
-  colour="%{BKY_PROCEDURES_HUE}"
+  colour="${COLOR_THEME.CONTROL}"
   custom="PROCEDURE"
 ></category>
   <sep></sep>
-
-<category name="Data" colour="${COLOR_THEME.DATA}">
   <category name="List" colour="${COLOR_THEME.DATA}" custom="LIST"> </category>
   <category name="Variables" colour="${COLOR_THEME.DATA}" custom="VARIABLE">
   </category>
+<sep></sep>
+<category name="Data" colour="${COLOR_THEME.DATA}">
   <category name="Color" colour="${COLOR_THEME.DATA}">
     <block type="colour_picker"></block>
     <block type="colour_random"></block>

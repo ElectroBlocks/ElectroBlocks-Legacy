@@ -3,5 +3,5 @@ export enum COLOR_THEME {
   COMPONENTS = '#512c62',
   ARDUINO = '#c70d3a',
   DATA = '#f45905',
-  CONTROL = '#f45905'
+  CONTROL = '#c70d3a'
 }

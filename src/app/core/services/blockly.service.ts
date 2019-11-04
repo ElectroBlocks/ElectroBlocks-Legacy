@@ -77,6 +77,9 @@ export class BlocklyService {
   }
 
   setUpBlock(blocklyDiv: HTMLDivElement) {
+    Blockly.Themes.Classic.setBlockStyle('logic_blocks', {
+      colourPrimary: '#AA0000'
+    });
     Blockly.inject(blocklyDiv, {
       toolbox: toolbox,
       collapse: true,
