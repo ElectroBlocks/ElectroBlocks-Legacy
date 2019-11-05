@@ -1,5 +1,6 @@
 import { defineBlocksWithJsonArray } from 'blockly';
 import Blockly from 'blockly/core';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   // If/else block that does not use a mutator.
@@ -22,7 +23,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: '%{BKY_LOGIC_HUE}',
+    colour: COLOR_THEME.CONTROL,
     tooltip: '%{BKYCONTROLS_IF_TOOLTIP_2}',
     helpUrl: '%{BKY_CONTROLS_IF_HELPURL}',
     extensions: ['controls_if_tooltip']
@@ -53,7 +54,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: '%{BKY_LOGIC_HUE}',
+    colour: COLOR_THEME.CONTROL,
     tooltip: '%{BKYCONTROLS_IF_TOOLTIP_2}',
     helpUrl: '%{BKY_CONTROLS_IF_HELPURL}',
     extensions: ['controls_if_tooltip']

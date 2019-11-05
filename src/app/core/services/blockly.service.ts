@@ -31,6 +31,7 @@ import { changeLoopNumberInSensorBlocks } from './blockly/events/changeLoopNumbe
 import { filter } from 'rxjs/operators';
 import { checkRightPinSelected } from './blockly/events/checkButtonPinSelectionValid';
 import { Block } from 'blockly';
+import { COLOR_THEME } from './blockly/block/color_theme';
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +79,28 @@ export class BlocklyService {
 
   setUpBlock(blocklyDiv: HTMLDivElement) {
     Blockly.Themes.Classic.setBlockStyle('logic_blocks', {
-      colourPrimary: '#AA0000'
+      colourPrimary: COLOR_THEME.CONTROL
+    });
+    Blockly.Themes.Classic.setBlockStyle('loop_blocks', {
+      colourPrimary: COLOR_THEME.CONTROL
+    });
+    Blockly.Themes.Classic.setBlockStyle('procedure_blocks', {
+      colourPrimary: COLOR_THEME.CONTROL
+    });
+    Blockly.Themes.Classic.setBlockStyle('math_blocks', {
+      colourPrimary: COLOR_THEME.DATA
+    });
+    Blockly.Themes.Classic.setBlockStyle('colour_blocks', {
+      colourPrimary: COLOR_THEME.DATA
+    });
+    Blockly.Themes.Classic.setBlockStyle('text_blocks', {
+      colourPrimary: COLOR_THEME.DATA
+    });
+    Blockly.Themes.Classic.setBlockStyle('variable_blocks', {
+      colourPrimary: COLOR_THEME.DATA
+    });
+    Blockly.Themes.Classic.setBlockStyle('list_blocks', {
+      colourPrimary: COLOR_THEME.DATA
     });
     Blockly.inject(blocklyDiv, {
       toolbox: toolbox,

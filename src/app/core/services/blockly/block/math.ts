@@ -1,4 +1,5 @@
 import { defineBlocksWithJsonArray } from 'blockly';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   {
@@ -12,7 +13,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'Number',
-    colour: 230,
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   }

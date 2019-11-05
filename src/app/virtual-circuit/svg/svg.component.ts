@@ -2,7 +2,13 @@ import { ShowArduinoCommunicator } from './../../core/services/virtual-circuit/c
 import { VirtualCircuit } from './../../core/services/virtual-circuit/svg/virtual-circuit';
 import { FramePlayer } from './../../core/services/player/frame/frame_player';
 import { ExecuteVirtualCircuitFrame } from '../../core/services/player/frame/frame_execute';
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit
+} from '@angular/core';
 import { virtualCircuitFactory } from '../../core/services/virtual-circuit/factory/virtual-circuit.factory';
 import { BlocklyService } from '../../core/services/blockly.service';
 import { AbstractSubComponent } from '../../abstract-sub.component';
@@ -50,22 +56,6 @@ export class SvgComponent extends AbstractSubComponent
 
   changeShowArduino($event: MatSlideToggleChange) {
     this.showArduinoComm.setShowArduino($event.checked);
-  }
-
-  moveRight() {
-    this.virtualCircuit.moveRight();
-  }
-
-  moveLeft() {
-    this.virtualCircuit.moveLeft();
-  }
-
-  moveUp() {
-    this.virtualCircuit.moveUp();
-  }
-
-  moveDown() {
-    this.virtualCircuit.moveDown();
   }
 
   zoomIn() {

@@ -1,4 +1,5 @@
 import { defineBlocksWithJsonArray } from 'blockly';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   // BEGIN JSON EXTRACT
@@ -15,7 +16,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'Number',
-    colour: '330',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -39,7 +40,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: '330',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -56,7 +57,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'Colour',
-    colour: '330',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -79,7 +80,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: '330',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -96,7 +97,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'String',
-    colour: '330',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -119,7 +120,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: '330',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -136,7 +137,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'Boolean',
-    colour: '330',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -159,7 +160,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: '330',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   }
