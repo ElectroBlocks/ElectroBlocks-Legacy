@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import * as _ from 'lodash';
+import {
+  ToolboxService,
+  ToolboxEntry
+} from '../../core/services/toolbox.service';
+import { MatSelectionListChange } from '@angular/material';
 
 @Component({
   selector: 'app-toolbox',
@@ -7,37 +11,18 @@ import * as _ from 'lodash';
   styleUrls: ['./toolbox.component.scss']
 })
 export class ToolboxComponent implements OnInit {
-  currentToolbox = Object.entries({
-    ...defaultToolbox,
-    ...JSON.parse(localStorage.getItem('toolBox'))
-  });
+  private toolBoxMenu = this.toolboxService.fetchToolBox();
 
-  constructor() {}
-
+  constructor(private toolboxService: ToolboxService) {}
   ngOnInit() {}
-}
 
-const defaultToolbox = {
-  Logic: { isChecked: true },
-  Loops: { isChecked: true },
-  List: { isChecked: true },
-  Variables: { isChecked: true },
-  Functions: { isChecked: true },
-  Color: { isChecked: true },
-  Math: { isChecked: true },
-  Text: { isChecked: true },
-  Bluetooth: { isChecked: true },
-  Buttons: { isChecked: true },
-  Message: { isChecked: true },
-  Pins: { isChecked: true },
-  Time: { isChecked: true },
-  'LCD Screen': { isChecked: true },
-  Led: { isChecked: true },
-  'Led Light Strip': { isChecked: true },
-  'Led Matrix': { isChecked: true },
-  'Motor / Servo': { isChecked: true },
-  'IR Remote': { isChecked: true },
-  'Motion Sensors': { isChecked: true },
-  RFID: { isChecked: true },
-  'Temp / Humidity': { isChecked: true }
-};
+  updateToolbox(matSelectionListChange: MatSelectionListChange) {
+    const toolboxEntries = matSelectionListChange.source.options.map((e) => {
+      return {
+        name: e.value,
+        show: e.selected
+      };
+    });
+    this.toolboxService.saveToolBox(toolboxEntries);
+  }
+}

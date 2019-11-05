@@ -1,20 +1,26 @@
 import { COLOR_THEME } from '../block/color_theme';
+import { ToolboxEntry } from '../../toolbox.service';
 
-export const toolbox = `<xml
+export const getToolBoxString = (entries: ToolboxEntry[]) => {
+  let toolbox = `<xml
   xmlns="https://developers.google.com/blockly/xml"
   id="toolbox-simple"
   style="display: none"
->
-  <category name="Logic" colour="${COLOR_THEME.CONTROL}">
+>`;
+
+  if (entries.find((c) => c.name === 'Logic').show) {
+    toolbox += `<category name="Logic" colour="${COLOR_THEME.CONTROL}">
     <block type="control_if"></block>
     <block type="controls_ifelse"></block>
     <block type="logic_compare"></block>
     <block type="logic_operation"></block>
     <block type="logic_negate"></block>
     <block type="logic_boolean"></block>
-  </category>
+  </category>`;
+  }
 
-  <category name="Loops" colour="${COLOR_THEME.CONTROL}">
+  if (entries.find((c) => c.name === 'Loops').show) {
+    toolbox += `<category name="Loops" colour="${COLOR_THEME.CONTROL}">
   <block type="controls_repeat_ext">
     <value name="TIMES">
       <block type="math_number">
@@ -39,19 +45,31 @@ export const toolbox = `<xml
       </block>
     </value>
   </block>
-</category>
-  <category
+</category>`;
+  }
+  if (entries.find((c) => c.name === 'Functions').show) {
+    toolbox += `<category
   name="Functions"
   colour="${COLOR_THEME.CONTROL}"
   custom="PROCEDURE"
-></category>
-  <sep></sep>
-  <category name="List" colour="${COLOR_THEME.DATA}" custom="LIST"> </category>
-  <category name="Variables" colour="${COLOR_THEME.DATA}" custom="VARIABLE">
-  </category>
-<sep></sep>
-<category name="Data" colour="${COLOR_THEME.DATA}">
-  <category name="Color" colour="${COLOR_THEME.DATA}">
+></category>`;
+  }
+
+  toolbox += '<sep></sep>';
+  if (entries.find((c) => c.name === 'List').show) {
+    toolbox += `<category name="List" colour="${COLOR_THEME.DATA}" custom="LIST"> </category>`;
+  }
+
+  if (entries.find((c) => c.name === 'Variables').show) {
+    toolbox += `<category name="Variables" colour="${COLOR_THEME.DATA}" custom="VARIABLE"></category>`;
+  }
+
+  toolbox += '<sep></sep>';
+
+  toolbox += `<category name="Data" colour="${COLOR_THEME.DATA}">`;
+
+  if (entries.find((c) => c.name === 'Color').show) {
+    toolbox += `<category name="Color" colour="${COLOR_THEME.DATA}">
     <block type="colour_picker"></block>
     <block type="colour_random"></block>
     <block type="colour_rgb">
@@ -71,9 +89,11 @@ export const toolbox = `<xml
         </block>
       </value>
     </block>
-  </category>
+  </category>`;
+  }
 
-  <category name="Math" colour="${COLOR_THEME.DATA}">
+  if (entries.find((c) => c.name === 'Math').show) {
+    toolbox += `<category name="Math" colour="${COLOR_THEME.DATA}">
   <block type="math_number">
     <field name="NUM">123</field>
   </block>
@@ -128,8 +148,12 @@ export const toolbox = `<xml
       </block>
     </value>
   </block>
-</category>
-<category name="Text" colour="${COLOR_THEME.DATA}">
+</category>`;
+  }
+
+  if (entries.find((c) => c.name === 'Text').show) {
+    toolbox += `
+    <category name="Text" colour="${COLOR_THEME.DATA}">
 <block type="text"></block>
 <block type="text_join"></block>
 <block type="text_length">
@@ -173,9 +197,12 @@ export const toolbox = `<xml
     </block>
   </value>
 </block>
-</category>
-</category>
-<sep></sep>
+</category>`;
+  }
+
+  toolbox += '</category><sep></sep>';
+
+  toolbox += `
 <category name="Arduino" colour="${COLOR_THEME.ARDUINO}">
 <category name="Debug" colour="${COLOR_THEME.ARDUINO}">
 <block type="debug_block"></block>
@@ -431,3 +458,6 @@ export const toolbox = `<xml
 
 </xml>
 `;
+
+  return toolbox;
+};

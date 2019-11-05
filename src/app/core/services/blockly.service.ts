@@ -15,7 +15,7 @@ import './blockly/block/index';
 import './blockly/generators/index';
 import { registerListMenu } from './blockly/menu/list.menu';
 import './blockly/menu/variables.menu';
-import { toolbox } from './blockly/toolbox/toolbox';
+import { getToolBoxString } from './blockly/toolbox/toolbox';
 import { forLoopChangeText } from './blockly/events/forLoopChangeText';
 import { deleteVariables } from './blockly/events/deleteVariable';
 import {
@@ -32,6 +32,7 @@ import { filter } from 'rxjs/operators';
 import { checkRightPinSelected } from './blockly/events/checkButtonPinSelectionValid';
 import { Block } from 'blockly';
 import { COLOR_THEME } from './blockly/block/color_theme';
+import { ToolboxService } from './toolbox.service';
 
 @Injectable({
   providedIn: 'root'
@@ -60,7 +61,8 @@ export class BlocklyService {
   constructor(
     private blocklyPromptOverRide: BlocklyPromptOverRide,
     private framePlayer: FramePlayer,
-    private router: Router
+    private router: Router,
+    private toolboxService: ToolboxService
   ) {
     (window as any).Blockly = Blockly;
     framePlayer.changeFrame$
@@ -102,8 +104,9 @@ export class BlocklyService {
     Blockly.Themes.Classic.setBlockStyle('list_blocks', {
       colourPrimary: COLOR_THEME.DATA
     });
+    console.log(getToolBoxString(this.toolboxService.fetchToolBox()));
     Blockly.inject(blocklyDiv, {
-      toolbox: toolbox,
+      toolbox: getToolBoxString(this.toolboxService.fetchToolBox()),
       collapse: true,
       comments: true,
       disable: false,
