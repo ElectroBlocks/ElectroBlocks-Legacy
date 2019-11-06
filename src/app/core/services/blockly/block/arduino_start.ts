@@ -1,4 +1,5 @@
 import { defineBlocksWithJsonArray } from 'blockly';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   {
@@ -31,7 +32,7 @@ defineBlocksWithJsonArray([
         name: 'loop'
       }
     ],
-    colour: 135,
+    colour: COLOR_THEME.ARDUINO_START_BLOCK,
     tooltip: '',
     helpUrl: ''
   }
