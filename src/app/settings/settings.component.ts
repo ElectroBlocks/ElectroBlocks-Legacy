@@ -15,7 +15,7 @@ import { ToolboxComponent } from './toolbox/toolbox.component';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit, AfterViewInit {
-  private firstSelectedOption = 'toolbox';
+  public firstSelectedOption = 'toolbox';
 
   constructor(
     private blocklyService: BlocklyService,

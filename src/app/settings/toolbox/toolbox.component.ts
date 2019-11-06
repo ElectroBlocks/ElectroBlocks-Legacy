@@ -11,7 +11,7 @@ import { MatSelectionListChange } from '@angular/material';
   styleUrls: ['./toolbox.component.scss']
 })
 export class ToolboxComponent implements OnInit {
-  private toolBoxMenu = this.toolboxService.fetchToolBox();
+  public toolBoxMenu = this.toolboxService.fetchToolBox();
 
   constructor(private toolboxService: ToolboxService) {}
   ngOnInit() {}
