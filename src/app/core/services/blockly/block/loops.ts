@@ -42,7 +42,7 @@ defineBlocksWithJsonArray([
         name: 'DO'
       }
     ],
-    inputsInline: true,
+    inputsInline: false,
     previousStatement: null,
     nextStatement: null,
     colour: COLOR_THEME.CONTROL,

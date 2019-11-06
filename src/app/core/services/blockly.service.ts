@@ -90,13 +90,13 @@ export class BlocklyService {
       colourPrimary: COLOR_THEME.CONTROL
     });
     Blockly.Themes.Classic.setBlockStyle('math_blocks', {
-      colourPrimary: COLOR_THEME.DATA
+      colourPrimary: COLOR_THEME.VALUES
     });
     Blockly.Themes.Classic.setBlockStyle('colour_blocks', {
-      colourPrimary: COLOR_THEME.DATA
+      colourPrimary: COLOR_THEME.VALUES
     });
     Blockly.Themes.Classic.setBlockStyle('text_blocks', {
-      colourPrimary: COLOR_THEME.DATA
+      colourPrimary: COLOR_THEME.VALUES
     });
     Blockly.Themes.Classic.setBlockStyle('variable_blocks', {
       colourPrimary: COLOR_THEME.DATA
@@ -104,7 +104,7 @@ export class BlocklyService {
     Blockly.Themes.Classic.setBlockStyle('list_blocks', {
       colourPrimary: COLOR_THEME.DATA
     });
-    console.log(getToolBoxString(this.toolboxService.fetchToolBox()));
+
     Blockly.inject(blocklyDiv, {
       toolbox: getToolBoxString(this.toolboxService.fetchToolBox()),
       collapse: true,

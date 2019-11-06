@@ -52,10 +52,9 @@ export const getToolBoxString = (entries: ToolboxEntry[]) => {
   name="Functions"
   colour="${COLOR_THEME.CONTROL}"
   custom="PROCEDURE"
-></category>`;
+></category><sep></sep>`;
   }
 
-  toolbox += '<sep></sep>';
   if (entries.find((c) => c.name === 'List').show) {
     toolbox += `<category name="List" colour="${COLOR_THEME.DATA}" custom="LIST"> </category>`;
   }
@@ -64,12 +63,17 @@ export const getToolBoxString = (entries: ToolboxEntry[]) => {
     toolbox += `<category name="Variables" colour="${COLOR_THEME.DATA}" custom="VARIABLE"></category>`;
   }
 
-  toolbox += '<sep></sep>';
+  if (
+    entries.find((c) => c.name === 'List').show ||
+    entries.find((c) => c.name === 'Variables').show
+  ) {
+    toolbox += '<sep></sep>';
+  }
 
-  toolbox += `<category name="Data" colour="${COLOR_THEME.DATA}">`;
+  toolbox += `<category name="Data" colour="${COLOR_THEME.VALUES}">`;
 
   if (entries.find((c) => c.name === 'Color').show) {
-    toolbox += `<category name="Color" colour="${COLOR_THEME.DATA}">
+    toolbox += `<category name="Color" colour="${COLOR_THEME.VALUES}">
     <block type="colour_picker"></block>
     <block type="colour_random"></block>
     <block type="colour_rgb">
@@ -93,7 +97,7 @@ export const getToolBoxString = (entries: ToolboxEntry[]) => {
   }
 
   if (entries.find((c) => c.name === 'Math').show) {
-    toolbox += `<category name="Math" colour="${COLOR_THEME.DATA}">
+    toolbox += `<category name="Math" colour="${COLOR_THEME.VALUES}">
   <block type="math_number">
     <field name="NUM">123</field>
   </block>
@@ -153,7 +157,7 @@ export const getToolBoxString = (entries: ToolboxEntry[]) => {
 
   if (entries.find((c) => c.name === 'Text').show) {
     toolbox += `
-    <category name="Text" colour="${COLOR_THEME.DATA}">
+    <category name="Text" colour="${COLOR_THEME.VALUES}">
 <block type="text"></block>
 <block type="text_join"></block>
 <block type="text_length">
@@ -203,11 +207,16 @@ export const getToolBoxString = (entries: ToolboxEntry[]) => {
   toolbox += '</category><sep></sep>';
 
   toolbox += `
-<category name="Arduino" colour="${COLOR_THEME.ARDUINO}">
-<category name="Debug" colour="${COLOR_THEME.ARDUINO}">
+<category name="Arduino" colour="${COLOR_THEME.ARDUINO}">`;
+
+  if (entries.find((c) => c.name === 'Debug').show) {
+    toolbox += `<category name="Debug" colour="${COLOR_THEME.ARDUINO}">
 <block type="debug_block"></block>
-</category>
-<category name="Message" colour="${COLOR_THEME.ARDUINO}">
+</category>`;
+  }
+
+  if (entries.find((c) => c.name === 'Message').show) {
+    toolbox += `<category name="Message" colour="${COLOR_THEME.ARDUINO}">
 <block type="message_setup"></block>
 <block type="arduino_send_message">
 <value name="MESSAGE">
@@ -218,12 +227,11 @@ export const getToolBoxString = (entries: ToolboxEntry[]) => {
 </block>
 <block type="arduino_get_message"></block>
 <block type="arduino_receive_message"></block>
-</category>
+</category>`;
+  }
 
-
-
-
-<category colour="${COLOR_THEME.ARDUINO}" name="Time">
+  if (entries.find((c) => c.name === 'Time').show) {
+    toolbox += `<category colour="${COLOR_THEME.ARDUINO}" name="Time">
 <block type="time_setup"></block>
 <block type="delay_block">
 <value name="DELAY">
@@ -234,11 +242,14 @@ export const getToolBoxString = (entries: ToolboxEntry[]) => {
 </block>
 <block type="time_seconds"></block>
 
-</category>
-</category>
-<sep></sep>
-<category colour="${COLOR_THEME.COMPONENTS}" name="Components" >
-<category name="Bluetooth" colour="${COLOR_THEME.COMPONENTS}">
+</category>`;
+  }
+
+  toolbox += '</category><sep></sep>';
+  toolbox += `<category colour="${COLOR_THEME.COMPONENTS}" name="Components" >`;
+
+  if (entries.find((c) => c.name === 'Bluetooth').show) {
+    toolbox += `<category name="Bluetooth" colour="${COLOR_THEME.COMPONENTS}">
 <block type="bluetooth_setup">
   <field name="RX">11</field>
   <field name="TX">10</field>
@@ -253,9 +264,11 @@ export const getToolBoxString = (entries: ToolboxEntry[]) => {
 
 <block type="bluetooth_has_message"></block>
 <block type="bluetooth_get_message"></block>
-</category>
+</category>`;
+  }
 
-<category colour="${COLOR_THEME.COMPONENTS}" name="LCD Screen">
+  if (entries.find((c) => c.name === 'LCD Screen').show) {
+    toolbox += `<category colour="${COLOR_THEME.COMPONENTS}" name="LCD Screen">
 <block type="lcd_setup"></block>
 <block type="lcd_screen_simple_print">
 <value name="ROW_1">
@@ -317,7 +330,11 @@ export const getToolBoxString = (entries: ToolboxEntry[]) => {
 </block>
 <block type="lcd_backlight"></block>
 </category>
-<category name="Led" colour="${COLOR_THEME.COMPONENTS}">
+`;
+  }
+
+  if (entries.find((c) => c.name === 'Led').show) {
+    toolbox += `<category name="Led" colour="${COLOR_THEME.COMPONENTS}">
 <block type="led"></block>
 
 <block type="led_fade">
@@ -345,8 +362,11 @@ export const getToolBoxString = (entries: ToolboxEntry[]) => {
             </value>
     </block>
 </category>
+`;
+  }
 
-<category name="Led Light Strip" colour="${COLOR_THEME.COMPONENTS}">
+  if (entries.find((c) => c.name === 'Led Light Strip').show) {
+    toolbox += `<category name="Led Light Strip" colour="${COLOR_THEME.COMPONENTS}">
     <block type="neo_pixel_setup">
       <value name="NUMBER_LEDS">
         <block type="math_number">
@@ -364,8 +384,11 @@ export const getToolBoxString = (entries: ToolboxEntry[]) => {
         <block type="colour_picker"> </block>
       </value>
     </block>
-</category>
-<category colour="${COLOR_THEME.COMPONENTS}" name="Led Matrix">
+</category>`;
+  }
+
+  if (entries.find((c) => c.name === 'Led Matrix').show) {
+    toolbox += `<category colour="${COLOR_THEME.COMPONENTS}" name="Led Matrix">
 <block type="led_matrix_make_draw"></block>
 <block type="led_matrix_turn_one_on_off">
 <value name="ROW">
@@ -379,8 +402,11 @@ export const getToolBoxString = (entries: ToolboxEntry[]) => {
                 </block>
             </value>
 </block>
-</category>
-<category name="Motor / Servo" colour="${COLOR_THEME.COMPONENTS}">
+</category>`;
+  }
+
+  if (entries.find((c) => c.name === 'Motor / Servo').show) {
+    toolbox += `<category name="Motor / Servo" colour="${COLOR_THEME.COMPONENTS}">
 <block type="move_motor">
 <value name="SPEED">
                 <block type="math_number">
@@ -401,44 +427,54 @@ export const getToolBoxString = (entries: ToolboxEntry[]) => {
 </value>
 </block>
 </category>
-</category>
+`;
+  }
 
-<sep></sep>
+  toolbox += '</category><sep></sep>';
+  toolbox += `<category name="Sensors" colour="${COLOR_THEME.SENSOR}">`;
 
-
-
-
-
-
-<category name="Sensors" colour="${COLOR_THEME.SENSOR}">
-<category name="Analog" colour="${COLOR_THEME.SENSOR}" >
+  if (entries.find((c) => c.name === 'Analog').show) {
+    toolbox += `<category name="Analog" colour="${COLOR_THEME.SENSOR}" >
     <block type="analog_read_setup"></block>
     <block type="analog_read"></block>
-</category>
-<category name="Buttons" colour="${COLOR_THEME.SENSOR}">
+</category>`;
+  }
+
+  if (entries.find((c) => c.name === 'Buttons').show) {
+    toolbox += `<category name="Buttons" colour="${COLOR_THEME.SENSOR}">
     <block type="push_button_setup"></block>
     <block type="is_button_pressed"></block>
-</category>
+</category>`;
+  }
 
-
-<category name="Digital" colour="${COLOR_THEME.SENSOR}">
+  if (entries.find((c) => c.name === 'Digital').show) {
+    toolbox += `<category name="Digital" colour="${COLOR_THEME.SENSOR}">
     <block type="digital_read_setup"></block>
     <block type="digital_read"></block>
+</category>`;
+  }
 
-</category>
-    <category name="IR Remote" colour="${COLOR_THEME.SENSOR}" >
+  if (entries.find((c) => c.name === 'IR Remote').show) {
+    toolbox += `<category name="IR Remote" colour="${COLOR_THEME.SENSOR}" >
     <block type="ir_remote_setup"></block>
     <block type="ir_remote_has_code_receive"></block>
     <block type="ir_remote_get_code"></block>
-    </category>
-    <category name="Motion" colour="${COLOR_THEME.SENSOR}" >
+    </category>`;
+  }
+
+  if (entries.find((c) => c.name === 'Motion').show) {
+    toolbox += `    <category name="Motion" colour="${COLOR_THEME.SENSOR}" >
     <block type="ultra_sonic_sensor_setup">
       <field name="TRIG">11</field>
       <field name="ECHO">10</field>
     </block>
     <block type="ultra_sonic_sensor_motion"></block>
     </category>
-    <category name="RFID" colour="${COLOR_THEME.SENSOR}" >
+`;
+  }
+
+  if (entries.find((c) => c.name === 'RFID').show) {
+    toolbox += `    <category name="RFID" colour="${COLOR_THEME.SENSOR}" >
         <block type="rfid_setup">
             <field name="RX">7</field>
             <field name="TX">6</field>
@@ -447,17 +483,18 @@ export const getToolBoxString = (entries: ToolboxEntry[]) => {
         <block type="rfid_tag"></block>
         <block type="rfid_scan"></block>
     </category>
-    <category name="Temp" colour="${COLOR_THEME.SENSOR}"  >
+`;
+  }
+
+  if (entries.find((c) => c.name === 'Temp').show) {
+    toolbox += `<category name="Temp" colour="${COLOR_THEME.SENSOR}"  >
       <block type="temp_setup"></block>
       <block type="temp_get_temp"></block>
       <block type="temp_get_humidity"></block>
-    </category>
+    </category>`;
+  }
 
-</category>
-
-
-</xml>
-`;
+  toolbox += `</category></xml>`;
 
   return toolbox;
 };

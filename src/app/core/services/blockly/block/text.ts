@@ -26,7 +26,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'String',
-    colour: COLOR_THEME.DATA,
+    colour: COLOR_THEME.VALUES,
     tooltip: '',
     helpUrl: ''
   },
@@ -66,7 +66,7 @@ defineBlocksWithJsonArray([
     ],
     inputsInline: false,
     output: 'String',
-    colour: COLOR_THEME.DATA,
+    colour: COLOR_THEME.VALUES,
     tooltip: '',
     helpUrl: ''
   }

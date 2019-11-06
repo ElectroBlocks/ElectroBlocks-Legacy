@@ -9,7 +9,10 @@ const toolboxKey = 'blockly_tool_box';
 })
 export class ToolboxService {
   public saveToolBox(entries: ToolboxEntry[]) {
-    Blockly.mainWorkspace.updateToolbox(getToolBoxString(entries));
+    if (Blockly.mainWorkspace) {
+      console.log(getToolBoxString(entries), 'toolbox');
+      Blockly.mainWorkspace.updateToolbox(getToolBoxString(entries));
+    }
     return localStorage.setItem(toolboxKey, JSON.stringify(entries));
   }
 
@@ -37,8 +40,10 @@ const defaultToolbox: ToolboxEntry[] = [
   { name: 'Text', show: true },
   { name: 'Bluetooth', show: true },
   { name: 'Buttons', show: true },
+  { name: 'Debug', show: true },
   { name: 'Message', show: true },
-  { name: 'Pins', show: true },
+  { name: 'Analog', show: true },
+  { name: 'Digital', show: true },
   { name: 'Time', show: true },
   { name: 'LCD Screen', show: true },
   { name: 'Led', show: true },
@@ -46,7 +51,7 @@ const defaultToolbox: ToolboxEntry[] = [
   { name: 'Led Matrix', show: true },
   { name: 'Motor / Servo', show: true },
   { name: 'IR Remote', show: true },
-  { name: 'Motion Sensors', show: true },
+  { name: 'Motion', show: true },
   { name: 'RFID', show: true },
-  { name: 'Temp / Humidity', show: true }
+  { name: 'Temp', show: true }
 ];

@@ -13,7 +13,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'Number',
-    colour: COLOR_THEME.DATA,
+    colour: COLOR_THEME.VALUES,
     tooltip: '',
     helpUrl: ''
   }
