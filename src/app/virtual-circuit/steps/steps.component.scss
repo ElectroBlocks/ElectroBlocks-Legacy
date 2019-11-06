@@ -1,0 +1,40 @@
+div {
+  font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+}
+
+h3 {
+  text-align: center;
+  font-size: 2em;
+  margin: 5px;
+}
+div#steps {
+  height: 70%;
+  overflow: scroll;
+  padding: 0 5px;
+}
+
+ol {
+  list-style: none;
+  counter-reset: my-awesome-counter;
+
+  font-size: 1.5em;
+  li {
+    padding: 3px 0;
+    counter-increment: my-awesome-counter;
+  }
+  li::before {
+    content: 'Step ' counter(my-awesome-counter) '. ';
+    font-weight: bold;
+  }
+  li.selected-step,
+  li.selected::before {
+    background: steelblue;
+    border-radius: 2px;
+    padding: 3px;
+  }
+}
+div#loop {
+  height: 30%;
+  top: 26px;
+  position: relative;
+}

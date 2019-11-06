@@ -14,8 +14,8 @@ import { FramePlayer } from './../../core/services/player/frame/frame_player';
   styleUrls: ['./virtual-circuit-container.component.scss']
 })
 export class VirtualCircuitContainerComponent implements OnInit {
-  stepContainerHeight = '29.5%';
-  svgHeight = '69.5%';
+  stepContainerHeight = '49.5%';
+  svgHeight = '49.5%';
 
   isResizingDivs = false;
 

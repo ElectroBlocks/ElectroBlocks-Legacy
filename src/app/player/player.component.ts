@@ -17,20 +17,6 @@ export class PlayerComponent {
     startWith(0)
   );
 
-  public loop$ = this.player.changeFrame$.pipe(
-    map(frameInfo => {
-      if (
-        frameInfo.frameLocation.location === 'setup' ||
-        frameInfo.frameLocation.location === 'pre-setup'
-      ) {
-        return 'setup';
-      }
-      return frameInfo.frameLocation.iteration + 1;
-    }),
-    share(),
-    startWith('setup')
-  );
-
   public numberOfFrames$ = this.blocklyService.frames$.pipe(
     map(frames => frames.length),
     share(),
