@@ -2,6 +2,7 @@ import { defineBlocksWithJsonArray } from 'blockly';
 import { selectedBoard } from '../types/pins';
 import * as Blockly from 'blockly/core';
 import { loopTimes } from './debug_extensions';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   {
@@ -26,7 +27,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'String',
-    colour: 290,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: '',
     extensions: ['debug']
@@ -54,7 +55,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'Boolean',
-    colour: 290,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   },
@@ -78,7 +79,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: 290,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   }
@@ -113,7 +114,7 @@ Blockly.Blocks['bluetooth_setup'] = {
     this.appendDummyInput()
       .appendField('Receiving Message? ')
       .appendField(
-        new Blockly.FieldCheckbox('TRUE', value => {
+        new Blockly.FieldCheckbox('TRUE', (value) => {
           if ('FALSE' === value) {
             this.getField('message').setValue('');
           }
@@ -124,7 +125,7 @@ Blockly.Blocks['bluetooth_setup'] = {
     this.appendDummyInput()
       .appendField('Message:')
       .appendField(
-        new Blockly.FieldTextInput('message', value => {
+        new Blockly.FieldTextInput('message', (value) => {
           if (this.getFieldValue('receiving_message') === 'FALSE') {
             return null;
           }
@@ -132,7 +133,7 @@ Blockly.Blocks['bluetooth_setup'] = {
         }),
         'message'
       );
-    this.setColour(290);
+    this.setColour(COLOR_THEME.COMPONENTS);
     this.setTooltip('');
     this.setHelpUrl('');
   }

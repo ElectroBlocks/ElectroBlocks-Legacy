@@ -1,4 +1,5 @@
 import { defineBlocksWithJsonArray } from 'blockly';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   // BEGIN JSON EXTRACT
@@ -25,7 +26,7 @@ defineBlocksWithJsonArray([
       }
     ],
     output: 'String',
-    colour: '%{BKY_TEXTS_HUE}',
+    colour: COLOR_THEME.VALUES,
     tooltip: '',
     helpUrl: ''
   },
@@ -65,7 +66,7 @@ defineBlocksWithJsonArray([
     ],
     inputsInline: false,
     output: 'String',
-    colour: '%{BKY_TEXTS_HUE}',
+    colour: COLOR_THEME.VALUES,
     tooltip: '',
     helpUrl: ''
   }

@@ -10,8 +10,8 @@ import {
 import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
-import { Router, ActivationStart } from '@angular/router';
-import { filter, map, tap } from 'rxjs/operators';
+import { Router, ActivationStart, ActivationEnd } from '@angular/router';
+import { filter, map, tap, share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -25,11 +25,12 @@ export class AppComponent implements OnInit {
   isResizingDivs = false;
 
   showBottom$ = this.router.events.pipe(
-    filter(event => event instanceof ActivationStart),
-    filter(
-      (event: ActivationStart) => event.snapshot.data['ignoreBottom'] === false
-    ),
-    map((event: ActivationStart) => event.snapshot.data['showBottom'])
+    filter((event) => event instanceof ActivationStart),
+    filter((event: ActivationStart) => {
+      return event.snapshot.data['showBottom'] !== undefined;
+    }),
+    map((event: ActivationStart) => event.snapshot.data['showBottom']),
+    share()
   );
 
   @ViewChild('grabber', { static: false }) grabber: ElementRef<HTMLDivElement>;
@@ -55,7 +56,7 @@ export class AppComponent implements OnInit {
     this.router.events
       .pipe(
         filter(
-          event =>
+          (event) =>
             event instanceof ActivationStart &&
             this.blocklyService.getWorkSpace()
         ),
@@ -63,7 +64,7 @@ export class AppComponent implements OnInit {
           (event: ActivationStart) => event.snapshot.data['showRunLoopOption']
         )
       )
-      .subscribe(showRunLoopOption => {
+      .subscribe((showRunLoopOption) => {
         console.log(showRunLoopOption);
         this.blocklyService.showRunLoopOption(showRunLoopOption);
         this.blocklyService.showDebugMode(showRunLoopOption);

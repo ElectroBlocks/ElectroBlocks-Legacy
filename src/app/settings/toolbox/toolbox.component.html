@@ -1,0 +1,10 @@
+<h3>ToolBox Selector</h3>
+<mat-selection-list (selectionChange)="updateToolbox($event)" #toolBoxOption>
+  <mat-list-option
+    *ngFor="let menu of toolBoxMenu"
+    [selected]="menu.show"
+    [value]="menu.name"
+  >
+    {{ menu.name }}
+  </mat-list-option>
+</mat-selection-list>

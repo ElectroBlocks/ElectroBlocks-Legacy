@@ -1,4 +1,5 @@
 import { defineBlocksWithJsonArray } from 'blockly';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   {
@@ -22,7 +23,7 @@ defineBlocksWithJsonArray([
         max: 20000
       }
     ],
-    colour: 260,
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -48,7 +49,7 @@ defineBlocksWithJsonArray([
         max: 20000
       }
     ],
-    colour: 260,
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -74,7 +75,7 @@ defineBlocksWithJsonArray([
         max: 20000
       }
     ],
-    colour: 260,
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -100,7 +101,7 @@ defineBlocksWithJsonArray([
         max: 20000
       }
     ],
-    colour: 260,
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -135,7 +136,7 @@ defineBlocksWithJsonArray([
     inputsInline: true,
     previousStatement: null,
     nextStatement: null,
-    colour: '%{BKY_LISTS_HUE}',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -158,7 +159,7 @@ defineBlocksWithJsonArray([
     ],
     inputsInline: false,
     output: 'Number',
-    colour: '%{BKY_LISTS_HUE}',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -192,7 +193,7 @@ defineBlocksWithJsonArray([
     inputsInline: true,
     previousStatement: null,
     nextStatement: null,
-    colour: '%{BKY_LISTS_HUE}',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -215,7 +216,7 @@ defineBlocksWithJsonArray([
     ],
     inputsInline: false,
     output: 'String',
-    colour: '%{BKY_LISTS_HUE}',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -250,7 +251,7 @@ defineBlocksWithJsonArray([
     inputsInline: true,
     previousStatement: null,
     nextStatement: null,
-    colour: '%{BKY_LISTS_HUE}',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -273,7 +274,7 @@ defineBlocksWithJsonArray([
     ],
     inputsInline: false,
     output: 'Boolean',
-    colour: '%{BKY_LISTS_HUE}',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -308,7 +309,7 @@ defineBlocksWithJsonArray([
     inputsInline: true,
     previousStatement: null,
     nextStatement: null,
-    colour: '%{BKY_LISTS_HUE}',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   },
@@ -331,7 +332,7 @@ defineBlocksWithJsonArray([
     ],
     inputsInline: false,
     output: 'Colour',
-    colour: '%{BKY_LISTS_HUE}',
+    colour: COLOR_THEME.DATA,
     tooltip: '',
     helpUrl: ''
   }

@@ -20,8 +20,7 @@ import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
 import { SvgComponent } from './virtual-circuit/svg/svg.component';
 import { VirtualCircuitContainerComponent } from './virtual-circuit/virtual-circuit-container/virtual-circuit-container.component';
-import { SettingsContainerComponent } from './virtual-circuit/settings-container/settings-container.component';
-import { VariablesComponent } from './virtual-circuit/settings/variables/variables.component';
+import { VariablesComponent } from './virtual-circuit/variables/variables.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -33,10 +32,19 @@ import {
   MatIconModule,
   MatSliderModule,
   MatGridListModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatToolbarModule,
+  MatSidenavModule,
+  MatListModule
 } from '@angular/material';
 import { FramePlayer } from './core/services/player/frame/frame_player';
 import { WebMenuComponent } from './web-menu/web-menu.component';
+import { ElectronMenuComponent } from './electron-menu/electron-menu.component';
+import { SettingsComponent } from './settings/settings.component';
+import { ToolboxComponent } from './settings/toolbox/toolbox.component';
+import { HelpComponent } from './settings/help/help.component';
+import { AboutComponent } from './settings/about/about.component';
+import { BugComponent } from './settings/bug/bug.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -51,9 +59,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     PlayerComponent,
     SvgComponent,
     VirtualCircuitContainerComponent,
-    SettingsContainerComponent,
     VariablesComponent,
-    WebMenuComponent
+    WebMenuComponent,
+    ElectronMenuComponent,
+    SettingsComponent,
+    ToolboxComponent,
+    HelpComponent,
+    AboutComponent,
+    BugComponent
   ],
   imports: [
     BrowserModule,
@@ -73,6 +86,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatGridListModule,
     MatButtonModule,
     MatSlideToggleModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

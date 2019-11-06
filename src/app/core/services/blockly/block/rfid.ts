@@ -3,6 +3,7 @@ import './debug_extensions';
 import * as Blockly from 'blockly/core';
 import { selectedBoard } from '../types/pins';
 import { loopTimes } from './debug_extensions';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   {
@@ -28,7 +29,7 @@ defineBlocksWithJsonArray([
     ],
     inputsInline: false,
     output: 'Boolean',
-    colour: 260,
+    colour: COLOR_THEME.SENSOR,
     tooltip: '',
     helpUrl: '',
     extensions: ['debug']
@@ -58,7 +59,7 @@ defineBlocksWithJsonArray([
     ],
     inputsInline: false,
     output: 'String',
-    colour: 260,
+    colour: COLOR_THEME.SENSOR,
     tooltip: '',
     helpUrl: '',
     extensions: ['debug']
@@ -88,7 +89,7 @@ defineBlocksWithJsonArray([
     ],
     inputsInline: false,
     output: 'String',
-    colour: 260,
+    colour: COLOR_THEME.SENSOR,
     tooltip: '',
     helpUrl: ''
   }
@@ -157,7 +158,7 @@ Blockly.Blocks['rfid_setup'] = {
         }),
         'tag'
       );
-    this.setColour(260);
+    this.setColour(COLOR_THEME.SENSOR);
     this.setTooltip('');
     this.setHelpUrl('');
   }

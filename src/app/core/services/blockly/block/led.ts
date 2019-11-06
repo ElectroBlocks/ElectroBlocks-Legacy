@@ -1,5 +1,6 @@
 import { defineBlocksWithJsonArray } from 'blockly';
 import { selectedBoard } from '../types/pins';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   {
@@ -27,7 +28,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: 230,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   },
@@ -56,7 +57,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: 230,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   },
@@ -92,13 +93,13 @@ defineBlocksWithJsonArray([
         options: [['6 - 5 - 3', '6-5-3'], ['11 - 10 - 9', '11-10-9']]
       }
     ],
-    colour: 230,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   },
   {
     type: 'set_color_led',
-    message0: '%1 Set Color Led\'s Color %2',
+    message0: "%1 Set Color Led's Color %2",
     args0: [
       {
         type: 'field_image',
@@ -116,7 +117,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: 230,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   }

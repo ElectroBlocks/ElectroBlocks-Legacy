@@ -1,5 +1,6 @@
 import { defineBlocksWithJsonArray } from 'blockly';
 import { selectedBoard } from '../types/pins';
+import { COLOR_THEME } from './color_theme';
 
 defineBlocksWithJsonArray([
   {
@@ -35,7 +36,7 @@ defineBlocksWithJsonArray([
     ],
     previousStatement: null,
     nextStatement: null,
-    colour: 190,
+    colour: COLOR_THEME.COMPONENTS,
     tooltip: '',
     helpUrl: ''
   }

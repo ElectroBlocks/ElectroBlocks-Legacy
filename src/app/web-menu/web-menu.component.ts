@@ -32,7 +32,7 @@ export class WebMenuComponent implements OnInit {
     saveAs(blob, `electro_blocks_${new Date().getMilliseconds()}.xml`);
   }
 
-  help() {
+  settings() {
     alert('not up yet. :) should show up :)');
   }
 }
