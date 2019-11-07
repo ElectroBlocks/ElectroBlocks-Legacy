@@ -33,7 +33,7 @@ export const arduino_send_message_block = (
 
   const step = new Step(block.id, `Arduino sending message to computer: ${message}`);
 
-  return [new ArduinoFrame(block.id, updatedState, frameLocation)];
+  return [new ArduinoFrame(block.id, updatedState, frameLocation, [step])];
 };
 
 export const arduino_get_message_block = (block: Block,

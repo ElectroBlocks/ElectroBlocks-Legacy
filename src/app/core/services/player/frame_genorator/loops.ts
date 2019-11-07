@@ -7,6 +7,7 @@ import { getVariableName } from './variables';
 import { Block } from 'blockly';
 import { Frame, FrameLocation } from '../frame/frame';
 import { ArduinoState } from '../arduino/state/arduino.state';
+import { Step } from '../arduino/step';
 
 /**
  * Generates a simple loop block where the user does not have control
@@ -17,9 +18,6 @@ const controls_repeat_ext_block = (
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
-  const loopFrame = previousFrame
-    ? (previousFrame.makeCopy(block.id, frameLocation) as ArduinoFrame)
-    : ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
 
   const times = getInputValue(
     block,
@@ -29,24 +27,39 @@ const controls_repeat_ext_block = (
     previousFrame
   ) as number;
 
+  const copiedState = previousFrame ? previousFrame.copyState() : new ArduinoState([], {});
+
   if (times <= 0) {
-    return [loopFrame];
+    return [new ArduinoFrame(block.id, copiedState, frameLocation, [
+      new Step(block.id, 'Will not run the loop becuase it is set to run 0 times!')
+    ])];
   }
+
+      const step = new Step(
+        block.id,
+        `Repeat block running 1 out of ${times} times.`
+      );
+
+  const firstLoopFrame = new ArduinoFrame(block.id, copiedState, frameLocation, [
+    step
+  ]);
 
   let frames = generateFrameForInputStatement(
     block,
     'DO',
     frameLocation,
-    loopFrame
+    firstLoopFrame
   ) as ArduinoFrame[];
-  frames.unshift(loopFrame);
+  frames.unshift(firstLoopFrame);
 
   for (let i = 1; i < times; i += 1) {
     previousFrame = frames[frames.length - 1];
-    const loopFrame = previousFrame.makeCopy(
-      block.id,
-      frameLocation
-    ) as ArduinoFrame;
+    const loopFrame = new ArduinoFrame(block.id, previousFrame.copyState(), previousFrame.frameLocation, [
+      new Step(
+        block.id,
+        `Repeat block running ${i + 1} out of ${times} times.`
+      )
+    ]);
 
     if (times - 1 > i) {
       frames.push(loopFrame);
@@ -72,16 +85,16 @@ const controls_for_block = (
   previousFrame?: ArduinoFrame
 ) => {
   const start = parseInt(
-    getInputValue(block, 'FROM', 1, frameLocation, previousFrame).toString()
+    getInputValue(block, 'FROM', 1, frameLocation, previousFrame).toString(), 0
   );
 
   const to = parseInt(
-    getInputValue(block, 'TO', 1, frameLocation, previousFrame).toString()
+    getInputValue(block, 'TO', 1, frameLocation, previousFrame).toString(), 0
   );
 
   let by = Math.abs(
     parseInt(
-      getInputValue(block, 'BY', 1, frameLocation, previousFrame).toString()
+      getInputValue(block, 'BY', 1, frameLocation, previousFrame).toString(), 0
     )
   );
 
