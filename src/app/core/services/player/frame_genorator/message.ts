@@ -5,6 +5,7 @@ import { getInputValue } from '../frame/blockly_helper';
 import { ArduinoState } from '../arduino/state/arduino.state';
 import { getSensorData } from '../frame/generate_frame';
 import { ArduinoMessageState } from '../arduino/state/arduino-message.state';
+import { Step } from '../arduino/step';
 
 export const arduino_send_message_block = (
   block: Block,
@@ -29,6 +30,8 @@ export const arduino_send_message_block = (
     true,
     message
   );
+
+  const step = new Step(block.id, `Arduino sending message to computer: ${message}`);
 
   return [new ArduinoFrame(block.id, updatedState, frameLocation)];
 };

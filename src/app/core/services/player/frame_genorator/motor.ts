@@ -5,6 +5,7 @@ import { getInputValue } from '../frame/blockly_helper';
 import { MOTOR_DIRECTION } from '../arduino/state/motor.state';
 import { ArduinoState } from '../arduino/state/arduino.state';
 import { MotorState } from '../arduino/state/motor.state';
+import { Step } from '../arduino/step';
 
 export const move_motor_block = (
   block: Block,
@@ -12,7 +13,8 @@ export const move_motor_block = (
   previousFrame?: ArduinoFrame
 ): ArduinoFrame[] => {
   let motorNumber = parseInt(
-    getInputValue(block, 'MOTOR', 1, frameLocation, previousFrame).toString()
+    getInputValue(block, 'MOTOR', 1, frameLocation, previousFrame).toString(),
+    0
   );
 
   if (motorNumber < 0 || motorNumber > 4) {
@@ -22,19 +24,20 @@ export const move_motor_block = (
   const direction = block.getFieldValue('DIRECTION') as MOTOR_DIRECTION;
 
   const speed = parseInt(
-    getInputValue(block, 'SPEED', 10, frameLocation, previousFrame).toString()
+    getInputValue(block, 'SPEED', 10, frameLocation, previousFrame).toString(),
+    0
   );
 
   const state = previousFrame
     ? previousFrame.copyState()
     : ArduinoState.makeEmptyState();
 
-  const motor = state.components.find(
-    (c) => c instanceof MotorState && c.motorNumber === motorNumber
+  let motor = state.components.find(
+    c => c instanceof MotorState && c.motorNumber === motorNumber
   ) as MotorState;
 
   const motorIndex = state.components.findIndex(
-    (c) => c instanceof MotorState && c.motorNumber === motorNumber
+    c => c instanceof MotorState && c.motorNumber === motorNumber
   );
 
   if (motor) {
@@ -44,8 +47,11 @@ export const move_motor_block = (
       direction
     );
   } else {
-    state.components.push(new MotorState(motorNumber, speed, direction));
+    motor = new MotorState(motorNumber, speed, direction);
+    state.components.push(motor);
   }
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  const step = new Step(block.id, `Motor ${motorNumber} is rotating ${direction.toLowerCase()} at speed ${speed}`);
+
+  return [new ArduinoFrame(block.id, state, frameLocation, [step])];
 };

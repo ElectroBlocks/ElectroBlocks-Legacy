@@ -4,6 +4,7 @@ import * as Blockly from 'blockly/core';
 import { getInputValue } from '../frame/blockly_helper';
 import { FrameLocation } from '../frame/frame';
 import { ArduinoState } from '../arduino/state/arduino.state';
+import { Step } from '../arduino/step';
 
 
 /**
@@ -120,8 +121,9 @@ const setVariable = (block: Block, type: string, defaultValue: any, frameLocatio
         value
     };
 
+    const step = new Step(block.id, `Setting variable ${variableName} = ${value}.`);
 
-    return [new ArduinoFrame(block.id, state, frameLocation)];
+    return [new ArduinoFrame(block.id, state, frameLocation, [step])];
 };
 
 /**

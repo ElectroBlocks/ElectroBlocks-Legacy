@@ -5,13 +5,13 @@ import { FrameLocation } from '../frame/frame';
 import { ArduinoState } from '../arduino/state/arduino.state';
 import { getSensorData } from '../frame/generate_frame';
 import { TimeState } from '../arduino/state/time.state';
+import { Step } from '../arduino/step';
 
 export const delay_block_block = (
   block: Block,
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
-
   const time = getInputValue(
     block,
     'DELAY',
@@ -32,15 +32,20 @@ export const delay_block_block = (
     parseFloat(time) * 1000
   );
 
-  const frame = new ArduinoFrame(block.id, updatedState, frameLocation);
+  const step = new Step(
+    block.id,
+    `Waiting for ${parseFloat(time).toFixed(5)} seconds.`
+  );
+
+  const frame = new ArduinoFrame(block.id, updatedState, frameLocation, [step]);
 
   return [frame];
 };
 
 export const time_seconds_block = (
-         block: Block,
-         frameLocation: FrameLocation,
-         previousFrame?: ArduinoFrame
+  block: Block,
+  frameLocation: FrameLocation,
+  previousFrame?: ArduinoFrame
 ) => {
   const timeState = getTimeState(frameLocation);
 
@@ -51,6 +56,6 @@ const getTimeState = (frameLocation: FrameLocation): TimeState => {
   const data = getSensorData();
   const loopNumber = frameLocation.iteration;
   return data[loopNumber].find(
-    (component) => component instanceof TimeState
+    component => component instanceof TimeState
   ) as TimeState;
 };

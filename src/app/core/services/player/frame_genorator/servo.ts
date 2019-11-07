@@ -5,6 +5,7 @@ import { FrameLocation } from '../frame/frame';
 import { ArduinoState } from '../arduino/state/arduino.state';
 import { ServoState } from '../arduino/state/servo.state';
 import { stringToPin } from '../arduino/arduino_frame';
+import { Step } from '../arduino/step';
 
 export const rotate_servo_block = (
   block: Block,
@@ -25,7 +26,7 @@ export const rotate_servo_block = (
   const servoState = state.components.find(
     (component) =>
       component instanceof ServoState && component.pin === stringToPin(pin)
-  );
+  ) as ServoState;
 
   if (servoState instanceof ServoState) {
     const index = state.components.indexOf(servoState);
@@ -35,5 +36,7 @@ export const rotate_servo_block = (
     state.components.push(new ServoState(angle, stringToPin(pin)));
   }
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  const step = new Step(block.id, `Rotating servo ${servoState.pin} to this angle ${servoState.degree}°.`);
+
+  return [new ArduinoFrame(block.id, state, frameLocation, [step])];
 };

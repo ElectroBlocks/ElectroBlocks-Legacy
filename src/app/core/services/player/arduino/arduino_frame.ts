@@ -1,12 +1,14 @@
 import { Frame, FrameLocation } from '../frame/frame';
 import { ArduinoState } from './state/arduino.state';
+import { Step } from './step';
 import * as _ from 'lodash';
 
 export class ArduinoFrame implements Frame {
   constructor(
     public readonly blockId: string,
     public readonly state: ArduinoState,
-    public readonly frameLocation: FrameLocation
+    public readonly frameLocation: FrameLocation,
+    public readonly steps: Step[] = []
   ) {}
 
   public static makeEmptyFrame(blockId: string, frameLocation: FrameLocation) {
