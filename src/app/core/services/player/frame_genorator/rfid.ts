@@ -9,7 +9,6 @@ export const rfid_card_block = (
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
-
   return getRFIDComponent(frameLocation).cardNumber;
 };
 
@@ -33,6 +32,6 @@ const getRFIDComponent = (frameLocation: FrameLocation): RFIDState => {
   const data = getSensorData();
   const loopNumber = frameLocation.iteration;
   return data[loopNumber].find(
-    component => component instanceof RFIDState
+    (component) => component instanceof RFIDState
   ) as RFIDState;
 };

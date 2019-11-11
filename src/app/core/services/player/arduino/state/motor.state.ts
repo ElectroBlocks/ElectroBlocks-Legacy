@@ -1,11 +1,13 @@
 import {
   ElectricAttachmentComponentState,
-  ElectricComponentState
+  ElectricComponentState,
+  ExplainState
 } from './electric.state';
 import { ElectricComponentType } from './electric.component.type';
 import { ARDUINO_UNO_PINS } from '../arduino_frame';
 
-export class MotorState extends ElectricAttachmentComponentState {
+export class MotorState extends ElectricAttachmentComponentState
+  implements ExplainState {
   /**
    * Uses a shield mostly
    */
@@ -22,7 +24,13 @@ export class MotorState extends ElectricAttachmentComponentState {
   }
 
   public isEqual(state: ElectricAttachmentComponentState): boolean {
-    return state instanceof MotorState && state.motorNumber === this.motorNumber;
+    return (
+      state instanceof MotorState && state.motorNumber === this.motorNumber
+    );
+  }
+
+  explanation(): string {
+    return `Motor ${this.motorNumber} is running ${this.direction} at speed ${this.speed}.`;
   }
 }
 

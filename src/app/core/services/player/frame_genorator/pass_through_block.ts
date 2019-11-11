@@ -2,7 +2,6 @@ import { Block } from 'blockly';
 import { FrameLocation } from '../frame/frame';
 import { ArduinoFrame } from '../arduino/arduino_frame';
 import { ArduinoState } from '../arduino/state/arduino.state';
-import { Step } from '../arduino/step';
 
 export const setupBlock = (message: (block: Block) => string) => {
   return (
@@ -14,11 +13,7 @@ export const setupBlock = (message: (block: Block) => string) => {
       ? previousFrame.state
       : ArduinoState.makeEmptyState();
 
-    return [
-      new ArduinoFrame(block.id, state, frameLocation, [
-        new Step(block.id, message(block))
-      ])
-    ];
+    return [new ArduinoFrame(block.id, state, frameLocation, message(block))];
   };
 };
 

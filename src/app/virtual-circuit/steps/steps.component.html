@@ -1,17 +1,11 @@
 <div id="steps">
-  <ol>
-    <li class="selected-step" >Turn led 1 on.</li>
-    <li>Wait 1 second.</li>
-    <li>Turn led 1 off.</li>
-    <li>Wait 1 second.</li>
-    <li>Turn led 1 on.</li>
-    <li>Wait 1 second.</li>
-    <li>Turn led 1 off.</li>
-    <li>Wait 1 second.</li>
-    <li>Turn led 1 on.</li>
-    <li>Wait 1 second.</li>
-    <li>Turn led 1 off.</li>
-    <li>Wait 1 second.</li>
+  <ol #stepsList id="stepsList">
+    <li
+      *ngFor="let step of steps$ | async"
+      [ngClass]="{ 'selected-step': step.selected }"
+    >
+      {{ step.step }}
+    </li>
   </ol>
 </div>
 <div id="loop">

@@ -5,7 +5,6 @@ import { getInputValue } from '../frame/blockly_helper';
 import { ArduinoState } from '../arduino/state/arduino.state';
 import { getSensorData } from '../frame/generate_frame';
 import { ArduinoMessageState } from '../arduino/state/arduino-message.state';
-import { Step } from '../arduino/step';
 
 export const arduino_send_message_block = (
   block: Block,
@@ -31,33 +30,39 @@ export const arduino_send_message_block = (
     message
   );
 
-  const step = new Step(block.id, `Arduino sending message to computer: ${message}`);
-
-  return [new ArduinoFrame(block.id, updatedState, frameLocation, [step])];
+  return [
+    new ArduinoFrame(
+      block.id,
+      updatedState,
+      frameLocation,
+      `Arduino sending message to computer: ${message}`
+    )
+  ];
 };
 
-export const arduino_get_message_block = (block: Block,
+export const arduino_get_message_block = (
+  block: Block,
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
   const messageState = getArduionMessage(frameLocation);
 
   return messageState.message;
-
 };
 
 export const arduino_receive_message_block = (
-         block: Block,
-         frameLocation: FrameLocation,
-         previousFrame?: ArduinoFrame
-       ) => {
-         const messageState = getArduionMessage(frameLocation);
+  block: Block,
+  frameLocation: FrameLocation,
+  previousFrame?: ArduinoFrame
+) => {
+  const messageState = getArduionMessage(frameLocation);
 
-         return messageState.recievingMessage;
-       };
+  return messageState.recievingMessage;
+};
 
-
-const getArduionMessage = (frameLocation: FrameLocation): ArduinoMessageState => {
+const getArduionMessage = (
+  frameLocation: FrameLocation
+): ArduinoMessageState => {
   const data = getSensorData();
   const loopNumber = frameLocation.iteration;
   return data[loopNumber].find(

@@ -5,9 +5,8 @@ import {
 } from '../frame/blockly_helper';
 import { getVariableName } from './variables';
 import { Block } from 'blockly';
-import { Frame, FrameLocation } from '../frame/frame';
+import { FrameLocation } from '../frame/frame';
 import { ArduinoState } from '../arduino/state/arduino.state';
-import { Step } from '../arduino/step';
 
 /**
  * Generates a simple loop block where the user does not have control
@@ -18,7 +17,6 @@ const controls_repeat_ext_block = (
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
-
   const times = getInputValue(
     block,
     'TIMES',
@@ -27,22 +25,27 @@ const controls_repeat_ext_block = (
     previousFrame
   ) as number;
 
-  const copiedState = previousFrame ? previousFrame.copyState() : new ArduinoState([], {});
+  const copiedState = previousFrame
+    ? previousFrame.copyState()
+    : new ArduinoState([], {});
 
   if (times <= 0) {
-    return [new ArduinoFrame(block.id, copiedState, frameLocation, [
-      new Step(block.id, 'Will not run the loop becuase it is set to run 0 times!')
-    ])];
+    return [
+      new ArduinoFrame(
+        block.id,
+        copiedState,
+        frameLocation,
+        'Will not run the loop becuase it is set to run 0 times!'
+      )
+    ];
   }
 
-      const step = new Step(
-        block.id,
-        `Repeat block running 1 out of ${times} times.`
-      );
-
-  const firstLoopFrame = new ArduinoFrame(block.id, copiedState, frameLocation, [
-    step
-  ]);
+  const firstLoopFrame = new ArduinoFrame(
+    block.id,
+    copiedState,
+    frameLocation,
+    `Repeating blocks  1 out of ${times} times.`
+  );
 
   let frames = generateFrameForInputStatement(
     block,
@@ -54,12 +57,12 @@ const controls_repeat_ext_block = (
 
   for (let i = 1; i < times; i += 1) {
     previousFrame = frames[frames.length - 1];
-    const loopFrame = new ArduinoFrame(block.id, previousFrame.copyState(), previousFrame.frameLocation, [
-      new Step(
-        block.id,
-        `Repeat block running ${i + 1} out of ${times} times.`
-      )
-    ]);
+    const loopFrame = new ArduinoFrame(
+      block.id,
+      previousFrame.copyState(),
+      previousFrame.frameLocation,
+      `Repeat block running ${i + 1} out of ${times} times.`
+    );
 
     if (times - 1 > i) {
       frames.push(loopFrame);
@@ -85,23 +88,41 @@ const controls_for_block = (
   previousFrame?: ArduinoFrame
 ) => {
   const start = parseInt(
-    getInputValue(block, 'FROM', 1, frameLocation, previousFrame).toString(), 0
+    getInputValue(block, 'FROM', 1, frameLocation, previousFrame).toString(),
+    0
   );
 
   const to = parseInt(
-    getInputValue(block, 'TO', 1, frameLocation, previousFrame).toString(), 0
+    getInputValue(block, 'TO', 1, frameLocation, previousFrame).toString(),
+    0
   );
 
   let by = Math.abs(
     parseInt(
-      getInputValue(block, 'BY', 1, frameLocation, previousFrame).toString(), 0
+      getInputValue(block, 'BY', 1, frameLocation, previousFrame).toString(),
+      0
     )
   );
+
+  const mathOperation = by > 0 ? ' adding ' : ' subtracting ';
+
+  let times = 0;
+
+  let timesAround = 0;
+
+  if (to !== start) {
+    times = Math.ceil(Math.abs(to - start) / Math.abs(by)) + 1;
+    timesAround = 1;
+  }
 
   const loopFrame = generateLoopFrame(
     start,
     block,
     frameLocation,
+    mathOperation,
+    times,
+    timesAround,
+    Math.abs(by),
     previousFrame
   );
 
@@ -120,10 +141,15 @@ const controls_for_block = (
   let index = start + by;
 
   while (checkLoop(index, to, to > start)) {
+    timesAround += 1;
     const nextLoopFrame = generateLoopFrame(
       index,
       block,
       frameLocation,
+      mathOperation,
+      times,
+      timesAround,
+      Math.abs(by),
       frames[frames.length - 1]
     );
     frames.push(nextLoopFrame); // so that it copies the value and not the reference
@@ -151,6 +177,10 @@ const generateLoopFrame = (
   indexValue: number,
   block: Block,
   frameLocation: FrameLocation,
+  mathOperation: string,
+  times: number,
+  timesAround: number,
+  by: number,
   previousFrame?: ArduinoFrame
 ): ArduinoFrame => {
   const state = previousFrame
@@ -166,7 +196,14 @@ const generateLoopFrame = (
     name: indexVariableName
   };
 
-  return new ArduinoFrame(block.id, state, frameLocation);
+  const mathOperationPartOfMessage =
+    timesAround === 1 ? '' : ` by ${mathOperation} ${by}`;
+
+  const message =
+    `Running blocks inside do part of the loop. Setting variable ${indexVariableName} = ${indexValue}${mathOperationPartOfMessage}.` +
+    ` ( ${timesAround} / ${times})`;
+
+  return new ArduinoFrame(block.id, state, frameLocation, message);
 };
 
 export { controls_for_block, controls_repeat_ext_block };

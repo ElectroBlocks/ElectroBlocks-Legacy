@@ -1,12 +1,12 @@
 import {
   ElectricAttachmentComponentState,
-  SensorComponent
+  SensorComponent,
+  ExplainState
 } from './electric.state';
 import { ElectricComponentType } from './electric.component.type';
 import { ARDUINO_UNO_PINS } from '../arduino_frame';
-import { Color } from '../../frame_genorator/color';
 
-export class IRRemoteState extends SensorComponent {
+export class IRRemoteState extends SensorComponent implements ExplainState {
   public readonly type = 'ir_remote_component';
 
   public readonly electricComponentType = ElectricComponentType.IR_REMOTE;
@@ -30,5 +30,11 @@ export class IRRemoteState extends SensorComponent {
 
   public isEqual(state: ElectricAttachmentComponentState): boolean {
     return state instanceof IRRemoteState && state.analogPin === this.analogPin;
+  }
+
+  public explanation() {
+    return `IR Remote is ${this.hasCode ? '' : 'not'} receiving code: ${
+      this.hasCode ? this.code : ''
+    }`;
   }
 }

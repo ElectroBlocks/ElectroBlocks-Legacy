@@ -12,15 +12,15 @@ describe('Frame Player', () => {
     new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
       location: 'setup',
       iteration: 0
-    }),
+    }, ''),
     new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
       location: 'loop',
       iteration: 0
-    }),
+    }, ''),
     new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
       location: 'loop',
       iteration: 1
-    })
+    }, '')
   ];
 
   beforeEach(() => {
@@ -42,22 +42,22 @@ describe('Frame Player', () => {
     const frame1 = new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
       location: 'pre-setup',
       iteration: 0
-    });
+    }, '');
 
     await framePlayer.setFrames([
       frame1,
       new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
         location: 'setup',
         iteration: 0
-      }),
+      }, ''),
       new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
         location: 'loop',
         iteration: 0
-      }),
+      }, ''),
       new ArduinoFrame('b1', ArduinoState.makeEmptyState(), {
         location: 'loop',
         iteration: 1
-      })
+      }, '')
     ]);
 
     expect(framePlayer['currentFrame']).toBe(0);

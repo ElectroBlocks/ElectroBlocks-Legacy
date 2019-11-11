@@ -31,4 +31,8 @@ export class UltraSonicSensorState extends SensorComponent {
       this.trigPin === state.trigPin
     );
   }
+
+  public explanation() {
+    return `Ultrasonic Sensor is reading ${this.cm} centimeter distance.`;
+  }
 }

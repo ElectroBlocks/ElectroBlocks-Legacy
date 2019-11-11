@@ -140,8 +140,6 @@ const generateIfElseFrames = (
     ? previousFrame.copyState()
     : ArduinoState.makeEmptyState();
 
-  const ifFrame = new ArduinoFrame(block.id, state, frameLocation);
-
   const executeBlocksInsideIf = getInputValue(
     block,
     'IF0',
@@ -150,7 +148,16 @@ const generateIfElseFrames = (
     previousFrame
   ) as boolean;
 
-  if (!executeBlocksInsideIfElse(executeBlocksInsideIf, hasElse)) {
+  const executeBlocksInsideIfOrElse = executeBlocksInsideIf || hasElse;
+
+  const ifFrame = new ArduinoFrame(
+    block.id,
+    state,
+    frameLocation,
+    getMessageForIfFrame(executeBlocksInsideIf, hasElse)
+  );
+
+  if (!executeBlocksInsideIfOrElse) {
     return [ifFrame];
   }
 
@@ -169,14 +176,21 @@ const generateIfElseFrames = (
   return frames;
 };
 
-/**
- * Returns true if blocks inside the if else should be executed
- */
-const executeBlocksInsideIfElse = (
-  executeBlocksInsideIf: boolean,
-  hasElse: boolean
-) => {
-  return executeBlocksInsideIf || hasElse;
+const getMessageForIfFrame = (
+  executeIf: boolean,
+  executeElse: boolean
+): string => {
+  const executeBlocksInsideIfOrElse = executeElse || executeIf;
+
+  if (!executeBlocksInsideIfOrElse) {
+    return `Not executing blocks inside do because what is connectted to the if is not true.`;
+  }
+
+  if (executeIf) {
+    return `Executing blocks inside do because what is connectted to the if is true.`;
+  }
+
+  return `Executing blocks inside else because what is connectted to the if is not true.`;
 };
 
 export {

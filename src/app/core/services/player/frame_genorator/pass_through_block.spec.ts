@@ -1,8 +1,6 @@
 import 'jasmine';
 import { ArduinoFrame } from '../arduino/arduino_frame';
-import {
-  temp_setup_block
-} from './pass_through_block';
+import { temp_setup_block } from './pass_through_block';
 import { Block } from 'blockly';
 import { ArduinoState } from '../arduino/state/arduino.state';
 
@@ -16,7 +14,8 @@ describe('pass through frame generator', () => {
         name: 'fred'
       }
     }),
-    { location: 'loop', iteration: 1 }
+    { location: 'loop', iteration: 1 },
+    ''
   );
 
   const block: any | Block = {

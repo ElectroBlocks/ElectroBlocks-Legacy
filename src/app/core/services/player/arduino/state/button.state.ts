@@ -2,10 +2,11 @@ import { ARDUINO_UNO_PINS } from './../arduino_frame';
 import { ElectricComponentType } from './electric.component.type';
 import {
   ElectricAttachmentComponentState,
-  SensorComponent
+  SensorComponent,
+  ExplainState
 } from './electric.state';
 
-export class ButtonState extends SensorComponent {
+export class ButtonState extends SensorComponent implements ExplainState {
   public readonly type = 'button_component';
   public readonly electricComponentType = ElectricComponentType.BUTTON;
 
@@ -27,5 +28,9 @@ export class ButtonState extends SensorComponent {
 
   public isEqual(state: ElectricAttachmentComponentState): boolean {
     return state instanceof ButtonState && state.pin === state.pin;
+  }
+
+  public explanation() {
+    return `Button ${this.pin} is ${this.isPressed ? 'not' : ''} pressed`;
   }
 }

@@ -5,16 +5,16 @@ import { getSensorData } from '../frame/generate_frame';
 import { ButtonState } from '../arduino/state/button.state';
 
 export const is_button_pressed_block = (
-    block: Block,
-    frameLocation: FrameLocation,
-    previousFrame?: ArduinoFrame
-  ) => {
+  block: Block,
+  frameLocation: FrameLocation,
+  previousFrame?: ArduinoFrame
+) => {
+  const loopNumber = frameLocation.iteration;
+  const data = getSensorData();
 
-    const loopNumber = frameLocation.iteration;
-    const data = getSensorData();
-
-    return (data[loopNumber].find(
-      component => component instanceof ButtonState && component.pin === block.getFieldValue('PIN')
-    ) as ButtonState).isPressed;
-
-  };
+  return (data[loopNumber].find(
+    (component) =>
+      component instanceof ButtonState &&
+      component.pin === block.getFieldValue('PIN')
+  ) as ButtonState).isPressed;
+};

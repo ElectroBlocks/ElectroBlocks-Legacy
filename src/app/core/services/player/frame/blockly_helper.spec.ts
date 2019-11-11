@@ -21,7 +21,7 @@ describe('generateFrameForInputStatement', () => {
         new ArduinoFrame(
           'block_id',
           ArduinoState.makeEmptyState(),
-          frameLocation
+          frameLocation, ''
         )
       ];
     };
@@ -35,12 +35,12 @@ describe('generateFrameForInputStatement', () => {
         new ArduinoFrame(
           'block_id',
           ArduinoState.makeEmptyState(),
-          frameLocation
+          frameLocation, ''
         ),
         new ArduinoFrame(
           'block_id',
           ArduinoState.makeEmptyState(),
-          frameLocation
+          frameLocation, ''
         )
       ];
     };

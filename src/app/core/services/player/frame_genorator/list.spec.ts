@@ -56,7 +56,9 @@ describe('list generators', () => {
 
     spyOn(block, 'getFieldValue')
       .withArgs('VAR')
-      .and.returnValue('variable_id');
+      .and.returnValue('variable_id')
+      .withArgs('SIZE')
+      .and.returnValue(3);
   });
 
   describe('create_list_number_block_block', () => {
@@ -94,10 +96,15 @@ describe('list generators', () => {
         false
       );
 
-      const previousFrame = new ArduinoFrame('block23', state, {
-        location: 'loop',
-        iteration: 0
-      });
+      const previousFrame = new ArduinoFrame(
+        'block23',
+        state,
+        {
+          location: 'loop',
+          iteration: 0
+        },
+        ''
+      );
 
       fakeVariable = {
         type: 'Number List',

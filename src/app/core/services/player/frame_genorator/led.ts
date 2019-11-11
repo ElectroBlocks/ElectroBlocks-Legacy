@@ -18,37 +18,33 @@ export const led_block = (
     ? previousFrame.copyState()
     : ArduinoState.makeEmptyState();
 
-  const pinState = arduinoState.components.find(
-    component =>
-      component instanceof PinState &&
-      component.pin === stringToPin(pin) &&
-      component.pinPicture === PinPicture.LED &&
-      component.type === PIN_TYPE.DIGITAL_OUTPUT
+  const foundPinState = arduinoState.components.find(
+    (c) => c instanceof PinState && c.pin === stringToPin(pin)
+  ) as PinState;
+
+  const pinState = new PinState(
+    stringToPin(pin),
+    PIN_TYPE.DIGITAL_OUTPUT,
+    state,
+    PinPicture.LED,
+    foundPinState ? foundPinState.color : randomLedColor()
   );
 
-  if (pinState instanceof PinState) {
-    const index = arduinoState.components.indexOf(pinState);
-    arduinoState.components[index] = new PinState(
-      stringToPin(pin),
-      PIN_TYPE.DIGITAL_OUTPUT,
-      state,
-      PinPicture.LED,
-      pinState.color
-    );
-  } else {
-    const color = randomLedColor();
-    arduinoState.components.push(
-      new PinState(
-        stringToPin(pin),
-        PIN_TYPE.DIGITAL_OUTPUT,
-        state,
-        PinPicture.LED,
-        color
-      )
-    );
-  }
+  const components = [
+    pinState,
+    ...arduinoState.components.filter((c) => !c.isEqual(foundPinState))
+  ];
 
-  return [new ArduinoFrame(block.id, arduinoState, frameLocation)];
+  const newArduinoState = new ArduinoState(components, arduinoState.variables);
+
+  return [
+    new ArduinoFrame(
+      block.id,
+      newArduinoState,
+      frameLocation,
+      pinState.explanation()
+    )
+  ];
 };
 
 export const randomLedColor = () => {
@@ -73,37 +69,33 @@ export const led_fade_block = (
     0
   );
 
-  const pinState = arduinoState.components.find(
-    component =>
-      component instanceof PinState &&
-      component.pin === stringToPin(pin) &&
-      component.pinPicture === PinPicture.LED &&
-      component.type === PIN_TYPE.ANALOG_OUTPUT
+  const foundPinState = arduinoState.components.find(
+    (c) => c instanceof PinState && c.pin === stringToPin(pin)
+  ) as PinState;
+
+  const pinState = new PinState(
+    stringToPin(pin),
+    PIN_TYPE.ANALOG_OUTPUT,
+    fadeNumber,
+    PinPicture.LED,
+    foundPinState ? foundPinState.color : randomLedColor()
   );
 
-  if (pinState instanceof PinState) {
-    const index = arduinoState.components.indexOf(pinState);
-    arduinoState.components[index] = new PinState(
-      stringToPin(pin),
-      PIN_TYPE.ANALOG_OUTPUT,
-      fadeNumber,
-      PinPicture.LED,
-      pinState.color
-    );
-  } else {
-    const color = randomLedColor();
-    arduinoState.components.push(
-      new PinState(
-        stringToPin(pin),
-        PIN_TYPE.ANALOG_OUTPUT,
-        fadeNumber,
-        PinPicture.LED,
-        color
-      )
-    );
-  }
+  const components = [
+    pinState,
+    ...arduinoState.components.filter((c) => !c.isEqual(foundPinState))
+  ];
 
-  return [new ArduinoFrame(block.id, arduinoState, frameLocation)];
+  const newArduinoState = new ArduinoState(components, arduinoState.variables);
+
+  return [
+    new ArduinoFrame(
+      block.id,
+      newArduinoState,
+      frameLocation,
+      pinState.explanation()
+    )
+  ];
 };
 
 const LEDS_COLORS = [

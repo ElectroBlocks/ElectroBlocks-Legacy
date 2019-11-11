@@ -17,14 +17,15 @@ ol {
   list-style: none;
   counter-reset: my-awesome-counter;
 
-  font-size: 1.5em;
   li {
-    padding: 3px 0;
+    padding: 3px;
     counter-increment: my-awesome-counter;
+    font-size: 1.3em;
   }
   li::before {
     content: 'Step ' counter(my-awesome-counter) '. ';
     font-weight: bold;
+    font-size: 1.2em;
   }
   li.selected-step,
   li.selected::before {
@@ -35,6 +36,15 @@ ol {
 }
 div#loop {
   height: 30%;
-  top: 26px;
-  position: relative;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: red;
+  border-radius: 10px;
 }

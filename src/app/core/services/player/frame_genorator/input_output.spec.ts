@@ -36,10 +36,15 @@ describe('input output frame generators', () => {
         false
       );
 
-      const previousFrame = new ArduinoFrame('asdf', state, {
-        location: 'loop',
-        iteration: 0
-      });
+      const previousFrame = new ArduinoFrame(
+        'asdf',
+        state,
+        {
+          location: 'loop',
+          iteration: 0
+        },
+        ''
+      );
 
       getFieldValueSpy.withArgs('PIN').and.returnValue('3');
       getFieldValueSpy.withArgs('STATE').and.returnValue('ON');
@@ -51,7 +56,7 @@ describe('input output frame generators', () => {
       );
 
       const pinState = frame.state.components.find(
-        component => component instanceof PinState
+        (component) => component instanceof PinState
       ) as PinState;
 
       expect(pinState.state).toBe(1);
@@ -73,7 +78,7 @@ describe('input output frame generators', () => {
       });
 
       const pinState = frame.state.components.find(
-        component => component instanceof PinState
+        (component) => component instanceof PinState
       ) as PinState;
 
       expect(pinState.state).toBe(0);
@@ -91,7 +96,7 @@ describe('input output frame generators', () => {
             ARDUINO_UNO_PINS.PIN_A0,
             PIN_TYPE.ANALOG_OUTPUT,
             30,
-            PinPicture.SENSOR
+            PinPicture.LED_ANALOG_WRITE
           )
         ],
         {
@@ -104,10 +109,15 @@ describe('input output frame generators', () => {
         false
       );
 
-      const previousFrame = new ArduinoFrame('asdf', state, {
-        location: 'loop',
-        iteration: 0
-      });
+      const previousFrame = new ArduinoFrame(
+        'asdf',
+        state,
+        {
+          location: 'loop',
+          iteration: 0
+        },
+        ''
+      );
 
       getInputValueSpy
         .withArgs(block, 'WRITE_VALUE', 0, frameLocation, previousFrame)
@@ -115,6 +125,7 @@ describe('input output frame generators', () => {
 
       const [frame] = analog_write_block(block, frameLocation, previousFrame);
 
+      console.log(frame.state.components, 'components');
       expect(frame.state.components.length).toBe(1);
 
       const pinState = frame.state.components[0] as PinState;

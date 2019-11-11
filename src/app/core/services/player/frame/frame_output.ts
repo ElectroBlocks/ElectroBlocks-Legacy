@@ -7,4 +7,5 @@ export interface FrameOutput {
   frameLocation: FrameLocation;
   lastFrame: boolean;
   blockId: string;
+  explanation: string;
 }

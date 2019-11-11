@@ -35,7 +35,9 @@ export const led_color_setup_block = (
     })
   );
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(block.id, state, frameLocation, `Setting up color led.`)
+  ];
 };
 
 export const set_color_led_block = (
@@ -47,7 +49,7 @@ export const set_color_led_block = (
     ? previousFrame.copyState()
     : ArduinoState.makeEmptyState();
   const ledColor = state.components.find(
-    c => c instanceof LedColorState
+    (c) => c instanceof LedColorState
   ) as LedColorState;
 
   const color = getInputValue(
@@ -62,5 +64,12 @@ export const set_color_led_block = (
   ledColor.color.blue = color.blue;
   ledColor.color.green = color.green;
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Setting color led to [${color.red}, ${color.green}, ${color.blue}]`
+    )
+  ];
 };

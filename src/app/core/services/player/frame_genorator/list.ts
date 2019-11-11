@@ -121,7 +121,14 @@ const getArrayValue = (
   const variableName = getVariableName(block);
 
   let position = parseInt(
-    getInputValue(block, 'POSITION', 0, frameLocation, previousFrame).toString()
+    getInputValue(
+      block,
+      'POSITION',
+      0,
+      frameLocation,
+      previousFrame
+    ).toString(),
+    0
   );
 
   position = position > 0 ? position - 1 : 0;
@@ -141,23 +148,36 @@ const setArrayValue = (
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
-  const frame = previousFrame
-    ? (previousFrame.makeCopy(block.id, frameLocation) as ArduinoFrame)
-    : ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
-
   let position = parseInt(
-    getInputValue(block, 'POSITION', 0, frameLocation, previousFrame).toString()
+    getInputValue(
+      block,
+      'POSITION',
+      0,
+      frameLocation,
+      previousFrame
+    ).toString(),
+    0
   );
 
   position = position > 0 ? position - 1 : 0;
 
-  const value = getInputValue(block, 'VALUE', 0, frameLocation, previousFrame);
+  const state = previousFrame.copyState();
 
-  const { variables } = frame.state;
+  const { variables } = state;
+
+  const value = getInputValue(block, 'VALUE', 0, frameLocation, previousFrame);
 
   const variableName = getVariableName(block);
 
+  const dataType = variables[variableName].type
+    .toLowerCase()
+    .replace('list', '');
+
   variables[variableName].value[position] = parseArrayInsertValue(value, type);
+
+  const message = `Updating list ${variableName} at position ${position} with ${value}.`;
+
+  const frame = new ArduinoFrame(block.id, state, frameLocation, message);
 
   return [frame];
 };
@@ -195,7 +215,13 @@ const createArrayType = (
     name: variableName
   };
 
-  const frame = new ArduinoFrame(block.id, state, frameLocation);
+  const sizeOfArray = block.getFieldValue('SIZE');
+  const message = `Create list name ${variableName} that store ${sizeOfArray} ${type.replace(
+    'List',
+    ''
+  )}`;
+
+  const frame = new ArduinoFrame(block.id, state, frameLocation, message);
 
   return [frame];
 };

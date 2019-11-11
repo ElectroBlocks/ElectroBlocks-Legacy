@@ -47,7 +47,7 @@ export const bluetooth_send_message_block = (
   );
   const state = previousFrame.copyState();
   const components = state.components.filter(
-    c => !(c instanceof BluetoothState)
+    (c) => !(c instanceof BluetoothState)
   );
   components.push(newBluetoothState);
 
@@ -60,13 +60,20 @@ export const bluetooth_send_message_block = (
     state.powerLedOn
   );
 
-  return [new ArduinoFrame(block.id, newState, frameLocation)];
+  return [
+    new ArduinoFrame(
+      block.id,
+      newState,
+      frameLocation,
+      bluetoothState.explanation()
+    )
+  ];
 };
 
 const getBluetoothState = (frameLocation: FrameLocation): BluetoothState => {
   const data = getSensorData();
   const loopNumber = frameLocation.iteration;
   return data[loopNumber].find(
-    component => component instanceof BluetoothState
+    (component) => component instanceof BluetoothState
   ) as BluetoothState;
 };

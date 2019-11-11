@@ -18,16 +18,25 @@ export const procedures_callnoreturn_block = (
   const procedureCall = block.getProcedureCall();
   const functionDefinitionBlock = findFunctionDefinitionBlock(procedureCall);
 
+  const callMessage = `Calling user created function named ${procedureCall}.`;
+
   const callBlockFrame = previousFrame
-    ? (previousFrame.makeCopy(block.id, frameLocation) as ArduinoFrame)
-    : ArduinoFrame.makeEmptyFrame(block.id, frameLocation);
+    ? (previousFrame.makeCopy(
+        block.id,
+        frameLocation,
+        callMessage
+      ) as ArduinoFrame)
+    : ArduinoFrame.makeEmptyFrame(block.id, frameLocation, callMessage);
 
   frames.push(callBlockFrame);
+
+  const jumpMessage = `Jumping into function name ${procedureCall}.`;
 
   const definitionBlockFrame = new ArduinoFrame(
     functionDefinitionBlock.id,
     callBlockFrame.copyState(),
-    frameLocation
+    frameLocation,
+    jumpMessage
   );
 
   const procedureDefinition = mapProcedureDefinition(functionDefinitionBlock);
@@ -58,7 +67,7 @@ export const procedures_callnoreturn_block = (
     definitionBlockFrame
   );
 
-  functionFrames.forEach(frame => frames.push(frame));
+  functionFrames.forEach((frame) => frames.push(frame));
 
   return frames;
 };
@@ -85,8 +94,8 @@ const getVariableDefaultType = (type: string) => {
 const findFunctionDefinitionBlock = (functionName: string): Block => {
   const functionBlocks = Blockly.mainWorkspace
     .getTopBlocks()
-    .filter(block => block.type === 'procedures_defnoreturn')
-    .filter(block => block.getProcedureDef()[0] === functionName);
+    .filter((block) => block.type === 'procedures_defnoreturn')
+    .filter((block) => block.getProcedureDef()[0] === functionName);
 
   if (functionBlocks.length === 0) {
     throw new Error(`No block with that function name ${functionName} found.`);

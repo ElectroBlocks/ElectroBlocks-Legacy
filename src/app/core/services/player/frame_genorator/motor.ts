@@ -5,7 +5,6 @@ import { getInputValue } from '../frame/blockly_helper';
 import { MOTOR_DIRECTION } from '../arduino/state/motor.state';
 import { ArduinoState } from '../arduino/state/arduino.state';
 import { MotorState } from '../arduino/state/motor.state';
-import { Step } from '../arduino/step';
 
 export const move_motor_block = (
   block: Block,
@@ -33,11 +32,11 @@ export const move_motor_block = (
     : ArduinoState.makeEmptyState();
 
   let motor = state.components.find(
-    c => c instanceof MotorState && c.motorNumber === motorNumber
+    (c) => c instanceof MotorState && c.motorNumber === motorNumber
   ) as MotorState;
 
   const motorIndex = state.components.findIndex(
-    c => c instanceof MotorState && c.motorNumber === motorNumber
+    (c) => c instanceof MotorState && c.motorNumber === motorNumber
   );
 
   if (motor) {
@@ -51,7 +50,12 @@ export const move_motor_block = (
     state.components.push(motor);
   }
 
-  const step = new Step(block.id, `Motor ${motorNumber} is rotating ${direction.toLowerCase()} at speed ${speed}`);
-
-  return [new ArduinoFrame(block.id, state, frameLocation, [step])];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Motor ${motorNumber} is rotating ${direction.toLowerCase()} at speed ${speed}`
+    )
+  ];
 };

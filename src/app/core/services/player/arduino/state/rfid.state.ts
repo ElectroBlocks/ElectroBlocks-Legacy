@@ -2,10 +2,11 @@ import { ARDUINO_UNO_PINS } from './../arduino_frame';
 import { ElectricComponentType } from './electric.component.type';
 import {
   ElectricAttachmentComponentState,
-  SensorComponent
+  SensorComponent,
+  ExplainState
 } from './electric.state';
 
-export class RFIDState extends SensorComponent {
+export class RFIDState extends SensorComponent implements ExplainState {
   public readonly electricComponentType = ElectricComponentType.RFID;
   public readonly type = 'rfid_component';
   constructor(
@@ -46,5 +47,13 @@ export class RFIDState extends SensorComponent {
     }
 
     return undefined;
+  }
+
+  public explanation() {
+    if (this.scannedCard) {
+      return `RFID Read is scanning card number: ${this.cardNumber} and tag: ${this.tag}`;
+    }
+
+    return 'RFID Reader is not scanning an new cards.';
   }
 }

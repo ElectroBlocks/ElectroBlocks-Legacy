@@ -6,7 +6,6 @@ import { Color } from './color';
 import { NeoPixelStripState } from '../arduino/state/neo_pixel_strip.state';
 import { ArduinoState } from '../arduino/state/arduino.state';
 import { stringToPin } from '../arduino/arduino_frame';
-import { Step } from '../arduino/step';
 
 export const neo_pixel_setup_block = (
   block: Block,
@@ -31,9 +30,14 @@ export const neo_pixel_setup_block = (
 
   state.components.push(neoPixelState);
 
-  const step = new Step(block.id, `Setting up rgb led light strip`);
-
-  return [new ArduinoFrame(block.id, state, frameLocation, [step])];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Setting up rgb led light strip`
+    )
+  ];
 };
 
 export const neo_pixel_set_color_block = (
@@ -74,9 +78,14 @@ export const neo_pixel_set_color_block = (
     neoPixelState.neoPixels[index].color = color;
   }
 
-
-
-  const step = new Step(block.id, `Setting led ${index + 1} on rgb led light strip to color ${color}`);
-
-  return [new ArduinoFrame(block.id, state, frameLocation, [step])];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Setting led ${index + 1} on rgb led light strip to color [${
+        color.red
+      }, ${color.green}, ${color.blue}]`
+    )
+  ];
 };

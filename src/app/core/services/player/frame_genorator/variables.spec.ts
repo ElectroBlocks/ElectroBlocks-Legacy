@@ -155,7 +155,7 @@ describe('Variables Frame Generators', () => {
         }
       });
 
-      const previousFrame = new ArduinoFrame('block_id', state, frameLocation);
+      const previousFrame = new ArduinoFrame('block_id', state, frameLocation, '');
 
       mockGetVariable('Colour', 'variable_name');
 
@@ -175,7 +175,7 @@ describe('Variables Frame Generators', () => {
         }
       });
 
-      const previousFrame = new ArduinoFrame('block_id', state, frameLocation);
+      const previousFrame = new ArduinoFrame('block_id', state, frameLocation, '');
 
       mockGetVariable('colour', 'variable_name');
 
@@ -195,7 +195,7 @@ describe('Variables Frame Generators', () => {
         }
       });
 
-      const previousFrame = new ArduinoFrame('block_id', state, frameLocation);
+      const previousFrame = new ArduinoFrame('block_id', state, frameLocation, '');
 
       mockGetVariable('colour', 'variable_name');
 
@@ -215,7 +215,7 @@ describe('Variables Frame Generators', () => {
         }
       });
 
-      const previousFrame = new ArduinoFrame('block_id', state, frameLocation);
+      const previousFrame = new ArduinoFrame('block_id', state, frameLocation, '');
 
       mockGetVariable('Boolean', 'variable_name');
 
