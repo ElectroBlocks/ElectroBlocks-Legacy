@@ -69,5 +69,9 @@ export const colour_rgb_block = (
 
   console.log(red, green, blue);
 
-  return { red: parseInt(red), green: parseInt(green), blue: parseInt(blue) };
+  return {
+    red: parseInt(red, 0),
+    green: parseInt(green, 0),
+    blue: parseInt(blue, 0)
+  };
 };

@@ -20,4 +20,8 @@ export class LedColorState extends ElectricAttachmentComponentState {
   public isEqual(state: ElectricAttachmentComponentState): boolean {
     return state instanceof LedColorState;
   }
+
+  public explanation() {
+    return `Setting color led to color [${this.color.red}, ${this.color.green}, ${this.color.blue}]`;
+  }
 }

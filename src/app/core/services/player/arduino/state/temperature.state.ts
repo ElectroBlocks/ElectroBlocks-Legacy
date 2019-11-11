@@ -32,4 +32,8 @@ export class TemperatureState extends SensorComponent {
   public isEqual(state: ElectricAttachmentComponentState): boolean {
     return state instanceof TemperatureState && state.pin === state.pin;
   }
+
+  public explanation() {
+    return `Temperature Sensor is reading ${this.temperature}° and humidity level ${this.humidity}.`;
+  }
 }

@@ -18,6 +18,10 @@ export abstract class ElectricAttachmentComponentState
   public abstract isEqual(state: ElectricAttachmentComponentState): boolean;
 }
 
+export interface ExplainState {
+  explanation(): string;
+}
+
 export abstract class SensorComponent extends ElectricAttachmentComponentState {
   public abstract readonly type;
 

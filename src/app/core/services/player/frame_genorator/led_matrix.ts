@@ -12,7 +12,7 @@ const hasLedMatrix = (previousFrame?: ArduinoFrame) => {
 
   return (
     previousFrame.state.components.filter(
-      component => component instanceof LedMatrixState
+      (component) => component instanceof LedMatrixState
     ).length !== 0
   );
 };
@@ -28,13 +28,13 @@ export const led_matrix_make_draw_block = (
 
   const ledMatrixComponent = hasLedMatrix(previousFrame)
     ? (state.components.find(
-        component => component instanceof LedMatrixState
+        (component) => component instanceof LedMatrixState
       ) as LedMatrixState)
     : new LedMatrixState([]);
 
   block.inputList
-    .filter(input => input.fieldRow.length > 1) // filters out the non matrix row
-    .forEach(input => {
+    .filter((input) => input.fieldRow.length > 1) // filters out the non matrix row
+    .forEach((input) => {
       input.fieldRow.forEach(
         (field: { name: string; state_: boolean } | any) => {
           if (field.name === undefined) {
@@ -45,7 +45,7 @@ export const led_matrix_make_draw_block = (
           const column = parseInt(field.name.split(',')[1], 0);
           const isOn = field.getValueBoolean();
 
-          const ledIndex = ledMatrixComponent.leds.findIndex(led => {
+          const ledIndex = ledMatrixComponent.leds.findIndex((led) => {
             return led.row === row && led.col === column;
           });
 
@@ -65,7 +65,9 @@ export const led_matrix_make_draw_block = (
     state.components.push(ledMatrixComponent);
   }
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(block.id, state, frameLocation, `Drawing led matrix.`)
+  ];
 };
 
 export const led_matrix_turn_one_on_off_block = (
@@ -81,7 +83,7 @@ export const led_matrix_turn_one_on_off_block = (
 
   if (hasLedMatrix(previousFrame)) {
     ledMatrixComponent = state.components.find(
-      component => component instanceof LedMatrixState
+      (component) => component instanceof LedMatrixState
     ) as LedMatrixState;
   } else {
     ledMatrixComponent = new LedMatrixState([]);
@@ -90,14 +92,16 @@ export const led_matrix_turn_one_on_off_block = (
 
   const isOn = block.getFieldValue('STATE') === 'ON';
   const row = parseInt(
-    getInputValue(block, 'ROW', 1, frameLocation, previousFrame).toString(), 0
+    getInputValue(block, 'ROW', 1, frameLocation, previousFrame).toString(),
+    0
   );
   const column = parseInt(
-    getInputValue(block, 'COLUMN', 1, frameLocation, previousFrame).toString(), 0
+    getInputValue(block, 'COLUMN', 1, frameLocation, previousFrame).toString(),
+    0
   );
 
   const index = ledMatrixComponent.leds.findIndex(
-    led => led.col === column && led.row === row
+    (led) => led.col === column && led.row === row
   );
 
   if (index === -1) {
@@ -106,5 +110,12 @@ export const led_matrix_turn_one_on_off_block = (
     ledMatrixComponent.leds[index].isOn = isOn;
   }
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Turning led (${column}, ${row}) ${isOn ? 'on' : 'off'}.`
+    )
+  ];
 };

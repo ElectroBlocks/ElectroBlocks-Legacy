@@ -88,6 +88,10 @@
   color: #4caf50 !important;
 }
 
+.icon-bar a:first-of-type {
+  margin-left: 15%;
+}
+
 .icon-bar a,
 .icon-bar span {
   float: left;
@@ -143,7 +147,7 @@
 #speed-control {
   vertical-align: top;
   text-align: left;
-  width: 25%;
+  width: 37%;
 }
 
 #frameInfo {

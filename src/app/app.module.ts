@@ -20,7 +20,7 @@ import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
 import { SvgComponent } from './virtual-circuit/svg/svg.component';
 import { VirtualCircuitContainerComponent } from './virtual-circuit/virtual-circuit-container/virtual-circuit-container.component';
-import { VariablesComponent } from './virtual-circuit/variables/variables.component';
+import { VariablesComponent } from './variables/variables.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -45,6 +45,7 @@ import { ToolboxComponent } from './settings/toolbox/toolbox.component';
 import { HelpComponent } from './settings/help/help.component';
 import { AboutComponent } from './settings/about/about.component';
 import { BugComponent } from './settings/bug/bug.component';
+import { StepsComponent } from './virtual-circuit/steps/steps.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -66,7 +67,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ToolboxComponent,
     HelpComponent,
     AboutComponent,
-    BugComponent
+    BugComponent,
+    StepsComponent
   ],
   imports: [
     BrowserModule,

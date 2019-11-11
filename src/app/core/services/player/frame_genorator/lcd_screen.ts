@@ -42,7 +42,9 @@ export const lcd_setup_block = (
   console.log(state, previousFrame, 'arduino state log');
   state.components.push(lcdComponent);
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(block.id, state, frameLocation, `Setting up LCD Screen.`)
+  ];
 };
 
 export const lcd_screen_print_block = (
@@ -92,7 +94,15 @@ export const lcd_screen_print_block = (
     ''
   );
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Printing "${stringToPrint.join('').trim()}" starting at (${column +
+        1}, ${row + 1}).`
+    )
+  ];
 };
 
 export const lcd_screen_simple_print_block = (
@@ -151,7 +161,14 @@ export const lcd_screen_simple_print_block = (
     lcdScreenState.rowsOfText[3] = appendSpace(row4, lcdScreenState.columns);
   }
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Printing messages LCD Screen for ${delay / 1000} seconds.`
+    )
+  ];
 };
 
 export const lcd_screen_clear_block = (
@@ -169,7 +186,14 @@ export const lcd_screen_clear_block = (
     lcdScreenState.rowsOfText[i] = appendSpace('', lcdScreenState.columns);
   }
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Clear text on LCD Screen.`
+    )
+  ];
 };
 
 export const lcd_scroll_block = (
@@ -200,7 +224,14 @@ export const lcd_scroll_block = (
     }
   }
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Scroll text ${direction} one space on LCD Screen.`
+    )
+  ];
 };
 
 export const lcd_screen_blink_block = (
@@ -228,7 +259,14 @@ export const lcd_screen_blink_block = (
   lcdScreenState.blink.row = row;
   lcdScreenState.blink.column = column;
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Blink space (${column}, ${row}) on LCD Screen.`
+    )
+  ];
 };
 
 export const lcd_backlight_block = (
@@ -257,7 +295,14 @@ export const lcd_backlight_block = (
     isOn
   );
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Turn ${isOn ? 'on' : 'off'} backlight on LCD Screen.`
+    )
+  ];
 };
 
 const appendSpace = (printString: string, numberOfColumns: number): string => {

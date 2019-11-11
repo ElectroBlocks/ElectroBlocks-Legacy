@@ -1,10 +1,11 @@
 import {
   SensorComponent,
-  ElectricAttachmentComponentState
+  ElectricAttachmentComponentState,
+  ExplainState
 } from './electric.state';
 import { ElectricComponentType } from './electric.component.type';
 
-export class TimeState extends SensorComponent {
+export class TimeState extends SensorComponent implements ExplainState {
   public type = 'time_component';
 
   public readonly electricComponentType = ElectricComponentType.TIME;
@@ -19,5 +20,9 @@ export class TimeState extends SensorComponent {
 
   public isEqual(state: ElectricAttachmentComponentState): boolean {
     return state instanceof TimeState;
+  }
+
+  public explanation() {
+    return `Current arduino time is ${this.timeInSeconds.toFixed(5)} seconds.`;
   }
 }

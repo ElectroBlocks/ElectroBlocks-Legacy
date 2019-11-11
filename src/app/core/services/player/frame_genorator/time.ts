@@ -11,7 +11,6 @@ export const delay_block_block = (
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
-
   const time = getInputValue(
     block,
     'DELAY',
@@ -32,15 +31,20 @@ export const delay_block_block = (
     parseFloat(time) * 1000
   );
 
-  const frame = new ArduinoFrame(block.id, updatedState, frameLocation);
+  const frame = new ArduinoFrame(
+    block.id,
+    updatedState,
+    frameLocation,
+    `Waiting for ${parseFloat(time).toFixed(5)} seconds.`
+  );
 
   return [frame];
 };
 
 export const time_seconds_block = (
-         block: Block,
-         frameLocation: FrameLocation,
-         previousFrame?: ArduinoFrame
+  block: Block,
+  frameLocation: FrameLocation,
+  previousFrame?: ArduinoFrame
 ) => {
   const timeState = getTimeState(frameLocation);
 

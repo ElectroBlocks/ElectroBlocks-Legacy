@@ -237,7 +237,8 @@ export class FramePlayer {
       blockId: frame.blockId,
       lastFrame: this.currentFrame === this.lastFrameNumber(),
       frameLocation: frame.frameLocation,
-      frameNumber: this.currentFrame
+      frameNumber: this.currentFrame,
+      explanation: frame.explanation
     });
   }
 

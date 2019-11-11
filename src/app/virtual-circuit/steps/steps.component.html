@@ -1,0 +1,14 @@
+<div id="steps">
+  <ol #stepsList id="stepsList">
+    <li
+      *ngFor="let step of steps$ | async; let i = index"
+      [ngClass]="{ 'selected-step': step.selected }"
+      (click)="jumpToStep($event, i)"
+    >
+      {{ step.step }}
+    </li>
+  </ol>
+</div>
+<div id="loop">
+  <h3>{{ loop$ | async }}</h3>
+</div>

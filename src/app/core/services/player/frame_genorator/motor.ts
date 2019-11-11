@@ -12,7 +12,8 @@ export const move_motor_block = (
   previousFrame?: ArduinoFrame
 ): ArduinoFrame[] => {
   let motorNumber = parseInt(
-    getInputValue(block, 'MOTOR', 1, frameLocation, previousFrame).toString()
+    getInputValue(block, 'MOTOR', 1, frameLocation, previousFrame).toString(),
+    0
   );
 
   if (motorNumber < 0 || motorNumber > 4) {
@@ -22,14 +23,15 @@ export const move_motor_block = (
   const direction = block.getFieldValue('DIRECTION') as MOTOR_DIRECTION;
 
   const speed = parseInt(
-    getInputValue(block, 'SPEED', 10, frameLocation, previousFrame).toString()
+    getInputValue(block, 'SPEED', 10, frameLocation, previousFrame).toString(),
+    0
   );
 
   const state = previousFrame
     ? previousFrame.copyState()
     : ArduinoState.makeEmptyState();
 
-  const motor = state.components.find(
+  let motor = state.components.find(
     (c) => c instanceof MotorState && c.motorNumber === motorNumber
   ) as MotorState;
 
@@ -44,8 +46,16 @@ export const move_motor_block = (
       direction
     );
   } else {
-    state.components.push(new MotorState(motorNumber, speed, direction));
+    motor = new MotorState(motorNumber, speed, direction);
+    state.components.push(motor);
   }
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Motor ${motorNumber} is rotating ${direction.toLowerCase()} at speed ${speed}`
+    )
+  ];
 };

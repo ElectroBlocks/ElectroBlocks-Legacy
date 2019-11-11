@@ -58,7 +58,7 @@ describe('Generate Frames', () => {
         null
       )
       .and.callFake(() => [
-        ArduinoFrame.makeEmptyFrame('block_id', frameLocation)
+        ArduinoFrame.makeEmptyFrame('block_id', frameLocation, '')
       ]);
 
     // LOOP FUNCTION
@@ -70,8 +70,8 @@ describe('Generate Frames', () => {
         jasmine.anything()
       )
       .and.callFake(() => [
-        ArduinoFrame.makeEmptyFrame('block_id', frameLocation),
-        ArduinoFrame.makeEmptyFrame('block_id', frameLocation)
+        ArduinoFrame.makeEmptyFrame('block_id', frameLocation, ''),
+        ArduinoFrame.makeEmptyFrame('block_id', frameLocation, '')
       ]);
 
     expect((await generateListOfFrame()).length).toBe(7);

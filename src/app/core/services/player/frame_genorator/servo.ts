@@ -22,18 +22,20 @@ export const rotate_servo_block = (
     0
   );
 
-  const servoState = state.components.find(
-    (component) =>
-      component instanceof ServoState && component.pin === stringToPin(pin)
-  );
-
-  if (servoState instanceof ServoState) {
-    const index = state.components.indexOf(servoState);
-
-    state.components[index] = new ServoState(angle, stringToPin(pin));
+  const servoState = new ServoState(angle, stringToPin(pin));
+  const index = state.components.findIndex((c) => c.isEqual(servoState));
+  if (index >= 0) {
+    state.components[index] = servoState;
   } else {
     state.components.push(new ServoState(angle, stringToPin(pin)));
   }
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Rotating servo ${servoState.pin} to this angle ${servoState.degree}°.`
+    )
+  ];
 };

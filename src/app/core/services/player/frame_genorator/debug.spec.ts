@@ -4,43 +4,52 @@ import { ArduinoFrame } from '../arduino/arduino_frame';
 import { debug_block } from './debug';
 import { ArduinoState } from '../arduino/state/arduino.state';
 
-
 describe('debug', () => {
+  const block: any | Block = {
+    id: 'blockId'
+  };
 
-	const block: any|Block = {
-		id: 'blockId'
-	};
+  const state = new ArduinoState(
+    [],
+    {
+      fred: {
+        name: 'fred',
+        type: 'String',
+        value: 'blue'
+      }
+    },
+    false
+  );
 
-	const state = new ArduinoState([], {
-		fred: {
-			name: 'fred',
-			type: 'String',
-			value: 'blue'
-		},
-	}, false);
+  const previousFrame = new ArduinoFrame(
+    'block1',
+    state,
+    {
+      location: 'loop',
+      iteration: 1
+    },
+    ''
+  );
 
-	const previousFrame = new ArduinoFrame('block1', state, { location: 'loop', iteration: 1 }
-	);
+  it('should copy over the variables', () => {
+    const frames = debug_block(
+      block,
+      { location: 'loop', iteration: 1 },
+      previousFrame
+    );
 
+    expect(frames.length).toBe(1);
+    const [frame] = frames;
 
-	it('should copy over the variables', () => {
-		const frames = debug_block(block, { location: 'loop', iteration: 1 }, previousFrame);
+    expect(frame.state.variables['fred'].value).toBe('blue');
+  });
 
-		expect(frames.length).toBe(1);
-		const [frame] = frames;
+  it('should be able to work without previous frame', () => {
+    const frames = debug_block(block, { location: 'loop', iteration: 1 });
 
-		expect(frame.state.variables['fred'].value).toBe('blue');
+    expect(frames.length).toBe(1);
+    const [frame] = frames;
 
-	});
-
-	it('should be able to work without previous frame', () => {
-		const frames = debug_block(block, { location: 'loop', iteration: 1 });
-
-		expect(frames.length).toBe(1);
-		const [frame] = frames;
-
-		expect(frame.state.variables).toEqual({});
-
-	});
-
+    expect(frame.state.variables).toEqual({});
+  });
 });

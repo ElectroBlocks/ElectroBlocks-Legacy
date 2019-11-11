@@ -30,7 +30,14 @@ export const neo_pixel_setup_block = (
 
   state.components.push(neoPixelState);
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Setting up rgb led light strip`
+    )
+  ];
 };
 
 export const neo_pixel_set_color_block = (
@@ -71,5 +78,14 @@ export const neo_pixel_set_color_block = (
     neoPixelState.neoPixels[index].color = color;
   }
 
-  return [new ArduinoFrame(block.id, state, frameLocation)];
+  return [
+    new ArduinoFrame(
+      block.id,
+      state,
+      frameLocation,
+      `Setting led ${index + 1} on rgb led light strip to color [${
+        color.red
+      }, ${color.green}, ${color.blue}]`
+    )
+  ];
 };

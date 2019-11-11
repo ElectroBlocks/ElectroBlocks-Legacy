@@ -5,6 +5,7 @@ import { getInputValue } from '../frame/blockly_helper';
 import { ArduinoState } from '../arduino/state/arduino.state';
 import { Block } from 'blockly';
 import { getSensorData } from '../frame/generate_frame';
+import { randomLedColor } from './led';
 
 export const digital_write_block = (
   block: Block,
@@ -14,12 +15,24 @@ export const digital_write_block = (
   const pin = block.getFieldValue('PIN');
   const state = block.getFieldValue('STATE') === 'ON' ? 1 : 0;
 
+  const pinStateFound = previousFrame
+    ? (previousFrame.state.components.find(
+        (c) => c instanceof PinState && c.pin === stringToPin(pin)
+      ) as PinState)
+    : undefined;
+
+  const color = pinStateFound ? pinStateFound.color : randomLedColor();
+
   return generatePinFrame(
     block,
+    new PinState(
+      stringToPin(pin),
+      PIN_TYPE.DIGITAL_OUTPUT,
+      state,
+      PinPicture.LED_ANALOG_WRITE,
+      color
+    ),
     frameLocation,
-    pin,
-    state,
-    PIN_TYPE.DIGITAL_OUTPUT,
     previousFrame
   );
 };
@@ -41,12 +54,23 @@ export const analog_write_block = (
     0
   );
 
+  const pinStateFound = previousFrame
+    ? (previousFrame.state.components.find(
+        (c) => c instanceof PinState && c.pin === stringToPin(pin)
+      ) as PinState)
+    : undefined;
+  const color = pinStateFound ? pinStateFound.color : randomLedColor();
+
   return generatePinFrame(
     block,
+    new PinState(
+      stringToPin(pin),
+      PIN_TYPE.ANALOG_OUTPUT,
+      state,
+      PinPicture.LED_ANALOG_WRITE,
+      color
+    ),
     frameLocation,
-    pin,
-    state,
-    PIN_TYPE.ANALOG_OUTPUT,
     previousFrame
   );
 };
@@ -59,7 +83,7 @@ export const analog_read_block = (
   const data = getSensorData();
   const loopNumber = frameLocation.iteration;
 
-  const pinState = data[loopNumber].find(c => {
+  const pinState = data[loopNumber].find((c) => {
     return (
       c instanceof PinState &&
       c.type === PIN_TYPE.ANALOG_INPUT &&
@@ -78,7 +102,7 @@ export const digital_read_block = (
   const data = getSensorData();
   const loopNumber = frameLocation.iteration;
 
-  const pinState = data[loopNumber].find(c => {
+  const pinState = data[loopNumber].find((c) => {
     return (
       c instanceof PinState &&
       c.type === PIN_TYPE.DIGITAL_INPUT &&
@@ -91,36 +115,28 @@ export const digital_read_block = (
 
 const generatePinFrame = (
   block: Block,
+  pinState: PinState,
   frameLocation: FrameLocation,
-  pin: string,
-  state: number,
-  pinType: PIN_TYPE,
   previousFrame?: ArduinoFrame
 ) => {
   const arduinoState = previousFrame
     ? previousFrame.copyState()
     : ArduinoState.makeEmptyState();
 
-  const pinState = arduinoState.components.find(
-    component =>
-      component instanceof PinState &&
-      component.pin === stringToPin(pin) &&
-      pinType === component.type
-  );
+  const index = arduinoState.components.findIndex((c) => pinState.isEqual(c));
 
-  if (pinState instanceof PinState) {
-    const index = arduinoState.components.indexOf(pinState);
-    arduinoState.components[index] = new PinState(
-      stringToPin(pin),
-      pinType,
-      state,
-      PinPicture.SENSOR
-    );
+  if (index > -1) {
+    arduinoState.components[index] = pinState;
   } else {
-    arduinoState.components.push(
-      new PinState(stringToPin(pin), pinType, state, PinPicture.SENSOR)
-    );
+    arduinoState.components.push(pinState);
   }
 
-  return [new ArduinoFrame(block.id, arduinoState, frameLocation)];
+  return [
+    new ArduinoFrame(
+      block.id,
+      arduinoState,
+      frameLocation,
+      pinState.explanation()
+    )
+  ];
 };

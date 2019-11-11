@@ -6,14 +6,20 @@ export class ArduinoFrame implements Frame {
   constructor(
     public readonly blockId: string,
     public readonly state: ArduinoState,
-    public readonly frameLocation: FrameLocation
+    public readonly frameLocation: FrameLocation,
+    public readonly explanation: string
   ) {}
 
-  public static makeEmptyFrame(blockId: string, frameLocation: FrameLocation) {
+  public static makeEmptyFrame(
+    blockId: string,
+    frameLocation: FrameLocation,
+    explanation: string
+  ) {
     return new ArduinoFrame(
       blockId,
       new ArduinoState([], {}, false),
-      frameLocation
+      frameLocation,
+      explanation
     );
   }
 
@@ -21,11 +27,16 @@ export class ArduinoFrame implements Frame {
     return ArduinoState.copyState(this.state);
   }
 
-  makeCopy(blockId: string, frameLocation: FrameLocation): Frame {
+  makeCopy(
+    blockId: string,
+    frameLocation: FrameLocation,
+    explanation: string
+  ): Frame {
     return new ArduinoFrame(
       blockId,
       this.copyState(),
-      _.cloneDeep(frameLocation)
+      _.cloneDeep(frameLocation),
+      explanation
     );
   }
 }

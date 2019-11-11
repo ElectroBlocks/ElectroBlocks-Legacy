@@ -25,16 +25,21 @@ describe('message', () => {
     }
   );
 
-  const previousFrame = new ArduinoFrame('block1', state, {
-    location: 'loop',
-    iteration: 1
-  });
+  const previousFrame = new ArduinoFrame(
+    'block1',
+    state,
+    {
+      location: 'loop',
+      iteration: 1
+    },
+    ''
+  );
 
   beforeEach(() => {
     getInputValueSpy = spyOn(blockHelperFunctions, 'getInputValue');
   });
 
-  it('should have state stored in previous frame if it\'s there.', () => {
+  it(`should have state stored in previous frame if it's there.`, () => {
     getInputValueSpy
       .withArgs(
         usbblock,
