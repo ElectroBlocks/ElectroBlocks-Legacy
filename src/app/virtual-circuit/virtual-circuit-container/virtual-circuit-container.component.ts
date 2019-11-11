@@ -34,11 +34,11 @@ export class VirtualCircuitContainerComponent implements OnInit {
     }
 
     const topMenuHeight = 50;
-    const svgContainerHeight = event.y - topMenuHeight - 10;
+    const svgContainerHeight = event.y - topMenuHeight - 15;
     const stepContainerHeight =
       document.getElementById('blocklyDiv').clientHeight -
       svgContainerHeight -
-      10;
+      15;
 
     if (stepContainerHeight <= 10 || svgContainerHeight <= 5) {
       return;

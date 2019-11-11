@@ -8,7 +8,7 @@ h3 {
   margin: 5px;
 }
 div#steps {
-  height: 70%;
+  height: 80%;
   overflow: scroll;
   padding: 0 5px;
 }
@@ -21,6 +21,7 @@ ol {
     padding: 3px;
     counter-increment: my-awesome-counter;
     font-size: 1.3em;
+    cursor: pointer;
   }
   li::before {
     content: 'Step ' counter(my-awesome-counter) '. ';
@@ -35,7 +36,7 @@ ol {
   }
 }
 div#loop {
-  height: 30%;
+  height: 20%;
 }
 
 /* width */

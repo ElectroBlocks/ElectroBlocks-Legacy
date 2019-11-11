@@ -47,11 +47,11 @@ export class BluetoothState extends SensorComponent implements ExplainState {
 
   public explanation() {
     if (this.sendMessage) {
-      return `Bluetooth sending message: ${this.sendMessage}`;
+      return `Bluetooth sending message: "${this.sendMessage}"`;
     }
 
     if (this.hasMessage) {
-      return `Bluetooth receiving message: ${this.receivedMessage}`;
+      return `Bluetooth receiving message: "${this.receivedMessage}"`;
     }
 
     return `Bluetooth is not receiving a message.`;

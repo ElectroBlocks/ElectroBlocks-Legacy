@@ -20,12 +20,12 @@ export class StepsComponent implements OnInit {
         frameInfo.frameLocation.location === 'setup' ||
         frameInfo.frameLocation.location === 'pre-setup'
       ) {
-        return 'setup';
+        return 'Setup';
       }
-      return frameInfo.frameLocation.iteration + 1;
+      return 'Loop: ' + (frameInfo.frameLocation.iteration + 1);
     }),
     share(),
-    startWith('setup')
+    startWith('Setup')
   );
 
   public steps$ = combineLatest(
@@ -40,7 +40,7 @@ export class StepsComponent implements OnInit {
       const orderedList = this.stepsList.nativeElement;
 
       const element = orderedList.querySelector(
-        `li:nth-of-type(${frameNumber + 1})`
+        `li:nth-of-type(${frameNumber - 1})`
       );
 
       const isScrollableByUser =
@@ -48,6 +48,8 @@ export class StepsComponent implements OnInit {
 
       if (element && isScrollableByUser) {
         element.scrollIntoView();
+      } else {
+        orderedList.parentElement.scrollTo(0, 0);
       }
 
       const mappedSteps = steps.map((step, index) => {
@@ -67,4 +69,8 @@ export class StepsComponent implements OnInit {
   ) {}
 
   ngOnInit() {}
+
+  jumpToStep(event: Event, frameNumber: number) {
+    this.player.skipToFrame(frameNumber);
+  }
 }

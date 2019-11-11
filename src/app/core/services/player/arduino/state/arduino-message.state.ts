@@ -33,7 +33,7 @@ export class ArduinoMessageState extends SensorComponent
 
   public explanation() {
     if (this.recievingMessage) {
-      return `Arduino receiving message from computer: ${this.message}`;
+      return `Arduino receiving message from computer: "${this.message}"`;
     }
 
     return 'Arduino not receiving message from computer';

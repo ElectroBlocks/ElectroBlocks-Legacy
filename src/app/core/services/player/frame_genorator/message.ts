@@ -35,7 +35,7 @@ export const arduino_send_message_block = (
       block.id,
       updatedState,
       frameLocation,
-      `Arduino sending message to computer: ${message}`
+      `Arduino sending message to computer: "${message}"`
     )
   ];
 };

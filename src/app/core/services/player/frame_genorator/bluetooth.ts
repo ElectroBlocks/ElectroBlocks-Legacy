@@ -49,10 +49,9 @@ export const bluetooth_send_message_block = (
   const components = state.components.filter(
     (c) => !(c instanceof BluetoothState)
   );
-  components.push(newBluetoothState);
 
   const newState = new ArduinoState(
-    components,
+    [newBluetoothState, ...components],
     state.variables,
     state.txLedOn,
     state.sendMessage,
