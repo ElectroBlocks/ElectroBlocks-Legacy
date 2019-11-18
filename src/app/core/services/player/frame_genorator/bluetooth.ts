@@ -43,6 +43,7 @@ export const bluetooth_send_message_block = (
     bluetoothState.rxPin,
     bluetoothState.txPin,
     bluetoothState.hasMessage,
+    bluetoothState.receivedMessage,
     sendMessage
   );
   const state = previousFrame.copyState();
@@ -59,12 +60,14 @@ export const bluetooth_send_message_block = (
     state.powerLedOn
   );
 
+  console.log(newState, newBluetoothState, sendMessage, 'bluetooth state');
+
   return [
     new ArduinoFrame(
       block.id,
       newState,
       frameLocation,
-      bluetoothState.explanation()
+      newBluetoothState.explanation()
     )
   ];
 };

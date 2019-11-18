@@ -19,10 +19,13 @@ export const rfidFactory = async (
 ) => {
   const rfidSvgString = './assets/svgs/rfid.svg';
 
-  const rfidSvg = new RFIDSvg(componentState, virtualCircuit.baseSVG
-    .svg(await fetchSVGXMLData(rfidSvgString))
-    .children()
-    .pop() as Parent);
+  const rfidSvg = new RFIDSvg(
+    componentState,
+    virtualCircuit.baseSVG
+      .svg(await fetchSVGXMLData(rfidSvgString))
+      .children()
+      .pop() as Parent
+  );
 
   virtualCircuit.nodes.add(rfidSvg.svg);
   (rfidSvg.svg as any).draggy();
@@ -110,6 +113,9 @@ export const rfidFactory = async (
 
   rfidSvg.move(positionX, positionY);
   rfidSvg.updateWires();
+  if (componentOnly) {
+    rfidSvg.hideWires();
+  }
 
   return rfidSvg;
 };

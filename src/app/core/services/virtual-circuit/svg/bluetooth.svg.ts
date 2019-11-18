@@ -15,7 +15,7 @@ export class BluetoothSVG extends ComponentSvg {
   }
 
   public matchState(state: ArduinoState): void {
-    const bluetoothState = state.components.find(c =>
+    const bluetoothState = state.components.find((c) =>
       this.isComponent(c)
     ) as BluetoothState;
 
@@ -54,6 +54,7 @@ export class BluetoothSVG extends ComponentSvg {
   public resetComponent() {}
 
   private displayMessage(message: string, header: string) {
+    message = `"${message}"`;
     this.svg
       .select('#MESSAGE_BUBBLE')
       .first()

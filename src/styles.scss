@@ -21,11 +21,13 @@ body {
 }
 
 // Have to do it here to get it to work
-#virtual-circuit svg svg {
+#virtual-circuit svg svg,
+#virtual-circuit svg text {
   cursor: grab;
 }
 
-#virtual-circuit svg svg:active:hover {
+#virtual-circuit svg svg:active:hover,
+#virtual-circuit svg text:active:hover {
   cursor: grabbing;
 }
 
@@ -35,4 +37,11 @@ body {
 }
 #route-container {
   overflow: hidden;
+}
+
+.blocklyText,
+.blocklyTreeLabel,
+.mat-slide-toggle-content {
+  font-family: 'Biryani', Arial, Helvetica, sans-serif !important;
+  font-weight: 600 !important;
 }

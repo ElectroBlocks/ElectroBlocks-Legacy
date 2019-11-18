@@ -6072,8 +6072,8 @@
   </g>
   <g id="MESSAGE">
     <path id="MESSAGE_BUBBLE_ARDUINO" d="M203.1,321.07l1.52-67c0-6.47-7.26-11.77-16.12-11.77H27.86c-8.86,0-16.12,5.3-16.12,11.77v74.71c0,6.48,7.26,11.77,16.12,11.77H165.93l78.27,50.34Z" transform="translate(-1.07 -1.61)" fill="#fff" stroke="#000" stroke-miterlimit="10" stroke-width="3"/>
-    <text id="MESSAGE_ARDUINO_LINE_1" transform="translate(22.4 295.33)" font-size="18" font-family="ArialRoundedMTBold, Arial Rounded MT Bold"><tspan xml:space="preserve">Line 1                         </tspan></text>
-    <text id="MESSAGE_ARDUINO_LINE_2" transform="translate(22.4 323.11)" font-size="18" font-family="ArialRoundedMTBold, Arial Rounded MT Bold"><tspan xml:space="preserve">Line 2                         </tspan></text>
-    <text id="MESSAGE_ARDUINO_TITLE" transform="translate(22.4 268.12)" font-size="18" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">Sending Mess<tspan x="121.53" y="0" letter-spacing="-0.01em">a</tspan><tspan x="131.99" y="0" letter-spacing="-0.02em">g</tspan><tspan x="142.79" y="0">e:</tspan></text>
+    <text id="MESSAGE_ARDUINO_LINE_1" transform="translate(22.4 295.33)" font-size="18" font-family="Biryani-Regular, Biryani"><tspan xml:space="preserve">Line 1                         </tspan></text>
+    <text id="MESSAGE_ARDUINO_LINE_2" transform="translate(22.4 323.11)" font-size="18" font-family="Biryani-Regular, Biryani"><tspan xml:space="preserve">Line 2                         </tspan></text>
+    <text id="MESSAGE_ARDUINO_TITLE" transform="translate(22.4 268.12)" font-size="18" font-family="Biryani-Regular, Biryani">Sending Message:</text>
   </g>
 </svg>

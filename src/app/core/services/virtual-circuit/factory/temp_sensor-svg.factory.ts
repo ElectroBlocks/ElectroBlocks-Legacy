@@ -55,5 +55,9 @@ export const tempSensorFactory = async (
   tempSensorSvg.svg.size(200, 250);
   tempSensorSvg.move(xPosition - 85, -150);
   tempSensorSvg.updateWires();
+
+  if (componentOnly) {
+    tempSensorSvg.hideWires();
+  }
   return tempSensorSvg;
 };

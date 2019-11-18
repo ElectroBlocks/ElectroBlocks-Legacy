@@ -62,5 +62,9 @@ export const irRemoteFactory = async (
   virtualCircuit.arduino.showWire(virtualCircuitPin(componentState.analogPin));
 
   iRRemoteSvg.updateWires();
+
+  if (componentOnly) {
+    iRRemoteSvg.hideWires();
+  }
   return iRRemoteSvg;
 };
