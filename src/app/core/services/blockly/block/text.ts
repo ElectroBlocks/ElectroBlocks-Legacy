@@ -36,12 +36,14 @@ defineBlocksWithJsonArray([
       'Get Part Of Text Block %1 Value %2 Separating Character %3 %4 Position %5',
     args0: [
       {
-        type: 'input_dummy'
+        type: 'input_dummy',
+        align: 'RIGHT'
       },
       {
         type: 'input_value',
         name: 'VALUE',
-        check: 'String'
+        check: 'String',
+        align: 'RIGHT'
       },
       {
         type: 'field_dropdown',
@@ -56,12 +58,14 @@ defineBlocksWithJsonArray([
         ]
       },
       {
-        type: 'input_dummy'
+        type: 'input_dummy',
+        align: 'RIGHT'
       },
       {
         type: 'input_value',
         name: 'POSITION',
-        check: 'Number'
+        check: 'Number',
+        align: 'RIGHT'
       }
     ],
     inputsInline: false,

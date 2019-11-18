@@ -2,7 +2,7 @@ import { VirtualCircuit } from './../svg/virtual-circuit';
 import { assert } from 'chai';
 import { Doc } from 'svg.js';
 import { Parent } from 'svg.js';
-import { ArduinoSvg, virtualCircuitPin } from '../svg/arduino.svg';
+import { ArduinoSvg } from '../svg/arduino.svg';
 import { fetchSVGXMLData } from './fetch.svg';
 
 import 'svg.pan-zoom.js';
@@ -17,10 +17,12 @@ export const virtualCircuitFactory = async (
   const nodes = baseSVG.group();
   const virtualArduinoSVGPath = './assets/svgs/arduino-breadboard-wired-2.svg';
 
-  const arduino = new ArduinoSvg(baseSVG
-    .svg(await fetchSVGXMLData(virtualArduinoSVGPath))
-    .children()
-    .pop() as Parent);
+  const arduino = new ArduinoSvg(
+    baseSVG
+      .svg(await fetchSVGXMLData(virtualArduinoSVGPath))
+      .children()
+      .pop() as Parent
+  );
 
   nodes.add(arduino.svg);
 

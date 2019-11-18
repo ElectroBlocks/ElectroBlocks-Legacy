@@ -3,10 +3,7 @@ import { ButtonState } from '../../player/arduino/state/button.state';
 import { fetchSVGXMLData } from './fetch.svg';
 import { ButtonSvg } from '../svg/button.svg';
 import { Element, Parent } from 'svg.js';
-import {
-  createBreadboardWire,
-  createGroundWire
-} from '../svg/wire';
+import { createBreadboardWire, createGroundWire } from '../svg/wire';
 import { virtualCircuitPin } from '../svg/arduino.svg';
 import { resistorPinWhole as resistorPinHole } from './pin.factory';
 
@@ -17,10 +14,13 @@ export const buttonFactory = async (
 ) => {
   const buttonSvgString = './assets/svgs/button-2.svg';
 
-  const buttonSvg = new ButtonSvg(componentState, virtualCircuit.baseSVG
-    .svg(await fetchSVGXMLData(buttonSvgString))
-    .children()
-    .pop() as Parent);
+  const buttonSvg = new ButtonSvg(
+    componentState,
+    virtualCircuit.baseSVG
+      .svg(await fetchSVGXMLData(buttonSvgString))
+      .children()
+      .pop() as Parent
+  );
 
   buttonSvg.svg.size(150, 200);
 
@@ -59,6 +59,8 @@ export const buttonFactory = async (
 
   buttonSvg.move(positionX, positionY);
   buttonSvg.updateWires();
-
+  if (componentOnly) {
+    buttonSvg.hideWires();
+  }
   return buttonSvg;
 };

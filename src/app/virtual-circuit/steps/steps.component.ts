@@ -40,7 +40,8 @@ export class StepsComponent implements OnInit {
       const orderedList = this.stepsList.nativeElement;
 
       const element = orderedList.querySelector(
-        `li:nth-of-type(${frameNumber - 1})`
+        `li:nth-of-type(${frameNumber})`
+
       );
 
       const isScrollableByUser =

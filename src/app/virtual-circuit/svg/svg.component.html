@@ -8,6 +8,14 @@
     Show Arduino
   </mat-slide-toggle>
 
+  <mat-slide-toggle
+    class="pull-left"
+    (change)="changeShowVariables($event)"
+    [checked]="isShowVariablesChecked$ | async"
+  >
+    Show Variables
+  </mat-slide-toggle>
+
   <button
     (click)="zoomOut()"
     mat-icon-button

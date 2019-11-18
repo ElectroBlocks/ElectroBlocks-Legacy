@@ -43,6 +43,7 @@ export const bluetooth_send_message_block = (
     bluetoothState.rxPin,
     bluetoothState.txPin,
     bluetoothState.hasMessage,
+    bluetoothState.receivedMessage,
     sendMessage
   );
   const state = previousFrame.copyState();
@@ -64,7 +65,7 @@ export const bluetooth_send_message_block = (
       block.id,
       newState,
       frameLocation,
-      bluetoothState.explanation()
+      newBluetoothState.explanation()
     )
   ];
 };

@@ -80,6 +80,9 @@ export const bluetoothFactory = async (
 
   bluetoothSVG.move(positionX, positionY);
   bluetoothSVG.updateWires();
+  if (componentOnly) {
+    bluetoothSVG.hideWires();
+  }
 
   return bluetoothSVG;
 };

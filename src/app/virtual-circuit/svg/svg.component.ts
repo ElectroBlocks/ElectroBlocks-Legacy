@@ -1,4 +1,5 @@
 import { ShowArduinoCommunicator } from './../../core/services/virtual-circuit/communicators/show-arduino.comm';
+import { ShowVariablesCommunicator } from './../../core/services/virtual-circuit/communicators/show-variables.comm';
 import { VirtualCircuit } from './../../core/services/virtual-circuit/svg/virtual-circuit';
 import { FramePlayer } from './../../core/services/player/frame/frame_player';
 import { ExecuteVirtualCircuitFrame } from '../../core/services/player/frame/frame_execute';
@@ -41,12 +42,28 @@ export class SvgComponent extends AbstractSubComponent
     })
   );
 
+  isShowVariablesChecked$ = this.showVariablesComm.showsVariables$.pipe(
+    startWith(this.showVariablesComm.getShowVariables()),
+    share(),
+    tap((show) => {
+      if (!this.virtualCircuit) {
+        return;
+      }
+      if (show) {
+        this.virtualCircuit.variablesSvg.show();
+      } else {
+        this.virtualCircuit.variablesSvg.hide();
+      }
+    })
+  );
+
   @ViewChild('virtualCircuit', { static: false })
   virtualCircuitElement: ElementRef<HTMLDivElement>;
 
   constructor(
     private player: FramePlayer,
     private showArduinoComm: ShowArduinoCommunicator,
+    private showVariablesComm: ShowVariablesCommunicator,
     private blocklyService: BlocklyService
   ) {
     super();
@@ -56,6 +73,10 @@ export class SvgComponent extends AbstractSubComponent
 
   changeShowArduino($event: MatSlideToggleChange) {
     this.showArduinoComm.setShowArduino($event.checked);
+  }
+
+  changeShowVariables($event: MatSlideToggleChange) {
+    this.showVariablesComm.setShowVariables($event.checked);
   }
 
   zoomIn() {
@@ -90,5 +111,6 @@ export class SvgComponent extends AbstractSubComponent
 
     this.blocklyService.resizeWorkspace();
     await this.player.resetState();
+    await this.player.resetState(); // Hack done to make sure lcd screen lines up right.
   }
 }

@@ -169,13 +169,14 @@ const setArrayValue = (
 
   const variableName = getVariableName(block);
 
-  const dataType = variables[variableName].type
-    .toLowerCase()
-    .replace('list', '');
-
   variables[variableName].value[position] = parseArrayInsertValue(value, type);
 
-  const message = `Updating list ${variableName} at position ${position} with ${value}.`;
+  let messageValue = value;
+  if (variables[variableName].type === 'String List') {
+    messageValue = `"${messageValue}"`;
+  }
+  const message = `Updating list ${variableName} at position ${position +
+    1} with ${messageValue}.`;
 
   const frame = new ArduinoFrame(block.id, state, frameLocation, message);
 
@@ -216,10 +217,10 @@ const createArrayType = (
   };
 
   const sizeOfArray = block.getFieldValue('SIZE');
-  const message = `Create list name ${variableName} that store ${sizeOfArray} ${type.replace(
-    'List',
-    ''
-  )}`;
+  type = type === 'String List' ? 'text blocks' : type + 's';
+  const message = `Create list name ${variableName} that store ${sizeOfArray} ${type
+    .replace('List', '')
+    .toLowerCase()}`;
 
   const frame = new ArduinoFrame(block.id, state, frameLocation, message);
 
