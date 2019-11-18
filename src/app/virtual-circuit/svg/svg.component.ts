@@ -111,5 +111,6 @@ export class SvgComponent extends AbstractSubComponent
 
     this.blocklyService.resizeWorkspace();
     await this.player.resetState();
+    await this.player.resetState(); // Hack done to make sure lcd screen lines up right.
   }
 }

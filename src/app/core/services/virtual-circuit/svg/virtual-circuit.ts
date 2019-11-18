@@ -113,12 +113,10 @@ export class VirtualCircuit {
       ((containerHeight - 100) /
         this.arduino.svg.node.getClientRects()[0].height) *
       0.7;
-    console.log(scaleFactor, 'scaleFactor');
     const containerWidth = document.getElementById('virtual-circuit')
       .clientWidth;
     const setXPosition =
       containerWidth - (this.arduino.svg.bbox().w + 200) * scaleFactor;
-    console.log(containerHeight);
     this.zoom.zoom(scaleFactor);
     this.zoom.setPosition(
       setXPosition,
