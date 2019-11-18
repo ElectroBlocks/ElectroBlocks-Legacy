@@ -60,8 +60,6 @@ export const bluetooth_send_message_block = (
     state.powerLedOn
   );
 
-  console.log(newState, newBluetoothState, sendMessage, 'bluetooth state');
-
   return [
     new ArduinoFrame(
       block.id,
