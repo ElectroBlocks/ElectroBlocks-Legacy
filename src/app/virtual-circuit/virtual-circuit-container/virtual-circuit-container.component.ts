@@ -14,8 +14,8 @@ import { FramePlayer } from './../../core/services/player/frame/frame_player';
   styleUrls: ['./virtual-circuit-container.component.scss']
 })
 export class VirtualCircuitContainerComponent implements OnInit {
-  stepContainerHeight = '49.5%';
-  svgHeight = '49.5%';
+  stepContainerHeight = '39.5%';
+  svgHeight = '58.5%';
 
   isResizingDivs = false;
 
@@ -34,13 +34,13 @@ export class VirtualCircuitContainerComponent implements OnInit {
     }
 
     const topMenuHeight = 50;
-    const svgContainerHeight = event.y - topMenuHeight - 15;
+    const svgContainerHeight = event.y - topMenuHeight;
     const stepContainerHeight =
       document.getElementById('blocklyDiv').clientHeight -
-      svgContainerHeight -
-      15;
+      svgContainerHeight +
+      10;
 
-    if (stepContainerHeight <= 10 || svgContainerHeight <= 5) {
+    if (stepContainerHeight <= 80 || svgContainerHeight <= 30) {
       return;
     }
 

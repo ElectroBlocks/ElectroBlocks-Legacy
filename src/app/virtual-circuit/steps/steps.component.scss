@@ -1,14 +1,14 @@
 div {
-  font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+  font-family: 'Biryani', Arial, Helvetica, sans-serif;
+  font-weight: 600;
 }
 
 h3 {
   text-align: center;
-  font-size: 2em;
   margin: 5px;
 }
 div#steps {
-  height: 80%;
+  height: calc(100% - 50px);
   overflow: scroll;
   padding: 0 5px;
 }
@@ -20,13 +20,14 @@ ol {
   li {
     padding: 3px;
     counter-increment: my-awesome-counter;
-    font-size: 1.3em;
+    font-size: 1em;
     cursor: pointer;
+    margin-top: 10px;
   }
   li::before {
     content: 'Step ' counter(my-awesome-counter) '. ';
-    font-weight: bold;
-    font-size: 1.2em;
+    font-weight: 600;
+    font-size: 1em;
   }
   li.selected-step,
   li.selected::before {
@@ -36,7 +37,10 @@ ol {
   }
 }
 div#loop {
-  height: 20%;
+  height: 50px;
+  font-family: 'Biryani', Arial, Helvetica, sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 1.3em;
 }
 
 /* width */

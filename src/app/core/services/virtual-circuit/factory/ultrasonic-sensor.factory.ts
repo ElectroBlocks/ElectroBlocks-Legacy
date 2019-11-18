@@ -38,7 +38,6 @@ export const ultrasonicSensorFactory = async (
     ultraSonicSensor.trigPin,
     'left'
   );
-
   createBreadboardWire(
     virtualCircuit,
     ultraSonicSensor,
@@ -67,6 +66,10 @@ export const ultrasonicSensorFactory = async (
   virtualCircuit.arduino.showWire(virtualCircuitPin(ultraSonicSensor.echoPin));
   ultraSonicSensor.move(positionX - 60, -250);
   ultraSonicSensor.updateWires();
+
+  if (componentOnly) {
+    ultraSonicSensor.hideWires();
+  }
 
   return ultraSonicSensor;
 };

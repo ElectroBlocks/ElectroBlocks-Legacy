@@ -106,7 +106,7 @@ export class LcdSvg extends ComponentSvg {
   }
 
   matchState(state: ArduinoState): void {
-    const lcdState = state.components.find(c =>
+    const lcdState = state.components.find((c) =>
       this.isComponent(c)
     ) as LCDScreenState;
 
@@ -118,15 +118,16 @@ export class LcdSvg extends ComponentSvg {
       for (let row = 0; row <= this.rows - 1; row += 1) {
         const currentRow = lcdState.rowsOfText[row];
 
+        const space = this.svg
+          .select(`#space-${col + 1}-${row + 1} rect`)
+          .first();
+
         const textSVG = this.svg
           .select(`#letter-${col + 1}-${row + 1}`)
           .first() as Text;
         textSVG.node.textContent = currentRow.charAt(col);
+        textSVG.x((space.width() - 3 - textSVG.length()) / 2);
         textSVG.show();
-
-        const space = this.svg
-          .select(`#space-${col + 1}-${row + 1} rect`)
-          .first();
         space.fill(lcdState.backLightOn ? '#FFFFFF' : '#000000');
       }
     }

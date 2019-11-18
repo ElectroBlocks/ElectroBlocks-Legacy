@@ -281,6 +281,10 @@ export const inputPinFactory = async (
   virtualCircuit.nodes.add(inputPinSvg.svg);
   (inputPinSvg.svg as any).draggy();
 
+  if (componentOnly) {
+    inputPinSvg.hideWires();
+  }
+
   return inputPinSvg;
 };
 
@@ -349,6 +353,9 @@ export const outputPinFactory = async (
   virtualCircuit.nodes.add(outputPin.svg);
   (outputPin.svg as any).draggy();
 
+  if (componentOnly) {
+    outputPin.hideWires();
+  }
   return outputPin;
 };
 

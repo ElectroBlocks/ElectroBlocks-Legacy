@@ -1,12 +1,7 @@
 import { LedColorSvg } from './led-color.svg';
 import { ShowArduinoCommunicator } from './../communicators/show-arduino.comm';
 import { Parent, G } from 'svg.js';
-import {
-  ArduinoSvg,
-  virtualCircuitPin,
-  connectionToBreadboard,
-  ARDUINO_BREADBOARD_WIRES
-} from './arduino.svg';
+import { ArduinoSvg, virtualCircuitPin } from './arduino.svg';
 import { ArduinoState } from '../../player/arduino/state/arduino.state';
 import { ElectricAttachmentComponentState } from '../../player/arduino/state/electric.state';
 import { servoFactory } from '../factory/servo-svg.factory';
@@ -46,10 +41,13 @@ import { IRRemoteState } from '../../player/arduino/state/ir_remote.state';
 import { UltraSonicSensorState } from '../../player/arduino/state/ultrasonic-sensor.state';
 import { TemperatureState } from '../../player/arduino/state/temperature.state';
 import { tempSensorFactory } from '../factory/temp_sensor-svg.factory';
+import { variableSvgFactory } from '../factory/variables-svg.factory';
+import { VariablesSvg } from './variables.svg';
 
 export class VirtualCircuit {
   private svgs: ComponentSvg[] = [];
   private runningFinalState = false;
+  public readonly variablesSvg: VariablesSvg;
 
   constructor(
     public readonly baseSVG: svgjs.Doc,
@@ -83,6 +81,8 @@ export class VirtualCircuit {
     this.arduino.svg.on('dragend', () => {
       this.updateWires();
     });
+
+    this.variablesSvg = variableSvgFactory(this);
   }
 
   public remove() {
@@ -117,7 +117,7 @@ export class VirtualCircuit {
     const containerWidth = document.getElementById('virtual-circuit')
       .clientWidth;
     const setXPosition =
-      containerWidth / 2 - (this.arduino.svg.bbox().w / 2 + 100) * scaleFactor;
+      containerWidth - (this.arduino.svg.bbox().w + 200) * scaleFactor;
     console.log(containerHeight);
     this.zoom.zoom(scaleFactor);
     this.zoom.setPosition(
@@ -128,6 +128,8 @@ export class VirtualCircuit {
 
   public matchState(state: ArduinoState) {
     this.arduino.matchState(state);
+
+    this.variablesSvg.matchState(state);
 
     this.svgs.forEach((svg) => {
       svg.matchState(state);
@@ -166,6 +168,11 @@ export class VirtualCircuit {
       console.log('running final state with', state);
 
       this.runningFinalState = true;
+
+      if (Object.keys(state.variables).length > 0) {
+      } else {
+      }
+
       this.svgs.forEach((svg) => {
         if (!svg.shouldExist(state)) {
           svg.remove();
@@ -263,11 +270,13 @@ export class VirtualCircuit {
       component instanceof PinState &&
       component.pinPicture === PinPicture.LED
     ) {
-      (await ledFactory(
-        this,
-        component,
-        !this.showArduinoComm.getShowArduino()
-      )).forEach((c) => this.svgs.push(c));
+      (
+        await ledFactory(
+          this,
+          component,
+          !this.showArduinoComm.getShowArduino()
+        )
+      ).forEach((c) => this.svgs.push(c));
       return;
     }
 

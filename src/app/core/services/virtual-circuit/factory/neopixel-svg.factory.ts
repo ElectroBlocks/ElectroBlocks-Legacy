@@ -28,13 +28,17 @@ export const neoPixelFactory = async (
     componentState.analogPin
   );
 
-  createGroundWire(virtualCircuit, neoPixel, neoPixel.svg
-    .select('#CONNECT_GND')
-    .first() as Element);
+  createGroundWire(
+    virtualCircuit,
+    neoPixel,
+    neoPixel.svg.select('#CONNECT_GND').first() as Element
+  );
 
-  createPowerWire(virtualCircuit, neoPixel, neoPixel.svg
-    .select('#CONNECT_POWER')
-    .first() as Element);
+  createPowerWire(
+    virtualCircuit,
+    neoPixel,
+    neoPixel.svg.select('#CONNECT_POWER').first() as Element
+  );
 
   createBreadboardWire(
     virtualCircuit,
@@ -52,6 +56,9 @@ export const neoPixelFactory = async (
   if (componentOnly) {
     neoPixel.hideWires();
   }
+
+  neoPixel.move(80, -275);
+  neoPixel.updateWires();
 
   return neoPixel;
 };

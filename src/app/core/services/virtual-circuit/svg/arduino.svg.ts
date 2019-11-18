@@ -6,7 +6,6 @@ import { ArduinoMessageState } from '../../player/arduino/state/arduino-message.
 
 export class ArduinoSvg extends BaseSvg {
   public matchState(state: ArduinoState): void {
-
     if (state.txLedOn) {
     }
 
@@ -22,25 +21,24 @@ export class ArduinoSvg extends BaseSvg {
       this.turnOffLed(ARDUINO_LEDS.POWER_LED);
     }
 
-
-
     if (state.sendMessage.length > 0) {
       this.turnOffLed(ARDUINO_LEDS.RX_LED);
       this.showMessage('Send Message:', state.sendMessage);
       return;
     }
 
-    const message = state.components.find(c => c instanceof ArduinoMessageState) as ArduinoMessageState;
+    const message = state.components.find(
+      (c) => c instanceof ArduinoMessageState
+    ) as ArduinoMessageState;
 
     if (message && message.recievingMessage) {
-            this.turnOnLed(ARDUINO_LEDS.RX_LED);
+      this.turnOnLed(ARDUINO_LEDS.RX_LED);
       this.showMessage('Recieved Message:', message.message);
       return;
     }
 
     this.hideMessage();
-      this.turnOffLed(ARDUINO_LEDS.RX_LED);
-
+    this.turnOffLed(ARDUINO_LEDS.RX_LED);
   }
 
   /**
@@ -71,7 +69,7 @@ export class ArduinoSvg extends BaseSvg {
       .select(`#${ARDUINO_BREADBOARD_WIRES.Power}`)
       .first() as Parent;
 
-    powerLedGroup.children().forEach(wire => {
+    powerLedGroup.children().forEach((wire) => {
       wire.hide();
     });
 
@@ -83,7 +81,7 @@ export class ArduinoSvg extends BaseSvg {
       .select(`#${ARDUINO_BREADBOARD_WIRES.Wires_To_Pins}`)
       .first() as Parent;
 
-    wirePinGroup.children().forEach(wire => {
+    wirePinGroup.children().forEach((wire) => {
       wire.hide();
     });
 
@@ -108,6 +106,7 @@ export class ArduinoSvg extends BaseSvg {
   }
 
   public showMessage(title: string, message: string) {
+    message = `"${message}"`;
     const titleNode = this.svg.select('#MESSAGE_ARDUINO_TITLE').first() as Text;
 
     titleNode.node.textContent = title;
