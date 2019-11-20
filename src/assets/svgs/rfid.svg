@@ -63,8 +63,8 @@
       <ellipse cx="230.5" cy="155.5" rx="9" ry="5"/>
       <path d="M233.5,168c4.61,0,8.5,2.06,8.5,4.5s-3.89,4.5-8.5,4.5-8.5-2.06-8.5-4.5,3.89-4.5,8.5-4.5m0-1c-5.25,0-9.5,2.46-9.5,5.5s4.25,5.5,9.5,5.5,9.5-2.46,9.5-5.5-4.25-5.5-9.5-5.5Z" transform="translate(-3 -17)"/>
     </g>
-    <text id="Text_Tag" transform="translate(127.85 63.05)" font-size="12" font-family="ArialRoundedMTBold, Arial Rounded MT Bold"><tspan letter-spacing="-0.05em">T</tspan><tspan x="6.9" y="0" letter-spacing="-0.01em">a</tspan><tspan x="13.88" y="0">g #: </tspan></text>
-    <text id="Card_Numebr" transform="translate(128.85 98.05)" font-size="12" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">Ca<tspan x="16.01" y="0" letter-spacing="-0.03em">r</tspan><tspan x="20.96" y="0">d #:</tspan></text>
+    <text id="Text_Tag" transform="translate(127.85 63.05)" font-size="12" font-family="Biryani-Regular, Biryani">Tag #: </text>
+    <text id="Card_Numebr" transform="translate(128.85 98.05)" font-size="12" font-family="Biryani-Regular, Biryani">Card #:</text>
   </g>
   <g id="antenna">
     <path d="M90.5,38.5c11.61-17.84,88.57-8.3,95,20" transform="translate(-3 -17)" fill="none" stroke="#dda824" stroke-miterlimit="10" stroke-width="3"/>
@@ -74,9 +74,9 @@
     <rect x="161.01" y="18.13" width="66.11" height="148.86" transform="translate(98.51 269.63) rotate(-90)" fill="none" stroke="#dda824" stroke-miterlimit="10" stroke-width="3"/>
   </g>
   <g id="wire_text" data-name="wire text">
-    <text transform="translate(35.12 140.56)" font-size="8" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">5v</text>
-    <text transform="translate(34.12 131.56)" font-size="8" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">GND</text>
-    <text transform="translate(72.12 150.56)" font-size="8" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">TX</text>
-    <text transform="translate(72.12 141.56)" font-size="8" font-family="ArialRoundedMTBold, Arial Rounded MT Bold">RX</text>
+    <text transform="translate(35.12 140.56)" font-size="8" font-family="Biryani-Regular, Biryani">5v</text>
+    <text transform="translate(34.12 131.56)" font-size="8" font-family="Biryani-Regular, Biryani">GND</text>
+    <text transform="translate(72.12 150.56)" font-size="8" font-family="Biryani-Regular, Biryani">TX</text>
+    <text transform="translate(72.12 141.56)" font-size="8" font-family="Biryani-Regular, Biryani">RX</text>
   </g>
 </svg>

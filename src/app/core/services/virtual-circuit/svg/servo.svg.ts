@@ -23,7 +23,7 @@ export class ServoSvg extends ComponentSvg {
 
   public matchState(state: ArduinoState): void {
     const servoState = state.components
-      .filter(servo => servo instanceof ServoState)
+      .filter((servo) => servo instanceof ServoState)
       .find((servo: ServoState) => servo.pin === this.pin) as ServoState;
 
     if (servoState) {
@@ -59,7 +59,7 @@ export class ServoSvg extends ComponentSvg {
 
     degreeText.node.textContent = `${this.degree}˚`;
 
-    degreeText.x((79 - degreeText.length()) / 2);
+    degreeText.x((70 - degreeText.length()) / 2);
   }
 
   updateNameText() {
@@ -67,7 +67,7 @@ export class ServoSvg extends ComponentSvg {
 
     servoName.node.textContent = `Servo ${this.pin.toString()}`;
 
-    servoName.x((79 - servoName.length()) / 2);
+    servoName.x((70 - servoName.length()) / 2);
   }
 
   resetComponent() {
