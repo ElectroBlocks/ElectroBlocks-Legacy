@@ -21,14 +21,18 @@ export const hexToRgb = (hex: string) => {
     : null;
 };
 
+export const colorToString = (color: Color) => {
+  return `[red = ${color.red}, green = ${color.green}, blue = ${color.blue}]`;
+};
+
 export const componentToHex = (colorPart: number) => {
   const hex = colorPart.toString(16);
-  return hex.length === 1 ? '0' + hex : hex;
+  return hex.length === 1 ? "0" + hex : hex;
 };
 
 export const rgbToHex = (color: Color) => {
   return (
-    '#' +
+    "#" +
     componentToHex(color.red) +
     componentToHex(color.green) +
     componentToHex(color.blue)

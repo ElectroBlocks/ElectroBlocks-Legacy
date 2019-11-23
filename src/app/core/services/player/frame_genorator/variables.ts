@@ -1,9 +1,10 @@
-import { ArduinoFrame } from '../arduino/arduino_frame';
-import { Block } from 'blockly';
-import * as Blockly from 'blockly/core';
-import { getInputValue } from '../frame/blockly_helper';
-import { FrameLocation } from '../frame/frame';
-import { ArduinoState } from '../arduino/state/arduino.state';
+import { ArduinoFrame } from "../arduino/arduino_frame";
+import { Block } from "blockly";
+import * as Blockly from "blockly/core";
+import { getInputValue } from "../frame/blockly_helper";
+import { FrameLocation } from "../frame/frame";
+import { ArduinoState } from "../arduino/state/arduino.state";
+import { Color, colorToString } from "./color";
 
 /**
  * Returns the frame with the variable set for number type
@@ -14,7 +15,7 @@ const variables_set_number_block = (
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
-  return setVariable(block, 'Number', 0, frameLocation, previousFrame);
+  return setVariable(block, "Number", 0, frameLocation, previousFrame);
 };
 
 /**
@@ -40,7 +41,7 @@ const variables_set_colour_block = (
 ) => {
   return setVariable(
     block,
-    'Colour',
+    "Colour",
     { red: 0, green: 0, blue: 0 },
     frameLocation,
     previousFrame
@@ -67,7 +68,7 @@ const variables_set_string_block = (
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
-  return setVariable(block, 'String', '', frameLocation, previousFrame);
+  return setVariable(block, "String", "", frameLocation, previousFrame);
 };
 
 /**
@@ -79,7 +80,7 @@ const variables_get_string_block = (
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
-  return getVariable(block, '', previousFrame);
+  return getVariable(block, "", previousFrame);
 };
 
 /**
@@ -91,7 +92,7 @@ const variables_set_boolean_block = (
   frameLocation: FrameLocation,
   previousFrame?: ArduinoFrame
 ) => {
-  return setVariable(block, 'Boolean', true, frameLocation, previousFrame);
+  return setVariable(block, "Boolean", true, frameLocation, previousFrame);
 };
 
 /**
@@ -154,7 +155,7 @@ const setVariable = (
 
   let value = getInputValue(
     block,
-    'VALUE',
+    "VALUE",
     defaultValue,
     frameLocation,
     previousFrame
@@ -171,12 +172,15 @@ const setVariable = (
     value
   };
 
+  const messageValue =
+    type === "Colour" ? colorToString(value as Color) : value;
+
   return [
     new ArduinoFrame(
       block.id,
       state,
       frameLocation,
-      `Setting variable ${variableName} = ${value}.`
+      `Setting variable ${variableName} = ${messageValue}.`
     )
   ];
 };
@@ -185,7 +189,7 @@ const setVariable = (
  * Returns true if we are dealing with a boolean variable that returns false
  */
 const isBooleanVariableReturningValue = (type: string, value: any) => {
-  if (type !== 'Boolean') {
+  if (type !== "Boolean") {
     return false;
   }
 
@@ -196,14 +200,14 @@ const isBooleanVariableReturningValue = (type: string, value: any) => {
  * Gets the variable's name used in the block
  */
 const getVariableName = (block: Block) => {
-  return Blockly.mainWorkspace.getVariableById(block.getFieldValue('VAR')).name;
+  return Blockly.mainWorkspace.getVariableById(block.getFieldValue("VAR")).name;
 };
 
 /**
  * Returns the variables type as string
  */
 const getVariableType = (block: Block) => {
-  return Blockly.mainWorkspace.getVariableById(block.getFieldValue('VAR')).type;
+  return Blockly.mainWorkspace.getVariableById(block.getFieldValue("VAR")).type;
 };
 
 export {
