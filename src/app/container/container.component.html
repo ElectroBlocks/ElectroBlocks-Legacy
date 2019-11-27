@@ -1,0 +1,14 @@
+<div [style.height]="svgHeight" id="svg">
+  <app-svg *ngIf="displayMode == 'Virtual-Circuit'"></app-svg>
+  <app-output *ngIf="displayMode == 'Arduino'"></app-output>
+</div>
+<div
+  (mouseup)="grabberMouseUp($event)"
+  (mousedown)="grabberMouseDown($event)"
+  id="svg-grabber"
+  #svgGrabber
+></div>
+<div [style.height]="stepContainerHeight" id="stepContainer">
+  <app-steps *ngIf="displayMode == 'Virtual-Circuit'"></app-steps>
+  <app-state *ngIf="displayMode == 'Arduino'"></app-state>
+</div>

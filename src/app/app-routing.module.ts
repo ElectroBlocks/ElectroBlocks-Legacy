@@ -1,86 +1,114 @@
-import { WebMenuComponent } from './web-menu/web-menu.component';
-import { VirtualCircuitContainerComponent } from './virtual-circuit/virtual-circuit-container/virtual-circuit-container.component';
-import { CodeComponent } from './code/code.component';
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { PageNotFoundComponent } from './shared/components';
-import { PlayerComponent } from './player/player.component';
-import { SettingsComponent } from './settings/settings.component';
-import { ToolboxComponent } from './settings/toolbox/toolbox.component';
-import { BugComponent } from './settings/bug/bug.component';
-import { HelpComponent } from './settings/help/help.component';
-import { AboutComponent } from './settings/about/about.component';
+import { WebMenuComponent } from "./web-menu/web-menu.component";
+import { ContainerComponent } from "./container/container.component";
+import { CodeComponent } from "./code/code.component";
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
+import { PageNotFoundComponent } from "./shared/components";
+import { PlayerComponent } from "./player/player.component";
+import { SettingsComponent } from "./settings/settings.component";
+import { ToolboxComponent } from "./settings/toolbox/toolbox.component";
+import { BugComponent } from "./settings/bug/bug.component";
+import { HelpComponent } from "./settings/help/help.component";
+import { AboutComponent } from "./settings/about/about.component";
+import { ElectronMenuComponent } from "./electron-menu/electron-menu.component";
 
 const isElectron =
   (window && window.process && window.process.type) !== undefined;
 
+const menuComponent = isElectron ? ElectronMenuComponent : WebMenuComponent;
+
 const routes: Routes = [
   {
-    path: 'settings',
+    path: "settings",
     data: {
       showBottom: false,
       ignoreBottom: true,
       showRunLoopOption: false
     },
     component: SettingsComponent,
-    pathMatch: 'prefix',
+    pathMatch: "prefix",
     children: [
       {
         component: HelpComponent,
-        path: 'help',
-        outlet: 'settingContainer',
-        data: { settingSelected: 'help' }
+        path: "help",
+        outlet: "settingContainer",
+        data: { settingSelected: "help" }
       },
       {
         component: ToolboxComponent,
-        path: 'toolbox',
-        outlet: 'settingContainer',
-        data: { settingSelected: 'toolbox' }
+        path: "toolbox",
+        outlet: "settingContainer",
+        data: { settingSelected: "toolbox" }
       },
       {
         component: AboutComponent,
-        path: 'about',
-        outlet: 'settingContainer',
-        data: { settingSelected: 'about' }
+        path: "about",
+        outlet: "settingContainer",
+        data: { settingSelected: "about" }
       },
       {
         component: BugComponent,
-        path: 'bug',
-        outlet: 'settingContainer',
-        data: { settingSelected: 'bug' }
+        path: "bug",
+        outlet: "settingContainer",
+        data: { settingSelected: "bug" }
       },
       {
         component: ToolboxComponent,
-        path: '',
-        outlet: 'settingContainer',
-        data: { settingSelected: 'toolbox' }
+        path: "",
+        outlet: "settingContainer",
+        data: { settingSelected: "toolbox" }
       }
     ]
   },
   {
-    path: 'code-web',
-    data: { showBottom: false, ignoreBottom: false, showRunLoopOption: false },
+    path: "code-web",
+    data: {
+      showBottom: false,
+      ignoreBottom: false,
+      showRunLoopOption: false
+    },
     component: CodeComponent
   },
   {
-    path: '',
-    data: { showBottom: true, ignoreBottom: false, showRunLoopOption: true },
-    component: VirtualCircuitContainerComponent
+    path: "",
+    data: {
+      showBottom: true,
+      ignoreBottom: false,
+      showRunLoopOption: true,
+      containerMode: "Virtual-Circuit"
+    },
+    component: ContainerComponent
   },
   {
-    path: '',
-    data: { showBottom: true, ignoreBottom: false, showRunLoopOption: true },
+    path: "arduino",
+    data: {
+      showBottom: false,
+      ignoreBottom: true,
+      showRunLoopOption: false,
+      containerMode: "Arduino"
+    },
+    component: ContainerComponent,
+    pathMatch: "full"
+  },
+  {
+    path: "",
+    data: {
+      showBottom: true,
+      ignoreBottom: false,
+      showRunLoopOption: true,
+      containerMode: "Virtual-Circuit"
+    },
     component: PlayerComponent,
-    outlet: 'bottom',
-    pathMatch: 'full'
+    outlet: "bottom",
+    pathMatch: "full"
   },
   {
-    path: '',
-    component: WebMenuComponent,
-    outlet: 'topMenu'
+    path: "",
+    component: menuComponent,
+    outlet: "topMenu"
   },
   {
-    path: '**',
+    path: "**",
     component: PageNotFoundComponent,
     data: { showBottom: false, ignoreBottom: false }
   }

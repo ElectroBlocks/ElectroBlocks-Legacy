@@ -401,4 +401,15 @@ export class VirtualCircuit {
       .filter((svg) => svg instanceof AnimationSVG)
       .forEach((svg: AnimationSVG) => svg.stop());
   }
+
+  /**
+   * Tries to destroy all the svgs
+   */
+  public destroy() {
+    this.svgs.forEach(svg => {
+      svg.remove();
+    });
+    this.arduino.remove();
+    this.baseSVG.remove();
+  }
 }

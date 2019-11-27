@@ -4,16 +4,27 @@ import {
   HostListener,
   ViewChild,
   ElementRef,
-  NgZone
+  OnDestroy
 } from "@angular/core";
-import { FramePlayer } from "./../../core/services/player/frame/frame_player";
+import { Router, ActivationStart, ActivatedRoute } from "@angular/router";
+import { Subscription, Observable } from "rxjs";
+import {
+  filter,
+  map,
+  share,
+  startWith,
+  tap,
+  shareReplay,
+  distinctUntilChanged,
+  publishReplay
+} from "rxjs/operators";
 
 @Component({
-  selector: "app-virtual-circuit-container",
-  templateUrl: "./virtual-circuit-container.component.html",
-  styleUrls: ["./virtual-circuit-container.component.scss"]
+  selector: "app-container",
+  templateUrl: "./container.component.html",
+  styleUrls: ["./container.component.scss"]
 })
-export class VirtualCircuitContainerComponent implements OnInit {
+export class ContainerComponent implements OnInit, OnDestroy {
   stepContainerHeight = "39.5%";
   svgHeight = "58.5%";
 
@@ -21,11 +32,17 @@ export class VirtualCircuitContainerComponent implements OnInit {
 
   @ViewChild("svgGrabber", { static: false }) grabber: ElementRef<
     HTMLDivElement
-  >;
+    >;
+  
+  public readonly displayMode: 'Arduino' | 'Virtual-Circuit';
 
-  constructor() {}
+  constructor(private route: ActivatedRoute) {
+    this.displayMode = this.route.snapshot.data['containerMode'];
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log("lol lol called");
+  }
 
   @HostListener("document:mousemove", ["$event"])
   onMouseMove(event: MouseEvent) {
@@ -57,4 +74,6 @@ export class VirtualCircuitContainerComponent implements OnInit {
     this.isResizingDivs = true;
     console.log("mouse down");
   }
+
+  ngOnDestroy() {}
 }

@@ -19,7 +19,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
 import { SvgComponent } from './virtual-circuit/svg/svg.component';
-import { VirtualCircuitContainerComponent } from './virtual-circuit/virtual-circuit-container/virtual-circuit-container.component';
+import { ContainerComponent } from './container/container.component';
 import { VariablesComponent } from './variables/variables.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -46,6 +46,8 @@ import { HelpComponent } from './settings/help/help.component';
 import { AboutComponent } from './settings/about/about.component';
 import { BugComponent } from './settings/bug/bug.component';
 import { StepsComponent } from './virtual-circuit/steps/steps.component';
+import { OutputComponent } from './arduino/output/output.component';
+import { StateComponent } from './arduino/state/state.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -59,7 +61,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     CodeComponent,
     PlayerComponent,
     SvgComponent,
-    VirtualCircuitContainerComponent,
+    ContainerComponent,
     VariablesComponent,
     WebMenuComponent,
     ElectronMenuComponent,
@@ -68,7 +70,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     HelpComponent,
     AboutComponent,
     BugComponent,
-    StepsComponent
+    StepsComponent,
+    OutputComponent,
+    StateComponent
   ],
   imports: [
     BrowserModule,

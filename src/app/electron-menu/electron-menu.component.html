@@ -1,1 +1,36 @@
-<p>electron-menu works!</p>
+<div class="icon-bar" id="top-menu">
+  <span
+    title="Video Debug Mode"
+    [routerLink]="['/']"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <i class="fa fa-film"></i>
+  </span>
+  <span
+    title="Code Mode"
+    [routerLink]="['/code-web']"
+    routerLinkActive="active"
+  >
+    <i class="fa fa-code"></i>
+  </span>
+  <input hidden type="file" #uploader (change)="uploadFile($event)" />
+
+  <span
+    title="Arduio Mode"
+    [routerLink]="['/arduino']"
+    routerLinkActive="active"
+    ><i class="fa fa-wpexplorer"></i
+  ></span>
+
+  <span class="active" title="Download Code"
+    ><i class="fa fa-download"></i
+  ></span>
+
+  <span
+    [routerLink]="['/settings']"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    ><i class="fa fa-cog"></i
+  ></span>
+</div>
