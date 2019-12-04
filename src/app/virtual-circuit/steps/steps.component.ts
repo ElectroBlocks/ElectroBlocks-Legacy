@@ -2,7 +2,9 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FramePlayer } from '../../core/services/player/frame/frame_player';
 import { share, map, startWith, tap, switchMap } from 'rxjs/operators';
 import { BlocklyService } from '../../core/services/blockly.service';
-import { combineLatest } from 'rxjs';
+import { combineLatest, merge } from 'rxjs';
+import { FrameOutput } from '../../core/services/player/frame/frame_output';
+import { ArduinoFrame } from '../../core/services/player/arduino/arduino_frame';
 
 @Component({
   selector: 'app-steps',
@@ -15,7 +17,7 @@ export class StepsComponent implements OnInit {
   >;
 
   public loop$ = this.player.changeFrame$.pipe(
-    map((frameInfo) => {
+    map(frameInfo => {
       if (
         frameInfo.frameLocation.location === 'setup' ||
         frameInfo.frameLocation.location === 'pre-setup'
@@ -28,20 +30,34 @@ export class StepsComponent implements OnInit {
     startWith('Setup')
   );
 
-  public steps$ = combineLatest(
-    this.player.changeFrame$.pipe(
-      map((frameOutput) => frameOutput.frameNumber),
-      startWith(-1)
-    ),
-    this.blocklyService.frames$.pipe(
-      map((frames) => frames.map((frame) => frame.explanation))
-    ),
-    (frameNumber: number, steps: string[]) => {
+  public steps$ = combineLatest([
+    this.blocklyService.frames$,
+    this.player.changeFrame$
+  ]).pipe(
+    map(([frames, frameOutput]) => {
+      console.log(frameOutput, frames, 'loll');
+      const steps = this.player.getFrames().map(frame => frame.explanation);
+      const frameNumber = frameOutput.frameNumber;
+      const mappedSteps = steps.map((step, index) => {
+        return {
+          step,
+          selected: frameNumber === index
+        };
+      });
+
+      console.log(mappedSteps, 'mappedSteps');
+      return mappedSteps;
+    }),
+    tap(mappedSteps => {
+      if (!this.stepsList) {
+        return;
+      }
+      const frameNumber = mappedSteps.findIndex(step => step.selected);
+
       const orderedList = this.stepsList.nativeElement;
 
       const element = orderedList.querySelector(
         `li:nth-of-type(${frameNumber})`
-
       );
 
       const isScrollableByUser =
@@ -52,16 +68,7 @@ export class StepsComponent implements OnInit {
       } else {
         orderedList.parentElement.scrollTo(0, 0);
       }
-
-      const mappedSteps = steps.map((step, index) => {
-        return {
-          step,
-          selected: frameNumber === index
-        };
-      });
-
-      return mappedSteps;
-    }
+    })
   );
 
   constructor(

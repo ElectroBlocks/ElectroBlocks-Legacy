@@ -95,6 +95,7 @@
     "font-awesome": "^4.7.0",
     "jasmine": "^3.4.0",
     "lodash": "^4.17.15",
+    "ngx-color-picker": "^8.2.0",
     "prismjs": "^1.17.1",
     "svg-pan-zoom": "^3.6.0",
     "svg.draggy.js": "^1.1.1",

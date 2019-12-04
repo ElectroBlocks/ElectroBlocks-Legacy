@@ -1,50 +1,36 @@
 import {
   Component,
-  OnInit,
   HostListener,
   ViewChild,
   ElementRef,
   OnDestroy
-} from "@angular/core";
-import { Router, ActivationStart, ActivatedRoute } from "@angular/router";
-import { Subscription, Observable } from "rxjs";
-import {
-  filter,
-  map,
-  share,
-  startWith,
-  tap,
-  shareReplay,
-  distinctUntilChanged,
-  publishReplay
-} from "rxjs/operators";
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { BlocklyService } from '../core/services/blockly.service';
 
 @Component({
-  selector: "app-container",
-  templateUrl: "./container.component.html",
-  styleUrls: ["./container.component.scss"]
+  selector: 'app-container',
+  templateUrl: './container.component.html',
+  styleUrls: ['./container.component.scss']
 })
-export class ContainerComponent implements OnInit, OnDestroy {
-  stepContainerHeight = "39.5%";
-  svgHeight = "58.5%";
+export class ContainerComponent implements OnDestroy {
+  bottomContainerHeight = '39.5%';
+  topContainerHeight = '58.5%';
 
   isResizingDivs = false;
 
-  @ViewChild("svgGrabber", { static: false }) grabber: ElementRef<
-    HTMLDivElement
-    >;
-  
+  @ViewChild('grabber', { static: false }) grabber: ElementRef<HTMLDivElement>;
+
   public readonly displayMode: 'Arduino' | 'Virtual-Circuit';
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute,
+    private blocklyService: BlocklyService
+  ) {
     this.displayMode = this.route.snapshot.data['containerMode'];
   }
 
-  ngOnInit() {
-    console.log("lol lol called");
-  }
-
-  @HostListener("document:mousemove", ["$event"])
+  @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
     if (!this.isResizingDivs) {
       return;
@@ -52,27 +38,34 @@ export class ContainerComponent implements OnInit, OnDestroy {
 
     const topMenuHeight = 50;
     const svgContainerHeight = event.y - topMenuHeight;
-    const stepContainerHeight =
-      document.getElementById("blocklyDiv").clientHeight -
+    const bottomContainerHeight =
+      document.getElementById('blocklyDiv').clientHeight -
       svgContainerHeight -
       22;
 
-    if (stepContainerHeight <= 80 || svgContainerHeight <= 30) {
+    if (bottomContainerHeight <= 80 || svgContainerHeight <= 30) {
       return;
     }
 
-    this.svgHeight = svgContainerHeight + "px";
-    this.stepContainerHeight = stepContainerHeight + "px";
+    this.topContainerHeight = svgContainerHeight + 'px';
+    this.bottomContainerHeight = bottomContainerHeight + 'px';
   }
 
   grabberMouseUp(event: MouseEvent) {
     this.isResizingDivs = false;
-    console.log("mouse up");
+    console.log('mouse up');
   }
 
   grabberMouseDown(event: MouseEvent) {
     this.isResizingDivs = true;
-    console.log("mouse down");
+    console.log('mouse down');
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      // HACK to make sure blockly loads
+      this.blocklyService.resizeWorkspace();
+    }, 10);
   }
 
   ngOnDestroy() {}

@@ -39,6 +39,12 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   changeHelpMenu(event: MatSelectChange) {
     switch (event.value) {
+      case 'advanced':
+        this.router.navigate([
+          'settings',
+          { outlets: { settingContainer: 'advanced' } }
+        ]);
+        break;
       case 'help':
         this.router.navigate([
           'settings',

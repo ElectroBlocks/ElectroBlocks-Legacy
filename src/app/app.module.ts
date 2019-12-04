@@ -2,6 +2,7 @@ import { CodeComponent } from './code/code.component';
 import { BlocklyComponent } from './blockly/blockly.component';
 import 'reflect-metadata';
 import '../polyfills';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -35,7 +36,8 @@ import {
   MatSlideToggleModule,
   MatToolbarModule,
   MatSidenavModule,
-  MatListModule
+  MatListModule,
+  MatTooltipModule
 } from '@angular/material';
 import { FramePlayer } from './core/services/player/frame/frame_player';
 import { WebMenuComponent } from './web-menu/web-menu.component';
@@ -48,6 +50,7 @@ import { BugComponent } from './settings/bug/bug.component';
 import { StepsComponent } from './virtual-circuit/steps/steps.component';
 import { OutputComponent } from './arduino/output/output.component';
 import { StateComponent } from './arduino/state/state.component';
+import { AdvancedComponent } from './settings/advanced/advanced.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -72,13 +75,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     BugComponent,
     StepsComponent,
     OutputComponent,
-    StateComponent
+    StateComponent,
+    AdvancedComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     CoreModule,
+    ColorPickerModule,
     AngularSplitModule.forRoot(),
     SharedModule,
     AppRoutingModule,
@@ -94,6 +99,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatSlideToggleModule,
     MatToolbarModule,
     MatSidenavModule,
+    MatTooltipModule,
     MatListModule,
     TranslateModule.forRoot({
       loader: {

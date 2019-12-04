@@ -1,8 +1,8 @@
-import { ShowArduinoCommunicator } from "./../../core/services/virtual-circuit/communicators/show-arduino.comm";
-import { ShowVariablesCommunicator } from "./../../core/services/virtual-circuit/communicators/show-variables.comm";
-import { VirtualCircuit } from "./../../core/services/virtual-circuit/svg/virtual-circuit";
-import { FramePlayer } from "./../../core/services/player/frame/frame_player";
-import { ExecuteVirtualCircuitFrame } from "../../core/services/player/frame/frame_execute";
+import { ShowArduinoCommunicator } from './../../core/services/virtual-circuit/communicators/show-arduino.comm';
+import { ShowVariablesCommunicator } from './../../core/services/virtual-circuit/communicators/show-variables.comm';
+import { VirtualCircuit } from './../../core/services/virtual-circuit/svg/virtual-circuit';
+import { FramePlayer } from './../../core/services/player/frame/frame_player';
+import { ExecuteVirtualCircuitFrame } from '../../core/services/player/frame/frame_execute';
 import {
   Component,
   OnInit,
@@ -10,16 +10,16 @@ import {
   ElementRef,
   AfterViewInit,
   OnDestroy
-} from "@angular/core";
-import { virtualCircuitFactory } from "../../core/services/virtual-circuit/factory/virtual-circuit.factory";
-import { BlocklyService } from "../../core/services/blockly.service";
-import { startWith, share, tap } from "rxjs/operators";
-import { MatSlideToggleChange } from "@angular/material";
+} from '@angular/core';
+import { virtualCircuitFactory } from '../../core/services/virtual-circuit/factory/virtual-circuit.factory';
+import { BlocklyService } from '../../core/services/blockly.service';
+import { startWith, share, tap } from 'rxjs/operators';
+import { MatSlideToggleChange } from '@angular/material';
 
 @Component({
-  selector: "app-svg",
-  templateUrl: "./svg.component.html",
-  styleUrls: ["./svg.component.scss"]
+  selector: 'app-svg',
+  templateUrl: './svg.component.html',
+  styleUrls: ['./svg.component.scss']
 })
 export class SvgComponent implements OnDestroy, OnInit, AfterViewInit {
   private virtualCircuit: VirtualCircuit;
@@ -56,7 +56,7 @@ export class SvgComponent implements OnDestroy, OnInit, AfterViewInit {
     })
   );
 
-  @ViewChild("virtualCircuit", { static: false })
+  @ViewChild('virtualCircuit', { static: false })
   virtualCircuitElement: ElementRef<HTMLDivElement>;
 
   constructor(

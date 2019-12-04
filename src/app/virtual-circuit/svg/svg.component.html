@@ -5,7 +5,7 @@
     (change)="changeShowArduino($event)"
     [checked]="isShowArduinoChecked$ | async"
   >
-    Show Arduino
+    Arduino
   </mat-slide-toggle>
 
   <mat-slide-toggle
@@ -13,8 +13,9 @@
     (change)="changeShowVariables($event)"
     [checked]="isShowVariablesChecked$ | async"
   >
-    Show Variables
+    Variables
   </mat-slide-toggle>
+
 
   <button
     (click)="zoomOut()"

@@ -1,11 +1,11 @@
-import { Block } from "blockly";
-import { FrameLocation } from "../frame/frame";
-import { ArduinoFrame } from "../arduino/arduino_frame";
-import { getInputValue } from "../frame/blockly_helper";
-import { Color, colorToString } from "./color";
-import { NeoPixelStripState } from "../arduino/state/neo_pixel_strip.state";
-import { ArduinoState } from "../arduino/state/arduino.state";
-import { stringToPin } from "../arduino/arduino_frame";
+import { Block } from 'blockly';
+import { FrameLocation } from '../frame/frame';
+import { ArduinoFrame } from '../arduino/arduino_frame';
+import { getInputValue } from '../frame/blockly_helper';
+import { Color, colorToString } from './color';
+import { NeoPixelStripState } from '../arduino/state/neo_pixel_strip.state';
+import { ArduinoState } from '../arduino/state/arduino.state';
+import { stringToPin } from '../arduino/arduino_frame';
 
 export const neo_pixel_setup_block = (
   block: Block,
@@ -16,9 +16,9 @@ export const neo_pixel_setup_block = (
     ? previousFrame.copyState()
     : ArduinoState.makeEmptyState();
 
-  const pin = stringToPin(block.getFieldValue("PIN").toString());
+  const pin = stringToPin(block.getFieldValue('PIN').toString());
 
-  const numberOfPixels = parseInt(block.getFieldValue("NUMBER_LEDS"), 0);
+  const numberOfPixels = parseInt(block.getFieldValue('NUMBER_LEDS'), 0);
 
   const leds: Array<{ position: number; color: Color }> = [];
 
@@ -47,7 +47,7 @@ export const neo_pixel_set_color_block = (
 ): ArduinoFrame[] => {
   const color = getInputValue(
     block,
-    "COLOR",
+    'COLOR',
     { red: 33, green: 0, blue: 0 },
     frameLocation,
     previousFrame
@@ -56,7 +56,7 @@ export const neo_pixel_set_color_block = (
   const position = parseInt(
     getInputValue(
       block,
-      "POSITION",
+      'POSITION',
       1,
       frameLocation,
       previousFrame

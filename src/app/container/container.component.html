@@ -1,4 +1,4 @@
-<div [style.height]="svgHeight" id="svg">
+<div [style.height]="topContainerHeight">
   <app-svg *ngIf="displayMode == 'Virtual-Circuit'"></app-svg>
   <app-output *ngIf="displayMode == 'Arduino'"></app-output>
 </div>
@@ -6,9 +6,9 @@
   (mouseup)="grabberMouseUp($event)"
   (mousedown)="grabberMouseDown($event)"
   id="svg-grabber"
-  #svgGrabber
+  #grabber
 ></div>
-<div [style.height]="stepContainerHeight" id="stepContainer">
+<div [style.height]="bottomContainerHeight" id="bottomContainer">
   <app-steps *ngIf="displayMode == 'Virtual-Circuit'"></app-steps>
   <app-state *ngIf="displayMode == 'Arduino'"></app-state>
 </div>

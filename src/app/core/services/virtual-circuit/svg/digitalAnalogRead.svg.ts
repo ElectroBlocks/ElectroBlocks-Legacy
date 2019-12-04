@@ -21,7 +21,7 @@ export class DigitalAnalogReadSvg extends ComponentSvg {
   }
 
   public matchState(state: ArduinoState): void {
-    const pinState = state.components.find((c) =>
+    const pinState = state.components.find(c =>
       this.isComponent(c)
     ) as PinState;
 
@@ -71,6 +71,13 @@ export class DigitalAnalogReadSvg extends ComponentSvg {
           .select('#finger')
           .first()
           .hide();
+      }
+
+      if (localStorage.getItem('skin_color')) {
+        this.svg
+          .select('#SKIN_COLOR_CHANGE')
+          .first()
+          .fill(localStorage.getItem('skin_color'));
       }
     }
 

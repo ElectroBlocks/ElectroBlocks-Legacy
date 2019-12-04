@@ -27,12 +27,12 @@ export const colorToString = (color: Color) => {
 
 export const componentToHex = (colorPart: number) => {
   const hex = colorPart.toString(16);
-  return hex.length === 1 ? "0" + hex : hex;
+  return hex.length === 1 ? '0' + hex : hex;
 };
 
 export const rgbToHex = (color: Color) => {
   return (
-    "#" +
+    '#' +
     componentToHex(color.red) +
     componentToHex(color.green) +
     componentToHex(color.blue)
