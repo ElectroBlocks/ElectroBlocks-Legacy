@@ -35,6 +35,7 @@
     [ngClass]="{ disable: noFrames$ | async }"
     ><i class="fa fa-forward"></i
   ></a>
+
   <div id="speed-control" class="menu-section">
     <label for="speed">Speed: </label>
     <input
@@ -46,5 +47,7 @@
       value="1"
     />
   </div>
-  
+  <a (click)="replay()" [ngClass]="{ disable: player.isLastFrame() || !player.isPlaying() }"
+    ><i class="fa fa-repeat"></i
+  ></a>
 </div>

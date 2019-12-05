@@ -42,12 +42,16 @@ export class PlayerComponent {
     this.player.speed = parseInt($event.srcElement.value, 0);
   }
 
-  previous() {
-    this.player.previous();
+  async previous() {
+    await this.player.previous();
   }
 
-  next() {
-    this.player.next();
+  async next() {
+    await this.player.next();
+  }
+
+  async replay() {
+    await this.player.replay();
   }
 
   async play() {

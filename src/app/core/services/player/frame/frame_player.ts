@@ -113,7 +113,7 @@ export class FramePlayer {
       this.currentFrame = 0;
     }
 
-    await this.playNextFrame();
+    this.playNextFrame();
   }
 
   /**
@@ -168,6 +168,12 @@ export class FramePlayer {
     await this.executeFrame(this.currentFrame === 0);
   }
 
+  public async replay() {
+    await this.stop();
+    await this.skipToFrame(0);
+    this.play();
+  }
+
   /**
    * Skips to the frame the frame index and stops playing
    *
@@ -180,7 +186,6 @@ export class FramePlayer {
       this.currentFrame >= this.lastFrameNumber()
         ? this.lastFrameNumber()
         : this.currentFrame;
-    console.log(frameNumber, 'framenumber');
     await this.executeFrame(true);
   }
 
@@ -249,7 +254,6 @@ export class FramePlayer {
    */
   private async sendMessage(runSetup: boolean) {
     const frame = this.frames[this.currentFrame];
-
     await this.frameExecutor.executeFrame(
       frame.state,
       this.frames[this.lastFrameNumber()].state,
