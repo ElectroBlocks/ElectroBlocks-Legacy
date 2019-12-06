@@ -67,7 +67,6 @@ export const colour_rgb_block = (
     previousFrame
   ).toString();
 
-  console.log(red, green, blue);
 
   return {
     red: parseInt(red, 0),

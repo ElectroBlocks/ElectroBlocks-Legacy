@@ -65,15 +65,13 @@ const controls_repeat_ext_block = (
     );
 
     frames.push(loopFrame);
-    
+
     const framesGenerateInsideLoop = generateFrameForInputStatement(
       block,
       'DO',
       frameLocation,
       loopFrame
     ) as ArduinoFrame[];
-
-    console.log(framesGenerateInsideLoop, 'framesGenerateInsideLoop');
 
     frames = frames.concat(framesGenerateInsideLoop);
   }

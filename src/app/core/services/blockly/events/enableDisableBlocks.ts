@@ -78,7 +78,6 @@ const disableBlockForNotHavingRequiredSetupBlock = (blocks, testBlock) => {
     return false;
   }
 
-  console.log(blocks);
   return (
     blocks.findIndex(potentialSetupBlock => {
       return (

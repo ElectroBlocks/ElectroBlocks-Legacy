@@ -53,12 +53,10 @@ export class ContainerComponent implements OnDestroy {
 
   grabberMouseUp(event: MouseEvent) {
     this.isResizingDivs = false;
-    console.log('mouse up');
   }
 
   grabberMouseDown(event: MouseEvent) {
     this.isResizingDivs = true;
-    console.log('mouse down');
   }
 
   ngAfterViewInit() {

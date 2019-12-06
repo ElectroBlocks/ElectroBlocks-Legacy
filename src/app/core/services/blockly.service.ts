@@ -313,7 +313,6 @@ export class BlocklyService {
 
   public async generateFrames(blockId: string) {
     const frames = await generateListOfFrame();
-    console.log(frames, 'new frames called');
     const block = this.getWorkSpace().getBlockById(blockId);
     const overRideIsEqual = block && ['is_button_pressed'].includes(block.type);
     if (_.isEqual(frames, this.framePlayer.getFrames()) && !overRideIsEqual) {

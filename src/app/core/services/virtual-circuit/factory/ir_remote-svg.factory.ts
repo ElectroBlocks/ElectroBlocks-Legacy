@@ -40,7 +40,6 @@ export const irRemoteFactory = async (
     '#FFA500'
   ).getHoleXY();
 
-  console.log(positionX, 'positionX');
   iRRemoteSvg.move(positionX - 94, -150);
 
   createPowerWire(

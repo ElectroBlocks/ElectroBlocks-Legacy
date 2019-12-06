@@ -240,7 +240,6 @@ Blockly.Variables.flyoutCategoryBlocks = function(workspace) {
     const blockGetColour = Blockly.Xml.textToDom(blockTextGetColour).firstChild;
     xmlList.push(blockGetColour);
   }
-  console.log(xmlList);
   return xmlList;
 };
 

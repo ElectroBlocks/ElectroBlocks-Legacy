@@ -42,7 +42,6 @@ export const servoFactory = async (
     '#FFA500'
   ).getHoleXY();
 
-  console.log(positionX, 'positionX');
   servoSvg.move(positionX - 60, -150);
   servoSvg.updateWires();
 

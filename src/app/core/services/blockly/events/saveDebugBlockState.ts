@@ -46,7 +46,6 @@ const setInitialData = (
   for (let i = 0; i < numberOfLoops; i += 1) {
     data.push(collectDataFromSetupBlock(block, input));
   }
-  console.log(data);
   block.data = JSON.stringify(data);
 };
 
@@ -60,7 +59,6 @@ const collectDataFromSetupBlock = (block: Block, input: FakeInputMap[]) => {
     );
   });
 
-  console.log(loopDataToSave, 'loopDataToSave');
   return loopDataToSave;
 };
 

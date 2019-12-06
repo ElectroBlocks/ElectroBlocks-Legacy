@@ -20,7 +20,6 @@ export class BlocklyComponent implements OnInit {
   ngAfterViewInit() {
     setTimeout(() => {
       this.blocklyService.setUpBlock(this.blockContent.nativeElement);
-      this.blocklyService.blocklyEvents$.subscribe(console.log);
     }, 10);
 
     this.framePlayer.changeFrame$.subscribe((changeFrame) => {

@@ -86,7 +86,6 @@ Blockly.Blocks['is_button_pressed'] = {
 
     this.setOutput(true, 'Boolean');
 
-    console.log(this);
     this.setColour(COLOR_THEME.SENSOR);
     this.setTooltip('');
     this.setHelpUrl('');

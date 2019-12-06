@@ -118,7 +118,6 @@ export const inputPinFactory = async (
     svgPath = `./assets/svgs/touch-sensor.svg`;
   }
 
-  console.log(svgPath, 'svgPath');
   const svgString = await fetchSVGXMLData(svgPath);
 
   const inputPinSvg = new DigitalAnalogReadSvg(

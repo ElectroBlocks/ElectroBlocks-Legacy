@@ -125,7 +125,6 @@ describe('input output frame generators', () => {
 
       const [frame] = analog_write_block(block, frameLocation, previousFrame);
 
-      console.log(frame.state.components, 'components');
       expect(frame.state.components.length).toBe(1);
 
       const pinState = frame.state.components[0] as PinState;

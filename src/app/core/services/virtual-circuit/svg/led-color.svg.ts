@@ -40,7 +40,6 @@ export class LedColorSvg extends ComponentSvg {
       return;
     }
 
-    console.log(ledColorState.color, 'color led');
     const colorHex = rgbToHex(ledColorState.color);
 
     this.setColor(colorHex);

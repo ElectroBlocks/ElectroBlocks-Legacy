@@ -22,7 +22,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    console.log(activatedRoute, 'activatedRoute');
     this.firstSelectedOption = this.activatedRoute.snapshot.firstChild.data[
       'settingSelected'
     ];
@@ -70,6 +69,5 @@ export class SettingsComponent implements OnInit, AfterViewInit {
         ]);
         break;
     }
-    console.log(event, 'option selected');
   }
 }

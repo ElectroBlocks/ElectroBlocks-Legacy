@@ -27,7 +27,6 @@ export const led_block = (
     ? hexToRgb(localStorage.getItem('led_color'))
     : randomLedColor();
 
-  console.log(newLedPinColor, 'newLedPinColor');
 
   const pinState = new PinState(
     stringToPin(pin),
@@ -56,7 +55,6 @@ export const led_block = (
 
 export const randomLedColor = () => {
   const randomNumber = Math.floor(Math.random() * LEDS_COLORS.length);
-  console.log(randomNumber, 'random color number');
   return LEDS_COLORS[randomNumber];
 };
 
