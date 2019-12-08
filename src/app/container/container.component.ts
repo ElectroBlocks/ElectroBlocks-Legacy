@@ -27,7 +27,7 @@ export class ContainerComponent implements OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private blocklyService: BlocklyService,
-    private electronService: ElectronService
+    public readonly electronService: ElectronService
   ) {
     this.displayMode = this.route.snapshot.data['containerMode'];
   }

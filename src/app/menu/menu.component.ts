@@ -12,7 +12,7 @@ import 'file-saver';
 })
 export class MenuComponent implements OnInit {
   constructor(
-    private electronService: ElectronService,
+    public readonly electronService: ElectronService,
     private blocklyService: BlocklyService,
     private showArduinoCommunicator: ShowArduinoCommunicator,
     private router: Router
