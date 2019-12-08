@@ -41,8 +41,7 @@ import {
   MatMenuModule
 } from '@angular/material';
 import { FramePlayer } from './core/services/player/frame/frame_player';
-import { WebMenuComponent } from './web-menu/web-menu.component';
-import { ElectronMenuComponent } from './electron-menu/electron-menu.component';
+import { MenuComponent } from './menu/menu.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ToolboxComponent } from './settings/toolbox/toolbox.component';
 import { HelpComponent } from './settings/help/help.component';
@@ -67,8 +66,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SvgComponent,
     ContainerComponent,
     VariablesComponent,
-    WebMenuComponent,
-    ElectronMenuComponent,
+    MenuComponent,
     SettingsComponent,
     ToolboxComponent,
     HelpComponent,

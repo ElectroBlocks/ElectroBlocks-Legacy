@@ -27,9 +27,10 @@ export class PinState extends SensorComponent implements ExplainState {
       state instanceof PinState &&
       state.pinPicture === this.pinPicture &&
       this.type === state.type &&
-      this.color.red === state.color.red &&
-      this.color.green === state.color.green &&
-      this.color.blue === state.color.blue &&
+      (this.color === state.color ||
+        (this.color.red === state.color.red &&
+          this.color.green === state.color.green &&
+          this.color.blue === state.color.blue)) &&
       this.pin === state.pin
     );
   }

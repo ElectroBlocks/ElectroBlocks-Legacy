@@ -1,20 +1,4 @@
-<div id="setting-menu">
-  <h2>Settings</h2>
 
-  <mat-form-field>
-    <mat-select
-      (selectionChange)="changeHelpMenu($event)"
-      placeholder="Settings Menu"
-      [value]="firstSelectedOption"
-    >
-      <mat-option value="toolbox">ToolBox</mat-option>
-      <mat-option value="advanced">Advanced</mat-option>
-      <mat-option value="help">Help</mat-option>
-      <mat-option value="bug">File a bug</mat-option>
-      <mat-option value="about">About</mat-option>
-    </mat-select>
-  </mat-form-field>
-</div>
 <div id="setting-container">
   <router-outlet name="settingContainer"></router-outlet>
 </div>

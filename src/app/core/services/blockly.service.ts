@@ -141,15 +141,6 @@ export class BlocklyService {
       '<xml><block type="arduino_start" deletable="false" x="50" y="100" movable="true"></block></xml>';
     Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), this.workspace);
 
-    setTimeout(() => {
-      // This is a hack done so that everything can render and
-      // we don't accidentally hook into the setup input of the arduino_start block
-
-      this.showSetupInArduinoStart(
-        localStorage.getItem('show_setup_function_arduino') === 'true'
-      );
-    }, 20);
-
     registerListMenu(this.workspace);
     overrideTrashBlocks(this.workspace);
     this.workspace.addChangeListener(async event => {
@@ -197,6 +188,14 @@ export class BlocklyService {
     this.showRunLoopOption(
       this.router.routerState.snapshot.root.firstChild.data.showRunLoopOption
     );
+    setTimeout(() => {
+      // This is a hack done so that everything can render and
+      // we don't accidentally hook into the setup input of the arduino_start block
+
+      this.showSetupInArduinoStart(
+        localStorage.getItem('show_setup_function_arduino') === 'true'
+      );
+    }, 50);
   }
 
   public showRunLoopOption(show: boolean) {

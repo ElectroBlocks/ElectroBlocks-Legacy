@@ -47,15 +47,22 @@ const controls_repeat_ext_block = (
     `Repeating blocks  1 out of ${times} times.`
   );
 
-  let frames = generateFrameForInputStatement(
+  const frames = [firstLoopFrame];
+  const firstDoFrames = generateFrameForInputStatement(
     block,
     'DO',
     frameLocation,
     firstLoopFrame
   ) as ArduinoFrame[];
-  frames.unshift(firstLoopFrame);
 
-  for (let i = 1; i <= times; i += 1) {
+  console.log(
+    firstDoFrames.map(frame => frame.blockId),
+    'firstDoFrames'
+  );
+
+  firstDoFrames.forEach(firstDoFrame => frames.push(firstDoFrame));
+
+  for (let i = 2; i <= times; i += 1) {
     previousFrame = frames[frames.length - 1];
     const loopFrame = new ArduinoFrame(
       block.id,
@@ -73,7 +80,9 @@ const controls_repeat_ext_block = (
       loopFrame
     ) as ArduinoFrame[];
 
-    frames = frames.concat(framesGenerateInsideLoop);
+    framesGenerateInsideLoop.forEach(frameGenerateInsideLoop =>
+      frames.push(frameGenerateInsideLoop)
+    );
   }
 
   return frames;

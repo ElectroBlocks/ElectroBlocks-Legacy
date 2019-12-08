@@ -22,37 +22,37 @@ export class OutputComponent implements OnInit {
     {
       type: 'Arduino',
       message: 'Hello From Arduino Land.',
-      time: '2:30 PM'
+      time: '2:30:08 PM'
     },
     {
       type: 'Computer',
       message: 'Hello From computer Land.',
-      time: '2:33 PM'
+      time: '2:33:06 PM'
     },
     {
       type: 'Arduino',
       message: 'Hello From Arduino Land.',
-      time: '2:40 PM'
+      time: '2:40:03 PM'
     },
     {
       type: 'Computer',
       message: 'Hello From computer Land.',
-      time: '2:44 PM'
+      time: '2:44:03 PM'
     },
     {
       type: 'Arduino',
       message: 'Hello From Arduino Land.',
-      time: '2:50 PM'
+      time: '2:50:05 PM'
     },
     {
       type: 'Computer',
       message: 'Hello From computer Land.',
-      time: '3:00 PM'
+      time: '3:00:01 PM'
     },
     {
       type: 'Arduino',
       message: 'Hello From Arduino Land.',
-      time: '3:05 PM'
+      time: '3:05:04 PM'
     }
   ];
 
@@ -66,7 +66,7 @@ export class OutputComponent implements OnInit {
     }
     this.messages.push({
       message: this.sendMessage,
-      type: 'Arduino',
+      type: 'Computer',
       time: new Date().toLocaleTimeString()
     });
 

@@ -40,20 +40,23 @@
 </mat-menu>
 
 <mat-menu #settingMenu="matMenu">
-  <button mat-menu-item>Toolbox</button>
-  <button mat-menu-item>Advanced</button>
-  <button mat-menu-item>Report Bug</button>
-  <button mat-menu-item>About</button>
+  <button (click)="navigateToSettings('toolbox')" mat-menu-item>Toolbox</button>
+  <button (click)="navigateToSettings('advanced')" mat-menu-item>
+    Advanced
+  </button>
+  <button (click)="navigateToSettings('bug')" mat-menu-item>Report Bug</button>
+  <button (click)="navigateToSettings('about')" mat-menu-item>About</button>
 </mat-menu>
 
 <mat-menu #helpMenu="matMenu">
-  <button mat-menu-item>Blocks</button>
-  <button mat-menu-item>Support</button>
+  <!-- <button mat-menu-item>Blocks</button> -->
+  <!-- We'll  add this later but I don't want this stop the release -->
+  <button (click)="navigateToSettings('help')" mat-menu-item>Support</button>
 </mat-menu>
 
 <div class="icon-bar" id="top-menu">
   <span
-    title="Video Debug Mode"
+    title="Home"
     [routerLink]="['/']"
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: true }"
@@ -68,19 +71,11 @@
     <i class="fa fa-code"></i>
   </span>
 
-  <span
-    title="Arduio Mode"
-    [routerLink]="['/arduino']"
-    routerLinkActive="active"
+  <span title="Arduio" [routerLink]="['/arduino']" routerLinkActive="active"
     ><i class="fa fa-microchip"></i
   ></span>
 
   <span title="Upload Code"><i class="fa fa-upload"></i></span>
 
-  <span
-    [routerLink]="['/settings']"
-    routerLinkActive="active"
-    [routerLinkActiveOptions]="{ exact: true }"
-    ><i class="fa fa-cog"></i
-  ></span>
+  <span title="Arduino not plugged in."><i class="fa fa-plug"></i></span>
 </div>

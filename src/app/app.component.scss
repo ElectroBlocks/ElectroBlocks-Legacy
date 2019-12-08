@@ -14,7 +14,7 @@
   display: inline-block;
   vertical-align: top;
   height: calc(100% - 50px);
-  overflow: scroll;
+  overflow: hidden;
 }
 
 #route-container.fileMenu,
@@ -22,7 +22,7 @@
   display: inline-block;
   vertical-align: top;
   height: calc(100% - 86px);
-  overflow: scroll;
+  overflow: hidden;
 }
 
 .showBottom {

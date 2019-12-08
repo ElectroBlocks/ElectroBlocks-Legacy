@@ -113,7 +113,7 @@ export class FramePlayer {
       this.currentFrame = 0;
     }
 
-    this.playNextFrame();
+    await this.playNextFrame();
   }
 
   /**

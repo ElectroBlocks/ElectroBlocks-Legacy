@@ -1,4 +1,3 @@
-import { WebMenuComponent } from './web-menu/web-menu.component';
 import { ContainerComponent } from './container/container.component';
 import { CodeComponent } from './code/code.component';
 import { NgModule } from '@angular/core';
@@ -10,15 +9,11 @@ import { ToolboxComponent } from './settings/toolbox/toolbox.component';
 import { BugComponent } from './settings/bug/bug.component';
 import { HelpComponent } from './settings/help/help.component';
 import { AboutComponent } from './settings/about/about.component';
-import { ElectronMenuComponent } from './electron-menu/electron-menu.component';
+import { MenuComponent } from './menu/menu.component';
 import { AdvancedComponent } from './settings/advanced/advanced.component';
 
 const isElectron =
   (window && window.process && window.process.type) !== undefined;
-
-const menuComponent = isElectron
-  ? ElectronMenuComponent
-  : ElectronMenuComponent;
 
 const routes: Routes = [
   {
@@ -113,7 +108,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: menuComponent,
+    component: MenuComponent,
     outlet: 'topMenu'
   },
   {
