@@ -1,0 +1,31 @@
+<h1>Advanced Settings</h1>
+<mat-slide-toggle
+  labelPosition="before"
+  matTooltip="Allows you to add blocks to the setup function of the Arduino."
+  (change)="onChangeshowArduionSetupFunction($event)"
+  [checked]="showArduinoSetupFunction"
+>
+  Arduion Setup Function
+</mat-slide-toggle>
+
+<div>
+  <span>Skin Color: </span>
+  <input
+    id="skin_color"
+    [colorPicker]="skinColor"
+    (colorPickerChange)="onNewSkinColor($event)"
+    [style.background]="skinColor"
+  />
+</div>
+
+<div>
+  <span>Led Color: </span>
+  <input
+    id="led_color"
+    [colorPicker]="ledColor"
+    (colorPickerChange)="onNewLedColor($event)"
+    [style.background]="ledColor"
+  />
+</div>
+
+<button (click)="reset()" mat-stroked-button color="warn">Reset</button>

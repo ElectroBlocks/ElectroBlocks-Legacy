@@ -39,7 +39,6 @@ export const lcd_setup_block = (
     ? previousFrame.copyState()
     : ArduinoState.makeEmptyState();
 
-  console.log(state, previousFrame, 'arduino state log');
   state.components.push(lcdComponent);
 
   return [
@@ -79,12 +78,10 @@ export const lcd_screen_print_block = (
 
   const stringToPrint = lcdScreenState.rowsOfText[row].split('');
   let counter = 0;
-  console.log(stringToPrint.length);
   for (let i = column; i < column + print.length; i += 1) {
     stringToPrint[i] = print[counter];
     counter += 1;
   }
-  console.log(stringToPrint.length);
 
   const state = previousFrame.copyState();
 
@@ -211,7 +208,6 @@ export const lcd_scroll_block = (
 
   for (let i = 0; i < lcdScreenState.rows; i += 1) {
     if (direction === 'RIGHT') {
-      console.log(lcdScreenState.rowsOfText[i], 'lcd screen text');
       lcdScreenState.rowsOfText[i] =
         ' ' +
         lcdScreenState.rowsOfText[i].substring(

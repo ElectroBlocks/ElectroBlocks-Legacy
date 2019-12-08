@@ -8,7 +8,8 @@
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFCAMAAABl/6zIAAAABlBMVEUAAADMzMzIT8AyAAAAAXRSTlMAQObYZgAAABRJREFUeAFjYGRkwIMJSeMHlBkOABP7AEGzSuPKAAAAAElFTkSuQmCC);
 }
 
-#stepContainer {
+#bottomContainer {
   background: #242323;
   color: white;
+  overflow: scroll;
 }

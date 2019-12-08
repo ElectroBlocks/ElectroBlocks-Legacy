@@ -4,6 +4,7 @@ import { ArduinoFrame, stringToPin } from '../arduino/arduino_frame';
 import { ArduinoState } from '../arduino/state/arduino.state';
 import { PIN_TYPE, PinPicture, PinState } from '../arduino/state/pin.state';
 import { getInputValue } from '../frame/blockly_helper';
+import { rgbToHex, hexToRgb } from './color';
 
 export const led_block = (
   block: Block,
@@ -19,20 +20,25 @@ export const led_block = (
     : ArduinoState.makeEmptyState();
 
   const foundPinState = arduinoState.components.find(
-    (c) => c instanceof PinState && c.pin === stringToPin(pin)
+    c => c instanceof PinState && c.pin === stringToPin(pin)
   ) as PinState;
+
+  const newLedPinColor = localStorage.getItem('led_color')
+    ? hexToRgb(localStorage.getItem('led_color'))
+    : randomLedColor();
+
 
   const pinState = new PinState(
     stringToPin(pin),
     PIN_TYPE.DIGITAL_OUTPUT,
     state,
     PinPicture.LED,
-    foundPinState ? foundPinState.color : randomLedColor()
+    foundPinState ? foundPinState.color : newLedPinColor
   );
 
   const components = [
     pinState,
-    ...arduinoState.components.filter((c) => !c.isEqual(foundPinState))
+    ...arduinoState.components.filter(c => !c.isEqual(foundPinState))
   ];
 
   const newArduinoState = new ArduinoState(components, arduinoState.variables);
@@ -49,7 +55,6 @@ export const led_block = (
 
 export const randomLedColor = () => {
   const randomNumber = Math.floor(Math.random() * LEDS_COLORS.length);
-  console.log(randomNumber, 'random color number');
   return LEDS_COLORS[randomNumber];
 };
 
@@ -70,7 +75,7 @@ export const led_fade_block = (
   );
 
   const foundPinState = arduinoState.components.find(
-    (c) => c instanceof PinState && c.pin === stringToPin(pin)
+    c => c instanceof PinState && c.pin === stringToPin(pin)
   ) as PinState;
 
   const pinState = new PinState(
@@ -83,7 +88,7 @@ export const led_fade_block = (
 
   const components = [
     pinState,
-    ...arduinoState.components.filter((c) => !c.isEqual(foundPinState))
+    ...arduinoState.components.filter(c => !c.isEqual(foundPinState))
   ];
 
   const newArduinoState = new ArduinoState(components, arduinoState.variables);

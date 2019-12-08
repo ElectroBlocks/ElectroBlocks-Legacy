@@ -240,7 +240,6 @@ Blockly.Variables.flyoutCategoryBlocks = function(workspace) {
     const blockGetColour = Blockly.Xml.textToDom(blockTextGetColour).firstChild;
     xmlList.push(blockGetColour);
   }
-  console.log(xmlList);
   return xmlList;
 };
 
@@ -254,8 +253,14 @@ const connectedCreatedVariableToStartBlock = function(variableBlock) {
   if (arduinoStartBlocks.length === 0) {
     return;
   }
-
   const arduinoStartBlock = arduinoStartBlocks[0];
-  const parentConnection = arduinoStartBlock.getInput('setup').connection;
+
+  const inputToAttachVariableTo = arduinoStartBlock
+    .getInput('setup')
+    .isVisible()
+    ? 'setup'
+    : 'loop';
+  const parentConnection = arduinoStartBlock.getInput(inputToAttachVariableTo)
+    .connection;
   parentConnection.connect(variableBlock.previousConnection);
 };

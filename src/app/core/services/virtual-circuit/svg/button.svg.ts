@@ -18,6 +18,18 @@ export class ButtonSvg extends ComponentSvg {
     buttonTextNode.node.textContent = `Button ${btnState.pin}`;
     const pressedStateNode = this.svg.select('#PRESSED_STATE').first() as Text;
 
+    if (localStorage.getItem('skin_color')) {
+      this.svg
+        .select('#COLOR_BTN_NOT_PRESSED')
+        .first()
+        .fill(localStorage.getItem('skin_color'));
+
+      this.svg
+        .select('#COLOR_BTN_PRESSED')
+        .first()
+        .fill(localStorage.getItem('skin_color'));
+    }
+
     if (btnState.isPressed) {
       this.svg
         .select('#BUTTON_PRESSED')
@@ -40,6 +52,7 @@ export class ButtonSvg extends ComponentSvg {
       .first()
       .show();
     pressedStateNode.node.textContent = 'Not Pressed';
+
     return;
   }
 

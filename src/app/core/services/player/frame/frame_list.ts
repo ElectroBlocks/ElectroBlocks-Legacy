@@ -35,7 +35,7 @@ import { move_motor_block } from '../frame_genorator/motor';
 
 import { led_block, led_fade_block } from '../frame_genorator/led';
 
-import { debug_block } from '../frame_genorator/debug';
+import { debug_block_block } from '../frame_genorator/debug';
 
 import {
   ir_remote_get_code_block,
@@ -215,7 +215,7 @@ frameGeneratingBlocks = {
 
   move_motor_block,
 
-  debug_block,
+  debug_block_block,
 
   neo_pixel_set_color_block,
   neo_pixel_setup_block,

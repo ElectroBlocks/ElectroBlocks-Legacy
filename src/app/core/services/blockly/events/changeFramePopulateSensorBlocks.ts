@@ -84,7 +84,6 @@ const setSensorBlockWithFakeValue = (
     sensorBlockToSet,
     mapToSetupSensorBlock
   );
-  console.log(sensorBlockToSet, 'lol');
   sensorBlockToSet
     .getField('SIMPLE_DEBUG')
     .setValue(stateToSetFakeSensor.getFieldValue(blockMapInfo.dataSaveKey));

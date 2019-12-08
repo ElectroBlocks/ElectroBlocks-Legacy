@@ -4,6 +4,7 @@ import * as Blockly from 'blockly/core';
 import { getInputValue } from '../frame/blockly_helper';
 import { FrameLocation } from '../frame/frame';
 import { ArduinoState } from '../arduino/state/arduino.state';
+import { Color, colorToString } from './color';
 
 /**
  * Returns the frame with the variable set for number type
@@ -171,12 +172,15 @@ const setVariable = (
     value
   };
 
+  const messageValue =
+    type === 'Colour' ? colorToString(value as Color) : value;
+
   return [
     new ArduinoFrame(
       block.id,
       state,
       frameLocation,
-      `Setting variable ${variableName} = ${value}.`
+      `Setting variable ${variableName} = ${messageValue}.`
     )
   ];
 };

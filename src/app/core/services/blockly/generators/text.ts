@@ -154,7 +154,7 @@ Blockly.Arduino['parse_string_block'] = function(block: Block | any) {
     'VALUE',
     Blockly.Arduino.ORDER_ATOMIC
   );
-  const delimiter = '\'' + block.getFieldValue('DELIMITER') + '\'';
+  const delimiter = "'" + block.getFieldValue('DELIMITER') + "'";
   let position = +Blockly.Arduino.valueToCode(
     block,
     'POSITION',

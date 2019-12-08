@@ -33,6 +33,7 @@ export const push_button_setup_block = setupBlock(
 export const message_setup_block = setupBlock(
   () => 'Setting up Arduino messages.'
 );
+
 export const time_setup_block = setupBlock(
   () => 'Setting up Arduino Time (Fake).'
 );

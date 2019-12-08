@@ -1,7 +1,6 @@
 import * as Blockly from 'blockly/core';
 
 Blockly.FieldVariable.prototype.initModel = function() {
-  console.log('here here');
   if (this.variable_) {
     return; // Initialization already happened.
   }

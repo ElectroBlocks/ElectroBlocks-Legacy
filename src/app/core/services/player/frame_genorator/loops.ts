@@ -47,33 +47,42 @@ const controls_repeat_ext_block = (
     `Repeating blocks  1 out of ${times} times.`
   );
 
-  let frames = generateFrameForInputStatement(
+  const frames = [firstLoopFrame];
+  const firstDoFrames = generateFrameForInputStatement(
     block,
     'DO',
     frameLocation,
     firstLoopFrame
   ) as ArduinoFrame[];
-  frames.unshift(firstLoopFrame);
 
-  for (let i = 1; i < times; i += 1) {
+  console.log(
+    firstDoFrames.map(frame => frame.blockId),
+    'firstDoFrames'
+  );
+
+  firstDoFrames.forEach(firstDoFrame => frames.push(firstDoFrame));
+
+  for (let i = 2; i <= times; i += 1) {
     previousFrame = frames[frames.length - 1];
     const loopFrame = new ArduinoFrame(
       block.id,
       previousFrame.copyState(),
       previousFrame.frameLocation,
-      `Repeat block running ${i + 1} out of ${times} times.`
+      `Repeat block running ${i} out of ${times} times.`
     );
 
-    if (times - 1 > i) {
-      frames.push(loopFrame);
-    }
+    frames.push(loopFrame);
 
-    frames = frames.concat(generateFrameForInputStatement(
+    const framesGenerateInsideLoop = generateFrameForInputStatement(
       block,
       'DO',
       frameLocation,
       loopFrame
-    ) as ArduinoFrame[]);
+    ) as ArduinoFrame[];
+
+    framesGenerateInsideLoop.forEach(frameGenerateInsideLoop =>
+      frames.push(frameGenerateInsideLoop)
+    );
   }
 
   return frames;
@@ -153,9 +162,16 @@ const controls_for_block = (
       frames[frames.length - 1]
     );
     frames.push(nextLoopFrame); // so that it copies the value and not the reference
-    frames = frames.concat(<ArduinoFrame[]>(
-      generateFrameForInputStatement(block, 'DO', frameLocation, nextLoopFrame)
-    ));
+    frames = frames.concat(
+      <ArduinoFrame[]>(
+        generateFrameForInputStatement(
+          block,
+          'DO',
+          frameLocation,
+          nextLoopFrame
+        )
+      )
+    );
     index += by;
   }
 

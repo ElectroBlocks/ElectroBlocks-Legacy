@@ -1,20 +1,29 @@
 <router-outlet name="topMenu"></router-outlet>
 <div
-  [ngClass]="{ showBottom: showBottom$ | async }"
+  [ngClass]="{
+    showBottom: showBottom$ | async,
+    fileMenu: !electronService.isElectron
+  }"
   [style.width]="blocklyContainerWidth"
   id="blockly-container"
 >
   <app-blockly></app-blockly>
 </div>
 <div
-  [ngClass]="{ showBottom: showBottom$ | async }"
+  [ngClass]="{
+    showBottom: showBottom$ | async,
+    fileMenu: !electronService.isElectron
+  }"
   #grabber
   (mouseup)="grabberMouseUp($event)"
   (mousedown)="grabberMouseDown($event)"
   id="grabber"
 ></div>
 <div
-  [ngClass]="{ showBottom: showBottom$ | async }"
+  [ngClass]="{
+    showBottom: showBottom$ | async,
+    fileMenu: !electronService.isElectron
+  }"
   [style.width]="routerContainerWidth"
   id="route-container"
 >

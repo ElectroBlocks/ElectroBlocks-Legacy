@@ -23,7 +23,6 @@ export const generateListOfFrame = async (): Promise<
       return block.type === 'arduino_start';
     })[0];
 
-  console.log(arduinoBlock, 'arduinoBlock');
   const numberOfTimesThroughLoop = arduinoBlock.getFieldValue('LOOP_TIMES');
 
   const sensorStatesForLoop = getSensorData();
@@ -147,7 +146,6 @@ const getDuplicatePins = (frames: ArduinoFrame[]): ARDUINO_UNO_PINS[] => {
     .map((component) => component.pins)
     .reduce((pins, val) => pins.concat(val), [])
     .sort();
-  console.log(listOfPins, 'list of pins');
   const pinCount = _.countBy(listOfPins);
   const duplicatePins = [];
   for (const pin in pinCount) {
@@ -155,7 +153,6 @@ const getDuplicatePins = (frames: ArduinoFrame[]): ARDUINO_UNO_PINS[] => {
       duplicatePins.push(pin);
     }
   }
-  console.log(duplicatePins);
   return duplicatePins;
 };
 

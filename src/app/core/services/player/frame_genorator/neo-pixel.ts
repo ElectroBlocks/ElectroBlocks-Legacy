@@ -2,7 +2,7 @@ import { Block } from 'blockly';
 import { FrameLocation } from '../frame/frame';
 import { ArduinoFrame } from '../arduino/arduino_frame';
 import { getInputValue } from '../frame/blockly_helper';
-import { Color } from './color';
+import { Color, colorToString } from './color';
 import { NeoPixelStripState } from '../arduino/state/neo_pixel_strip.state';
 import { ArduinoState } from '../arduino/state/arduino.state';
 import { stringToPin } from '../arduino/arduino_frame';
@@ -67,11 +67,11 @@ export const neo_pixel_set_color_block = (
   const state = previousFrame.copyState();
 
   const neoPixelState = state.components.find(
-    (c) => c instanceof NeoPixelStripState
+    c => c instanceof NeoPixelStripState
   ) as NeoPixelStripState;
 
   const index = neoPixelState.neoPixels.findIndex(
-    (pixel) => pixel.position === position
+    pixel => pixel.position === position
   );
 
   if (neoPixelState.neoPixels[index]) {
@@ -83,9 +83,9 @@ export const neo_pixel_set_color_block = (
       block.id,
       state,
       frameLocation,
-      `Setting led ${index + 1} on rgb led light strip to color [${
-        color.red
-      }, ${color.green}, ${color.blue}]`
+      `Setting led ${index + 1} on rgb led light strip to color ${colorToString(
+        neoPixelState.neoPixels[index].color
+      )}`
     )
   ];
 };

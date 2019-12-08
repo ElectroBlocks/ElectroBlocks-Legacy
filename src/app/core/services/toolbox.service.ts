@@ -10,7 +10,6 @@ const toolboxKey = 'blockly_tool_box';
 export class ToolboxService {
   public saveToolBox(entries: ToolboxEntry[]) {
     if (Blockly.mainWorkspace) {
-      console.log(getToolBoxString(entries), 'toolbox');
       Blockly.mainWorkspace.updateToolbox(getToolBoxString(entries));
     }
     return localStorage.setItem(toolboxKey, JSON.stringify(entries));

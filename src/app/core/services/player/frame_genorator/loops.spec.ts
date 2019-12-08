@@ -57,6 +57,7 @@ describe('loops', () => {
         frameLocation
       ) as ArduinoFrame[];
 
+      console.log(frames.map(frame => frame.blockId));
       expect(frames.length).toBe(6);
 
       expect(frames[0].blockId).toBe('loop_block');
@@ -104,8 +105,16 @@ describe('loops', () => {
             previousFrame: ArduinoFrame
           ): ArduinoFrame[] => {
             return [
-              previousFrame.makeCopy('block1', frameLocation, '') as ArduinoFrame,
-              previousFrame.makeCopy('block2', frameLocation, '') as ArduinoFrame
+              previousFrame.makeCopy(
+                'block1',
+                frameLocation,
+                ''
+              ) as ArduinoFrame,
+              previousFrame.makeCopy(
+                'block2',
+                frameLocation,
+                ''
+              ) as ArduinoFrame
             ];
           }
         );
@@ -167,8 +176,16 @@ describe('loops', () => {
             previousFrame: ArduinoFrame
           ): ArduinoFrame[] => {
             return [
-              previousFrame.makeCopy('block1', frameLocation, '') as ArduinoFrame,
-              previousFrame.makeCopy('block2', frameLocation, '') as ArduinoFrame
+              previousFrame.makeCopy(
+                'block1',
+                frameLocation,
+                ''
+              ) as ArduinoFrame,
+              previousFrame.makeCopy(
+                'block2',
+                frameLocation,
+                ''
+              ) as ArduinoFrame
             ];
           }
         );
@@ -230,8 +247,16 @@ describe('loops', () => {
             previousFrame: ArduinoFrame
           ): ArduinoFrame[] => {
             return [
-              previousFrame.makeCopy('block1', frameLocation, '') as ArduinoFrame,
-              previousFrame.makeCopy('block2', frameLocation, '') as ArduinoFrame
+              previousFrame.makeCopy(
+                'block1',
+                frameLocation,
+                ''
+              ) as ArduinoFrame,
+              previousFrame.makeCopy(
+                'block2',
+                frameLocation,
+                ''
+              ) as ArduinoFrame
             ];
           }
         );

@@ -27,7 +27,10 @@ export class PinState extends SensorComponent implements ExplainState {
       state instanceof PinState &&
       state.pinPicture === this.pinPicture &&
       this.type === state.type &&
-      this.color === state.color &&
+      (this.color === state.color ||
+        (this.color.red === state.color.red &&
+          this.color.green === state.color.green &&
+          this.color.blue === state.color.blue)) &&
       this.pin === state.pin
     );
   }
@@ -65,6 +68,15 @@ export class PinState extends SensorComponent implements ExplainState {
         : `Sensor ${this.pin} is ${
             this.state <= 0 ? 'not' : ''
           } sensing something.`;
+    }
+
+    if (
+      this.pinPicture === PinPicture.LED_ANALOG_WRITE ||
+      this.pinPicture === PinPicture.LED_DIGITAL_WRITE
+    ) {
+      return this.type === PIN_TYPE.ANALOG_INPUT
+        ? `Turning pin ${this.pin} to fade to ${this.state}`
+        : `Turning pin ${this.pin} ${this.state <= 0 ? 'off' : 'on'}.`;
     }
   }
 }

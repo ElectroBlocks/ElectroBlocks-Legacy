@@ -17,7 +17,7 @@ export const digital_write_block = (
 
   const pinStateFound = previousFrame
     ? (previousFrame.state.components.find(
-        (c) => c instanceof PinState && c.pin === stringToPin(pin)
+        c => c instanceof PinState && c.pin === stringToPin(pin)
       ) as PinState)
     : undefined;
 
@@ -56,7 +56,7 @@ export const analog_write_block = (
 
   const pinStateFound = previousFrame
     ? (previousFrame.state.components.find(
-        (c) => c instanceof PinState && c.pin === stringToPin(pin)
+        c => c instanceof PinState && c.pin === stringToPin(pin)
       ) as PinState)
     : undefined;
   const color = pinStateFound ? pinStateFound.color : randomLedColor();
@@ -83,7 +83,7 @@ export const analog_read_block = (
   const data = getSensorData();
   const loopNumber = frameLocation.iteration;
 
-  const pinState = data[loopNumber].find((c) => {
+  const pinState = data[loopNumber].find(c => {
     return (
       c instanceof PinState &&
       c.type === PIN_TYPE.ANALOG_INPUT &&
@@ -102,7 +102,7 @@ export const digital_read_block = (
   const data = getSensorData();
   const loopNumber = frameLocation.iteration;
 
-  const pinState = data[loopNumber].find((c) => {
+  const pinState = data[loopNumber].find(c => {
     return (
       c instanceof PinState &&
       c.type === PIN_TYPE.DIGITAL_INPUT &&
@@ -123,8 +123,7 @@ const generatePinFrame = (
     ? previousFrame.copyState()
     : ArduinoState.makeEmptyState();
 
-  const index = arduinoState.components.findIndex((c) => pinState.isEqual(c));
-
+  const index = arduinoState.components.findIndex(c => pinState.isEqual(c));
   if (index > -1) {
     arduinoState.components[index] = pinState;
   } else {

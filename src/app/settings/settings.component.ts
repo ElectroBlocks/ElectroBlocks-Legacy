@@ -15,18 +15,7 @@ import { ToolboxComponent } from './toolbox/toolbox.component';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit, AfterViewInit {
-  public firstSelectedOption = 'toolbox';
-
-  constructor(
-    private blocklyService: BlocklyService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) {
-    console.log(activatedRoute, 'activatedRoute');
-    this.firstSelectedOption = this.activatedRoute.snapshot.firstChild.data[
-      'settingSelected'
-    ];
-  }
+  constructor(private blocklyService: BlocklyService) {}
 
   ngOnInit() {}
 
@@ -35,35 +24,5 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       // HACK to make sure blockly loads
       this.blocklyService.resizeWorkspace();
     }, 10);
-  }
-
-  changeHelpMenu(event: MatSelectChange) {
-    switch (event.value) {
-      case 'help':
-        this.router.navigate([
-          'settings',
-          { outlets: { settingContainer: 'help' } }
-        ]);
-        break;
-      case 'toolbox':
-        this.router.navigate([
-          'settings',
-          { outlets: { settingContainer: 'toolbox' } }
-        ]);
-        break;
-      case 'bug':
-        this.router.navigate([
-          'settings',
-          { outlets: { settingContainer: 'bug' } }
-        ]);
-        break;
-      case 'about':
-        this.router.navigate([
-          'settings',
-          { outlets: { settingContainer: 'about' } }
-        ]);
-        break;
-    }
-    console.log(event, 'option selected');
   }
 }

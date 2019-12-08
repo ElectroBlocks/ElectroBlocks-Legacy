@@ -16,12 +16,12 @@ export class VariablesSvg {
     const variables = Object.values(state.variables);
     const fontSvg = { family: 'Biryani', size: '1.25em' };
 
-    variables.forEach((variable) => {
+    variables.forEach(variable => {
       if (variable.type === 'Colour') {
         const color = variable.value as Color;
         this.textGroup
           .text(
-            `- ${variable.name} = (red = ${color.red}, green = ${color.green}, blue = ${color.blue})`
+            `• ${variable.name} = (red = ${color.red}, green = ${color.green}, blue = ${color.blue})`
           )
           .fill(`${rgbToHex(color)}`)
           .font(fontSvg)
@@ -35,17 +35,17 @@ export class VariablesSvg {
 
         if (colors.length === 0) {
           this.textGroup
-            .text(`- []`)
+            .text(`• []`)
             .move(20, this.textGroup.bbox().y2 + 30)
             .font(fontSvg);
           return;
         }
 
         this.textGroup
-          .text(`- [`)
+          .text(`• [`)
           .move(20, this.textGroup.bbox().y2 + 30)
           .font(fontSvg);
-        colors.forEach((color) => {
+        colors.forEach(color => {
           this.textGroup
             .text(
               `(red = ${color.red}, green = ${color.green}, blue = ${color.blue}),`
@@ -66,7 +66,7 @@ export class VariablesSvg {
       const value = this.getValue(variable);
 
       this.textGroup
-        .text(`- ${variable.name} = ${value}`)
+        .text(`• ${variable.name} = ${value}`)
         .font(fontSvg)
         .move(20, this.textGroup.bbox().y2)
         .width(100);
@@ -86,7 +86,7 @@ export class VariablesSvg {
     }
 
     if (variable.type === 'String List') {
-      return '[' + variable.value.map((value) => `"${value}"`).join(', ') + ']';
+      return '[' + variable.value.map(value => `"${value}"`).join(', ') + ']';
     }
 
     if (variable.type === 'Number List') {
@@ -96,7 +96,7 @@ export class VariablesSvg {
     if (variable.type === 'Boolean List') {
       return (
         '[' +
-        variable.value.map((value) => (value ? 'true' : 'false')).join(', ') +
+        variable.value.map(value => (value ? 'true' : 'false')).join(', ') +
         ']'
       );
     }
