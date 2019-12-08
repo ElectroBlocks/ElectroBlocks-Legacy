@@ -37,7 +37,8 @@ import {
   MatToolbarModule,
   MatSidenavModule,
   MatListModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatMenuModule
 } from '@angular/material';
 import { FramePlayer } from './core/services/player/frame/frame_player';
 import { WebMenuComponent } from './web-menu/web-menu.component';
@@ -101,6 +102,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatSidenavModule,
     MatTooltipModule,
     MatListModule,
+    MatMenuModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

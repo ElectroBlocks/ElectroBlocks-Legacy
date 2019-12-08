@@ -16,8 +16,18 @@ export class ElectronService {
   childProcess: typeof childProcess;
   fs: typeof fs;
 
+  public readonly chromebookApp = false;
+
   get isElectron() {
     return window && window.process && window.process.type;
+  }
+
+  public isBrowser() {
+    return !this.isElectron && !this.chromebookApp;
+  }
+
+  public isChromebookApp() {
+    return this.chromebookApp;
   }
 
   constructor() {

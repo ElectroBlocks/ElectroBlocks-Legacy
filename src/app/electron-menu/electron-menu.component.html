@@ -1,3 +1,56 @@
+<button
+  *ngIf="electronService.isBrowser() || electronService.isChromebookApp()"
+  mat-button
+  [matMenuTriggerFor]="fileMenu"
+>
+  File
+</button>
+<button
+  *ngIf="electronService.isBrowser() || electronService.isChromebookApp()"
+  mat-button
+  [matMenuTriggerFor]="settingMenu"
+>
+  Settings
+</button>
+<button
+  *ngIf="electronService.isBrowser() || electronService.isChromebookApp()"
+  mat-button
+  [matMenuTriggerFor]="helpMenu"
+>
+  Help
+</button>
+
+<mat-menu #fileMenu="matMenu">
+  <button mat-menu-item (click)="newFile()">New</button>
+  <button mat-menu-item (click)="uploader.click()">Open</button>
+  <input hidden type="file" #uploader (change)="uploadFile($event)" />
+
+  <button
+    mat-menu-item
+    (click)="downloadFile()"
+    *ngIf="electronService.isBrowser()"
+  >
+    Download
+  </button>
+  <button mat-menu-item [disabled]="electronService.isBrowser()">Save</button>
+  <button mat-menu-item [disabled]="electronService.isBrowser()">
+    Save As
+  </button>
+  <button mat-menu-item [disabled]="electronService.isBrowser()">Close</button>
+</mat-menu>
+
+<mat-menu #settingMenu="matMenu">
+  <button mat-menu-item>Toolbox</button>
+  <button mat-menu-item>Advanced</button>
+  <button mat-menu-item>Report Bug</button>
+  <button mat-menu-item>About</button>
+</mat-menu>
+
+<mat-menu #helpMenu="matMenu">
+  <button mat-menu-item>Blocks</button>
+  <button mat-menu-item>Support</button>
+</mat-menu>
+
 <div class="icon-bar" id="top-menu">
   <span
     title="Video Debug Mode"
@@ -14,7 +67,6 @@
   >
     <i class="fa fa-code"></i>
   </span>
-  <input hidden type="file" #uploader (change)="uploadFile($event)" />
 
   <span
     title="Arduio Mode"
@@ -23,9 +75,7 @@
     ><i class="fa fa-microchip"></i
   ></span>
 
-  <span class="active" title="Download Code"
-    ><i class="fa fa-download"></i
-  ></span>
+  <span title="Upload Code"><i class="fa fa-upload"></i></span>
 
   <span
     [routerLink]="['/settings']"

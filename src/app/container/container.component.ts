@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BlocklyService } from '../core/services/blockly.service';
+import { ElectronService } from '../core/services';
 
 @Component({
   selector: 'app-container',
@@ -25,7 +26,8 @@ export class ContainerComponent implements OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private blocklyService: BlocklyService
+    private blocklyService: BlocklyService,
+    private electronService: ElectronService
   ) {
     this.displayMode = this.route.snapshot.data['containerMode'];
   }
@@ -36,7 +38,7 @@ export class ContainerComponent implements OnDestroy {
       return;
     }
 
-    const topMenuHeight = 50;
+    const topMenuHeight = this.electronService.isElectron ? 50 : 86;
     const svgContainerHeight = event.y - topMenuHeight;
     const bottomContainerHeight =
       document.getElementById('blocklyDiv').clientHeight -

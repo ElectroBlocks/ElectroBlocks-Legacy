@@ -16,7 +16,9 @@ import { AdvancedComponent } from './settings/advanced/advanced.component';
 const isElectron =
   (window && window.process && window.process.type) !== undefined;
 
-const menuComponent = isElectron ? ElectronMenuComponent : WebMenuComponent;
+const menuComponent = isElectron
+  ? ElectronMenuComponent
+  : ElectronMenuComponent;
 
 const routes: Routes = [
   {

@@ -17,6 +17,18 @@
   overflow: scroll;
 }
 
+#route-container.fileMenu,
+#blockly-container.fileMenu {
+  display: inline-block;
+  vertical-align: top;
+  height: calc(100% - 86px);
+  overflow: scroll;
+}
+
 .showBottom {
   height: calc(100% - 130px) !important;
+}
+
+.showBottom.fileMenu {
+  height: calc(100% - 166px) !important;
 }

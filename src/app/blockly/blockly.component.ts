@@ -1,13 +1,13 @@
 import { FramePlayer } from './../core/services/player/frame/frame_player';
 import { BlocklyService } from '../core/services/blockly.service';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-blockly',
   templateUrl: './blockly.component.html',
   styleUrls: ['./blockly.component.scss']
 })
-export class BlocklyComponent implements OnInit {
+export class BlocklyComponent implements OnInit, AfterViewInit {
   @ViewChild('blockContent', { static: false }) blockContent: ElementRef;
 
   constructor(
@@ -22,7 +22,7 @@ export class BlocklyComponent implements OnInit {
       this.blocklyService.setUpBlock(this.blockContent.nativeElement);
     }, 10);
 
-    this.framePlayer.changeFrame$.subscribe((changeFrame) => {
+    this.framePlayer.changeFrame$.subscribe(changeFrame => {
       this.blocklyService.selectBlock(changeFrame.blockId);
     });
   }

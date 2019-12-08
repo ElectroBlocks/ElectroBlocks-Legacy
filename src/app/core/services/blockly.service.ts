@@ -296,6 +296,15 @@ export class BlocklyService {
     );
   }
 
+  public resetWorkspace() {
+    const xml =
+      '<xml><block type="arduino_start" deletable="false" x="50" y="100" movable="true"></block></xml>';
+    this.loadFile(xml);
+    this.showSetupInArduinoStart(
+      localStorage.getItem('show_setup_function_arduino') === 'true'
+    );
+  }
+
   public resizeWorkspace() {
     Blockly.svgResize(this.workspace);
   }
