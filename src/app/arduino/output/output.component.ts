@@ -12,13 +12,13 @@ import {
   styleUrls: ['./output.component.scss']
 })
 export class OutputComponent implements OnInit {
-  private sendMessage = '';
+  public sendMessage = '';
 
   @ViewChild('messageView', { static: false }) messageView: ElementRef<
     HTMLDivElement
   >;
 
-  private messages: ArduinoMessage[] = [
+  public messages: ArduinoMessage[] = [
     {
       type: 'Arduino',
       message: 'Hello From Arduino Land.',
