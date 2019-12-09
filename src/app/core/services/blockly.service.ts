@@ -177,7 +177,7 @@ export class BlocklyService {
         this.router.routerState.snapshot.root.firstChild.data.showRunLoopOption
       );
       changeLoopNumberInSensorBlocks(this.getWorkSpace(), event);
-      await this.generateFrames(event.blockId);
+      await this.generateFrames();
     });
 
     this.blocklyPromptOverRide.overRideBlocklyPrompt();
@@ -224,6 +224,8 @@ export class BlocklyService {
       return;
     }
 
+    block.getInput('setup').connection.hideAll();
+    alert('here here');
     const firstBlockInSetup = block.getInputTargetBlock('setup');
     if (firstBlockInSetup) {
       firstBlockInSetup.previousConnection.disconnect();
@@ -322,11 +324,9 @@ export class BlocklyService {
     return parseInt(this.getArduinoStartBlock().getFieldValue('LOOP_TIMES'), 0);
   }
 
-  public async generateFrames(blockId: string) {
+  public async generateFrames() {
     const frames = await generateListOfFrame();
-    const block = this.getWorkSpace().getBlockById(blockId);
-    const overRideIsEqual = block && ['is_button_pressed'].includes(block.type);
-    if (_.isEqual(frames, this.framePlayer.getFrames()) && !overRideIsEqual) {
+    if (_.isEqual(frames, this.framePlayer.getFrames())) {
       return;
     }
 

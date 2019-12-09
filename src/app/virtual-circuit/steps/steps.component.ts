@@ -31,10 +31,12 @@ export class StepsComponent implements OnInit {
   );
 
   public steps$ = combineLatest([
-    this.blocklyService.frames$,
-    this.player.changeFrame$.pipe(map(frame => frame.frameNumber))
+    this.blocklyService.frames$.pipe(startWith([])),
+    this.player.changeFrame$.pipe(
+      map(frame => frame.frameNumber),
+      startWith(1)
+    )
   ]).pipe(
-    startWith([this.player.getFrames(), 0]),
     map(([frames, frameNumber]) => {
       const steps = this.player.getFrames().map(frame => frame.explanation);
       const mappedSteps = steps.map((step, index) => {
@@ -74,7 +76,9 @@ export class StepsComponent implements OnInit {
     private blocklyService: BlocklyService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.blocklyService.generateFrames();
+  }
 
   jumpToStep(event: Event, frameNumber: number) {
     this.player.skipToFrame(frameNumber);

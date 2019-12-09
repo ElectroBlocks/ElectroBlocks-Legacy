@@ -13,6 +13,7 @@ import { resistorFactory } from './resistor.factory';
 import { fetchSVGXMLData } from './fetch.svg';
 import { DigitalAnalogWriteSvg } from '../svg/digitalAnalogWrite.svg';
 import { DigitalAnalogReadSvg } from '../svg/digitalAnalogRead.svg';
+import { hexToRgb } from '../../player/frame_genorator/color';
 
 export const ledFactory = async (
   virtualCircuit: VirtualCircuit,
@@ -34,13 +35,16 @@ export const ledFactory = async (
   );
   resistor.updateWires();
 
+  const ledColor = localStorage.getItem('led_color')
+    ? hexToRgb(localStorage.getItem('led_color'))
+    : componentState.color;
   const led = new LedSvg(
     virtualCircuit.baseSVG
       .svg(svgLedString)
       .children()
       .pop() as Parent,
     componentState.pin,
-    componentState.color,
+    ledColor,
     resistor
   );
 

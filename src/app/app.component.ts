@@ -65,7 +65,6 @@ export class AppComponent implements OnInit {
         )
       )
       .subscribe((showRunLoopOption) => {
-        console.log(showRunLoopOption);
         this.blocklyService.showRunLoopOption(showRunLoopOption);
         this.blocklyService.showDebugMode(showRunLoopOption);
       });

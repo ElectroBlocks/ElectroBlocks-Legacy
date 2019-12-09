@@ -11,6 +11,7 @@
 <div>
   <span>Skin Color: </span>
   <input
+    readonly
     id="skin_color"
     [colorPicker]="skinColor"
     (colorPickerChange)="onNewSkinColor($event)"
@@ -21,6 +22,7 @@
 <div>
   <span>Led Color: </span>
   <input
+    readonly
     id="led_color"
     [colorPicker]="ledColor"
     (colorPickerChange)="onNewLedColor($event)"

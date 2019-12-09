@@ -47,7 +47,9 @@
       value="1"
     />
   </div>
-  <a (click)="replay()" [ngClass]="{ disable: player.isLastFrame() || !player.isPlaying() }"
+  <a
+    (click)="replay()"
+    [ngClass]="{ disable: !player.isLastFrame() && player.isPlaying() }"
     ><i class="fa fa-repeat"></i
   ></a>
 </div>
