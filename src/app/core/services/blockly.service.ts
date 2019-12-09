@@ -225,7 +225,6 @@ export class BlocklyService {
     }
 
     block.getInput('setup').connection.hideAll();
-    alert('here here');
     const firstBlockInSetup = block.getInputTargetBlock('setup');
     if (firstBlockInSetup) {
       firstBlockInSetup.previousConnection.disconnect();
