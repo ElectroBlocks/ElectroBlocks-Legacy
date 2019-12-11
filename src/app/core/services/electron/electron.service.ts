@@ -22,14 +22,6 @@ export class ElectronService {
     return window && window.process && window.process.type;
   }
 
-  public isBrowser() {
-    return !this.isElectron && !this.chromebookApp;
-  }
-
-  public isChromebookApp() {
-    return this.chromebookApp;
-  }
-
   constructor() {
     // Conditional imports
     if (this.isElectron) {

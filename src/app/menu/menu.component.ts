@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ElectronService } from '../core/services';
+import { IdentityService } from '../core/services/identity.service';
 import { BlocklyService } from '../core/services/blockly.service';
 import { ShowArduinoCommunicator } from '../core/services/virtual-circuit/communicators/show-arduino.comm';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import 'file-saver';
 })
 export class MenuComponent implements OnInit {
   constructor(
-    public readonly electronService: ElectronService,
+    public readonly identityService: IdentityService,
     private blocklyService: BlocklyService,
     private showArduinoCommunicator: ShowArduinoCommunicator,
     private router: Router

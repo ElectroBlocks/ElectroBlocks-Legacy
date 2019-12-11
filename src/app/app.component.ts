@@ -7,7 +7,7 @@ import {
   NgZone,
   OnInit
 } from '@angular/core';
-import { ElectronService } from './core/services';
+import { IdentityService } from './core/services/identity.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
 import { Router, ActivationStart, ActivationEnd } from '@angular/router';
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   isResizingDivs = false;
 
   showBottom$ = this.router.events.pipe(
-    filter((event) => event instanceof ActivationStart),
+    filter(event => event instanceof ActivationStart),
     filter((event: ActivationStart) => {
       return event.snapshot.data['showBottom'] !== undefined;
     }),
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
   @ViewChild('grabber', { static: false }) grabber: ElementRef<HTMLDivElement>;
 
   constructor(
-    public electronService: ElectronService,
+    public identityService: IdentityService,
     private translate: TranslateService,
     private blocklyService: BlocklyService,
     private router: Router
@@ -44,19 +44,10 @@ export class AppComponent implements OnInit {
     translate.setDefaultLang('en');
     console.log('AppConfig', AppConfig);
 
-    if (electronService.isElectron) {
-      console.log(process.env);
-      console.log('Mode electron');
-      console.log('Electron ipcRenderer', electronService.ipcRenderer);
-      console.log('NodeJS childProcess', electronService.childProcess);
-    } else {
-      console.log('Mode web');
-    }
-
     this.router.events
       .pipe(
         filter(
-          (event) =>
+          event =>
             event instanceof ActivationStart &&
             this.blocklyService.getWorkSpace()
         ),
@@ -64,7 +55,7 @@ export class AppComponent implements OnInit {
           (event: ActivationStart) => event.snapshot.data['showRunLoopOption']
         )
       )
-      .subscribe((showRunLoopOption) => {
+      .subscribe(showRunLoopOption => {
         this.blocklyService.showRunLoopOption(showRunLoopOption);
         this.blocklyService.showDebugMode(showRunLoopOption);
       });

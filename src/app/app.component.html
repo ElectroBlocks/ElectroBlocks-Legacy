@@ -2,7 +2,7 @@
 <div
   [ngClass]="{
     showBottom: showBottom$ | async,
-    fileMenu: !electronService.isElectron
+    fileMenu: !identityService.isElectron
   }"
   [style.width]="blocklyContainerWidth"
   id="blockly-container"
@@ -12,7 +12,7 @@
 <div
   [ngClass]="{
     showBottom: showBottom$ | async,
-    fileMenu: !electronService.isElectron
+    fileMenu: !identityService.isElectron
   }"
   #grabber
   (mouseup)="grabberMouseUp($event)"
@@ -22,7 +22,7 @@
 <div
   [ngClass]="{
     showBottom: showBottom$ | async,
-    fileMenu: !electronService.isElectron
+    fileMenu: !identityService.isElectron
   }"
   [style.width]="routerContainerWidth"
   id="route-container"

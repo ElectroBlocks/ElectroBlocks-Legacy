@@ -1,19 +1,19 @@
 <button
-  *ngIf="electronService.isBrowser() || electronService.isChromebookApp()"
+  *ngIf="identityService.isBrowser() || identityService.isChromebookApp()"
   mat-button
   [matMenuTriggerFor]="fileMenu"
 >
   File
 </button>
 <button
-  *ngIf="electronService.isBrowser() || electronService.isChromebookApp()"
+  *ngIf="identityService.isBrowser() || identityService.isChromebookApp()"
   mat-button
   [matMenuTriggerFor]="settingMenu"
 >
   Settings
 </button>
 <button
-  *ngIf="electronService.isBrowser() || electronService.isChromebookApp()"
+  *ngIf="identityService.isBrowser() || identityService.isChromebookApp()"
   mat-button
   [matMenuTriggerFor]="helpMenu"
 >
@@ -28,15 +28,15 @@
   <button
     mat-menu-item
     (click)="downloadFile()"
-    *ngIf="electronService.isBrowser()"
+    *ngIf="identityService.isBrowser()"
   >
     Download
   </button>
-  <button mat-menu-item [disabled]="electronService.isBrowser()">Save</button>
-  <button mat-menu-item [disabled]="electronService.isBrowser()">
+  <button mat-menu-item [disabled]="identityService.isBrowser()">Save</button>
+  <button mat-menu-item [disabled]="identityService.isBrowser()">
     Save As
   </button>
-  <button mat-menu-item [disabled]="electronService.isBrowser()">Close</button>
+  <button mat-menu-item [disabled]="identityService.isBrowser()">Close</button>
 </mat-menu>
 
 <mat-menu #settingMenu="matMenu">
