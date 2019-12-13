@@ -9,7 +9,11 @@
 }
 
 #bottomContainer {
-  background: #242323;
-  color: white;
+  .commandLineBackground {
+    background: #242323;
+    color: #eff0f1;
+  }
+  background: #fcfdff;
+  color: #242323;
   overflow: scroll;
 }

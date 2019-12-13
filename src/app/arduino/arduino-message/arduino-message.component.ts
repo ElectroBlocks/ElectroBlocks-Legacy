@@ -5,13 +5,14 @@ import {
   ElementRef,
   NgZone
 } from '@angular/core';
+import { ArduinoMessage } from '../../core/services/usb-communicator';
 
 @Component({
-  selector: 'app-output',
-  templateUrl: './output.component.html',
-  styleUrls: ['./output.component.scss']
+  selector: 'app-arduino-message',
+  templateUrl: './arduino-message.component.html',
+  styleUrls: ['./arduino-message.component.scss']
 })
-export class OutputComponent implements OnInit {
+export class ArduinoMessageComponent implements OnInit {
   public sendMessage = '';
 
   @ViewChild('messageView', { static: false }) messageView: ElementRef<
@@ -84,10 +85,4 @@ export class OutputComponent implements OnInit {
   constructor(private ngZone: NgZone) {}
 
   ngOnInit() {}
-}
-
-interface ArduinoMessage {
-  type: 'Arduino' | 'Computer';
-  message: string;
-  time: string;
 }

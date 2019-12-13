@@ -1,6 +1,6 @@
 <div [style.height]="topContainerHeight">
   <app-svg *ngIf="displayMode == 'Virtual-Circuit'"></app-svg>
-  <app-output *ngIf="displayMode == 'Arduino'"></app-output>
+  <app-arduino-message *ngIf="displayMode == 'Arduino'"></app-arduino-message>
 </div>
 <div
   (mouseup)="grabberMouseUp($event)"
@@ -8,7 +8,11 @@
   id="svg-grabber"
   #grabber
 ></div>
-<div [style.height]="bottomContainerHeight" id="bottomContainer">
+<div
+  [ngClass]="{ commandLineBackground: displayMode == 'Virtual-Circuit' }"
+  [style.height]="bottomContainerHeight"
+  id="bottomContainer"
+>
   <app-steps *ngIf="displayMode == 'Virtual-Circuit'"></app-steps>
-  <app-state *ngIf="displayMode == 'Arduino'"></app-state>
+  <app-arduino-debug *ngIf="displayMode == 'Arduino'"></app-arduino-debug>
 </div>

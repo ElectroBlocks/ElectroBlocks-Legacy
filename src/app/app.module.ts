@@ -48,8 +48,8 @@ import { HelpComponent } from './settings/help/help.component';
 import { AboutComponent } from './settings/about/about.component';
 import { BugComponent } from './settings/bug/bug.component';
 import { StepsComponent } from './virtual-circuit/steps/steps.component';
-import { OutputComponent } from './arduino/output/output.component';
-import { StateComponent } from './arduino/state/state.component';
+import { ArduinoMessageComponent } from './arduino/arduino-message/arduino-message.component';
+import { ArduinoDebugComponent } from './arduino/arduino-debug/arduino-debug.component';
 import { AdvancedComponent } from './settings/advanced/advanced.component';
 
 // AoT requires an exported function for factories
@@ -73,8 +73,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AboutComponent,
     BugComponent,
     StepsComponent,
-    OutputComponent,
-    StateComponent,
+    ArduinoMessageComponent,
+    ArduinoDebugComponent,
     AdvancedComponent
   ],
   imports: [

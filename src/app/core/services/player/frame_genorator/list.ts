@@ -217,9 +217,9 @@ const createArrayType = (
   };
 
   const sizeOfArray = block.getFieldValue('SIZE');
-  type = type === 'String List' ? 'text blocks' : type + 's';
+  type = type === 'String List' ? 'text blocks' : type.trim() + 's';
   const message = `Create list name ${variableName} that store ${sizeOfArray} ${type
-    .replace('List', '')
+    .replace(' List', '') // This is because the type string looks like "String List"
     .toLowerCase()}`;
 
   const frame = new ArduinoFrame(block.id, state, frameLocation, message);

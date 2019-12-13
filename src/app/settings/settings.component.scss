@@ -1,22 +1,16 @@
-#setting-container,
-#setting-menu {
+#setting-container {
   display: flex;
   flex-direction: column;
   font-family: 'Biryani', 'Helvetica Neue', sans-serif;
-    font-weight: 600;
-
+  font-weight: 600;
+  overflow: scroll;
+  height: 100%;
+  padding: 0 5%;
 }
 
-#setting-menu > *,
 #setting-container > * {
   width: 95%;
   margin: 0 auto;
   min-width: 300px;
   margin-top: 20px;
-}
-
-#setting-container {
-  overflow: scroll;
-  height: 100%;
-  padding: 0 5%;
 }
