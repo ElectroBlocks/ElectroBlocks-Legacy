@@ -1,53 +1,55 @@
 <div id="state">
   <h3>
-    Debug 
+    Debug
     <span>
       <i class="fa fa-play"></i>
 
       <i class="fa fa-stop"></i>
     </span>
   </h3>
-  <table id="variable-table">
-    <thead>
-      <tr>
-        <th>Variable Name</th>
-        <th>Data Type</th>
-        <th>Value</th>
-      </tr>
-    </thead>
-    <tbody id="variable-tbody">
-      <tr *ngFor="let variable of variables$ | async">
-        <td>{{ variable.name }}</td>
-        <td>{{ variable.type }}</td>
-        <td
-          *ngIf="variable.type !== 'Colour List'"
-          [ngStyle]="{
-            'background-color':
-              variable.type === 'Colour' ? rgbToHex(variable.value) : 'white'
-          }"
-          [ngClass]="{ colorValue: variable.type === 'Colour' }"
-        >
-          {{ variable.value | json }}
-        </td>
-        <td *ngIf="variable.type === 'Colour List'">
-          <div
-            class="color-list"
-            *ngFor="let color of variable.value; let i = index"
+  <div id="variable-table-container">
+    <table id="variable-table">
+      <thead>
+        <tr>
+          <th>Variable Name</th>
+          <th>Data Type</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody id="variable-tbody">
+        <tr *ngFor="let variable of variables$ | async">
+          <td>{{ variable.name }}</td>
+          <td>{{ variable.type }}</td>
+          <td
+            *ngIf="variable.type !== 'Colour List'"
             [ngStyle]="{
-              'background-color': color ? rgbToHex(color) : 'white'
+              'background-color':
+                variable.type === 'Colour' ? rgbToHex(variable.value) : 'white'
             }"
+            [ngClass]="{ colorValue: variable.type === 'Colour' }"
           >
-            <span class="colorValue" *ngIf="color !== undefined"
-              >{{ i + 1 }}) {{ color | json }} <br />
-            </span>
-            <span *ngIf="color === undefined">
-              {{ i + 1 }}) No Color :) <br />
-            </span>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            {{ variable.value | json }}
+          </td>
+          <td *ngIf="variable.type === 'Colour List'">
+            <div
+              class="color-list"
+              *ngFor="let color of variable.value; let i = index"
+              [ngStyle]="{
+                'background-color': color ? rgbToHex(color) : 'white'
+              }"
+            >
+              <span class="colorValue" *ngIf="color !== undefined"
+                >{{ i + 1 }}) {{ color | json }} <br />
+              </span>
+              <span *ngIf="color === undefined">
+                {{ i + 1 }}) No Color :) <br />
+              </span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <!-- <mat-list>
     <mat-list-item>counter = 3</mat-list-item>
     <mat-list-item>nameList = ['Jill','Bill', 'Carson', 'Amy']</mat-list-item>

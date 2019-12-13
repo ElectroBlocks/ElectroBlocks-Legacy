@@ -24,6 +24,12 @@
   // .mat-list-item {
   //   color: #242323;
   // }
+
+  #variable-table-container {
+    overflow: scroll;
+    height: 100%;
+  }
+
   #variable-table {
     border-collapse: collapse;
     width: 100%;
