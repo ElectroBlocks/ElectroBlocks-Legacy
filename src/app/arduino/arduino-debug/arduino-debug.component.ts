@@ -16,7 +16,7 @@ export class ArduinoDebugComponent implements OnInit {
     {
       name: 'favorite color',
       type: 'Colour',
-      value: { red: 50, green: 0, blue: 40 }
+      value: { red: 150, green: 0, blue: 140 }
     },
     {
       name: 'counter',
@@ -29,17 +29,17 @@ export class ArduinoDebugComponent implements OnInit {
       value: 'Fred'
     },
     {
-      name: 'iLikeIcecream',
-      type: 'Boolean',
-      value: true
-    },
-    {
       name: 'rainbow',
       type: 'Colour List',
       value: [
-        { red: 50, green: 0, blue: 40 },
-        { red: 50, green: 150, blue: 0 }
+        { red: 150, green: 0, blue: 140 },
+        { red: 20, green: 150, blue: 234 }
       ]
+    },
+    {
+      name: 'iLikeIcecream',
+      type: 'Boolean',
+      value: true
     }
   ]);
 
@@ -49,5 +49,13 @@ export class ArduinoDebugComponent implements OnInit {
 
   rgbToHex(color: Color) {
     return rgbToHex(color);
+  }
+
+  printValue(variable: Variable) {
+    if (variable.type === 'Colour') {
+      return `Red = ${variable.value.red} Green = ${variable.value.green} Blue = ${variable.value.blue}`;
+    }
+
+    return JSON.stringify(variable.value);
   }
 }

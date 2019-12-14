@@ -26,8 +26,9 @@
   // }
 
   #variable-table-container {
-    overflow: scroll;
     height: 100%;
+    overflow: scroll;
+    margin-bottom: 10px;
   }
 
   #variable-table {
@@ -67,5 +68,12 @@
   .color-list {
     margin: 3px;
     padding: 5px;
+  }
+  .coloredElement {
+    margin-left: 10px;
+    padding: 0 10px;
+  }
+  .colorValue:first-of-type .coloredElement {
+    margin-left: 0;
   }
 }
