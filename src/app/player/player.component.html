@@ -49,7 +49,9 @@
   </div>
   <a
     (click)="replay()"
-    [ngClass]="{ disable: !player.isLastFrame() && player.isPlaying() }"
+    [ngClass]="{
+      disable: noFrames$ | async
+    }"
     ><i class="fa fa-repeat"></i
   ></a>
 </div>

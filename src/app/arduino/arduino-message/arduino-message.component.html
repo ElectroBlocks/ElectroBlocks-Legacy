@@ -1,3 +1,17 @@
+<div #messageView id="messageContainer">
+  <mat-list>
+    <mat-list-item *ngFor="let message of messages">
+      <p matLine>
+        <img
+          class="icon-image"
+          src="assets/images/{{
+            message.type == 'Arduino' ? 'cpu.png' : 'laptop.png'
+          }}"
+        />{{ message.message }} ({{ message.time }})
+      </p>
+    </mat-list-item>
+  </mat-list>
+</div>
 <div id="send-message-area">
   <mat-form-field>
     <mat-placeholder>Send Message</mat-placeholder>
@@ -14,6 +28,7 @@
     matSuffix
     mat-stroked-button
     aria-label="send"
+    title="send message"
   >
     <mat-icon>send</mat-icon>
   </button>
@@ -23,21 +38,8 @@
     matSuffix
     mat-stroked-button
     aria-label="clear"
+    title="clear messsages"
   >
     <mat-icon>clear_all</mat-icon>
   </button>
-</div>
-<div #messageView id="messageContainer">
-  <mat-list>
-    <mat-list-item *ngFor="let message of messages">
-      <p matLine>
-        <img
-          class="icon-image"
-          src="assets/images/{{
-            message.type == 'Arduino' ? 'cpu.png' : 'laptop.png'
-          }}"
-        />{{ message.message }} ({{ message.time }})
-      </p>
-    </mat-list-item>
-  </mat-list>
 </div>

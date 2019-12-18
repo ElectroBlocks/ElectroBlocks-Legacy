@@ -5,7 +5,7 @@ import '../polyfills';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
@@ -21,7 +21,6 @@ import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
 import { SvgComponent } from './virtual-circuit/svg/svg.component';
 import { ContainerComponent } from './container/container.component';
-import { VariablesComponent } from './variables/variables.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -51,6 +50,9 @@ import { StepsComponent } from './virtual-circuit/steps/steps.component';
 import { ArduinoMessageComponent } from './arduino/arduino-message/arduino-message.component';
 import { ArduinoDebugComponent } from './arduino/arduino-debug/arduino-debug.component';
 import { AdvancedComponent } from './settings/advanced/advanced.component';
+import { DeviceCommunicator } from './core/services/device.communicator';
+import { ElectronService } from './core/services';
+import { WebCommunicator } from './core/services/web.communicator';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -65,7 +67,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     PlayerComponent,
     SvgComponent,
     ContainerComponent,
-    VariablesComponent,
     MenuComponent,
     SettingsComponent,
     ToolboxComponent,
@@ -113,6 +114,17 @@ export function HttpLoaderFactory(http: HttpClient) {
     {
       provide: FramePlayer,
       useClass: FramePlayer,
+      multi: false
+    },
+    {
+      provide: DeviceCommunicator,
+      useFactory() {
+        if (ElectronService.isElectron) {
+          return new ElectronService();
+        }
+
+        return new WebCommunicator();
+      },
       multi: false
     }
   ],

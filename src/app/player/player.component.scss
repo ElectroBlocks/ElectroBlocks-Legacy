@@ -24,14 +24,14 @@
   appearance: none;
   width: 25px;
   height: 25px;
-  background: #4caf50;
+  background: #505bda;
   cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
-  background: #4caf50;
+  background: #505bda;
   cursor: pointer;
 }
 
@@ -41,7 +41,7 @@
 #video-controls-container label {
   font-size: 30px;
   font-family: 'Biryani', Arial, Helvetica, sans-serif;
-  color: #23922b;
+  color: #505bda;
   font-weight: 600;
 }
 #video-controls-container input {
@@ -54,19 +54,22 @@
 }
 
 #video-controls-container a i.fa {
-  color: #4caf50;
+  color: #505bda;
+  opacity: 1;
 }
 
 #video-controls-container.disable {
-  cursor: no-drop;
+  cursor: not-allowed;
 }
 
 #video-controls-container a.disable {
-  pointer-events: none;
+  // pointer-events: none;
 }
 
 #video-controls-container a.disable i.fa {
-  color: #aadcc3;
+  color: #505bda;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 #video-controls-container > button {
@@ -81,11 +84,14 @@
 }
 
 .icon-bar .fa {
-  color: #aadcc3;
+  color: #505bda;
+  opacity: 0.5;
+  cursor: pointer;
 }
 
 .icon-bar .active .fa {
-  color: #4caf50 !important;
+  color: #505bda !important;
+  opacity: 1;
 }
 
 .icon-bar a:first-of-type {
@@ -128,14 +134,14 @@
   appearance: none;
   width: 25px;
   height: 25px;
-  background: #4caf50;
+  background: #505bda;
   cursor: pointer;
 }
 
 .slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
-  background: #4caf50;
+  background: #505bda;
   cursor: pointer;
 }
 

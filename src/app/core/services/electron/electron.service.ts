@@ -5,11 +5,19 @@ import { Injectable } from '@angular/core';
 import { ipcRenderer, webFrame, remote } from 'electron';
 import * as childProcess from 'child_process';
 import * as fs from 'fs';
+import {
+  DeviceCommunicator,
+  DeviceMessageType,
+  ArduinoMessage
+} from '../device.communicator';
+import { Observable, Subject } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ElectronService {
+export class ElectronService extends DeviceCommunicator {
+
   ipcRenderer: typeof ipcRenderer;
   webFrame: typeof webFrame;
   remote: typeof remote;
@@ -18,13 +26,14 @@ export class ElectronService {
 
   public readonly chromebookApp = false;
 
-  get isElectron() {
+  static get isElectron() {
     return window && window.process && window.process.type;
   }
 
   constructor() {
+    super();
     // Conditional imports
-    if (this.isElectron) {
+    if (ElectronService.isElectron) {
       this.ipcRenderer = window.require('electron').ipcRenderer;
       this.webFrame = window.require('electron').webFrame;
       this.remote = window.require('electron').remote;
@@ -32,5 +41,10 @@ export class ElectronService {
       this.childProcess = window.require('child_process');
       this.fs = window.require('fs');
     }
+  }
+
+  sendMessage(type: DeviceMessageType, message: string) {
+    // TODO Fill in observable logic
+    this.ipcRenderer.send(type, message);
   }
 }

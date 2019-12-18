@@ -12,7 +12,7 @@ export class BlocklyPromptOverRide {
    * Over Rides the default prompt argument if
    */
   overRideBlocklyPrompt() {
-    if (!this.electronService.isElectron) {
+    if (!ElectronService.isElectron) {
       return;
     }
     const prompt = this.electronService.remote.require('electron-prompt');
@@ -22,7 +22,7 @@ export class BlocklyPromptOverRide {
         title: message,
         value: defaultValue,
         type: 'input'
-      }).then((value) => {
+      }).then(value => {
         callback(value);
       });
     };

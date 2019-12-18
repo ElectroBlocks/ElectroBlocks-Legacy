@@ -4,6 +4,7 @@ import { BlocklyService } from '../core/services/blockly.service';
 import { ShowArduinoCommunicator } from '../core/services/virtual-circuit/communicators/show-arduino.comm';
 import { Router } from '@angular/router';
 import 'file-saver';
+import { DeviceCommunicator } from '../core/services/device.communicator';
 
 @Component({
   selector: 'app-menu',
@@ -15,7 +16,8 @@ export class MenuComponent implements OnInit {
     public readonly identityService: IdentityService,
     private blocklyService: BlocklyService,
     private showArduinoCommunicator: ShowArduinoCommunicator,
-    private router: Router
+    private router: Router,
+    private deviceCommunicator: DeviceCommunicator
   ) {}
 
   ngOnInit() {}

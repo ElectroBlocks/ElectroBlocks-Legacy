@@ -8,11 +8,13 @@
 }
 
 .icon-bar .fa {
-  color: #aadcc3;
+  color: #505bda;
+  opacity: 0.5;
 }
 
 .icon-bar .active .fa {
-  color: #4caf50 !important;
+  color: #505bda !important;
+  opacity: 1;
 }
 
 .icon-bar a,
@@ -26,8 +28,15 @@
   font-size: 30px;
   cursor: pointer;
 }
+.icon-bar span.disabled {
+  cursor: not-allowed;
+}
 
 .icon-bar-bottom a,
 .icon-bar-bottom span {
   float: right;
+}
+
+.fa-exclamation-triangle {
+  color: rgb(248, 166, 166) !important;
 }

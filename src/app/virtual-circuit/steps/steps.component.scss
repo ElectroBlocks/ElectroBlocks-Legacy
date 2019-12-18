@@ -9,7 +9,7 @@ h3 {
 }
 div#steps {
   height: calc(100% - 50px);
-  overflow: scroll;
+  overflow-y: scroll;
   padding: 0 5px;
 }
 
@@ -43,13 +43,14 @@ div#loop {
   font-size: 1.3em;
 }
 
-/* width */
 ::-webkit-scrollbar {
-  width: 20px;
+  height: 12px;
+  width: 12px;
+  background: #000;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
-  background: red;
-  border-radius: 10px;
+  background: #f8f8f6;
+  -webkit-border-radius: 1ex;
+  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.75);
 }

@@ -5,7 +5,12 @@ import {
   ElementRef,
   NgZone
 } from '@angular/core';
-import { ArduinoMessage } from '../../core/services/usb-communicator';
+import {
+  ArduinoMessage,
+  DeviceCommunicator,
+  DeviceMessageType
+} from '../../core/services/device.communicator';
+import { IdentityService } from '../../core/services/identity.service';
 
 @Component({
   selector: 'app-arduino-message',
@@ -19,43 +24,45 @@ export class ArduinoMessageComponent implements OnInit {
     HTMLDivElement
   >;
 
-  public messages: ArduinoMessage[] = [
-    {
-      type: 'Arduino',
-      message: 'Hello From Arduino Land.',
-      time: '2:30:08 PM'
-    },
-    {
-      type: 'Computer',
-      message: 'Hello From computer Land.',
-      time: '2:33:06 PM'
-    },
-    {
-      type: 'Arduino',
-      message: 'Hello From Arduino Land.',
-      time: '2:40:03 PM'
-    },
-    {
-      type: 'Computer',
-      message: 'Hello From computer Land.',
-      time: '2:44:03 PM'
-    },
-    {
-      type: 'Arduino',
-      message: 'Hello From Arduino Land.',
-      time: '2:50:05 PM'
-    },
-    {
-      type: 'Computer',
-      message: 'Hello From computer Land.',
-      time: '3:00:01 PM'
-    },
-    {
-      type: 'Arduino',
-      message: 'Hello From Arduino Land.',
-      time: '3:05:04 PM'
-    }
-  ];
+  public messages: ArduinoMessage[] = this.identityService.isBrowser()
+    ? [
+        {
+          type: 'Arduino',
+          message: 'Hello From Arduino Land.',
+          time: '2:30:08 PM'
+        },
+        {
+          type: 'Computer',
+          message: 'Hello From computer Land.',
+          time: '2:33:06 PM'
+        },
+        {
+          type: 'Arduino',
+          message: 'Hello From Arduino Land.',
+          time: '2:40:03 PM'
+        },
+        {
+          type: 'Computer',
+          message: 'Hello From computer Land.',
+          time: '2:44:03 PM'
+        },
+        {
+          type: 'Arduino',
+          message: 'Hello From Arduino Land.',
+          time: '2:50:05 PM'
+        },
+        {
+          type: 'Computer',
+          message: 'Hello From computer Land.',
+          time: '3:00:01 PM'
+        },
+        {
+          type: 'Arduino',
+          message: 'Hello From Arduino Land.',
+          time: '3:05:04 PM'
+        }
+      ]
+    : [];
 
   clear() {
     this.messages = [];
@@ -65,11 +72,17 @@ export class ArduinoMessageComponent implements OnInit {
     if (this.sendMessage === '') {
       return;
     }
+
     this.messages.push({
-      message: this.sendMessage,
       type: 'Computer',
+      message: this.sendMessage,
       time: new Date().toLocaleTimeString()
     });
+
+    this.deviceCommunicator.sendMessage(
+      DeviceMessageType.SEND_MESSAGE,
+      this.sendMessage
+    );
 
     // Hack to scroll to the bottom
     this.ngZone.run(() => {
@@ -82,7 +95,11 @@ export class ArduinoMessageComponent implements OnInit {
     });
   }
 
-  constructor(private ngZone: NgZone) {}
+  constructor(
+    private ngZone: NgZone,
+    private identityService: IdentityService,
+    private deviceCommunicator: DeviceCommunicator
+  ) {}
 
   ngOnInit() {}
 }
