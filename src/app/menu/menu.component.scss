@@ -9,6 +9,10 @@
 
 .icon-bar .fa {
   color: #505bda;
+}
+
+.icon-bar a .fa,
+.icon-bar .disabled .fa {
   opacity: 0.5;
 }
 

@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectionStrategy,
+  NgZone,
+  ChangeDetectorRef
+} from '@angular/core';
 import { IdentityService } from '../core/services/identity.service';
 import { BlocklyService } from '../core/services/blockly.service';
 import { ShowArduinoCommunicator } from '../core/services/virtual-circuit/communicators/show-arduino.comm';
@@ -12,15 +18,26 @@ import { DeviceCommunicator } from '../core/services/device.communicator';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+  isArduinoConnected = false;
+
   constructor(
     public readonly identityService: IdentityService,
     private blocklyService: BlocklyService,
     private showArduinoCommunicator: ShowArduinoCommunicator,
     private router: Router,
-    private deviceCommunicator: DeviceCommunicator
+    private deviceCommunicator: DeviceCommunicator,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.deviceCommunicator.isArduinoPluggedIn$.subscribe(
+      isArduinoConnected => {
+        console.log('hitting menu', isArduinoConnected);
+        this.isArduinoConnected = isArduinoConnected;
+        this.changeDetectorRef.detectChanges();
+      }
+    );
+  }
 
   newFile() {
     this.blocklyService.resetWorkspace();

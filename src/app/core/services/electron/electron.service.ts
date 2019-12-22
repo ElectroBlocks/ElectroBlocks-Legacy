@@ -17,7 +17,6 @@ import { startWith } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ElectronService extends DeviceCommunicator {
-
   ipcRenderer: typeof ipcRenderer;
   webFrame: typeof webFrame;
   remote: typeof remote;
@@ -40,6 +39,11 @@ export class ElectronService extends DeviceCommunicator {
 
       this.childProcess = window.require('child_process');
       this.fs = window.require('fs');
+      console.log('this was called');
+      this.ipcRenderer.on('arduino_connected', (event, hasArduino) => {
+        console.log('arduino_connected', hasArduino);
+        this.isArduinoPluggedInSubject.next(hasArduino);
+      });
     }
   }
 

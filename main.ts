@@ -1,13 +1,14 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import { arduinoConnectted$ } from './arduino_connected';
 
 let win, serve;
 const args = process.argv.slice(1);
+
 serve = args.some(val => val === '--serve');
 
 function createWindow() {
-
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
@@ -18,8 +19,8 @@ function createWindow() {
     width: size.width,
     height: size.height,
     webPreferences: {
-      nodeIntegration: true,
-    },
+      nodeIntegration: true
+    }
   });
 
   if (serve) {
@@ -28,16 +29,25 @@ function createWindow() {
     });
     win.loadURL('http://localhost:4200');
   } else {
-    win.loadURL(url.format({
-      pathname: path.join(__dirname, 'dist/index.html'),
-      protocol: 'file:',
-      slashes: true
-    }));
+    win.loadURL(
+      url.format({
+        pathname: path.join(__dirname, 'dist/index.html'),
+        protocol: 'file:',
+        slashes: true
+      })
+    );
   }
 
   if (serve) {
     win.webContents.openDevTools();
   }
+
+  win.webContents.on('did-finish-load', () => {
+    arduinoConnectted$.subscribe(arduinoConnected => {
+      console.log('arduino_connected', arduinoConnected);
+      win.webContents.send('arduino_connected', arduinoConnected);
+    });
+  });
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -46,11 +56,9 @@ function createWindow() {
     // when you should delete the corresponding element.
     win = null;
   });
-
 }
 
 try {
-
   // This method will be called when Electron has finished
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
@@ -72,7 +80,6 @@ try {
       createWindow();
     }
   });
-
 } catch (e) {
   // Catch Error
   // throw e;

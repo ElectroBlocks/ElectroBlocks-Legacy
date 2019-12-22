@@ -33,7 +33,7 @@
     "lint": "ng lint"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "0.802.2",
+    "@angular-devkit/build-angular": "^0.803.21",
     "@angular/cli": "8.2.2",
     "@angular/common": "8.2.2",
     "@angular/compiler": "8.2.2",
@@ -99,6 +99,7 @@
     "lodash": "^4.17.15",
     "ngx-color-picker": "^8.2.0",
     "prismjs": "^1.17.1",
+    "serialport": "^8.0.5",
     "svg-pan-zoom": "^3.6.0",
     "svg.draggy.js": "^1.1.1",
     "svg.js": "^2.7.1",

@@ -1,12 +1,12 @@
 import { Observable, Subject } from 'rxjs';
-import { startWith } from 'rxjs/operators';
+import { startWith, share } from 'rxjs/operators';
 
 export abstract class DeviceCommunicator {
   protected messageSubject = new Subject<ArduinoMessage>();
 
   protected isArduinoPluggedInSubject = new Subject<boolean>();
 
-  message$: Observable<ArduinoMessage> = this.messageSubject.asObservable();
+  message$: Observable<ArduinoMessage> = this.messageSubject.asObservable().pipe(share());
 
   isArduinoPluggedIn$: Observable<
     boolean
