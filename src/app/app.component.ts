@@ -1,17 +1,16 @@
-import { BlocklyService } from './core/services/blockly.service';
+import { BlocklyService } from './services/blockly/blockly.service';
 import {
   Component,
   ViewChild,
   ElementRef,
   HostListener,
-  NgZone,
   OnInit
 } from '@angular/core';
-import { IdentityService } from './core/services/identity.service';
+import { IdentityService } from './services/identity/identity.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
-import { Router, ActivationStart, ActivationEnd } from '@angular/router';
-import { filter, map, tap, share } from 'rxjs/operators';
+import { Router, ActivationStart } from '@angular/router';
+import { filter, map, share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',

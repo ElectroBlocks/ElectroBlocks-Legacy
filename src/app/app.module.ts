@@ -1,15 +1,13 @@
-import { CodeComponent } from './code/code.component';
-import { BlocklyComponent } from './blockly/blockly.component';
+import { CodeComponent } from './components/code/code.component';
+import { BlocklyComponent } from './components/blockly/blockly.component';
 import 'reflect-metadata';
 import '../polyfills';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, InjectionToken } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
 import { AngularSplitModule } from 'angular-split';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -18,9 +16,9 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
-import { PlayerComponent } from './player/player.component';
-import { SvgComponent } from './virtual-circuit/svg/svg.component';
-import { ContainerComponent } from './container/container.component';
+import { PlayerComponent } from './components/player/player.component';
+import { SvgComponent } from './components/virtual-circuit/svg/svg.component';
+import { ContainerComponent } from './components/container/container.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -39,20 +37,21 @@ import {
   MatTooltipModule,
   MatMenuModule
 } from '@angular/material';
-import { FramePlayer } from './core/services/player/frame/frame_player';
-import { MenuComponent } from './menu/menu.component';
-import { SettingsComponent } from './settings/settings.component';
-import { ToolboxComponent } from './settings/toolbox/toolbox.component';
-import { HelpComponent } from './settings/help/help.component';
-import { AboutComponent } from './settings/about/about.component';
-import { BugComponent } from './settings/bug/bug.component';
-import { StepsComponent } from './virtual-circuit/steps/steps.component';
-import { ArduinoMessageComponent } from './arduino/arduino-message/arduino-message.component';
-import { ArduinoDebugComponent } from './arduino/arduino-debug/arduino-debug.component';
-import { AdvancedComponent } from './settings/advanced/advanced.component';
-import { DeviceCommunicator } from './core/services/device.communicator';
-import { ElectronService } from './core/services';
-import { WebCommunicator } from './core/services/web.communicator';
+import { FramePlayer } from './services/player/frame_player';
+import { MenuComponent } from './components/menu/menu.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { ToolboxComponent } from './components/settings/toolbox/toolbox.component';
+import { HelpComponent } from './components/settings/help/help.component';
+import { AboutComponent } from './components/settings/about/about.component';
+import { BugComponent } from './components/settings/bug/bug.component';
+import { StepsComponent } from './components/virtual-circuit/steps/steps.component';
+import { ArduinoMessageComponent } from './components/arduino/arduino-message/arduino-message.component';
+import { ArduinoDebugComponent } from './components/arduino/arduino-debug/arduino-debug.component';
+import { AdvancedComponent } from './components/settings/advanced/advanced.component';
+import { DeviceCommunicator } from './services/communicators/device/device.communicator';
+import { WebCommunicator } from './services/communicators/device/web.communicator';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { ElectronCommunicator } from './services/communicators/device/electron.communicator';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -65,6 +64,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BlocklyComponent,
     CodeComponent,
     PlayerComponent,
+    PageNotFoundComponent,
     SvgComponent,
     ContainerComponent,
     MenuComponent,
@@ -82,10 +82,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    CoreModule,
     ColorPickerModule,
     AngularSplitModule.forRoot(),
-    SharedModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTabsModule,
@@ -119,8 +117,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     {
       provide: DeviceCommunicator,
       useFactory() {
-        if (ElectronService.isElectron) {
-          return new ElectronService();
+        if (ElectronCommunicator.isElectron) {
+          return new ElectronCommunicator();
         }
 
         return new WebCommunicator();

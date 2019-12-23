@@ -1,16 +1,16 @@
-import { ContainerComponent } from './container/container.component';
-import { CodeComponent } from './code/code.component';
+import { ContainerComponent } from './components/container/container.component';
+import { CodeComponent } from './components/code/code.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PageNotFoundComponent } from './shared/components';
-import { PlayerComponent } from './player/player.component';
-import { SettingsComponent } from './settings/settings.component';
-import { ToolboxComponent } from './settings/toolbox/toolbox.component';
-import { BugComponent } from './settings/bug/bug.component';
-import { HelpComponent } from './settings/help/help.component';
-import { AboutComponent } from './settings/about/about.component';
-import { MenuComponent } from './menu/menu.component';
-import { AdvancedComponent } from './settings/advanced/advanced.component';
+import { PlayerComponent } from './components/player/player.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { ToolboxComponent } from './components/settings/toolbox/toolbox.component';
+import { BugComponent } from './components/settings/bug/bug.component';
+import { HelpComponent } from './components/settings/help/help.component';
+import { AboutComponent } from './components/settings/about/about.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { AdvancedComponent } from './components/settings/advanced/advanced.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 const isElectron =
   (window && window.process && window.process.type) !== undefined;
@@ -114,7 +114,7 @@ const routes: Routes = [
   {
     path: '**',
     component: PageNotFoundComponent,
-    data: { showBottom: false, ignoreBottom: false }
+    data: { showBottom: false, ignoreBottom: true }
   }
 ];
 
