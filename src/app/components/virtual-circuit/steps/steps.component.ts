@@ -1,17 +1,15 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FramePlayer } from '../../../services/player/frame_player';
 import { share, map, startWith, tap, switchMap } from 'rxjs/operators';
 import { BlocklyService } from '../../../services/blockly/blockly.service';
-import { combineLatest, merge } from 'rxjs';
-import { FrameOutput } from '../../../core/player/frame/frame_output';
-import { ArduinoFrame } from '../../../core/player/arduino/arduino_frame';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-steps',
   templateUrl: './steps.component.html',
   styleUrls: ['./steps.component.scss']
 })
-export class StepsComponent implements OnInit {
+export class StepsComponent  {
   @ViewChild('stepsList', { static: false }) stepsList: ElementRef<
     HTMLOListElement
   >;
@@ -75,10 +73,6 @@ export class StepsComponent implements OnInit {
     private player: FramePlayer,
     private blocklyService: BlocklyService
   ) {}
-
-  ngOnInit() {
-    this.blocklyService.generateFrames();
-  }
 
   jumpToStep(event: Event, frameNumber: number) {
     this.player.skipToFrame(frameNumber);

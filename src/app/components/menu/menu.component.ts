@@ -10,7 +10,11 @@ import { BlocklyService } from '../../services/blockly/blockly.service';
 import { ShowArduinoCommunicator } from '../../services/communicators/virtual-circuit/show-arduino.comm';
 import { Router } from '@angular/router';
 import 'file-saver';
-import { DeviceCommunicator } from '../../services/communicators/device/device.communicator';
+import {
+  DeviceCommunicator,
+  ArduinoOnlineState,
+  DeviceMessageType
+} from '../../services/communicators/device/device.communicator';
 
 @Component({
   selector: 'app-menu',
@@ -18,7 +22,7 @@ import { DeviceCommunicator } from '../../services/communicators/device/device.c
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
-  isArduinoConnected = false;
+  arduinoState = ArduinoOnlineState.DISCONNECTED;
 
   constructor(
     public readonly identityService: IdentityService,
@@ -30,13 +34,11 @@ export class MenuComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.deviceCommunicator.isArduinoPluggedIn$.subscribe(
-      isArduinoConnected => {
-        console.log('hitting menu', isArduinoConnected);
-        this.isArduinoConnected = isArduinoConnected;
-        this.changeDetectorRef.detectChanges();
-      }
-    );
+    this.deviceCommunicator.arduinoState$.subscribe(arduinoState => {
+      console.log('hitting menu', arduinoState);
+      this.arduinoState = arduinoState;
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   newFile() {
@@ -57,6 +59,11 @@ export class MenuComponent implements OnInit {
     const code = this.blocklyService.getXMLCode();
     const blob = new Blob([code], { type: 'text/xml;charset=utf-8' });
     saveAs(blob, `electro_blocks_${Date.now()}.xml`);
+  }
+
+  uploadCode() {
+    const code = this.blocklyService.getXMLCode();
+    this.deviceCommunicator.sendMessage(DeviceMessageType.UPLOAD_CODE, code);
   }
 
   navigateToSettings(settingSection: string) {

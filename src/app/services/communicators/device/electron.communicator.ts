@@ -38,7 +38,7 @@ export class ElectronCommunicator extends DeviceCommunicator {
       this.fs = window.require('fs');
       this.ipcRenderer.on('arduino_connected', (event, hasArduino) => {
         console.log('arduino_connected', hasArduino);
-        this.isArduinoPluggedInSubject.next(hasArduino);
+        this.arduinoOnlineState.next(hasArduino);
       });
     }
   }

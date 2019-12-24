@@ -75,26 +75,17 @@
     ><i class="fa fa-book"></i
   ></a>
 
-  <span [ngClass]="{ disabled: !isArduinoConnected }" title="Upload Code"
+  <span
+    [ngClass]="{ disabled: arduinoState != 'CONNECTED' }"
+    title="Upload Code"
+    (click)="uploadCode()"
     ><i
       class="fa "
       [ngClass]="{
-        'fa-exclamation-triangle': !isArduinoConnected,
-        'fa-upload': isArduinoConnected
+        'fa-exclamation-triangle': arduinoState == 'DISCONNECTED',
+        'fa-upload': arduinoState == 'CONNECTED'
       }"
-    ></i
-  ></span>
-
-  <!-- <span
-    [ngClass]="{ disabled: !isArduinoConnected }"
-    title="Arduino not plugged in."
-    ><i
-      [ngClass]="{
-        'fa-exclamation-triangle': !isArduinoConnected,
-        'fa-plug': isArduinoConnected
-      }"
-      class="fa "
     >
     </i
-  ></span> -->
+  ></span>
 </div>

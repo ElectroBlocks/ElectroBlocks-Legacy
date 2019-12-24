@@ -180,7 +180,9 @@ export class BlocklyService {
         this.router.routerState.snapshot.root.firstChild.data.showRunLoopOption
       );
       changeLoopNumberInSensorBlocks(this.getWorkSpace(), event);
-      await this.generateFrames();
+      if (this.getArduinoStartBlock()) {
+        await this.generateFrames();
+      }
     });
 
     this.blocklyPromptOverRide.overRideBlocklyPrompt();

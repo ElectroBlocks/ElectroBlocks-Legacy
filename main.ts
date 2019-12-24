@@ -1,7 +1,9 @@
 import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
-import { arduinoConnectted$ } from './arduino_connected';
+import { arduinoPorts$ } from './arduinoNode/connected';
+import { serialOutput$ } from './arduinoNode/serial_port';
+import { map } from 'rxjs/operators';
 
 let win, serve;
 const args = process.argv.slice(1);
@@ -43,10 +45,14 @@ function createWindow() {
   }
 
   win.webContents.on('did-finish-load', () => {
-    arduinoConnectted$.subscribe(arduinoConnected => {
-      console.log('arduino_connected', arduinoConnected);
-      win.webContents.send('arduino_connected', arduinoConnected);
-    });
+    arduinoPorts$
+      .pipe(map(arduinoPort => arduinoPort !== undefined))
+      .subscribe(arduinoConnected => {
+        win.webContents.send('arduino_connected', arduinoConnected);
+      });
+    serialOutput$.subscribe(message =>
+      console.log(message, 'messages from arduino')
+    );
   });
 
   // Emitted when the window is closed.
