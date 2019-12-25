@@ -1,7 +1,7 @@
 import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
-import { arduinoPorts$ } from './arduinoNode/connected';
+import { arduinoPorts$ } from './arduinoNode/serial_port';
 import { serialOutput$ } from './arduinoNode/serial_port';
 import { map } from 'rxjs/operators';
 
@@ -46,7 +46,6 @@ function createWindow() {
 
   win.webContents.on('did-finish-load', () => {
     arduinoPorts$
-      .pipe(map(arduinoPort => arduinoPort !== undefined))
       .subscribe(arduinoConnected => {
         win.webContents.send('arduino_connected', arduinoConnected);
       });

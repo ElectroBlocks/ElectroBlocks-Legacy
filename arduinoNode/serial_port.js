@@ -36,21 +36,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var connected_1 = require("./connected");
-var operators_1 = require("rxjs/operators");
 var SerialPort = require('serialport');
-var rxjs_1 = require("rxjs");
 var Delimiter = require('@serialport/parser-delimiter');
+var rxjs_1 = require("rxjs");
+var rxjs_2 = require("rxjs");
+var operators_1 = require("rxjs/operators");
+var ArduinoOnlineState;
+(function (ArduinoOnlineState) {
+    ArduinoOnlineState["DISCONNECTED"] = "DISCONNECTED";
+    ArduinoOnlineState["CONNECTED"] = "CONNECTED";
+    ArduinoOnlineState["UPLOADING_CODE"] = "UPLOADING_CODE";
+    ArduinoOnlineState["UPLOAD_CODE_COMPLETE"] = "UPLOAD_CODE_COMPLETE";
+})(ArduinoOnlineState = exports.ArduinoOnlineState || (exports.ArduinoOnlineState = {}));
 var serialPortConnection;
 var subjectSerialOutput = new rxjs_1.BehaviorSubject('');
 exports.serialOutput$ = subjectSerialOutput.pipe(operators_1.share());
-connected_1.arduinoPorts$.subscribe(function (portInfo) { return __awaiter(_this, void 0, void 0, function () {
+exports.openSerialPort = function (portInfo) { return __awaiter(_this, void 0, void 0, function () {
     var error, parser, err;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 if (!portInfo) {
-                    return [2 /*return*/];
+                    return [2 /*return*/, ArduinoOnlineState.DISCONNECTED];
                 }
                 return [4 /*yield*/, exports.closerSerialPort()];
             case 1:
@@ -76,15 +83,15 @@ connected_1.arduinoPorts$.subscribe(function (portInfo) { return __awaiter(_this
                 err = _a.sent();
                 if (err) {
                     console.error(err, 'opening serial port error');
-                    throw new Error(err.toString());
+                    return [2 /*return*/, ArduinoOnlineState.DISCONNECTED];
                 }
                 else {
-                    console.log('open was successful');
+                    return [2 /*return*/, ArduinoOnlineState.CONNECTED];
                 }
                 return [2 /*return*/];
         }
     });
-}); });
+}); };
 exports.closerSerialPort = function () { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -101,4 +108,31 @@ exports.closerSerialPort = function () { return __awaiter(_this, void 0, void 0,
         }
     });
 }); };
+/**
+ * Helper function to determine if usb port is an arduino.
+ *
+ * @param port
+ * @returns {boolean}
+ */
+exports.isArduino = function (port) {
+    if (port.vendorId || port.productId) {
+        return (port.vendorId === '2341' ||
+            port.productId === '0043' ||
+            port.vendorId === '0x2341' ||
+            port.productId === '0x0043');
+    }
+    return false;
+};
+exports.arduinoPorts$ = rxjs_2.interval(500).pipe(operators_1.switchMap(function () { return rxjs_2.from(SerialPort.list()); }), operators_1.map(function (usbs) { return usbs.filter(exports.isArduino)[0]; }), operators_1.distinctUntilChanged(function (prev, curr) {
+    if (curr === prev) {
+        return true;
+    }
+    if (curr === undefined && prev) {
+        return false;
+    }
+    if (prev === undefined && curr) {
+        return false;
+    }
+    return prev.comName === curr.comName;
+}), operators_1.switchMap(function (usbInfo) { return rxjs_2.from(exports.openSerialPort(usbInfo)); }), operators_1.share());
 //# sourceMappingURL=serial_port.js.map
