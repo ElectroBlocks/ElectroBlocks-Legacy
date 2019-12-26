@@ -1,9 +1,9 @@
 import { app, BrowserWindow, screen, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
-import { arduinoPorts$ } from './arduinoNode/serial_port';
-import { serialOutput$ } from './arduinoNode/serial_port';
+import { SerialPortArduino } from './arduinoNode/serial_port';
 import { map } from 'rxjs/operators';
+import { async } from '@angular/core/testing';
 
 let win, serve;
 const args = process.argv.slice(1);
@@ -45,13 +45,22 @@ function createWindow() {
   }
 
   win.webContents.on('did-finish-load', () => {
-    arduinoPorts$
-      .subscribe(arduinoConnected => {
-        win.webContents.send('arduino_connected', arduinoConnected);
-      });
-    serialOutput$.subscribe(message =>
-      console.log(message, 'messages from arduino')
-    );
+    const serialPort = new SerialPortArduino();
+    serialPort.serialPortStatus$.subscribe(arduinoConnected => {
+      win.webContents.send('arduino_connected', arduinoConnected);
+    });
+    serialPort.serialOutput$.subscribe(message => {
+      console.log(message, 'messages from arduino');
+      win.webContents.send('arduino_message', message);
+    });
+
+    ipcMain.on('UPLOAD_CODE', async (event, code) => {
+      await serialPort.flashArduino(code);
+    });
+
+    ipcMain.on('SEND_MESSAGE', async (event, message) => {
+      await serialPort.sendMessage(message);
+    });
   });
 
   // Emitted when the window is closed.

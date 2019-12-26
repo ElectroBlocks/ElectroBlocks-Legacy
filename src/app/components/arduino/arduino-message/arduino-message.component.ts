@@ -64,6 +64,26 @@ export class ArduinoMessageComponent implements OnInit {
       ]
     : [];
 
+  messageOutput$ = this.deviceCommunicator.message$.subscribe(
+    arduinoMessage => {
+      this.messages.push({
+        type: 'Arduino',
+        message: arduinoMessage.toString(),
+        time: new Date().toLocaleTimeString()
+      });
+
+      // Hack to scroll to the bottom
+      this.ngZone.run(() => {
+        setTimeout(() => {
+          this.messageView.nativeElement.scrollTo(
+            0,
+            this.messageView.nativeElement.scrollHeight
+          );
+        }, 10);
+      });
+    }
+  );
+
   clear() {
     this.messages = [];
   }
@@ -89,7 +109,7 @@ export class ArduinoMessageComponent implements OnInit {
       setTimeout(() => {
         this.messageView.nativeElement.scrollTo(
           0,
-          this.messageView.nativeElement.clientHeight
+          this.messageView.nativeElement.scrollHeight
         );
       }, 10);
     });

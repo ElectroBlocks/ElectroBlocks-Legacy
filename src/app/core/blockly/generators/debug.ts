@@ -25,7 +25,7 @@ Blockly.Arduino['debug_block'] = function(block) {
     '\t\tSerial.println("DEBUG_BLOCK_" + blockNumber + " ");\n\n';
 
   debugFunction +=
-    '\t\twhile (stopDebug !== "s") { \n' +
+    '\t\twhile (stopDebug != "s") { \n' +
     "\t\t\tstopDebug = Serial.readStringUntil('|'); \n" +
     '\t\t\tdelay(1000);  \n' +
     '\t\t}\n';
@@ -96,7 +96,7 @@ function getArrayVariableSize(variable) {
 
   const block = Blockly.mainWorkspace
     .getBlocksByType(blockType, true)
-    .find((block) => block.getFieldValue('VAR') === variableId);
+    .find(block => block.getFieldValue('VAR') === variableId);
 
   if (!block) {
     return 1;

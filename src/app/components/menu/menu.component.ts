@@ -62,7 +62,7 @@ export class MenuComponent implements OnInit {
   }
 
   uploadCode() {
-    const code = this.blocklyService.getXMLCode();
+    const code = this.blocklyService.getArduinoCode();
     this.deviceCommunicator.sendMessage(DeviceMessageType.UPLOAD_CODE, code);
   }
 

@@ -83,7 +83,8 @@
       class="fa "
       [ngClass]="{
         'fa-exclamation-triangle': arduinoState == 'DISCONNECTED',
-        'fa-upload': arduinoState == 'CONNECTED'
+        'fa-upload': arduinoState == 'CONNECTED',
+        'fa-cog fa-spin fa-6x fa-fw': arduinoState == 'UPLOADING_CODE'
       }"
     >
     </i

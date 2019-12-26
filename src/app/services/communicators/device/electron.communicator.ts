@@ -5,10 +5,7 @@ import { Injectable } from '@angular/core';
 import { ipcRenderer, webFrame, remote } from 'electron';
 import * as childProcess from 'child_process';
 import * as fs from 'fs';
-import {
-  DeviceCommunicator,
-  DeviceMessageType,
-} from './device.communicator';
+import { DeviceCommunicator, DeviceMessageType } from './device.communicator';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +36,11 @@ export class ElectronCommunicator extends DeviceCommunicator {
       this.ipcRenderer.on('arduino_connected', (event, hasArduino) => {
         console.log('arduino_connected', hasArduino);
         this.arduinoOnlineState.next(hasArduino);
+      });
+
+      this.ipcRenderer.on('arduino_message', (event, message) => {
+        console.log('arduino_message', message);
+        this.messageSubject.next(message);
       });
     }
   }
