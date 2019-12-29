@@ -1,1 +1,1 @@
-export const VARIABLE_TYPES = ['Number', 'String', 'Boolean'];
+export const VARIABLE_TYPES = ['Number', 'String', 'Boolean', 'Colour'];

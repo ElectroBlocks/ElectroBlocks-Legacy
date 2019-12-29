@@ -10,7 +10,6 @@ export const setZeroIndexAdjustFunc = () => {
 };
 
 const initListVariable = function(block: Block, type: string) {
-
   setZeroIndexAdjustFunc();
 
   const size = block.getFieldValue('SIZE');
@@ -20,7 +19,7 @@ const initListVariable = function(block: Block, type: string) {
   const variable = Blockly.mainWorkspace.getVariableById(variableId);
 
   Blockly.Arduino.variablesInitCode_ +=
-    type + ' ' + variable.name + '[' + size + '];\n';
+    type.replace(' list', '') + ' ' + variable.name + '[' + size + '];\n';
 
   return '';
 };

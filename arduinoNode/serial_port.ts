@@ -7,7 +7,6 @@ const fs = require('fs');
 import { BehaviorSubject, Subject } from 'rxjs';
 import { share } from 'rxjs/operators';
 import * as Promisify from 'bluebird';
-import { promisify } from 'util';
 import axios from 'axios';
 
 interface PortInfo {
@@ -24,7 +23,9 @@ interface PortInfo {
 export enum ArduinoOnlineState {
   DISCONNECTED = 'DISCONNECTED',
   CONNECTED = 'CONNECTED',
-  UPLOADING_CODE = 'UPLOADING_CODE'
+  UPLOADING_CODE = 'UPLOADING_CODE',
+  UPLOAD_CODE_COMPLETE = 'UPLOAD_CODE_COMPLETE',
+  UPLOAD_CODE_ERROR = 'UPLOAD_CODE_ERROR'
 }
 
 export class SerialPortArduino {
@@ -85,24 +86,29 @@ export class SerialPortArduino {
   }
 
   private async checkSerialPort() {
-    if (this.uploadingCode) {
-      return;
-    }
-    const [arduinoUnoSerialPort] = (await SerialPort.list()).filter(port =>
-      SerialPortArduino.isArduino(port)
-    );
+    try {
+      if (this.uploadingCode) {
+        return;
+      }
+      const [arduinoUnoSerialPort] = (await SerialPort.list()).filter(port =>
+        SerialPortArduino.isArduino(port)
+      );
 
-    this.portInfo = arduinoUnoSerialPort;
+      this.portInfo = arduinoUnoSerialPort;
 
-    if (this.serialPortConnection === undefined && this.portInfo) {
-      this.open();
-      return;
-    }
+      if (this.serialPortConnection === undefined && this.portInfo) {
+        this.open();
+        return;
+      }
 
-    if (this.serialPortConnection) {
-      return;
+      if (this.serialPortConnection) {
+        return;
+      }
+      this.serialPortStatusSubject.next(ArduinoOnlineState.DISCONNECTED);
+    } catch (e) {
+      console.error(e, 'CHECKING_SERIAL_PORT');
+      this.serialPortStatusSubject.next(ArduinoOnlineState.DISCONNECTED);
     }
-    this.serialPortStatusSubject.next(ArduinoOnlineState.DISCONNECTED);
   }
 
   private async open() {
@@ -129,39 +135,25 @@ export class SerialPortArduino {
       console.log('Serial Port was closed');
     });
 
-    const err = await new Promise((res, rej) => {
-      this.serialPortConnection.on('open', (portOpenError: Error) => {
-        res(portOpenError);
-      });
+    await new Promise((res, rej) => {
+      this.serialPortConnection.on('open', (portOpenError: Error) =>
+        portOpenError ? rej(portOpenError) : res(undefined)
+      );
     });
-
-    console.log(err, 'error uploading');
-
-    if (err) {
-      console.error(err, 'opening serial port error');
-      this.serialPortStatusSubject.next(ArduinoOnlineState.DISCONNECTED);
-      return;
-    }
 
     this.serialPortStatusSubject.next(ArduinoOnlineState.CONNECTED);
   }
 
   private async close() {
-    const error = await new Promise((res, rej) => {
+    await new Promise((res, rej) => {
       if (!this.serialPortConnection) {
         res(undefined);
       }
-      this.serialPortConnection.close(err => res(err));
+      this.serialPortConnection.close(err => (err ? rej(err) : res(undefined)));
     });
-
-    if (error) {
-      return error;
-    }
 
     this.serialPortConnection = undefined;
     await Promisify.delay(300);
-
-    return;
   }
 
   private writeArduinoHexFile(code) {
@@ -196,11 +188,7 @@ export class SerialPortArduino {
       this.uploadingCode = true;
       this.serialPortStatusSubject.next(ArduinoOnlineState.UPLOADING_CODE);
       clearInterval(this.timeOut);
-      const err = await this.close();
-      if (err) {
-        this.serialPortStatusSubject.next(ArduinoOnlineState.DISCONNECTED);
-        return;
-      }
+      await this.close();
 
       const response = await axios.post(
         SerialPortArduino.DEFAULT_ARDUINO_URL,
@@ -209,7 +197,7 @@ export class SerialPortArduino {
           headers: { 'Content-Type': 'text/plain' }
         }
       );
-      console.log(response.data);
+
       this.writeArduinoHexFile(response.data);
 
       const avrgirl = new AvrGirl({
@@ -218,17 +206,22 @@ export class SerialPortArduino {
       });
 
       await new Promise((res, rej) => {
-        avrgirl.flash(SerialPortArduino.ARDUINO_FILE, error => rej(error));
+        avrgirl.flash(SerialPortArduino.ARDUINO_FILE, error =>
+          error ? rej(error) : res(undefined)
+        );
       });
 
+      this.serialPortStatusSubject.next(
+        ArduinoOnlineState.UPLOAD_CODE_COMPLETE
+      );
       this.uploadingCode = false;
       this.runSerialPortCheck();
     } catch (e) {
-      console.error(e);
+      console.error(e, 'UPLOADING_ERROR');
       this.uploadingCode = false;
-      this.runSerialPortCheck();
+      this.serialPortStatusSubject.next(ArduinoOnlineState.UPLOAD_CODE_ERROR);
 
-      this.serialPortStatusSubject.next(ArduinoOnlineState.DISCONNECTED);
+      this.runSerialPortCheck();
     }
   }
 }

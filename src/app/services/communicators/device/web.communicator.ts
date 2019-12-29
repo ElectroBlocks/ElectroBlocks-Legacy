@@ -6,10 +6,9 @@ export class WebCommunicator extends DeviceCommunicator {
     console.log(
       'Not sending message because at this time the web can not flash an Arduino.'
     );
-    this.messageSubject.next({
-      type: 'Computer',
-      message,
-      time: new Date().toLocaleTimeString()
-    });
+    if (type === DeviceMessageType.UPLOAD_CODE) {
+      return;
+    }
+    this.messageSubject.next(message);
   }
 }

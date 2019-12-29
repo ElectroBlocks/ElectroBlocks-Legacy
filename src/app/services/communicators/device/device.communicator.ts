@@ -2,13 +2,15 @@ import { Observable, Subject } from 'rxjs';
 import { startWith, share } from 'rxjs/operators';
 
 export abstract class DeviceCommunicator {
-  protected messageSubject = new Subject<ArduinoMessage>();
+  protected messageSubject = new Subject<string>();
 
   protected arduinoOnlineState = new Subject<ArduinoOnlineState>();
 
   message$: Observable<
-    ArduinoMessage
-  > = this.messageSubject.asObservable().pipe(share());
+    string
+    > = this.messageSubject
+      .asObservable()
+      .pipe(share());
 
   arduinoState$ = this.arduinoOnlineState.asObservable().pipe(startWith(ArduinoOnlineState.DISCONNECTED));
 
@@ -24,7 +26,8 @@ export enum ArduinoOnlineState {
   DISCONNECTED = 'DISCONNECTED',
   CONNECTED = 'CONNECTED',
   UPLOADING_CODE = 'UPLOADING_CODE',
-  UPLOAD_CODE_COMPLETE = 'UPLOAD_CODE_COMPLETE'
+  UPLOAD_CODE_COMPLETE = 'UPLOAD_CODE_COMPLETE',
+  UPLOAD_CODE_ERROR = 'UPLOAD_CODE_ERROR'
 }
 
 export interface ArduinoMessage {

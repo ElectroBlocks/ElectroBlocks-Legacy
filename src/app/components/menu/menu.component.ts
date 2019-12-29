@@ -35,9 +35,21 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.deviceCommunicator.arduinoState$.subscribe(arduinoState => {
-      console.log('hitting menu', arduinoState);
-      this.arduinoState = arduinoState;
-      this.changeDetectorRef.detectChanges();
+      if (arduinoState === ArduinoOnlineState.UPLOAD_CODE_COMPLETE.toString()) {
+        alert('Your code was succussfully uploaded. :)');
+        return;
+      }
+
+      if (arduinoState === ArduinoOnlineState.UPLOAD_CODE_ERROR.toString()) {
+        alert(
+          'There was an error uploading your code, please try again or file a bug. :('
+        );
+      }
+
+      if (arduinoState.toString() !== this.arduinoState.toString()) {
+        this.arduinoState = arduinoState;
+        this.changeDetectorRef.detectChanges();
+      }
     });
   }
 

@@ -161,7 +161,7 @@ export class BlocklyService {
       checkRightPinSelected(
         this.workspace,
         ['is_button_pressed'],
-        'push_button_setp'
+        'push_button_setup'
       );
       checkRightPinSelected(
         this.workspace,
@@ -321,6 +321,14 @@ export class BlocklyService {
     const block = this.workspace.getBlockById(blockId);
     if (block) {
       block.select();
+    }
+  }
+
+  public highlightDebugBlock(blockId: string) {
+    const block = this.workspace.getBlockById(blockId);
+    if (block) {
+      block.select();
+      block.setColor('#000000');
     }
   }
 

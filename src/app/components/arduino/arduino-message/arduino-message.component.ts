@@ -11,13 +11,15 @@ import {
   DeviceMessageType
 } from '../../../services/communicators/device/device.communicator';
 import { IdentityService } from '../../../services/identity/identity.service';
+import { AbstractSubscriptionComponent } from '../../abstract-subscription.component';
 
 @Component({
   selector: 'app-arduino-message',
   templateUrl: './arduino-message.component.html',
   styleUrls: ['./arduino-message.component.scss']
 })
-export class ArduinoMessageComponent implements OnInit {
+export class ArduinoMessageComponent extends AbstractSubscriptionComponent
+  implements OnInit {
   public sendMessage = '';
 
   @ViewChild('messageView', { static: false }) messageView: ElementRef<
@@ -64,26 +66,6 @@ export class ArduinoMessageComponent implements OnInit {
       ]
     : [];
 
-  messageOutput$ = this.deviceCommunicator.message$.subscribe(
-    arduinoMessage => {
-      this.messages.push({
-        type: 'Arduino',
-        message: arduinoMessage.toString(),
-        time: new Date().toLocaleTimeString()
-      });
-
-      // Hack to scroll to the bottom
-      this.ngZone.run(() => {
-        setTimeout(() => {
-          this.messageView.nativeElement.scrollTo(
-            0,
-            this.messageView.nativeElement.scrollHeight
-          );
-        }, 10);
-      });
-    }
-  );
-
   clear() {
     this.messages = [];
   }
@@ -119,7 +101,40 @@ export class ArduinoMessageComponent implements OnInit {
     private ngZone: NgZone,
     private identityService: IdentityService,
     private deviceCommunicator: DeviceCommunicator
-  ) {}
+  ) {
+    super();
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.subscriptions.push(
+      this.deviceCommunicator.message$.subscribe(message =>
+        this.incomingMessage(message)
+      )
+    );
+  }
+
+  incomingMessage(arduinoMessage: string) {
+    if (
+      arduinoMessage.includes('DEBUG_BLOCK_') ||
+      arduinoMessage.includes('**(|)')
+    ) {
+      return;
+    }
+
+    this.messages.push({
+      type: 'Arduino',
+      message: arduinoMessage.toString(),
+      time: new Date().toLocaleTimeString()
+    });
+
+    // Hack to scroll to the bottom
+    this.ngZone.run(() => {
+      setTimeout(() => {
+        this.messageView.nativeElement.scrollTo(
+          0,
+          this.messageView.nativeElement.scrollHeight
+        );
+      }, 10);
+    });
+  }
 }

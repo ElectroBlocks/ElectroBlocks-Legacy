@@ -49,6 +49,8 @@ var ArduinoOnlineState;
     ArduinoOnlineState["DISCONNECTED"] = "DISCONNECTED";
     ArduinoOnlineState["CONNECTED"] = "CONNECTED";
     ArduinoOnlineState["UPLOADING_CODE"] = "UPLOADING_CODE";
+    ArduinoOnlineState["UPLOAD_CODE_COMPLETE"] = "UPLOAD_CODE_COMPLETE";
+    ArduinoOnlineState["UPLOAD_CODE_ERROR"] = "UPLOAD_CODE_ERROR";
 })(ArduinoOnlineState = exports.ArduinoOnlineState || (exports.ArduinoOnlineState = {}));
 var SerialPortArduino = /** @class */ (function () {
     function SerialPortArduino() {
@@ -88,10 +90,11 @@ var SerialPortArduino = /** @class */ (function () {
     };
     SerialPortArduino.prototype.checkSerialPort = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var arduinoUnoSerialPort;
+            var arduinoUnoSerialPort, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        _a.trys.push([0, 2, , 3]);
                         if (this.uploadingCode) {
                             return [2 /*return*/];
                         }
@@ -109,14 +112,20 @@ var SerialPortArduino = /** @class */ (function () {
                             return [2 /*return*/];
                         }
                         this.serialPortStatusSubject.next(ArduinoOnlineState.DISCONNECTED);
-                        return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 2:
+                        e_1 = _a.sent();
+                        console.error(e_1, 'CHECKING_SERIAL_PORT');
+                        this.serialPortStatusSubject.next(ArduinoOnlineState.DISCONNECTED);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
     };
     SerialPortArduino.prototype.open = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var parser, err;
+            var parser;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -138,17 +147,11 @@ var SerialPortArduino = /** @class */ (function () {
                         });
                         return [4 /*yield*/, new Promise(function (res, rej) {
                                 _this.serialPortConnection.on('open', function (portOpenError) {
-                                    res(portOpenError);
+                                    return portOpenError ? rej(portOpenError) : res(undefined);
                                 });
                             })];
                     case 1:
-                        err = _a.sent();
-                        console.log(err, 'error uploading');
-                        if (err) {
-                            console.error(err, 'opening serial port error');
-                            this.serialPortStatusSubject.next(ArduinoOnlineState.DISCONNECTED);
-                            return [2 /*return*/];
-                        }
+                        _a.sent();
                         this.serialPortStatusSubject.next(ArduinoOnlineState.CONNECTED);
                         return [2 /*return*/];
                 }
@@ -157,7 +160,6 @@ var SerialPortArduino = /** @class */ (function () {
     };
     SerialPortArduino.prototype.close = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var error;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -165,13 +167,10 @@ var SerialPortArduino = /** @class */ (function () {
                             if (!_this.serialPortConnection) {
                                 res(undefined);
                             }
-                            _this.serialPortConnection.close(function (err) { return res(err); });
+                            _this.serialPortConnection.close(function (err) { return (err ? rej(err) : res(undefined)); });
                         })];
                     case 1:
-                        error = _a.sent();
-                        if (error) {
-                            return [2 /*return*/, error];
-                        }
+                        _a.sent();
                         this.serialPortConnection = undefined;
                         return [4 /*yield*/, Promisify.delay(300)];
                     case 2:
@@ -207,7 +206,7 @@ var SerialPortArduino = /** @class */ (function () {
     };
     SerialPortArduino.prototype.flashArduino = function (code) {
         return __awaiter(this, void 0, void 0, function () {
-            var err, response, avrgirl_1, e_1;
+            var response, avrgirl_1, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -220,36 +219,34 @@ var SerialPortArduino = /** @class */ (function () {
                         clearInterval(this.timeOut);
                         return [4 /*yield*/, this.close()];
                     case 1:
-                        err = _a.sent();
-                        if (err) {
-                            this.serialPortStatusSubject.next(ArduinoOnlineState.DISCONNECTED);
-                            return [2 /*return*/];
-                        }
+                        _a.sent();
                         return [4 /*yield*/, axios_1.default.post(SerialPortArduino.DEFAULT_ARDUINO_URL, code, {
                                 headers: { 'Content-Type': 'text/plain' }
                             })];
                     case 2:
                         response = _a.sent();
-                        console.log(response.data);
                         this.writeArduinoHexFile(response.data);
                         avrgirl_1 = new AvrGirl({
                             board: 'uno',
                             port: this.portInfo.path
                         });
                         return [4 /*yield*/, new Promise(function (res, rej) {
-                                avrgirl_1.flash(SerialPortArduino.ARDUINO_FILE, function (error) { return rej(error); });
+                                avrgirl_1.flash(SerialPortArduino.ARDUINO_FILE, function (error) {
+                                    return error ? rej(error) : res(undefined);
+                                });
                             })];
                     case 3:
                         _a.sent();
+                        this.serialPortStatusSubject.next(ArduinoOnlineState.UPLOAD_CODE_COMPLETE);
                         this.uploadingCode = false;
                         this.runSerialPortCheck();
                         return [3 /*break*/, 5];
                     case 4:
-                        e_1 = _a.sent();
-                        console.error(e_1);
+                        e_2 = _a.sent();
+                        console.error(e_2, 'UPLOADING_ERROR');
                         this.uploadingCode = false;
+                        this.serialPortStatusSubject.next(ArduinoOnlineState.UPLOAD_CODE_ERROR);
                         this.runSerialPortCheck();
-                        this.serialPortStatusSubject.next(ArduinoOnlineState.DISCONNECTED);
                         return [3 /*break*/, 5];
                     case 5: return [2 /*return*/];
                 }

@@ -10,6 +10,8 @@ Blockly.Arduino['debug_block'] = function(block) {
     'double_to_string_debug'
   ] = createDoubleToStringCFunc();
 
+  Blockly.Arduino.functionNames_['color_struct_string'] = colorFunction();
+
   for (let i = 0; i < VARIABLE_TYPES.length; i += 1) {
     Blockly.Arduino.functionNames_[
       'print_array_' + VARIABLE_TYPES[i].replace(' ', '')
@@ -44,33 +46,56 @@ export function createDebugVariable() {
 
   for (let i = 0; i < allVariables.length; i += 1) {
     if (VARIABLE_TYPES.indexOf(allVariables[i].type) > -1) {
+      const actualVariableName = Blockly.Arduino.variableDB_.getName(
+        allVariables[i].getId(),
+        Blockly.Variables.NAME_TYPE
+      );
+
       debugString +=
         '\t\tSerial.println("**(|)' +
-        allVariables[i].name +
+        actualVariableName +
         '_|_' +
         allVariables[i].type +
         '_|_" +';
 
       if (allVariables[i].type === 'Number') {
-        debugString += 'double2string(' + allVariables[i].name + ', 5));\n';
+        debugString += 'double2string(' + actualVariableName + ', 5));\n';
         continue;
       }
 
-      debugString += 'String(' + allVariables[i].name + ')); \n';
+      if (allVariables[i].type === 'Colour') {
+        debugString += 'colorToString(' + actualVariableName + '));\n';
+        continue;
+      }
+
+      if (allVariables[i].type === 'Boolean') {
+        debugString +=
+          (actualVariableName ? 'String("true")' : 'String("false")') + ');\n';
+        continue;
+      }
+
+      debugString += 'String(' + actualVariableName + ')); \n';
       continue;
+    }
+
+    let functionTypeName = allVariables[i].type.replace('List ', '');
+
+    if (functionTypeName === 'Colour') {
+      functionTypeName = 'RGB';
+    } else if (functionTypeName === 'Number') {
+      functionTypeName = 'double';
+    } else if (functionTypeName === 'Boolean') {
+      functionTypeName = 'boolean';
     }
 
     debugString +=
       '\t\tSerial.println("**(|)' +
       allVariables[i].name +
       '_|_' +
-      'An Array of ' +
       allVariables[i].type +
-      's size => ' +
-      getArrayVariableSize(allVariables[i]) +
       '_|_" +' +
       'printArray' +
-      allVariables[i].type.replace(' ', '') +
+      functionTypeName +
       '(' +
       allVariables[i].name +
       ',' +
@@ -106,26 +131,33 @@ function getArrayVariableSize(variable) {
 }
 
 function createPrintArrayFuncInC(type) {
+  if (type === 'Colour' || type === 'List Colour') {
+    type = 'RGB';
+  }
+
   let func =
-    'String printArrayREPLATEWITHTYPE(REPLATEWITHTYPE arr[], int sizeOfArray) {' +
-    '\t\tString returnValue = "[";' +
+    'String printArrayREPLATEWITHTYPE(REPLATEWITHTYPE arr[], int sizeOfArray) {\n' +
+    '\t\tString returnValue = "[";\n' +
     '\t\tfor (unsigned int i = 0; i < sizeOfArray; i += 1) {\n';
   if (type.toLowerCase() === 'number') {
     func += '\t\treturnValue +=  double2string(arr[i], 5);\n';
   } else if (type.toLowerCase() === 'boolean') {
-    func += '\t\treturnValue += arr[i] ? "TRUE" : "False"; \n';
+    func += '\t\treturnValue += arr[i] ? "true" : "false"; \n';
+  } else if (type.toLowerCase() === 'rgb') {
+    // because we change the type so that it would match the struct RGB
+    func += '\t\treturnValue += colorToString(arr[i]); \n';
   } else {
     func += '\t\treturnValue +=  String(arr[i]);\n';
   }
 
   func +=
-    '\t\tif (i < sizeOfArray -1) {\n' +
-    '\t\treturnValue += ", ";\n' +
+    '\t\t\tif (i < sizeOfArray -1) {\n' +
+    '\t\t\t\treturnValue += ",";\n' +
+    '\t\t\t}\n' +
     '\t\t}\n' +
-    '\t\t}\n' +
-    '\t\t returnValue += "]";\n' +
+    '\t\treturnValue += "]";\n' +
     '\t\treturn returnValue;\n' +
-    '\t}\n';
+    '}\n';
 
   if (type === 'Number') {
     type = 'double';
@@ -141,7 +173,7 @@ export function createDoubleToStringCFunc() {
     '\t\t String r = "";                                                 \n' +
     '\t\t int v = n;                                                     \n' +
     '\t\t r += v;     // whole number part                               \n' +
-    "\t\t r += '.';   // decimal point                                   \n" +
+    `\t\t r += '.';   // decimal point                                   \n` +
     '\t\t int i;                                                         \n' +
     '\t\t for (i = 0; i < ndec; i++) {                                   \n' +
     '\t\t     // iterate through each decimal digit for 0..ndec          \n' +
@@ -153,5 +185,13 @@ export function createDoubleToStringCFunc() {
     '\t\t                                                                \n' +
     '\t\t return r;                                                      \n' +
     '}'
+  );
+}
+
+export function colorFunction() {
+  return (
+    'String colorToString(RGB color) {\n' +
+    '\treturn "{" + String(color.red) + "," + String(color.green) + "," + String(color.blue) + "}";\n' +
+    '}\n'
   );
 }
