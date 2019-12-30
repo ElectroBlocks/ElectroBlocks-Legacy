@@ -18,6 +18,11 @@
       .fa-stop {
         color: #aa0000;
       }
+      .not-active {
+        color: gray !important;
+        pointer-events: none;
+        cursor: not-allowed;
+      }
     }
   }
   // .mat-list-item {

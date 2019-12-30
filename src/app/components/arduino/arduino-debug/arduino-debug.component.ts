@@ -5,7 +5,8 @@ import { rgbToHex, Color } from '../../../core/player/frame_genorator/color';
 import { IdentityService } from '../../../services/identity/identity.service';
 import {
   DeviceCommunicator,
-  ArduinoOnlineState
+  ArduinoOnlineState,
+  DeviceMessageType
 } from '../../../services/communicators/device/device.communicator';
 import { AbstractSubscriptionComponent } from '../../abstract-subscription.component';
 import { BlocklyService } from '../../../services/blockly/blockly.service';
@@ -20,6 +21,12 @@ export class ArduinoDebugComponent extends AbstractSubscriptionComponent
   tempVariables: Variable[] = [];
 
   updateVariables = false;
+
+  debugModeStopped = false;
+
+  arduinoState = ArduinoOnlineState.DISCONNECTED;
+
+  arduinoDebugPause = false;
 
   variables = this.identityService.isBrowser()
     ? [
@@ -71,6 +78,7 @@ export class ArduinoDebugComponent extends AbstractSubscriptionComponent
     );
     this.subscriptions.push(
       this.deviceCommunicator.arduinoState$.subscribe(arduinoState => {
+        console.log(arduinoState, 'arduino-debug');
         if (
           arduinoState === ArduinoOnlineState.UPLOADING_CODE ||
           arduinoState === ArduinoOnlineState.UPLOAD_CODE_COMPLETE ||
@@ -78,8 +86,9 @@ export class ArduinoDebugComponent extends AbstractSubscriptionComponent
         ) {
           this.tempVariables = [];
           this.variables = [];
-          this.changeDetection.detectChanges();
         }
+        this.arduinoState = arduinoState;
+        this.changeDetection.detectChanges();
       })
     );
   }
@@ -126,6 +135,7 @@ export class ArduinoDebugComponent extends AbstractSubscriptionComponent
         arduinoMessage.replace('DEBUG_BLOCK_', '')
       );
       this.tempVariables = [];
+      this.arduinoDebugPause = true;
       this.changeDetection.detectChanges();
       return;
     }
@@ -150,6 +160,18 @@ export class ArduinoDebugComponent extends AbstractSubscriptionComponent
           .replace('[', '')
           .replace(']', '')
           .split(','),
+        type: variableType
+      };
+    }
+
+    if (variableType === 'List Colour') {
+      return {
+        name: variableName,
+        value: variableValue
+          .replace('[', '')
+          .replace(']', '')
+          .split(',')
+          .map(colorValue => this.processColorValue(colorValue)),
         type: variableType
       };
     }
@@ -195,5 +217,22 @@ export class ArduinoDebugComponent extends AbstractSubscriptionComponent
       .map(colorNum => parseInt(colorNum, 0));
 
     return { red, green, blue };
+  }
+
+  continue() {
+    this.arduinoDebugPause = false;
+    this.deviceCommunicator.sendMessage(
+      DeviceMessageType.DEBUG_MESSAGE,
+      'CONTINUE'
+    );
+  }
+
+  stopDebugMode() {
+    this.debugModeStopped = true;
+    console.log('this is working');
+    this.deviceCommunicator.sendMessage(
+      DeviceMessageType.DEBUG_MESSAGE,
+      'STOP_ALL_DEBUGGING'
+    );
   }
 }

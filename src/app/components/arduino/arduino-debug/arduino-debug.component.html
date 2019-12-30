@@ -2,9 +2,22 @@
   <h3>
     Debug
     <span>
-      <i class="fa fa-play"></i>
+      <i
+        [ngClass]="{
+          'not-active': !arduinoDebugPause || arduinoState != 'CONNECTED' || debugModeStopped
+        }"
+        (click)="continue()"
+        class="fa fa-play"
+      ></i>
 
-      <i class="fa fa-stop"></i>
+      <i
+        [ngClass]="{
+          'not-active': debugModeStopped || arduinoState != 'CONNECTED'
+        }"
+        (click)="stopDebugMode()"
+        class="fa fa-stop"
+      ></i>
+      {{ arduinoState }}
     </span>
   </h3>
   <div id="variable-table-container">
