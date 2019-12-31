@@ -52,6 +52,7 @@ import { DeviceCommunicator } from './services/communicators/device/device.commu
 import { WebCommunicator } from './services/communicators/device/web.communicator';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ElectronCommunicator } from './services/communicators/device/electron.communicator';
+import { WebviewDirective } from './directives';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -76,7 +77,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     StepsComponent,
     ArduinoMessageComponent,
     ArduinoDebugComponent,
-    AdvancedComponent
+    AdvancedComponent,
+    WebviewDirective
   ],
   imports: [
     BrowserModule,
