@@ -61,6 +61,19 @@ function createWindow() {
     ipcMain.on('SEND_MESSAGE', async (event, message) => {
       await serialPort.sendMessage(message);
     });
+
+    ipcMain.on('DEBUG_MESSAGE', async (event, message) => {
+      if (message === 'CONTINUE') {
+        await serialPort.sendMessage('continue_debug');
+        return;
+      }
+
+      if (message === 'STOP_ALL_DEBUGGING') {
+        await serialPort.sendMessage('stop_debug');
+        return;
+      }
+    });
+
   });
 
   // Emitted when the window is closed.

@@ -19,7 +19,11 @@ Blockly.Arduino['debug_block'] = function(block) {
   }
 
   let debugFunction =
-    '\n\nvoid debug(String blockNumber) { \n' + '\t\tString stopDebug = ""; \n';
+    '\n\nvoid debug(String blockNumber) { \n' +
+    '\t\tif(stopDebugging) {\n' +
+    '\t\t\treturn; \n' +
+    '\t\t}\n' +
+    '\t\tString stopDebug = ""; \n';
 
   debugFunction += createDebugVariable();
 
@@ -27,8 +31,11 @@ Blockly.Arduino['debug_block'] = function(block) {
     '\t\tSerial.println("DEBUG_BLOCK_" + blockNumber + " ");\n\n';
 
   debugFunction +=
-    '\t\twhile (stopDebug != "s") { \n' +
+    '\t\twhile (stopDebug != "continue_debug" && !stopDebugging) { \n' +
     "\t\t\tstopDebug = Serial.readStringUntil('|'); \n" +
+    '\t\t\tif (stopDebug == "stop_debug") { \n' +
+    '\t\t\t\tstopDebugging = true; \n' +
+    '\t\t\t} \n' +
     '\t\t\tdelay(1000);  \n' +
     '\t\t}\n';
 
@@ -45,12 +52,11 @@ export function createDebugVariable() {
   const allVariables = Blockly.mainWorkspace.getAllVariables();
 
   for (let i = 0; i < allVariables.length; i += 1) {
+    const actualVariableName = Blockly.Arduino.variableDB_.getName(
+      allVariables[i].getId(),
+      Blockly.Variables.NAME_TYPE
+    );
     if (VARIABLE_TYPES.indexOf(allVariables[i].type) > -1) {
-      const actualVariableName = Blockly.Arduino.variableDB_.getName(
-        allVariables[i].getId(),
-        Blockly.Variables.NAME_TYPE
-      );
-
       debugString +=
         '\t\tSerial.println("**(|)' +
         actualVariableName +
@@ -97,7 +103,7 @@ export function createDebugVariable() {
       'printArray' +
       functionTypeName +
       '(' +
-      allVariables[i].name +
+      actualVariableName +
       ',' +
       getArrayVariableSize(allVariables[i]) +
       ')); \n';
@@ -191,7 +197,7 @@ export function createDoubleToStringCFunc() {
 export function colorFunction() {
   return (
     'String colorToString(RGB color) {\n' +
-    '\treturn "{" + String(color.red) + "," + String(color.green) + "," + String(color.blue) + "}";\n' +
+    '\treturn "{" + String(color.red) + "-" + String(color.green) + "-" + String(color.blue) + "}";\n' +
     '}\n'
   );
 }

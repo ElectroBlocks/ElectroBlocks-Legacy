@@ -16,10 +16,16 @@ const initListVariable = function(block: Block, type: string) {
 
   const variableId = block.getFieldValue('VAR');
 
-  const variable = Blockly.mainWorkspace.getVariableById(variableId);
-
   Blockly.Arduino.variablesInitCode_ +=
-    type.replace(' list', '') + ' ' + variable.name + '[' + size + '];\n';
+    type.replace(' list', '') +
+    ' ' +
+    Blockly.Arduino.variableDB_.getName(
+      variableId,
+      Blockly.Variables.NAME_TYPE
+    ) +
+    '[' +
+    size +
+    '];\n';
 
   return '';
 };
@@ -33,8 +39,6 @@ const setListVariable = function(block: Block) {
 
   const variableId = block.getFieldValue('VAR');
 
-  const variable = Blockly.mainWorkspace.getVariableById(variableId);
-
   const value = Blockly.Arduino.valueToCode(
     block,
     'VALUE',
@@ -42,7 +46,10 @@ const setListVariable = function(block: Block) {
   );
 
   return (
-    variable.name +
+    Blockly.Arduino.variableDB_.getName(
+      variableId,
+      Blockly.Variables.NAME_TYPE
+    ) +
     '[zeroIndexAdjustNumber(' +
     position +
     ')] = ' +
@@ -54,8 +61,6 @@ const setListVariable = function(block: Block) {
 const getListVariable = function(block: Block) {
   const variableId = block.getFieldValue('VAR');
 
-  const variable = Blockly.mainWorkspace.getVariableById(variableId);
-
   const position = Blockly.Arduino.valueToCode(
     block,
     'POSITION',
@@ -63,7 +68,13 @@ const getListVariable = function(block: Block) {
   );
 
   return [
-    variable.name + '[zeroIndexAdjustNumber(' + position + ')]',
+    Blockly.Arduino.variableDB_.getName(
+      variableId,
+      Blockly.Variables.NAME_TYPE
+    ) +
+      '[zeroIndexAdjustNumber(' +
+      position +
+      ')]',
     Blockly.Arduino.ORDER_ATOMIC
   ];
 };

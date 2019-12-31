@@ -5,7 +5,7 @@ defineBlocksWithJsonArray([
   // BEGIN JSON EXTRACT
   {
     type: 'variables_get_number',
-    message0: '= number stored variable %1',
+    message0: '= number variable %1',
     args0: [
       {
         type: 'field_variable',
@@ -22,7 +22,7 @@ defineBlocksWithJsonArray([
   },
   {
     type: 'variables_set_number',
-    message0: 'Number variable named %1 = %2',
+    message0: 'Number variable %1 = %2',
     args0: [
       {
         type: 'field_variable',
@@ -46,7 +46,7 @@ defineBlocksWithJsonArray([
   },
   {
     type: 'variables_get_colour',
-    message0: '= color stored variable %1',
+    message0: '= color variable %1',
     args0: [
       {
         type: 'field_variable',
@@ -63,7 +63,7 @@ defineBlocksWithJsonArray([
   },
   {
     type: 'variables_set_colour',
-    message0: 'Color variable named %1 = %2',
+    message0: 'Color variable %1 = %2',
     args0: [
       {
         type: 'field_variable',
@@ -86,7 +86,7 @@ defineBlocksWithJsonArray([
   },
   {
     type: 'variables_get_string',
-    message0: '= text stored variable %1',
+    message0: '= text variable %1',
     args0: [
       {
         type: 'field_variable',
@@ -103,7 +103,7 @@ defineBlocksWithJsonArray([
   },
   {
     type: 'variables_set_string',
-    message0: 'Text variable named %1 = %2',
+    message0: 'Text variable %1 = %2',
     args0: [
       {
         type: 'field_variable',
@@ -126,7 +126,7 @@ defineBlocksWithJsonArray([
   },
   {
     type: 'variables_get_boolean',
-    message0: '= boolean stored variable %1',
+    message0: '= boolean variable %1',
     args0: [
       {
         type: 'field_variable',
@@ -143,7 +143,7 @@ defineBlocksWithJsonArray([
   },
   {
     type: 'variables_set_boolean',
-    message0: 'Boolean variable named %1 = %2',
+    message0: 'Boolean variable %1 = %2',
     args0: [
       {
         type: 'field_variable',

@@ -324,6 +324,13 @@ export class BlocklyService {
     }
   }
 
+  public unSelectBlock(blockId: string) {
+    const block = this.workspace.getBlockById(blockId);
+    if (block) {
+      block.unselect();
+    }
+  }
+
   public highlightDebugBlock(blockId: string) {
     const block = this.workspace.getBlockById(blockId);
     if (block) {

@@ -9,7 +9,10 @@ Blockly.Variables.flyoutCategory = function(workspace) {
   workspace.registerButtonCallback('CREATE_NUM_VARIABLE', function(button) {
     Blockly.Variables.createVariableButtonHandler(
       button.getTargetWorkspace(),
-      function() {
+      function(variableName) {
+        if (variableName === null) {
+          return;
+        }
         const numVariableBlock = workspace.newBlock('variables_set_number');
         numVariableBlock.initSvg();
         numVariableBlock.render();

@@ -175,6 +175,11 @@ const setArrayValue = (
   if (variables[variableName].type === 'String List') {
     messageValue = `"${messageValue}"`;
   }
+
+  if (variables[variableName].type === 'Colour List') {
+    messageValue = `color red = ${messageValue['red']}, green = ${messageValue['green']}, blue = ${messageValue['blue']}`;
+  }
+
   const message = `Updating list ${variableName} at position ${position +
     1} with ${messageValue}.`;
 

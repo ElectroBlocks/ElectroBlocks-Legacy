@@ -28,6 +28,8 @@ export class ArduinoDebugComponent extends AbstractSubscriptionComponent
 
   arduinoDebugPause = false;
 
+  selectedDebugBlockId = '';
+
   variables = this.identityService.isBrowser()
     ? [
         {
@@ -130,10 +132,10 @@ export class ArduinoDebugComponent extends AbstractSubscriptionComponent
           value: newVariableValue
         };
       });
-      console.log(this.variables, 'variables_new');
-      this.blocklyService.selectBlock(
-        arduinoMessage.replace('DEBUG_BLOCK_', '')
-      );
+      this.selectedDebugBlockId = arduinoMessage
+        .replace('DEBUG_BLOCK_', '')
+        .trim();
+      this.blocklyService.selectBlock(this.selectedDebugBlockId);
       this.tempVariables = [];
       this.arduinoDebugPause = true;
       this.changeDetection.detectChanges();
@@ -213,13 +215,14 @@ export class ArduinoDebugComponent extends AbstractSubscriptionComponent
     const [red, green, blue] = value
       .replace('{', '')
       .replace('}', '')
-      .split(',')
+      .split('-')
       .map(colorNum => parseInt(colorNum, 0));
 
     return { red, green, blue };
   }
 
   continue() {
+    this.blocklyService.unSelectBlock(this.selectedDebugBlockId);
     this.arduinoDebugPause = false;
     this.deviceCommunicator.sendMessage(
       DeviceMessageType.DEBUG_MESSAGE,
@@ -229,7 +232,7 @@ export class ArduinoDebugComponent extends AbstractSubscriptionComponent
 
   stopDebugMode() {
     this.debugModeStopped = true;
-    console.log('this is working');
+    this.blocklyService.unSelectBlock(this.selectedDebugBlockId);
     this.deviceCommunicator.sendMessage(
       DeviceMessageType.DEBUG_MESSAGE,
       'STOP_ALL_DEBUGGING'

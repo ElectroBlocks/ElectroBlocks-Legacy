@@ -118,7 +118,7 @@ Blockly.Arduino.init = function(workspace) {
   for (i = 0; i < booleanVariables.length; i += 1) {
     variableCode +=
       'boolean ' +
-      Blockly.Arduino.variableDB_.getName(
+      Blockly.Arduino.variableDB_.getDistinctName(
         booleanVariables[i].getId(),
         Blockly.Variables.NAME_TYPE
       ) +
@@ -165,6 +165,9 @@ Blockly.Arduino.finish = function(code) {
     devVariables += 'String serialMessageDEV = ""; \n';
   }
 
+  if (!_.isEmpty(Blockly.Arduino.functionNames_['double_to_string_debug'])) {
+    devVariables += 'boolean stopDebugging = false; \n';
+  }
   // Convert the definitions dictionary into a list.
   code =
     devVariables +

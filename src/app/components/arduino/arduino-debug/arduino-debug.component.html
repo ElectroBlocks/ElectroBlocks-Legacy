@@ -4,7 +4,10 @@
     <span>
       <i
         [ngClass]="{
-          'not-active': !arduinoDebugPause || arduinoState != 'CONNECTED' || debugModeStopped
+          'not-active':
+            !arduinoDebugPause ||
+            arduinoState != 'CONNECTED' ||
+            debugModeStopped
         }"
         (click)="continue()"
         class="fa fa-play"
@@ -12,12 +15,14 @@
 
       <i
         [ngClass]="{
-          'not-active': debugModeStopped || arduinoState != 'CONNECTED'
+          'not-active':
+            !arduinoDebugPause ||
+            arduinoState != 'CONNECTED' ||
+            debugModeStopped
         }"
         (click)="stopDebugMode()"
         class="fa fa-stop"
       ></i>
-      {{ arduinoState }}
     </span>
   </h3>
   <div id="variable-table-container">
@@ -34,23 +39,15 @@
           <td>{{ variable.name }}</td>
           <td>{{ variable.type }}</td>
           <td
-            *ngIf="variable.type !== 'Colour List'"
+            *ngIf="variable.type !== 'List Colour'"
             [ngStyle]="{
               'background-color':
                 variable.type === 'Colour' ? rgbToHex(variable.value) : 'white'
             }"
             [ngClass]="{ colorValue: variable.type === 'Colour' }"
           >
-            {{ printValue(variable) }}
           </td>
-          <td *ngIf="variable.type === 'Colour List'">
-            <!-- <div
-              class="color-list"
-              *ngFor="let color of variable.value; let i = index"
-              [ngStyle]="{
-                'background-color': color ? rgbToHex(color) : 'white'
-              }"
-            > -->
+          <td *ngIf="variable.type === 'List Colour'">
             <span
               class="colorValue"
               *ngFor="let color of variable.value; let i = index"
@@ -64,16 +61,9 @@
               >
             </span>
 
-            <!-- </div> -->
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-  <!-- <mat-list>
-    <mat-list-item>counter = 3</mat-list-item>
-    <mat-list-item>nameList = ['Jill','Bill', 'Carson', 'Amy']</mat-list-item>
-    <mat-list-item>isOn = false</mat-list-item>
-    <mat-list-item>color = (red = 2, green = 30, blue = 240)</mat-list-item>
-  </mat-list> -->
 </div>

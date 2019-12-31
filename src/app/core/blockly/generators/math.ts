@@ -83,9 +83,9 @@ Blockly.Arduino['math_random_int'] = function(block: Block) {
 
   let code = '';
   if (start > finish) {
-    code = '(double)rand(' + finish + ', ' + start + ')';
+    code = '(double)random(' + finish + ', ' + start + ')';
   } else {
-    code = '(double)rand(' + start + ', ' + finish + ')';
+    code = '(double)random(' + start + ', ' + finish + ')';
   }
 
   return [code, Blockly.Arduino.ORDER_UNARY_POSTFIX];
