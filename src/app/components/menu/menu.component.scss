@@ -1,0 +1,48 @@
+#top-menu {
+  height: 50px;
+}
+
+.icon-bar {
+  width: 100%;
+  overflow: auto;
+}
+
+.icon-bar .fa {
+  color: #505bda;
+}
+
+.icon-bar a .fa,
+.icon-bar .disabled .fa {
+  opacity: 0.5;
+}
+
+.icon-bar .active .fa {
+  color: #505bda !important;
+  opacity: 1;
+}
+
+.icon-bar a,
+.icon-bar span {
+  float: left;
+  width: 20%;
+  text-align: center;
+  padding: 7px 0;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+.icon-bar span.disabled {
+  cursor: not-allowed;
+}
+
+.icon-bar-bottom a,
+.icon-bar-bottom span {
+  float: right;
+}
+
+.fa-exclamation-triangle {
+  color: rgb(248, 166, 166) !important;
+}
+
+

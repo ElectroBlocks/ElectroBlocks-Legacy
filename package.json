@@ -33,7 +33,7 @@
     "lint": "ng lint"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "0.802.2",
+    "@angular-devkit/build-angular": "^0.803.21",
     "@angular/cli": "8.2.2",
     "@angular/common": "8.2.2",
     "@angular/compiler": "8.2.2",
@@ -53,6 +53,7 @@
     "@types/mocha": "5.2.7",
     "@types/node": "12.6.8",
     "@types/prismjs": "^1.16.0",
+    "@types/serialport": "^7.0.4",
     "chai": "4.2.0",
     "codelyzer": "5.1.0",
     "conventional-changelog-cli": "2.0.21",
@@ -90,6 +91,7 @@
     "@ngx-prism/core": "^2.0.1",
     "angular-split": "^3.0.2",
     "avrgirl-arduino": "^4.0.2",
+    "axios": "^0.19.0",
     "blockly": "^2.20190722.1",
     "bluebird": "^3.7.1",
     "electron-prompt": "^1.3.1",
@@ -99,6 +101,7 @@
     "lodash": "^4.17.15",
     "ngx-color-picker": "^8.2.0",
     "prismjs": "^1.17.1",
+    "serialport": "^8.0.5",
     "svg-pan-zoom": "^3.6.0",
     "svg.draggy.js": "^1.1.1",
     "svg.js": "^2.7.1",

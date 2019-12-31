@@ -1,0 +1,69 @@
+<div id="state">
+  <h3>
+    Debug
+    <span>
+      <i
+        [ngClass]="{
+          'not-active':
+            !arduinoDebugPause ||
+            arduinoState != 'CONNECTED' ||
+            debugModeStopped
+        }"
+        (click)="continue()"
+        class="fa fa-play"
+      ></i>
+
+      <i
+        [ngClass]="{
+          'not-active':
+            !arduinoDebugPause ||
+            arduinoState != 'CONNECTED' ||
+            debugModeStopped
+        }"
+        (click)="stopDebugMode()"
+        class="fa fa-stop"
+      ></i>
+    </span>
+  </h3>
+  <div id="variable-table-container">
+    <table id="variable-table">
+      <thead>
+        <tr>
+          <th>Variable Name</th>
+          <th>Data Type</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody id="variable-tbody">
+        <tr *ngFor="let variable of variables">
+          <td>{{ variable.name }}</td>
+          <td>{{ variable.type }}</td>
+          <td
+            *ngIf="variable.type !== 'List Colour'"
+            [ngStyle]="{
+              'background-color':
+                variable.type === 'Colour' ? rgbToHex(variable.value) : 'white'
+            }"
+            [ngClass]="{ colorValue: variable.type === 'Colour' }"
+          >
+          </td>
+          <td *ngIf="variable.type === 'List Colour'">
+            <span
+              class="colorValue"
+              *ngFor="let color of variable.value; let i = index"
+            >
+              <span
+                class="coloredElement"
+                [ngStyle]="{
+                  'background-color': color ? rgbToHex(color) : 'white'
+                }"
+                >{{ i + 1 }}</span
+              >
+            </span>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
