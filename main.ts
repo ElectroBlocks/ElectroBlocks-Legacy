@@ -117,6 +117,12 @@ const menuTemplate = [
         click() {
           win.webContents.send('navigate_setting', 'help');
         }
+      },
+      {
+        label: 'Close',
+        click() {
+          app.quit();
+        }
       }
     ]
   },
@@ -171,12 +177,6 @@ const menuTemplate = [
             'menu:save',
             typeof currentFilePath === 'undefined'
           );
-        }
-      },
-      {
-        label: 'Close',
-        click() {
-          app.quit();
         }
       }
     ]
