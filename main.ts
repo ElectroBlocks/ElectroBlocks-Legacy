@@ -91,25 +91,31 @@ const menuTemplate = [
       {
         label: 'Toolbox',
         click() {
-          win.webContents.send('menu:toolbox');
+          win.webContents.send('navigate_setting', 'toolbox');
         }
       },
       {
         label: 'Advanced Settings',
         click() {
-          win.webContents.send('menu:advanced_setting');
+          win.webContents.send('navigate_setting', 'advanced');
         }
       },
       {
         label: 'Report Bug',
         click() {
-          win.webContents.send('menu:report_bug');
+          win.webContents.send('navigate_setting', 'bug');
         }
       },
       {
         label: 'About',
         click() {
-          win.webContents.send('menu:about');
+          win.webContents.send('navigate_setting', 'about');
+        }
+      },
+      {
+        label: 'Help',
+        click() {
+          win.webContents.send('navigate_setting', 'help');
         }
       }
     ]

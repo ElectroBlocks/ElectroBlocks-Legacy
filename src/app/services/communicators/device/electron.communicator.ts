@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 // If you import a module but never use any of the imported values other than as TypeScript types,
 // the resulting javascript file will look as if you never imported the module at all.
@@ -6,6 +6,8 @@ import { ipcRenderer, webFrame, remote } from 'electron';
 import * as childProcess from 'child_process';
 import * as fs from 'fs';
 import { DeviceCommunicator, DeviceMessageType } from './device.communicator';
+import { Router } from '@angular/router';
+import { BlocklyService } from '../../blockly/blockly.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +25,11 @@ export class ElectronCommunicator extends DeviceCommunicator {
     return window && window.process && window.process.type;
   }
 
-  constructor() {
+  constructor(
+    private router: Router,
+    private ngZone: NgZone,
+    private blocklyService: BlocklyService
+  ) {
     super();
     // Conditional imports
     if (ElectronCommunicator.isElectron) {
@@ -41,6 +47,23 @@ export class ElectronCommunicator extends DeviceCommunicator {
       this.ipcRenderer.on('arduino_message', (event, message) => {
         console.log('arduino_message', message);
         this.messageSubject.next(message);
+      });
+
+      this.ipcRenderer.on('navigate_setting', (event, setting) => {
+        this.ngZone.run(() => {
+          this.router.navigate([
+            'settings',
+            { outlets: { settingContainer: setting } }
+          ]);
+        });
+      });
+
+      this.ipcRenderer.on('menu:new', event => {
+        this.blocklyService.resetWorkspace();
+      });
+
+      this.ipcRenderer.on('open:file', (event, xmlString) => {
+        this.blocklyService.loadFile(xmlString);
       });
     }
   }

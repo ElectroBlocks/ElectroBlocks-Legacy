@@ -6,8 +6,6 @@ import * as Blockly from 'blockly/core';
   providedIn: 'root'
 })
 export class BlocklyPromptOverRide {
-  constructor(private electronService: ElectronCommunicator) {}
-
   /**
    * Over Rides the default prompt argument if
    */
@@ -15,7 +13,9 @@ export class BlocklyPromptOverRide {
     if (!ElectronCommunicator.isElectron) {
       return;
     }
-    const prompt = this.electronService.remote.require('electron-prompt');
+    // Doing this to avoid circular dependency injection with the BlocklyService being injected into the 
+    // ElectronService.  There is probably a better way to do this.
+    const prompt = window.require('electron').remote.require('electron-prompt');
 
     Blockly.prompt = function(message, defaultValue, callback) {
       prompt({

@@ -5,7 +5,7 @@ import '../polyfills';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AngularSplitModule } from 'angular-split';
@@ -53,6 +53,8 @@ import { WebCommunicator } from './services/communicators/device/web.communicato
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ElectronCommunicator } from './services/communicators/device/electron.communicator';
 import { WebviewDirective } from './directives';
+import { Router } from '@angular/router';
+import { BlocklyService } from './services/blockly/blockly.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -118,14 +120,19 @@ export function HttpLoaderFactory(http: HttpClient) {
     },
     {
       provide: DeviceCommunicator,
-      useFactory() {
+      useFactory(
+        router: Router,
+        ngZone: NgZone,
+        blocklyService: BlocklyService
+      ) {
         if (ElectronCommunicator.isElectron) {
-          return new ElectronCommunicator();
+          return new ElectronCommunicator(router, ngZone, blocklyService);
         }
 
         return new WebCommunicator();
       },
-      multi: false
+      multi: false,
+      deps: [Router, NgZone, BlocklyService]
     }
   ],
   bootstrap: [AppComponent]
