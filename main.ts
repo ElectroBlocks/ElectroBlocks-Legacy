@@ -73,6 +73,24 @@ function createWindow() {
         return;
       }
     });
+
+    ipcMain.on('save:code', async (event, code: string, saveAs: boolean) => {
+      const createNewFile = saveAs === true || currentFilePath === undefined;
+      if (createNewFile) {
+        const fileResult = await dialog.showSaveDialog({
+          title: saveAs ? 'Save As' : 'Save',
+          filters: [{ name: 'ElectroBlocks', extensions: ['xml'] }]
+        });
+
+        if (fileResult.canceled) {
+          return;
+        }
+
+        currentFilePath = fileResult.filePath;
+      }
+
+      fs.writeFileSync(currentFilePath, code);
+    });
   });
 
   // Emitted when the window is closed.
@@ -164,19 +182,13 @@ const menuTemplate = [
       {
         label: 'Save',
         click() {
-          win.webContents.send(
-            'menu:save',
-            typeof currentFilePath === 'undefined'
-          );
+          win.webContents.send('menu:save', false);
         }
       },
       {
         label: 'Save As',
         click() {
-          win.webContents.send(
-            'menu:save',
-            typeof currentFilePath === 'undefined'
-          );
+          win.webContents.send('menu:save', true);
         }
       }
     ]

@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 
 // If you import a module but never use any of the imported values other than as TypeScript types,
 // the resulting javascript file will look as if you never imported the module at all.
-import { ipcRenderer, webFrame, remote } from 'electron';
+import { ipcRenderer, webFrame, remote, dialog } from 'electron';
 import * as childProcess from 'child_process';
 import * as fs from 'fs';
 import { DeviceCommunicator, DeviceMessageType } from './device.communicator';
@@ -64,6 +64,12 @@ export class ElectronCommunicator extends DeviceCommunicator {
 
       this.ipcRenderer.on('open:file', (event, xmlString) => {
         this.blocklyService.loadFile(xmlString);
+      });
+
+      this.ipcRenderer.on('menu:save', (event, saveAs: boolean) => {
+        const code = this.blocklyService.getXMLCode();
+
+        this.ipcRenderer.send('save:code', code, saveAs);
       });
     }
   }
