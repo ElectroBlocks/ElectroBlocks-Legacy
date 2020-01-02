@@ -1,12 +1,12 @@
-import { app, BrowserWindow, screen, ipcMain } from 'electron';
+import { app, BrowserWindow, screen, ipcMain, Menu, dialog } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import * as fs from 'fs';
 import { SerialPortArduino } from './arduinoNode/serial_port';
-import { map } from 'rxjs/operators';
-import { async } from '@angular/core/testing';
 
 let win, serve;
 const args = process.argv.slice(1);
+let currentFilePath;
 
 serve = args.some(val => val === '--serve');
 
@@ -74,6 +74,23 @@ function createWindow() {
       }
     });
 
+    ipcMain.on('save:code', async (event, code: string, saveAs: boolean) => {
+      const createNewFile = saveAs === true || currentFilePath === undefined;
+      if (createNewFile) {
+        const fileResult = await dialog.showSaveDialog({
+          title: saveAs ? 'Save As' : 'Save',
+          filters: [{ name: 'ElectroBlocks', extensions: ['xml'] }]
+        });
+
+        if (fileResult.canceled) {
+          return;
+        }
+
+        currentFilePath = fileResult.filePath;
+      }
+
+      fs.writeFileSync(currentFilePath, code);
+    });
   });
 
   // Emitted when the window is closed.
@@ -84,6 +101,109 @@ function createWindow() {
     win = null;
   });
 }
+
+const menuTemplate = [
+  {
+    label: 'ElectroBlocks',
+    submenu: [
+      {
+        label: 'Toolbox',
+        click() {
+          win.webContents.send('navigate_setting', 'toolbox');
+        }
+      },
+      {
+        label: 'Advanced Settings',
+        click() {
+          win.webContents.send('navigate_setting', 'advanced');
+        }
+      },
+      {
+        label: 'Report Bug',
+        click() {
+          win.webContents.send('navigate_setting', 'bug');
+        }
+      },
+      {
+        label: 'About',
+        click() {
+          win.webContents.send('navigate_setting', 'about');
+        }
+      },
+      {
+        label: 'Help',
+        click() {
+          win.webContents.send('navigate_setting', 'help');
+        }
+      },
+      {
+        label: 'Close',
+        click() {
+          app.quit();
+        }
+      }
+    ]
+  },
+  {
+    label: 'File',
+    submenu: [
+      {
+        label: 'New',
+        click() {
+          win.webContents.send('menu:new');
+        }
+      },
+      {
+        label: 'Open',
+        click() {
+          dialog.showOpenDialog(
+            win,
+            {
+              properties: ['openFile'],
+              filters: [{ name: 'ElectroBlocks', extensions: ['xml'] }]
+            },
+            (filePaths, err) => {
+              if (err) {
+                console.log(err);
+                return;
+              }
+              if (filePaths && filePaths.length > 0) {
+                const filePath = filePaths[0];
+                currentFilePath = filePath;
+                win.webContents.send(
+                  'open:file',
+                  fs.readFileSync(filePath).toString()
+                );
+              }
+            }
+          );
+        }
+      },
+      {
+        label: 'Save',
+        click() {
+          win.webContents.send('menu:save', false);
+        }
+      },
+      {
+        label: 'Save As',
+        click() {
+          win.webContents.send('menu:save', true);
+        }
+      }
+    ]
+  },
+  {
+    label: 'Edit',
+    submenu: [
+      { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+      { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+      { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' }
+    ]
+  }
+];
+
+Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate));
 
 try {
   // This method will be called when Electron has finished

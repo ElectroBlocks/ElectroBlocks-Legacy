@@ -28,7 +28,7 @@ import {
 import { saveDebugBlockState } from '../../core/blockly/events/saveDebugBlockState';
 import { generateListOfFrame } from '../../core/player/frame/generate_frame';
 import { duplicatePinWarningTextBlocks } from '../../core/player/frame/block-duplicate-pin-warning-text';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { changeSetupBlockValueBecauseOfLoopChange } from '../../core/blockly/events/changeSetupBlockValueBecauseOfLoopChange';
 import { changeLoopNumberInSensorBlocks } from '../../core/blockly/events/changeLoopNumberInSensorSetupBlocks';
 import { filter } from 'rxjs/operators';
@@ -64,7 +64,7 @@ export class BlocklyService {
   constructor(
     private blocklyPromptOverRide: BlocklyPromptOverRide,
     private framePlayer: FramePlayer,
-    private router: Router,
+    private route: ActivatedRoute,
     private toolboxService: ToolboxService
   ) {
     (window as any).Blockly = Blockly;
@@ -177,7 +177,7 @@ export class BlocklyService {
       saveDebugBlockState(this.workspace, this.getNumberLoops());
       this.nextArduinoCode();
       this.showDebugMode(
-        this.router.routerState.snapshot.root.firstChild.data.showRunLoopOption
+        this.route.snapshot.root.firstChild.data.showRunLoopOption
       );
       changeLoopNumberInSensorBlocks(this.getWorkSpace(), event);
       if (this.getArduinoStartBlock()) {
@@ -193,8 +193,7 @@ export class BlocklyService {
       Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), this.workspace);
       setTimeout(() => {
         this.showRunLoopOption(
-          this.router.routerState.snapshot.root.firstChild.data
-            .showRunLoopOption
+          this.route.snapshot.root.firstChild.data.showRunLoopOption
         );
         // This is a hack done so that everything can render and
         // we don't accidentally hook into the setup input of the arduino_start block
@@ -300,7 +299,7 @@ export class BlocklyService {
     );
 
     this.showRunLoopOption(
-      this.router.routerState.snapshot.root.firstChild.data['showRunLoopOption']
+      this.route.snapshot.root.firstChild.data['showRunLoopOption']
     );
   }
 
