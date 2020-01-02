@@ -3,6 +3,7 @@ import { BlocklyComponent } from './components/blockly/blockly.component';
 import 'reflect-metadata';
 import '../polyfills';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { MarkdownModule } from 'ngx-markdown';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NgZone } from '@angular/core';
@@ -55,6 +56,7 @@ import { ElectronCommunicator } from './services/communicators/device/electron.c
 import { WebviewDirective } from './directives';
 import { Router } from '@angular/router';
 import { BlocklyService } from './services/blockly/blockly.service';
+import { LessonComponent } from './components/lesson/lesson.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -80,7 +82,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ArduinoMessageComponent,
     ArduinoDebugComponent,
     AdvancedComponent,
-    WebviewDirective
+    WebviewDirective,
+    LessonComponent,
   ],
   imports: [
     BrowserModule,
@@ -88,6 +91,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     ColorPickerModule,
     AngularSplitModule.forRoot(),
+    MarkdownModule.forRoot({ loader: HttpClient }),
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTabsModule,
