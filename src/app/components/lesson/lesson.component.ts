@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import * as pageMarkdown from 'raw-loader!./main/arduino-intro-lesson-1.md';
+import { BlocklyService } from '../../services/blockly/blockly.service';
+import { LessonModel } from './lesson-models';
+import { default as lesson1 } from './lessons/lesson-1.json';
 
 @Component({
   selector: 'app-lesson',
@@ -7,8 +9,13 @@ import * as pageMarkdown from 'raw-loader!./main/arduino-intro-lesson-1.md';
   styleUrls: ['./lesson.component.scss']
 })
 export class LessonComponent implements OnInit {
-  currentLesson = pageMarkdown.default;
-  constructor() {}
+  lesson: LessonModel = lesson1;
 
-  ngOnInit() {}
+  constructor(private blocklyService: BlocklyService) {}
+
+  ngOnInit() {
+    if (this.blocklyService.getWorkSpace()) {
+      this.blocklyService.resizeWorkspace();
+    }
+  }
 }

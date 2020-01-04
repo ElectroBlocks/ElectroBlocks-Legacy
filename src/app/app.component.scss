@@ -15,6 +15,9 @@
   vertical-align: top;
   height: calc(100% - 50px);
   overflow: hidden;
+  &.scrollable {
+    overflow: scroll !important;
+  }
 }
 
 #route-container.fileMenu,

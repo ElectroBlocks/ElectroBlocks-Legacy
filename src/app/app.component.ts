@@ -10,7 +10,7 @@ import { IdentityService } from './services/identity/identity.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../environments/environment';
 import { Router, ActivationStart } from '@angular/router';
-import { filter, map, share } from 'rxjs/operators';
+import { filter, map, share, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -22,15 +22,8 @@ export class AppComponent implements OnInit {
   routerContainerWidth = '49.5%';
   showAppPlayer = false;
   isResizingDivs = false;
-
-  showBottom$ = this.router.events.pipe(
-    filter(event => event instanceof ActivationStart),
-    filter((event: ActivationStart) => {
-      return event.snapshot.data['showBottom'] !== undefined;
-    }),
-    map((event: ActivationStart) => event.snapshot.data['showBottom']),
-    share()
-  );
+  showBottom = false;
+  scrollable = false;
 
   @ViewChild('grabber', { static: false }) grabber: ElementRef<HTMLDivElement>;
 
@@ -48,15 +41,17 @@ export class AppComponent implements OnInit {
         filter(
           event =>
             event instanceof ActivationStart &&
-            this.blocklyService.getWorkSpace()
+            event.snapshot.outlet === 'primary'
         ),
-        map(
-          (event: ActivationStart) => event.snapshot.data['showRunLoopOption']
-        )
+        map((event: ActivationStart) => event.snapshot.data)
       )
-      .subscribe(showRunLoopOption => {
-        this.blocklyService.showRunLoopOption(showRunLoopOption);
-        this.blocklyService.showDebugMode(showRunLoopOption);
+      .subscribe(data => {
+        if (this.blocklyService.getWorkSpace()) {
+          this.blocklyService.showRunLoopOption(data['showRunLoopOption']);
+          this.blocklyService.showDebugMode(data['showRunLoopOption']);
+        }
+        this.showBottom = data['showBottom'];
+        this.scrollable = data['scrollable'];
       });
   }
 

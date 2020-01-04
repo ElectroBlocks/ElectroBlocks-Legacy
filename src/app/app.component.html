@@ -1,7 +1,7 @@
 <router-outlet name="topMenu"></router-outlet>
 <div
   [ngClass]="{
-    showBottom: showBottom$ | async,
+    showBottom: showBottom,
     fileMenu: !identityService.isElectron
   }"
   [style.width]="blocklyContainerWidth"
@@ -11,7 +11,7 @@
 </div>
 <div
   [ngClass]="{
-    showBottom: showBottom$ | async,
+    showBottom: showBottom,
     fileMenu: !identityService.isElectron
   }"
   #grabber
@@ -21,8 +21,9 @@
 ></div>
 <div
   [ngClass]="{
-    showBottom: showBottom$ | async,
-    fileMenu: !identityService.isElectron
+    showBottom: showBottom,
+    fileMenu: !identityService.isElectron,
+    scrollable: scrollable
   }"
   [style.width]="routerContainerWidth"
   id="route-container"

@@ -3,7 +3,6 @@ import { BlocklyComponent } from './components/blockly/blockly.component';
 import 'reflect-metadata';
 import '../polyfills';
 import { ColorPickerModule } from 'ngx-color-picker';
-import { MarkdownModule } from 'ngx-markdown';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NgZone } from '@angular/core';
@@ -91,7 +90,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     HttpClientModule,
     ColorPickerModule,
     AngularSplitModule.forRoot(),
-    MarkdownModule.forRoot({ loader: HttpClient }),
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTabsModule,

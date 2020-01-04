@@ -79,7 +79,8 @@ const routes: Routes = [
     data: {
       showBottom: false,
       ignoreBottom: false,
-      showRunLoopOption: false
+      showRunLoopOption: false,
+      scrollable: true
     },
     component: LessonComponent
   },
