@@ -6,7 +6,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NgZone } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AngularSplitModule } from 'angular-split';
 import { AppRoutingModule } from './app-routing.module';
@@ -82,11 +82,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     ArduinoDebugComponent,
     AdvancedComponent,
     WebviewDirective,
-    LessonComponent,
+    LessonComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     ColorPickerModule,
     AngularSplitModule.forRoot(),

@@ -1,1 +1,21 @@
-<h1>{{ lesson.title }}</h1>
+<!-- <div id="intro">
+  <h1>{{ lesson.title }}</h1>
+</div>
+<div id="step"></div>
+<div id="slide-video"></div>
+<div id="slide-image"></div>
+<div id="slide-challenge-question"></div>
+<div id="slid-challenge-answer"></div> -->
+<div id="lesson-picker-container">
+  <mat-form-field>
+    <mat-label>Lesson List</mat-label>
+    <mat-select [formControl]="lessonPicker" >
+      <mat-option *ngFor="let lesson of lessons" [value]="lesson.id"
+        >{{ lesson.title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div id="lesson-container">
+  <h4>{{ selectedLesson.title  }}</h4>
+</div>
