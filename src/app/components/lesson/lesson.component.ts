@@ -5,6 +5,8 @@ import { LessonService } from '../../services/lesson/lesson.service';
 import { FormControl } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { AbstractSubscriptionComponent } from '../abstract-subscription.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatSelectChange } from '@angular/material';
 
 @Component({
   selector: 'app-lesson',
@@ -15,24 +17,29 @@ export class LessonComponent extends AbstractSubscriptionComponent
   implements OnInit {
   lessons = this.lessonService.lessons;
 
-  selectedLesson = this.lessons[0];
-
-  lessonPicker = new FormControl(this.lessons[0].id);
-
-  lessonSubs = this.lessonPicker.valueChanges.subscribe(lessonId => {
-    this.selectedLesson = this.lessonService.getLessonById(lessonId);
-  });
+  selectedLesson: LessonModel;
 
   constructor(
     private blocklyService: BlocklyService,
-    private lessonService: LessonService
+    private lessonService: LessonService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     super();
+    this.route.params.subscribe(params => {
+      this.selectedLesson = this.lessonService.getLessonByUrl(
+        params['lesson_name']
+      );
+    });
   }
 
   ngOnInit() {
     if (this.blocklyService.getWorkSpace()) {
       this.blocklyService.resizeWorkspace();
     }
+  }
+
+  changeLesson(event: MatSelectChange) {
+    this.router.navigate(['/lessons', event.value]);
   }
 }

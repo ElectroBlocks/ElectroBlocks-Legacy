@@ -1,5 +1,4 @@
 export interface LessonModel {
-  id: string;
   title: string;
   author: string;
   objective: string;
@@ -7,6 +6,7 @@ export interface LessonModel {
   billOfMaterial: Array<{ name: string; cost: string; quantity: number }>;
   slides: SlideModel[];
   googleFormUrl: string;
+  urlpart: string;
 }
 
 export interface SlideModel {
@@ -15,6 +15,7 @@ export interface SlideModel {
   text: string;
   type: SlideModelType;
   step?: number;
+  urlpart: string;
 }
 
 export enum SlideModelType {

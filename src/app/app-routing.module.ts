@@ -75,15 +75,31 @@ const routes: Routes = [
     component: CodeComponent
   },
   {
-    path: 'lessons',
+    path: 'lessons/:lesson_name/:part',
+    component: LessonComponent,
     data: {
       showBottom: false,
       ignoreBottom: false,
       showRunLoopOption: false,
       scrollable: true
-    },
-    component: LessonComponent
+    }
   },
+  {
+    path: 'lessons/:lesson_name',
+    component: LessonComponent,
+    data: {
+      showBottom: false,
+      ignoreBottom: false,
+      showRunLoopOption: false,
+      scrollable: true
+    }
+  },
+  {
+    path: 'lessons',
+
+    redirectTo: 'lessons/lesson-1-arduino-introduction'
+  },
+
   {
     path: '',
     data: {

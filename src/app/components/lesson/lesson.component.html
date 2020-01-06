@@ -9,13 +9,13 @@
 <div id="lesson-picker-container">
   <mat-form-field>
     <mat-label>Lesson List</mat-label>
-    <mat-select [formControl]="lessonPicker" >
-      <mat-option *ngFor="let lesson of lessons" [value]="lesson.id"
+    <mat-select (selectionChange)="changeLesson($event)" [value]="selectedLesson.urlpart">
+      <mat-option *ngFor="let lesson of lessons" [value]="lesson.urlpart"
         >{{ lesson.title }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 </div>
 <div id="lesson-container">
-  <h4>{{ selectedLesson.title  }}</h4>
+  <h4>{{ selectedLesson.title }}</h4>
 </div>

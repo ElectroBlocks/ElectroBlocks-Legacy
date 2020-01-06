@@ -9,16 +9,7 @@ export class LessonService {
 
   constructor() {}
 
-  public getLessonList() {
-    return this.lessons.map(lesson => {
-      return {
-        id: lesson.id,
-        name: lesson.title
-      };
-    });
-  }
-
-  public getLessonById(id: string) {
-    return this.lessons.find(lesson => lesson.id === id);
+  public getLessonByUrl(urlpart: string) {
+    return this.lessons.find(lesson => lesson.urlpart === urlpart);
   }
 }

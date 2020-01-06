@@ -1,10 +1,9 @@
 import { LessonModel, SlideModelType } from './lesson-models';
-import { v4 } from 'uuid';
 
 export const lesson1: LessonModel = {
-  id: v4(),
   author: 'Noah Glaser',
   title: 'Arduino Introduction',
+  urlpart: 'lesson-1-arduino-introduction',
   billOfMaterial: [
     {
       cost: '7.00',
@@ -18,6 +17,7 @@ export const lesson1: LessonModel = {
   objective: 'To learn how the Arduino Works!',
   slides: [
     {
+      urlpart: 'what-is-an-arduino',
       step: 0,
       title: 'What is an Arduino?',
       src:
