@@ -1,0 +1,42 @@
+#lesson-picker-container {
+  .mat-form-field,
+  mat-progress-bar {
+    width: 90% !important;
+    margin: 0 5%;
+  }
+}
+
+#lesson-container {
+  width: 90% !important;
+  margin: 0 5% 10px 5%;
+  h2 {
+    font-size: 1.1em;
+    margin: 0;
+  }
+  img {
+    height: 20%;
+    max-height: 350px;
+    display: block;
+  }
+  iframe {
+    display: block;
+  }
+  p {
+    font-size: 0.8em;
+  }
+}
+
+#navigation {
+  width: 90% !important;
+  margin: 0 5%;
+  .next {
+    float: right;
+  }
+  mat-progress-bar {
+    margin-top: 10px;
+  }
+  #progress-report {
+    text-align: right;
+    margin-top: 0;
+  }
+}

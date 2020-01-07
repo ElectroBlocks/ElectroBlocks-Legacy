@@ -35,7 +35,8 @@ import {
   MatSidenavModule,
   MatListModule,
   MatTooltipModule,
-  MatMenuModule
+  MatMenuModule,
+  MatProgressBarModule
 } from '@angular/material';
 import { FramePlayer } from './services/player/frame_player';
 import { MenuComponent } from './components/menu/menu.component';
@@ -55,6 +56,7 @@ import { ElectronCommunicator } from './services/communicators/device/electron.c
 import { WebviewDirective } from './directives';
 import { Router } from '@angular/router';
 import { BlocklyService } from './services/blockly/blockly.service';
+import { LessonComponent } from './components/lesson/lesson.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -75,6 +77,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ToolboxComponent,
     HelpComponent,
     AboutComponent,
+    LessonComponent,
     BugComponent,
     StepsComponent,
     ArduinoMessageComponent,
@@ -104,6 +107,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatTooltipModule,
     MatListModule,
     MatMenuModule,
+    MatProgressBarModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
