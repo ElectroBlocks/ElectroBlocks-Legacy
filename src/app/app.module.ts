@@ -35,7 +35,8 @@ import {
   MatSidenavModule,
   MatListModule,
   MatTooltipModule,
-  MatMenuModule
+  MatMenuModule,
+  MatProgressBarModule
 } from '@angular/material';
 import { FramePlayer } from './services/player/frame_player';
 import { MenuComponent } from './components/menu/menu.component';
@@ -104,6 +105,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatSlideToggleModule,
     MatToolbarModule,
     MatSidenavModule,
+    MatProgressBarModule,
     MatTooltipModule,
     MatListModule,
     MatMenuModule,

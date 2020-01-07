@@ -4,41 +4,9 @@ export const lesson2: LessonModel = {
   author: 'Noah Glaser',
   title: 'Blink',
   urlpart: 'lesson-2-blink',
-  billOfMaterial: [
-    {
-      cost: '$9.00 to $7.00',
-      name: 'Arduino with cables',
-      quantity: 1
-    },
-    {
-      cost: '$2.00',
-      name: 'breadboard',
-      quantity: 1
-    },
-    {
-      cost: '$0.50 to $1.00',
-      name: 'leds',
-      quantity: 5
-    },
-    {
-      cost: '$0.25',
-      name: 'resistors',
-      quantity: 4
-    },
-    {
-      cost: '$1.00',
-      name: 'jumper wires',
-      quantity: 10
-    }
-  ],
-  googleFormUrl: 'blah',
-  image:
-    'https://github.com/phptuts/codingwithnoah/blob/master/images/arduino-block/arduino-intro/project.jpg',
-  objective: 'To learn how the Arduino Works!',
   slides: [
     {
       urlpart: 'example-1',
-      step: 0,
       title: 'Blink',
       src:
         'http://www.codingwithnoah.com/images/arduino-block/arduino-intro/arduino.jpg',

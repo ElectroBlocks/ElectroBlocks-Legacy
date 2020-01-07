@@ -1,21 +1,67 @@
-<!-- <div id="intro">
-  <h1>{{ lesson.title }}</h1>
-</div>
-<div id="step"></div>
-<div id="slide-video"></div>
-<div id="slide-image"></div>
-<div id="slide-challenge-question"></div>
-<div id="slid-challenge-answer"></div> -->
 <div id="lesson-picker-container">
   <mat-form-field>
     <mat-label>Lesson List</mat-label>
-    <mat-select (selectionChange)="changeLesson($event)" [value]="selectedLesson.urlpart">
+    <mat-select
+      (selectionChange)="changeLesson($event)"
+      [value]="selectedLesson.urlpart"
+    >
       <mat-option *ngFor="let lesson of lessons" [value]="lesson.urlpart"
         >{{ lesson.title }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 </div>
-<div id="lesson-container">
-  <h4>{{ selectedLesson.title }}</h4>
+
+<div
+  *ngIf="selectedSlide.type == 'OBJECTIVE' || selectedSlide.type == 'IMAGE'"
+  id="lesson-container"
+>
+  <h2>{{ selectedSlide.title }}</h2>
+  <p>{{ selectedSlide.text }}</p>
+  <img [src]="src" />
+</div>
+<div *ngIf="selectedSlide.type == 'VIDEO'" id="lesson-container">
+  <h2>{{ selectedSlide.title }}</h2>
+  <iframe
+    [src]="src"
+    frameborder="0"
+    allowfullscreen
+    width="560"
+    height="315"
+  ></iframe>
+</div>
+<div *ngIf="selectedSlide.type == 'BILL_OF_MATERIALS'" id="lesson-container">
+  <h2>{{ selectedSlide.title }}</h2>
+  <ul>
+    <li *ngFor="let item of selectedSlide.billOfMaterials">
+      {{ item.quantity }} x {{ item.name }} ({{ item.cost }})
+    </li>
+  </ul>
+  <p>{{ selectedSlide.text }}</p>
+  <img [src]="src" />
+</div>
+
+<div id="navigation">
+  <button
+    (click)="previous()"
+    *ngIf="previousSlide"
+    mat-flat-button
+    color="primary"
+  >
+    Previous
+  </button>
+  <button *ngIf="!previousSlide" mat-flat-button disabled>
+    Previous
+  </button>
+  <button
+    (click)="next()"
+    *ngIf="nextSlide"
+    mat-flat-button
+    class="next"
+    color="primary"
+  >
+    Next
+  </button>
+  <button *ngIf="!nextSlide" mat-flat-button class="next" disabled>Next</button>
+  <mat-progress-bar mode="determinate" [value]="percentage"></mat-progress-bar>
 </div>
