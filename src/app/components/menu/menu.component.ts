@@ -22,6 +22,8 @@ import {
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+  isLessonRoute = false;
+
   arduinoState = ArduinoOnlineState.DISCONNECTED;
 
   constructor(
@@ -51,10 +53,23 @@ export class MenuComponent implements OnInit {
         this.changeDetectorRef.detectChanges();
       }
     });
+
+    this.router.events.subscribe(event => {
+      this.isLessonRoute = this.router.isActive('lessons', false);
+    });
   }
 
   newFile() {
     this.blocklyService.resetWorkspace();
+  }
+
+  navigateLesson() {
+    if (localStorage.getItem('navigate_lesson')) {
+      const urlParts = JSON.parse(localStorage.getItem('navigate_lesson'));
+      this.router.navigate(urlParts);
+    } else {
+      this.router.navigate(['/lessons']);
+    }
   }
 
   uploadFile($event) {

@@ -71,7 +71,10 @@
     ><i class="fa fa-microchip"></i
   ></a>
 
-  <a title="Lessons" [routerLink]="['/lessons']" routerLinkActive="active"
+  <a
+    title="Lessons"
+    [ngClass]="{ active: isLessonRoute ? 'active' : '' }"
+    (click)="navigateLesson()"
     ><i class="fa fa-book"></i
   ></a>
 
