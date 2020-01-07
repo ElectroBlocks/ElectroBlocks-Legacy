@@ -49,7 +49,7 @@ export class ArduinoDebugComponent extends AbstractSubscriptionComponent
         },
         {
           name: 'rainbow',
-          type: 'Colour List',
+          type: 'List Colour',
           value: [
             { red: 150, green: 0, blue: 140 },
             { red: 20, green: 150, blue: 234 }

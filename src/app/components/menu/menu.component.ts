@@ -8,7 +8,7 @@ import {
 import { IdentityService } from '../../services/identity/identity.service';
 import { BlocklyService } from '../../services/blockly/blockly.service';
 import { ShowArduinoCommunicator } from '../../services/communicators/virtual-circuit/show-arduino.comm';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import 'file-saver';
 import {
   DeviceCommunicator,
@@ -23,6 +23,8 @@ import {
 })
 export class MenuComponent implements OnInit {
   arduinoState = ArduinoOnlineState.DISCONNECTED;
+
+  isLessonRoute = false;
 
   constructor(
     public readonly identityService: IdentityService,
@@ -51,6 +53,24 @@ export class MenuComponent implements OnInit {
         this.changeDetectorRef.detectChanges();
       }
     });
+
+    this.router.events.subscribe(event => {
+      this.isLessonRoute = this.router.isActive('lessons', false);
+    });
+
+    console.log('hello world');
+    this.router.routerState.root.url.subscribe(url => {
+      console.log(url, 'url url');
+    });
+  }
+
+  navigateLesson() {
+    if (localStorage.getItem('navigate_lesson')) {
+      const urlParts = JSON.parse(localStorage.getItem('navigate_lesson'));
+      this.router.navigate(urlParts);
+    } else {
+      this.router.navigate(['/lessons']);
+    }
   }
 
   newFile() {

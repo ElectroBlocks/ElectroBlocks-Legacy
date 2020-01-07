@@ -46,6 +46,7 @@
             }"
             [ngClass]="{ colorValue: variable.type === 'Colour' }"
           >
+            {{ printValue(variable) }}
           </td>
           <td *ngIf="variable.type === 'List Colour'">
             <span
@@ -60,7 +61,6 @@
                 >{{ i + 1 }}</span
               >
             </span>
-
           </td>
         </tr>
       </tbody>

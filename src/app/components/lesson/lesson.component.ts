@@ -12,7 +12,11 @@ import { AbstractSubscriptionComponent } from '../abstract-subscription.componen
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSelectChange } from '@angular/material';
 import * as _ from 'lodash';
-import { DomSanitizer, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
+import {
+  DomSanitizer,
+  SafeUrl,
+  SafeResourceUrl
+} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lesson',
@@ -37,6 +41,8 @@ export class LessonComponent extends AbstractSubscriptionComponent
 
   selectedSlide: SlideModel | BillOfMaterialModel | StepModel;
 
+  selectedSlideIndex = 1;
+
   constructor(
     private blocklyService: BlocklyService,
     private lessonService: LessonService,
@@ -56,19 +62,33 @@ export class LessonComponent extends AbstractSubscriptionComponent
         slide => slide.urlpart === this.slideUrlPart
       );
 
-      this.src = this.selectedSlide.type === SlideModelType.VIDEO ?
-        this.domSanitizer.bypassSecurityTrustResourceUrl(this.selectedSlide.src) :
-      this.domSanitizer.bypassSecurityTrustUrl(this.selectedSlide.src);
+      this.src =
+        this.selectedSlide.type === SlideModelType.VIDEO
+          ? this.domSanitizer.bypassSecurityTrustResourceUrl(
+              this.selectedSlide.src
+            )
+          : this.domSanitizer.bypassSecurityTrustUrl(this.selectedSlide.src);
 
       const index = this.selectedLesson.slides.findIndex(
         slide => slide.urlpart === this.slideUrlPart
       );
+
+      this.selectedSlideIndex = index + 1;
 
       this.nextSlide = index < this.selectedLesson.slides.length - 1;
 
       this.previousSlide = index > 0;
 
       this.percentage = ((index + 1) / this.selectedLesson.slides.length) * 100;
+
+      localStorage.setItem(
+        'navigate_lesson',
+        JSON.stringify([
+          'lessons',
+          this.selectedLesson.urlpart,
+          this.selectedSlide.urlpart
+        ])
+      );
     });
   }
 

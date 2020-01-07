@@ -64,4 +64,5 @@
   </button>
   <button *ngIf="!nextSlide" mat-flat-button class="next" disabled>Next</button>
   <mat-progress-bar mode="determinate" [value]="percentage"></mat-progress-bar>
+  <p id="progress-report">({{ selectedSlideIndex }} / {{ selectedLesson.slides.length }})</p>
 </div>
