@@ -20,9 +20,6 @@
             "styles": [
               "src/styles.scss",
               "./node_modules/font-awesome/css/font-awesome.css"
-            ],
-            "scripts": [
-              "node_modules/marked/lib/marked.js"
             ]
           },
           "configurations": {

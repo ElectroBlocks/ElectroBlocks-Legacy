@@ -101,7 +101,6 @@
     "jasmine": "^3.4.0",
     "lodash": "^4.17.15",
     "ngx-color-picker": "^8.2.0",
-    "ngx-markdown": "^8.2.1",
     "prismjs": "^1.17.1",
     "serialport": "^8.0.5",
     "svg-pan-zoom": "^3.6.0",

@@ -28,7 +28,7 @@ import {
 import { saveDebugBlockState } from '../../core/blockly/events/saveDebugBlockState';
 import { generateListOfFrame } from '../../core/player/frame/generate_frame';
 import { duplicatePinWarningTextBlocks } from '../../core/player/frame/block-duplicate-pin-warning-text';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { changeSetupBlockValueBecauseOfLoopChange } from '../../core/blockly/events/changeSetupBlockValueBecauseOfLoopChange';
 import { changeLoopNumberInSensorBlocks } from '../../core/blockly/events/changeLoopNumberInSensorSetupBlocks';
 import { filter } from 'rxjs/operators';
@@ -67,7 +67,7 @@ export class BlocklyService {
     private route: ActivatedRoute,
     private toolboxService: ToolboxService
   ) {
-    (window as any).Blockly = Blockly;
+    // (window as any).Blockly = Blockly;
     framePlayer.changeFrame$
       .pipe(filter(() => this.getWorkSpace() !== undefined))
       .subscribe(changeFrame => {
@@ -82,7 +82,7 @@ export class BlocklyService {
     return this.workspace;
   }
 
-  setUpBlock(blocklyDiv: HTMLDivElement) {
+  public setUpBlock(blocklyDiv: HTMLDivElement) {
     Blockly.Themes.Classic.setBlockStyle('logic_blocks', {
       colourPrimary: COLOR_THEME.CONTROL
     });
@@ -283,7 +283,7 @@ export class BlocklyService {
   }
 
   public getArduinoCode() {
-    return Blockly.Arduino.workspaceToCode(this.workspace);
+    return Blockly.workspaceToCode(this.workspace);
   }
 
   public getXMLCode() {

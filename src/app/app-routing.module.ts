@@ -96,7 +96,6 @@ const routes: Routes = [
   },
   {
     path: 'lessons',
-
     redirectTo: 'lessons/lesson-1-arduino-introduction'
   },
 
