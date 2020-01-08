@@ -1,5 +1,4 @@
 import { VirtualCircuit } from '../svg/virtual-circuit';
-import { assert } from 'chai';
 import { Doc } from 'svg.js';
 import { Parent } from 'svg.js';
 import { ArduinoSvg } from '../svg/arduino.svg';

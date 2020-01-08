@@ -14,7 +14,7 @@
     "postinstall:web": "node postinstall-web",
     "postinstall:electron": "node postinstall",
     "ng": "ng",
-    "build-web": "ng build --prod --base-href \"https://phptuts.github.io/ElectroBlocks/\"",
+    "build-web": "npm run postinstall:web && ng build --prod --base-href \"https://phptuts.github.io/ElectroBlocks/\"",
     "start": "npm run postinstall:electron && npm-run-all -p ng:serve electron:serve",
     "build": "npm run postinstall:electron && npm run electron:serve-tsc && ng build",
     "build:dev": "npm run build -- -c dev",
@@ -106,5 +106,10 @@
     "svg.draggy.js": "^1.1.1",
     "svg.js": "^2.7.1",
     "svg.pan-zoom.js": "^2.8.0"
+  },
+  "browser": {
+    "child_process": false,
+    "serialport": false,
+    "electron": false
   }
 }

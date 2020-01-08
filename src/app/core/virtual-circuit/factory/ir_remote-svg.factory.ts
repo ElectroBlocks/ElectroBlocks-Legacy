@@ -1,8 +1,6 @@
 import { IRRemoteState } from '../../player/arduino/state/ir_remote.state';
 import { VirtualCircuit } from '../svg/virtual-circuit';
-import { ButtonState } from '../../player/arduino/state/button.state';
 import { fetchSVGXMLData } from './fetch.svg';
-import { ButtonSvg } from '../svg/button.svg';
 import { Element, Parent } from 'svg.js';
 import {
   createBreadboardWire,

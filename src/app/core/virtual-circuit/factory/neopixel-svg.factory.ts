@@ -1,5 +1,3 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import { NeopixelSvg } from '../svg/neopixel.svg';
 import { Element, Parent } from 'svg.js';
 import { VirtualCircuit } from '../svg/virtual-circuit';

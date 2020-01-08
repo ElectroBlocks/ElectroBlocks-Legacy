@@ -11,7 +11,6 @@ import {
 import { resistorFactory } from './resistor.factory';
 import { takeClosestBottomBreadboardHole } from '../svg/next-wire.state';
 import { ARDUINO_UNO_PINS } from '../../player/arduino/arduino_frame';
-import { async } from '@angular/core/testing';
 import { fetchSVGXMLData } from './fetch.svg';
 
 export const rgbLedFactory = async (

@@ -1,5 +1,4 @@
 import { VirtualCircuit } from '../svg/virtual-circuit';
-import { Doc } from 'svg.js';
 import { VariablesSvg } from '../svg/variables.svg';
 
 export const variableSvgFactory = (virtualCircuit: VirtualCircuit) => {

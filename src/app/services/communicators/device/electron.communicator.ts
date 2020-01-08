@@ -1,23 +1,32 @@
 import { Injectable, NgZone } from '@angular/core';
 
-// If you import a module but never use any of the imported values other than as TypeScript types,
-// the resulting javascript file will look as if you never imported the module at all.
-import { ipcRenderer, webFrame, remote, dialog } from 'electron';
-import * as childProcess from 'child_process';
-import * as fs from 'fs';
 import { DeviceCommunicator, DeviceMessageType } from './device.communicator';
 import { Router } from '@angular/router';
 import { BlocklyService } from '../../blockly/blockly.service';
+import { ArduinoOnlineState } from '../../../../../arduinoNode/serial_port';
+import { Subject, BehaviorSubject } from 'rxjs';
+import { startWith, share } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ElectronCommunicator extends DeviceCommunicator {
-  ipcRenderer: typeof ipcRenderer;
-  webFrame: typeof webFrame;
-  remote: typeof remote;
-  childProcess: typeof childProcess;
-  fs: typeof fs;
+  protected messageSubject = new Subject<string>();
+
+  protected arduinoOnlineState = new BehaviorSubject<ArduinoOnlineState>(
+    ArduinoOnlineState.DISCONNECTED
+  );
+
+  public readonly message$ = this.messageSubject.asObservable().pipe(share());
+
+  public readonly arduinoState$ = this.arduinoOnlineState
+    .asObservable()
+    .pipe(startWith(ArduinoOnlineState.DISCONNECTED));
+
+  ipcRenderer: {
+    send(type: string, ...messages): void;
+    on(type: string, callback: (...data) => void);
+  };
 
   public readonly chromebookApp = false;
 
@@ -34,11 +43,7 @@ export class ElectronCommunicator extends DeviceCommunicator {
     // Conditional imports
     if (ElectronCommunicator.isElectron) {
       this.ipcRenderer = window.require('electron').ipcRenderer;
-      this.webFrame = window.require('electron').webFrame;
-      this.remote = window.require('electron').remote;
 
-      this.childProcess = window.require('child_process');
-      this.fs = window.require('fs');
       this.ipcRenderer.on('arduino_connected', (event, hasArduino) => {
         console.log('arduino_connected', hasArduino);
         this.arduinoOnlineState.next(hasArduino);
