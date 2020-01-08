@@ -1,8 +1,7 @@
-import { app, BrowserWindow, screen, ipcMain, Menu, dialog } from 'electron';
+import { app, BrowserWindow, screen, Menu, dialog } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import * as fs from 'fs';
-import { SerialPortArduino } from './arduinoNode/serial_port';
 
 let win, serve;
 const args = process.argv.slice(1);
@@ -44,54 +43,7 @@ function createWindow() {
     win.webContents.openDevTools();
   }
 
-  win.webContents.on('did-finish-load', () => {
-    const serialPort = new SerialPortArduino();
-    serialPort.serialPortStatus$.subscribe(arduinoConnected => {
-      win.webContents.send('arduino_connected', arduinoConnected);
-    });
-    serialPort.serialOutput$.subscribe(message => {
-      console.log(message, 'messages from arduino');
-      win.webContents.send('arduino_message', message);
-    });
-
-    ipcMain.on('UPLOAD_CODE', async (event, code) => {
-      await serialPort.flashArduino(code);
-    });
-
-    ipcMain.on('SEND_MESSAGE', async (event, message) => {
-      await serialPort.sendMessage(message);
-    });
-
-    ipcMain.on('DEBUG_MESSAGE', async (event, message) => {
-      if (message === 'CONTINUE') {
-        await serialPort.sendMessage('continue_debug');
-        return;
-      }
-
-      if (message === 'STOP_ALL_DEBUGGING') {
-        await serialPort.sendMessage('stop_debug');
-        return;
-      }
-    });
-
-    ipcMain.on('save:code', async (event, code: string, saveAs: boolean) => {
-      const createNewFile = saveAs === true || currentFilePath === undefined;
-      if (createNewFile) {
-        const fileResult = await dialog.showSaveDialog({
-          title: saveAs ? 'Save As' : 'Save',
-          filters: [{ name: 'ElectroBlocks', extensions: ['xml'] }]
-        });
-
-        if (fileResult.canceled) {
-          return;
-        }
-
-        currentFilePath = fileResult.filePath;
-      }
-
-      fs.writeFileSync(currentFilePath, code);
-    });
-  });
+  win.webContents.on('did-finish-load', () => {});
 
   // Emitted when the window is closed.
   win.on('closed', () => {

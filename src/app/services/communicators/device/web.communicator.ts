@@ -1,9 +1,11 @@
-import { DeviceCommunicator, DeviceMessageType } from './device.communicator';
-import { ArduinoOnlineState } from '../../../../../arduinoNode/serial_port';
+import { DeviceMessageType } from './device.communicator';
+import { ArduinoOnlineState } from './device.communicator';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { share, startWith } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
-export class WebCommunicator extends DeviceCommunicator {
+@Injectable({ providedIn: 'root' })
+export class WebCommunicator {
   protected messageSubject = new Subject<string>();
 
   protected arduinoOnlineState = new BehaviorSubject<ArduinoOnlineState>(

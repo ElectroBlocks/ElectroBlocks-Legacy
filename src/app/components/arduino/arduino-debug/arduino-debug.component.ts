@@ -4,12 +4,12 @@ import { Variable } from '../../../core/player/frame/variable';
 import { rgbToHex, Color } from '../../../core/player/frame_genorator/color';
 import { IdentityService } from '../../../services/identity/identity.service';
 import {
-  DeviceCommunicator,
   ArduinoOnlineState,
   DeviceMessageType
 } from '../../../services/communicators/device/device.communicator';
 import { AbstractSubscriptionComponent } from '../../abstract-subscription.component';
 import { BlocklyService } from '../../../services/blockly/blockly.service';
+import { WebCommunicator } from '../../../services/communicators/device/web.communicator';
 
 @Component({
   selector: 'app-arduino-debug',
@@ -65,7 +65,7 @@ export class ArduinoDebugComponent extends AbstractSubscriptionComponent
 
   constructor(
     private identityService: IdentityService,
-    private deviceCommunicator: DeviceCommunicator,
+    private deviceCommunicator: WebCommunicator,
     private blocklyService: BlocklyService,
     private changeDetection: ChangeDetectorRef
   ) {

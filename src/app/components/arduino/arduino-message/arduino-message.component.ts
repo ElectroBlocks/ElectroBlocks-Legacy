@@ -7,11 +7,11 @@ import {
 } from '@angular/core';
 import {
   ArduinoMessage,
-  DeviceCommunicator,
   DeviceMessageType
 } from '../../../services/communicators/device/device.communicator';
 import { IdentityService } from '../../../services/identity/identity.service';
 import { AbstractSubscriptionComponent } from '../../abstract-subscription.component';
+import { WebCommunicator } from '../../../services/communicators/device/web.communicator';
 
 @Component({
   selector: 'app-arduino-message',
@@ -100,7 +100,7 @@ export class ArduinoMessageComponent extends AbstractSubscriptionComponent
   constructor(
     private ngZone: NgZone,
     private identityService: IdentityService,
-    private deviceCommunicator: DeviceCommunicator
+    private deviceCommunicator: WebCommunicator
   ) {
     super();
   }

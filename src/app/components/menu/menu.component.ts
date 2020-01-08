@@ -11,10 +11,10 @@ import { ShowArduinoCommunicator } from '../../services/communicators/virtual-ci
 import { Router } from '@angular/router';
 import 'file-saver';
 import {
-  DeviceCommunicator,
   ArduinoOnlineState,
   DeviceMessageType
 } from '../../services/communicators/device/device.communicator';
+import { WebCommunicator } from '../../services/communicators/device/web.communicator';
 
 @Component({
   selector: 'app-menu',
@@ -31,7 +31,7 @@ export class MenuComponent implements OnInit {
     private blocklyService: BlocklyService,
     private showArduinoCommunicator: ShowArduinoCommunicator,
     private router: Router,
-    private deviceCommunicator: DeviceCommunicator,
+    private deviceCommunicator: WebCommunicator,
     private changeDetectorRef: ChangeDetectorRef
   ) {}
 

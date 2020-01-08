@@ -123,20 +123,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       multi: false
     },
     {
-      provide: DeviceCommunicator,
-      useFactory(
-        router: Router,
-        ngZone: NgZone,
-        blocklyService: BlocklyService
-      ) {
-        if (ElectronCommunicator.isElectron) {
-          return new ElectronCommunicator(router, ngZone, blocklyService);
-        }
-
-        return new WebCommunicator();
-      },
-      multi: false,
-      deps: [Router, NgZone, BlocklyService]
+      provide: WebCommunicator,
+      useClass: WebCommunicator,
+      multi: false
     }
   ],
   bootstrap: [AppComponent]

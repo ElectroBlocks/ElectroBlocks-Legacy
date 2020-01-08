@@ -1,16 +1,16 @@
 import { Injectable, NgZone } from '@angular/core';
 
-import { DeviceCommunicator, DeviceMessageType } from './device.communicator';
+import { DeviceMessageType } from './device.communicator';
 import { Router } from '@angular/router';
 import { BlocklyService } from '../../blockly/blockly.service';
-import { ArduinoOnlineState } from '../../../../../arduinoNode/serial_port';
+import { ArduinoOnlineState } from './device.communicator';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { startWith, share } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ElectronCommunicator extends DeviceCommunicator {
+export class ElectronCommunicator {
   protected messageSubject = new Subject<string>();
 
   protected arduinoOnlineState = new BehaviorSubject<ArduinoOnlineState>(
@@ -39,7 +39,6 @@ export class ElectronCommunicator extends DeviceCommunicator {
     private ngZone: NgZone,
     private blocklyService: BlocklyService
   ) {
-    super();
     // Conditional imports
     if (ElectronCommunicator.isElectron) {
       this.ipcRenderer = window.require('electron').ipcRenderer;
