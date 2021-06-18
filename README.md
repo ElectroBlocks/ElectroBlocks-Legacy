@@ -1,5 +1,11 @@
 # ElectroBlocks - Arduino Blockly IDE
 
+## LEGACY
+
+This repository has been replace with a website and has a new open source repo.  Please go her for future updates.  This will be marked as read only.
+
+https://github.com/ElectroBlocks/ElectroBlocks
+
 ## Description
 
 I created a "drag and drop" app for programming the Arduino.   You use this with Serial Monitor, Bluetooth, NeoPixels, LED Matrix, IR Remotes and much more.  It also has a debug block which will pause the program and print out all the variables.  
